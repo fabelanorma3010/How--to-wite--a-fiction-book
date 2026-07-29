@@ -1,9 +1,11 @@
 import { useState } from 'react'
 
 const navLinks = [
+  { href: '#quiz', label: 'Quiz' },
   { href: '#book-types', label: 'Book Types' },
   { href: '#action-generator', label: 'Action Text' },
   { href: '#illustration-generator', label: 'Illustrations' },
+  { href: '#notebook', label: 'Notebook' },
   { href: '#publish', label: 'Publish' },
 ]
 

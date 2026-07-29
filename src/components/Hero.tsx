@@ -30,10 +30,16 @@ export default function Hero() {
 
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
           <a
-            href="#book-types"
+            href="#quiz"
             className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
           >
-            Start Creating 🚀
+            Take the Quiz 🎯
+          </a>
+          <a
+            href="#book-types"
+            className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
+          >
+            Browse Book Types
           </a>
           <a
             href="#publish"
