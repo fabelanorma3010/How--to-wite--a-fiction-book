@@ -8,6 +8,7 @@ import IllustrationGenerator from './components/IllustrationGenerator'
 import StoryNotebook from './components/StoryNotebook'
 import PublishSteps from './components/PublishSteps'
 import Footer from './components/Footer'
+import FictionHelper from './components/FictionHelper'
 import type { BookTypeId } from './data/bookTypes'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <PublishSteps />
       </main>
       <Footer />
+      <FictionHelper selected={selectedType} />
     </div>
   )
 }
