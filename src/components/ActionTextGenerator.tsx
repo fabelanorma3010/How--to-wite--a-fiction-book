@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { generateActionText } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
@@ -10,8 +10,15 @@ interface ActionTextGeneratorProps {
 }
 
 export default function ActionTextGenerator({ selected, onSelect }: ActionTextGeneratorProps) {
-  const [lines, setLines] = useState<string[]>(() => [generateActionText(selected)])
+  const [lines, setLines] = useState<string[]>([])
   const activeType = bookTypes.find((b) => b.id === selected) ?? bookTypes[0]
+
+  // Generated client-side only, after mount — Math.random() output would
+  // otherwise differ between the server-rendered and hydrated client markup.
+  useEffect(() => {
+    setLines((prev) => (prev.length === 0 ? [generateActionText(selected)] : prev))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleGenerate = () => {
     setLines((prev) => [generateActionText(selected), ...prev].slice(0, 5))

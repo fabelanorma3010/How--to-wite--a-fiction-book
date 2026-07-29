@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { generateIllustrationIdea } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
@@ -10,8 +10,15 @@ interface IllustrationGeneratorProps {
 }
 
 export default function IllustrationGenerator({ selected, onSelect }: IllustrationGeneratorProps) {
-  const [idea, setIdea] = useState<string>(() => generateIllustrationIdea(selected))
+  const [idea, setIdea] = useState<string>('')
   const activeType = bookTypes.find((b) => b.id === selected) ?? bookTypes[0]
+
+  // Generated client-side only, after mount — Math.random() output would
+  // otherwise differ between the server-rendered and hydrated client markup.
+  useEffect(() => {
+    setIdea((prev) => prev || generateIllustrationIdea(selected))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleGenerate = () => {
     setIdea(generateIllustrationIdea(selected))

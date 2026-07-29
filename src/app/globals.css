@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Baloo 2", "Segoe UI", system-ui, sans-serif;
-  --font-sans: "Nunito", "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-baloo), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), "Segoe UI", system-ui, sans-serif;
 
   --color-primary: #e879f9;
   --color-primary-content: #4a044e;
