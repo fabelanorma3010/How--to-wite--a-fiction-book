@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { bookTypes, type BookTypeId } from '../../../data/bookTypes'
 import { getDb } from '../../../lib/db'
-import { MAX_CONTENT_LENGTH, MAX_NAME_LENGTH } from '../../../lib/community'
+import { getUserByToken, SESSION_COOKIE } from '../../../lib/auth'
+import { MAX_CONTENT_LENGTH } from '../../../lib/community'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +26,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const cookieStore = await cookies()
+  const token = cookieStore.get(SESSION_COOKIE)?.value
+  const user = await getUserByToken(token)
+  if (!user) {
+    return NextResponse.json({ error: 'Log in to share with the community.' }, { status: 401 })
+  }
+
   let body: unknown
   try {
     body = await request.json()
@@ -31,7 +40,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
 
-  const { name, bookType, content } = (body ?? {}) as Record<string, unknown>
+  const { bookType, content } = (body ?? {}) as Record<string, unknown>
 
   if (typeof bookType !== 'string' || !VALID_TYPES.has(bookType)) {
     return NextResponse.json({ error: 'Invalid book type.' }, { status: 400 })
@@ -48,13 +57,11 @@ export async function POST(request: Request) {
     )
   }
 
-  const trimmedName = typeof name === 'string' ? name.trim().slice(0, MAX_NAME_LENGTH) : ''
-
   try {
     const sql = await getDb()
     const [post] = await sql`
-      INSERT INTO community_posts (name, book_type, content)
-      VALUES (${trimmedName || 'Anonymous'}, ${bookType as BookTypeId}, ${trimmedContent})
+      INSERT INTO community_posts (name, book_type, content, user_id)
+      VALUES (${user.displayName}, ${bookType as BookTypeId}, ${trimmedContent}, ${user.id})
       RETURNING id, name, book_type AS "bookType", content, created_at AS "createdAt"
     `
     return NextResponse.json({ post }, { status: 201 })

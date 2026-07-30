@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
-import { MAX_CONTENT_LENGTH, MAX_NAME_LENGTH, type CommunityPost } from '../lib/community'
+import type { AuthUser } from '../lib/auth'
+import { MAX_CONTENT_LENGTH, type CommunityPost } from '../lib/community'
+import AuthPanel from './AuthPanel'
 import Sticker from './Sticker'
 
 type Status = 'loading' | 'ready' | 'error'
@@ -8,7 +10,8 @@ type Status = 'loading' | 'ready' | 'error'
 export default function Community() {
   const [posts, setPosts] = useState<CommunityPost[]>([])
   const [status, setStatus] = useState<Status>('loading')
-  const [name, setName] = useState('')
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [authChecked, setAuthChecked] = useState(false)
   const [bookType, setBookType] = useState<BookTypeId>('comic')
   const [content, setContent] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -16,6 +19,7 @@ export default function Community() {
 
   useEffect(() => {
     loadPosts()
+    loadSession()
   }, [])
 
   async function loadPosts() {
@@ -31,10 +35,22 @@ export default function Community() {
     }
   }
 
+  async function loadSession() {
+    try {
+      const res = await fetch('/api/auth/me')
+      const data = await res.json()
+      setUser(data.user ?? null)
+    } catch {
+      setUser(null)
+    } finally {
+      setAuthChecked(true)
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const trimmed = content.trim()
-    if (!trimmed || submitting) return
+    if (!trimmed || submitting || !user) return
 
     setSubmitting(true)
     setSubmitError('')
@@ -42,7 +58,7 @@ export default function Community() {
       const res = await fetch('/api/community', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, bookType, content: trimmed }),
+        body: JSON.stringify({ bookType, content: trimmed }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Could not post.')
@@ -68,87 +84,81 @@ export default function Community() {
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
-        >
+        <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
           <Sticker emoji="💬" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
 
-          <div
-            role="group"
-            aria-label="Book type for your post"
-            className="flex flex-wrap items-center justify-center gap-2"
-          >
-            {bookTypes.map((type) => {
-              const isActive = type.id === bookType
-              return (
+          {authChecked && <AuthPanel user={user} onUserChange={setUser} />}
+
+          {user ? (
+            <form onSubmit={handleSubmit}>
+              <div
+                role="group"
+                aria-label="Book type for your post"
+                className="flex flex-wrap items-center justify-center gap-2"
+              >
+                {bookTypes.map((type) => {
+                  const isActive = type.id === bookType
+                  return (
+                    <button
+                      key={type.id}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setBookType(type.id)}
+                      className={`flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-bold transition-all ${
+                        isActive
+                          ? 'border-secondary bg-secondary text-secondary-content'
+                          : 'border-ink/15 bg-white/70 text-ink/60 hover:border-secondary/50 hover:text-ink'
+                      }`}
+                    >
+                      <span aria-hidden="true">{type.emoji}</span>
+                      {type.name}
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="mt-4">
+                <label htmlFor="community-content" className="mb-1.5 block text-sm font-bold text-ink/80">
+                  What are you working on?
+                </label>
+                <textarea
+                  id="community-content"
+                  required
+                  rows={3}
+                  maxLength={MAX_CONTENT_LENGTH}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Share a line of dialogue, a plot twist, or an idea you're proud of..."
+                  className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                />
+                <p className="mt-1 text-right text-xs text-ink/40">
+                  {content.length}/{MAX_CONTENT_LENGTH}
+                </p>
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center gap-4">
                 <button
-                  key={type.id}
-                  type="button"
-                  aria-pressed={isActive}
-                  onClick={() => setBookType(type.id)}
-                  className={`flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-bold transition-all ${
-                    isActive
-                      ? 'border-secondary bg-secondary text-secondary-content'
-                      : 'border-ink/15 bg-white/70 text-ink/60 hover:border-secondary/50 hover:text-ink'
-                  }`}
+                  type="submit"
+                  disabled={!content.trim() || submitting}
+                  className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <span aria-hidden="true">{type.emoji}</span>
-                  {type.name}
+                  {submitting ? 'Sharing…' : 'Share with the Community 💬'}
                 </button>
-              )
-            })}
-          </div>
-
-          <div className="mt-4">
-            <label htmlFor="community-content" className="mb-1.5 block text-sm font-bold text-ink/80">
-              What are you working on?
-            </label>
-            <textarea
-              id="community-content"
-              required
-              rows={3}
-              maxLength={MAX_CONTENT_LENGTH}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Share a line of dialogue, a plot twist, or an idea you're proud of..."
-              className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
-            />
-            <p className="mt-1 text-right text-xs text-ink/40">
-              {content.length}/{MAX_CONTENT_LENGTH}
-            </p>
-          </div>
-
-          <div className="mt-2">
-            <label htmlFor="community-name" className="mb-1.5 block text-sm font-bold text-ink/80">
-              Name <span className="font-normal text-ink/40">(optional)</span>
-            </label>
-            <input
-              id="community-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Anonymous"
-              maxLength={MAX_NAME_LENGTH}
-              className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
-            />
-          </div>
-
-          <div className="mt-5 flex flex-wrap items-center gap-4">
-            <button
-              type="submit"
-              disabled={!content.trim() || submitting}
-              className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {submitting ? 'Sharing…' : 'Share with the Community 💬'}
-            </button>
-            {submitError && (
-              <p className="font-bold text-ink" role="alert">
-                ⚠️ {submitError}
+                {submitError && (
+                  <p className="font-bold text-ink" role="alert">
+                    ⚠️ {submitError}
+                  </p>
+                )}
+              </div>
+            </form>
+          ) : (
+            authChecked && (
+              <p className="text-center font-semibold text-ink/50">
+                Log in or sign up above to share with the community.
               </p>
-            )}
-          </div>
-        </form>
+            )
+          )}
+        </div>
 
         <div className="mt-8 space-y-4">
           {status === 'loading' && (
