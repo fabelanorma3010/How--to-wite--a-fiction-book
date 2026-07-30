@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { quizQuestions } from '../data/quiz'
+import Sticker from './Sticker'
 
 interface BookQuizProps {
   onSelect: (id: BookTypeId) => void
@@ -42,7 +43,8 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
           </p>
         </div>
 
-        <div className="animate-pop-in rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
+        <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
+          <Sticker emoji="🎯" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
           {!isFinished && (
             <>
               <div className="mb-6">

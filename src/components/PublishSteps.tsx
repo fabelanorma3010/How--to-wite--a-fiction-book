@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { publishSteps } from '../data/publishSteps'
+import Sticker from './Sticker'
 
 const STORAGE_KEY = 'storyburst-publish-progress'
 
@@ -49,6 +50,7 @@ export default function PublishSteps() {
         </div>
 
         <ol className="relative">
+          <Sticker emoji="🚀" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
           <div
             aria-hidden="true"
             className="absolute left-[27px] top-2 bottom-2 w-1 rounded-full bg-gradient-to-b from-primary via-secondary to-accent sm:left-[31px]"

@@ -3,6 +3,7 @@ import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { generateActionText } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
 import CopyButton from './CopyButton'
+import Sticker from './Sticker'
 
 interface ActionTextGeneratorProps {
   selected: BookTypeId
@@ -26,7 +27,8 @@ export default function ActionTextGenerator({ selected, onSelect }: ActionTextGe
 
   return (
     <section id="action-generator" className="px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
+      <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
+        <Sticker emoji="⚡" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
             Fun Action Text Generator ⚡
