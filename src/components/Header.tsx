@@ -7,6 +7,7 @@ const navLinks = [
   { href: '#illustration-generator', label: 'Illustrations' },
   { href: '#notebook', label: 'Notebook' },
   { href: '#publish', label: 'Publish' },
+  { href: '#community', label: 'Community' },
   { href: '#contact', label: 'Contact' },
 ]
 

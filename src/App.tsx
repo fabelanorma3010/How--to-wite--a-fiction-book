@@ -9,6 +9,7 @@ import ActionTextGenerator from './components/ActionTextGenerator'
 import IllustrationGenerator from './components/IllustrationGenerator'
 import StoryNotebook from './components/StoryNotebook'
 import PublishSteps from './components/PublishSteps'
+import Community from './components/Community'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import FictionHelper from './components/FictionHelper'
@@ -28,6 +29,7 @@ function App() {
         <IllustrationGenerator selected={selectedType} onSelect={setSelectedType} />
         <StoryNotebook />
         <PublishSteps />
+        <Community />
         <ContactForm />
       </main>
       <Footer />
