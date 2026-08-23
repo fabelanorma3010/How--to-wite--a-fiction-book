@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import PricingFaq from '../../components/PricingFaq'
 
 export const metadata: Metadata = {
   title: 'Pricing — Storyburst',
@@ -135,6 +136,13 @@ export default function PricingPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="px-4 pb-16 sm:px-6">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Questions?</h2>
+          </div>
+          <PricingFaq />
         </section>
       </main>
       <Footer />

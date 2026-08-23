@@ -35,6 +35,25 @@ export default function ContactPage() {
           </div>
         </section>
 
+        <section className="px-4 sm:px-6">
+          <div className="mx-auto grid max-w-3xl gap-4 pb-4 sm:grid-cols-2">
+            <div className="rounded-2xl border-2 border-ink/10 bg-white/70 p-5">
+              <p className="font-bold text-ink">⏱️ What to expect</p>
+              <p className="mt-1.5 text-sm text-ink/70">
+                This is a one-person project, so replies come straight from me — not a support
+                team. I read every message; I just can't promise a fast turnaround.
+              </p>
+            </div>
+            <div className="rounded-2xl border-2 border-ink/10 bg-white/70 p-5">
+              <p className="font-bold text-ink">🐛 Bug or idea?</p>
+              <p className="mt-1.5 text-sm text-ink/70">
+                Either is welcome — for bugs, mention what you were doing and what you expected
+                instead. For ideas, a sentence on why it'd help you is plenty.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <ContactForm />
       </main>
       <Footer />
