@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 
 const CONTACT_EMAIL = 'fabelanorma3010@gmail.com'
