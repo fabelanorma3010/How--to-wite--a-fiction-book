@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 
 const navLinks = [
   { href: '#quiz', label: 'Quiz' },
@@ -31,6 +32,12 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          <Link
+            href="/library"
+            className="ml-1 rounded-full bg-ink px-4 py-2 font-semibold text-base transition-colors hover:bg-ink/80"
+          >
+            Digital Library ↗
+          </Link>
         </nav>
 
         <button
@@ -77,6 +84,13 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          <Link
+            href="/library"
+            onClick={() => setOpen(false)}
+            className="rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
+          >
+            Digital Library ↗
+          </Link>
         </nav>
       )}
     </header>
