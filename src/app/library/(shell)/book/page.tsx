@@ -8,7 +8,15 @@ const chapters = [
 
 export default function BookDetailsPage() {
   return (
-    <div className="relative pb-[48px] pt-[24px] md:pt-[32px]">
+    <div className="relative pb-[48px]">
+      <p className="relative z-10 border-b border-white/10 bg-noir-surface-container-low px-[16px] py-2 text-center font-noir-mono text-[10px] uppercase tracking-wider text-noir-on-surface-variant">
+        See also the original{' '}
+        <Link href="/library/manga-profile" className="text-noir-secondary-fixed-dim underline">
+          Manga Profile
+        </Link>{' '}
+        layout (different book, same treatment)
+      </p>
+      <div className="pt-[24px] md:pt-[32px]">
       <div className="pointer-events-none absolute left-0 top-0 -z-10 h-[530px] w-full overflow-hidden opacity-30">
         <div
           className="h-full w-full scale-110 bg-cover bg-center blur-3xl"
@@ -184,6 +192,7 @@ export default function BookDetailsPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

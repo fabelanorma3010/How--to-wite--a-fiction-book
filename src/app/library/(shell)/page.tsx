@@ -26,7 +26,15 @@ const newFiction = [
 
 export default function LibraryDiscoverPage() {
   return (
-    <div className="overflow-hidden pb-[48px] pt-[24px] md:pt-[32px]">
+    <div className="overflow-hidden pb-[48px]">
+      <p className="border-b border-white/10 bg-noir-surface-container-low px-[16px] py-2 text-center font-noir-mono text-[10px] uppercase tracking-wider text-noir-on-surface-variant">
+        See also the original, unmerged{' '}
+        <Link href="/library/discovery-feed" className="text-noir-secondary-fixed-dim underline">
+          Discovery Feed
+        </Link>{' '}
+        layout
+      </p>
+      <div className="pt-[24px] md:pt-[32px]">
       {/* Hero */}
       <section className="mb-[48px] w-full">
         <div className="flex gap-4 overflow-x-auto px-[16px] pb-4 hide-scrollbar md:px-[32px]">
@@ -192,6 +200,7 @@ export default function LibraryDiscoverPage() {
           </Link>
         </div>
       </section>
+      </div>
     </div>
   )
 }
