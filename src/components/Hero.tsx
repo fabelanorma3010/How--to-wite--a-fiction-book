@@ -63,11 +63,21 @@ export default function Hero() {
           style={{ animationDelay: '360ms' }}
           aria-hidden="true"
         >
-          <span className="wiggle-hover inline-block">💥</span>
-          <span className="wiggle-hover inline-block">🌸</span>
-          <span className="wiggle-hover inline-block">🎈</span>
-          <span className="wiggle-hover inline-block">🧸</span>
-          <span className="wiggle-hover inline-block">📚</span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '0ms' }}>
+            💥
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '150ms' }}>
+            🌸
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '300ms' }}>
+            🎈
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '450ms' }}>
+            🧸
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '600ms' }}>
+            📚
+          </span>
         </div>
       </div>
     </section>
