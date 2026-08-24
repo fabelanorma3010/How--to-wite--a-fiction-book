@@ -13,7 +13,7 @@
   --color-base: #fdf4ff;
   --color-ink: #1e1b4b;
 
-  /* Kinetic Noir palette — the digital-library reader section under /library.
+  /* Newsletter palette — the digital-library reader section under /library.
      Prefixed to avoid colliding with the tokens above, which the rest of the
      site (light theme) depends on. */
   --font-noir-display: var(--font-sora), "Segoe UI", system-ui, sans-serif;

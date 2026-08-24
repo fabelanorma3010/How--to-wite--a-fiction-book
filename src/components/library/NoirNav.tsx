@@ -26,7 +26,7 @@ export default function NoirNav() {
       <aside className="hidden md:flex h-screen w-72 shrink-0 flex-col overflow-y-auto border-r border-white/10 bg-noir-surface-container-highest py-[24px]">
         <div className="mb-[32px] flex items-center gap-4 px-6">
           <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full border border-white/10 bg-noir-surface-container-lowest flex items-center justify-center text-noir-primary-container font-noir-display font-black">
-            KN
+            NW
           </div>
           <div>
             <h2 className="font-noir-display text-[16px] font-semibold text-noir-on-surface">Manga Enthusiast</h2>
@@ -72,7 +72,7 @@ export default function NoirNav() {
           <span className="material-symbols-outlined">arrow_back</span>
         </Link>
         <span className="font-noir-display text-[20px] font-black uppercase tracking-tighter text-noir-primary-container">
-          Kinetic Noir
+          Newsletter
         </span>
         <button type="button" className="flex h-10 w-10 items-center justify-center text-noir-primary-container" aria-label="Search (not wired up in this demo)">
           <span className="material-symbols-outlined">search</span>
