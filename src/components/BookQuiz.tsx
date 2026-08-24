@@ -64,7 +64,7 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
                 </p>
               </div>
 
-              <fieldset key={step} className="animate-pop-in">
+              <fieldset key={step} className="animate-slide-in">
                 <legend className="text-xl font-extrabold text-ink sm:text-2xl">
                   {quizQuestions[step].question}
                 </legend>

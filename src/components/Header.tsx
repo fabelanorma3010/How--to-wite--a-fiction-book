@@ -146,11 +146,16 @@ export default function Header() {
         </button>
       </div>
 
-      {open && (
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none md:hidden ${
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="flex flex-col gap-1 border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2 md:hidden"
+          inert={!open}
+          className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2"
         >
           {navLinks.map((link) => (
             <a
@@ -212,7 +217,7 @@ export default function Header() {
             ) : null}
           </div>
         </nav>
-      )}
+      </div>
     </header>
   )
 }
