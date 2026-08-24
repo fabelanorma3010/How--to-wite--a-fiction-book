@@ -1,10 +1,14 @@
 import Link from 'next/link'
+import ReadAloud from '../../../../components/ReadAloud'
 
 const chapters = [
   { num: 'CH 142', title: "The Architect's Fall", date: 'Today', read: false },
   { num: 'CH 141', title: 'Echoes in the Core', date: 'Oct 24', read: true },
   { num: 'CH 140', title: 'Shattered Glass', date: 'Oct 17', read: true },
 ]
+
+const synopsis =
+  "In the sprawling mega-structure of Sector 7, power is everything, and the Ascendant Syndicate holds all the cards. When former enforcer Jax is resurrected with experimental cybernetics, he discovers a conspiracy that reaches the highest levels of the city's elite. Stripped of his past and fueled by a volatile new energy source, he must navigate a brutal underworld of augmented mercs and rogue AI to find the truth behind Protocol Zero."
 
 export default function BookDetailsPage() {
   return (
@@ -97,14 +101,16 @@ export default function BookDetailsPage() {
             </div>
 
             <div className="mb-[48px]">
-              <h3 className="mb-2 font-noir-display text-[20px] font-semibold text-noir-on-surface">Synopsis</h3>
+              <div className="mb-2 flex flex-wrap items-center gap-3">
+                <h3 className="font-noir-display text-[20px] font-semibold text-noir-on-surface">Synopsis</h3>
+                <ReadAloud
+                  text={synopsis}
+                  label="Read Synopsis"
+                  className="rounded-[0.25rem] border border-white/10 bg-noir-surface-container px-3 py-1 font-noir-mono text-[11px] uppercase tracking-wider text-noir-on-surface-variant transition-colors hover:border-noir-secondary-fixed-dim/50 hover:text-noir-secondary-fixed-dim disabled:cursor-not-allowed disabled:opacity-40"
+                />
+              </div>
               <p className="max-w-3xl font-noir-display text-[16px] leading-relaxed text-noir-on-surface-variant">
-                In the sprawling mega-structure of Sector 7, power is everything, and the Ascendant
-                Syndicate holds all the cards. When former enforcer Jax is resurrected with
-                experimental cybernetics, he discovers a conspiracy that reaches the highest levels
-                of the city&apos;s elite. Stripped of his past and fueled by a volatile new energy
-                source, he must navigate a brutal underworld of augmented mercs and rogue AI to find
-                the truth behind Protocol Zero.
+                {synopsis}
               </p>
             </div>
 
