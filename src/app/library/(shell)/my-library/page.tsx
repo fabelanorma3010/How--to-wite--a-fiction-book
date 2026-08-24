@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import ShimmerImage from '../../../../components/library/ShimmerImage'
 
 const tabs = ['Reading', 'Completed', 'Downloaded'] as const
 
@@ -90,9 +91,9 @@ export default function MyLibraryPage() {
                 className="group relative flex flex-col overflow-hidden rounded-[0.125rem] border border-white/10 bg-noir-surface-container-low transition-colors duration-300 hover:border-noir-primary-container"
               >
                 <div className="relative aspect-[2/3] w-full bg-noir-surface-container">
-                  <img
+                  <ShimmerImage
                     alt={book.title}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    imgClassName="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     src={book.img}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
@@ -135,9 +136,10 @@ export default function MyLibraryPage() {
                 key={book.title}
                 className="group relative aspect-[2/3] overflow-hidden rounded-[0.5rem] border border-white/10 bg-noir-surface-container-low transition-colors hover:border-noir-primary-fixed/50"
               >
-                <img
+                <ShimmerImage
                   alt={book.title}
-                  className="absolute inset-0 h-full w-full object-cover opacity-60 grayscale transition-all group-hover:opacity-80 group-hover:grayscale-0"
+                  wrapperClassName="absolute inset-0"
+                  imgClassName="h-full w-full object-cover opacity-60 grayscale transition-all group-hover:opacity-80 group-hover:grayscale-0"
                   src={book.img}
                 />
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black to-transparent p-3">

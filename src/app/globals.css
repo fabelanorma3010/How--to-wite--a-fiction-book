@@ -173,6 +173,33 @@
     }
   }
 
+  @keyframes noir-shimmer-sweep {
+    from {
+      background-position: -150% 0;
+    }
+    to {
+      background-position: 150% 0;
+    }
+  }
+
+  .noir-shimmer {
+    background-color: var(--color-noir-surface-container);
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      var(--color-noir-surface-bright) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: noir-shimmer-sweep 1.6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .noir-shimmer {
+      animation: none;
+    }
+  }
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
