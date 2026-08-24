@@ -24,7 +24,6 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
 
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const thinkingTimeout = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (open) inputRef.current?.focus()
@@ -34,24 +33,30 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, thinking])
 
-  useEffect(() => {
-    return () => window.clearTimeout(thinkingTimeout.current)
-  }, [])
-
-  function sendPrompt(prompt: string) {
+  async function sendPrompt(prompt: string) {
     const trimmed = prompt.trim()
     if (!trimmed || thinking) return
 
-    setMessages((prev) => [...prev, { role: 'user', text: trimmed }])
+    const nextMessages = [...messages, { role: 'user' as const, text: trimmed }]
+    setMessages(nextMessages)
     setInput('')
     setThinking(true)
 
-    window.clearTimeout(thinkingTimeout.current)
-    thinkingTimeout.current = window.setTimeout(() => {
-      const reply = getHelperReply(trimmed, selected)
-      setMessages((prev) => [...prev, { role: 'assistant', text: reply }])
-      setThinking(false)
-    }, 500)
+    let reply: string
+    try {
+      const res = await fetch('/api/fiction-helper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: nextMessages, genre: selected }),
+      })
+      const data = await res.json()
+      reply = res.ok && typeof data?.reply === 'string' ? data.reply : getHelperReply(trimmed, selected)
+    } catch {
+      reply = getHelperReply(trimmed, selected)
+    }
+
+    setMessages((prev) => [...prev, { role: 'assistant', text: reply }])
+    setThinking(false)
   }
 
   function handleSubmit(e: React.FormEvent) {
