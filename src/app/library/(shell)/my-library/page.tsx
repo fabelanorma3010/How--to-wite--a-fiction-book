@@ -91,7 +91,10 @@ export default function MyLibraryPage() {
       </div>
 
       {active === 'Completed' && (
-        <div className="grid grid-cols-2 gap-[16px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-[24px]">
+        <div
+          key={active}
+          className="animate-fade-up grid grid-cols-2 gap-[16px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-[24px]"
+        >
           {completed.map((book) => (
             <Link
               href="/library/book"
@@ -124,7 +127,10 @@ export default function MyLibraryPage() {
       )}
 
       {active === 'Downloaded' && (
-        <div className="grid grid-cols-2 gap-[16px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-[24px]">
+        <div
+          key={active}
+          className="animate-fade-up grid grid-cols-2 gap-[16px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-[24px]"
+        >
           {downloaded.map((book) => (
             <Link
               href="/library/book"
@@ -157,7 +163,7 @@ export default function MyLibraryPage() {
       )}
 
       {active === 'Reading' && (
-        <>
+        <div key={active} className="animate-fade-up">
           <div className="mb-[48px] grid grid-cols-2 gap-[16px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-[24px]">
             {readingNow.map((book) => (
               <Link
@@ -225,7 +231,7 @@ export default function MyLibraryPage() {
               </Link>
             ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   )
