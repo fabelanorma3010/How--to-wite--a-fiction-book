@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Kinetic Noir — Digital Library',
+  title: 'Newsletter — Digital Library',
   description: 'A dark, cinematic comic, manga, and fiction reading experience.',
 }
 

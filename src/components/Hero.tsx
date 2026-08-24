@@ -11,24 +11,33 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
-        <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
+        <span className="animate-fade-up rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
           ✨ Your creative launchpad for illustrated storytelling
         </span>
 
-        <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl md:text-6xl">
+        <h1
+          className="animate-fade-up text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl md:text-6xl"
+          style={{ animationDelay: '90ms' }}
+        >
           How to Write & Publish a{' '}
           <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             Fiction Book
           </span>
         </h1>
 
-        <p className="max-w-2xl text-balance text-lg text-ink/70 sm:text-xl">
+        <p
+          className="animate-fade-up max-w-2xl text-balance text-lg text-ink/70 sm:text-xl"
+          style={{ animationDelay: '180ms' }}
+        >
           Comics, manga, cartoons, and children's books — get genre tips, punch up your
           script with a fun action-text generator, spark illustration ideas, and follow a
           clear path to publishing your finished book.
         </p>
 
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+        <div
+          className="animate-fade-up mt-2 flex flex-wrap items-center justify-center gap-3"
+          style={{ animationDelay: '270ms' }}
+        >
           <a
             href="#quiz"
             className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
@@ -49,12 +58,26 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="mt-6 flex flex-wrap justify-center gap-3 text-2xl sm:gap-4 sm:text-3xl" aria-hidden="true">
-          <span className="wiggle-hover inline-block">💥</span>
-          <span className="wiggle-hover inline-block">🌸</span>
-          <span className="wiggle-hover inline-block">🎈</span>
-          <span className="wiggle-hover inline-block">🧸</span>
-          <span className="wiggle-hover inline-block">📚</span>
+        <div
+          className="animate-fade-up mt-6 flex flex-wrap justify-center gap-3 text-2xl sm:gap-4 sm:text-3xl"
+          style={{ animationDelay: '360ms' }}
+          aria-hidden="true"
+        >
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '0ms' }}>
+            💥
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '150ms' }}>
+            🌸
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '300ms' }}>
+            🎈
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '450ms' }}>
+            🧸
+          </span>
+          <span className="wiggle-hover animate-float inline-block" style={{ animationDelay: '600ms' }}>
+            📚
+          </span>
         </div>
       </div>
     </section>

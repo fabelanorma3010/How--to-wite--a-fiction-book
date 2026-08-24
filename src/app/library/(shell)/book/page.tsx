@@ -1,10 +1,15 @@
 import Link from 'next/link'
+import ReadAloud from '../../../../components/ReadAloud'
+import ShimmerImage from '../../../../components/library/ShimmerImage'
 
 const chapters = [
   { num: 'CH 142', title: "The Architect's Fall", date: 'Today', read: false },
   { num: 'CH 141', title: 'Echoes in the Core', date: 'Oct 24', read: true },
   { num: 'CH 140', title: 'Shattered Glass', date: 'Oct 17', read: true },
 ]
+
+const synopsis =
+  "In the sprawling mega-structure of Sector 7, power is everything, and the Ascendant Syndicate holds all the cards. When former enforcer Jax is resurrected with experimental cybernetics, he discovers a conspiracy that reaches the highest levels of the city's elite. Stripped of his past and fueled by a volatile new energy source, he must navigate a brutal underworld of augmented mercs and rogue AI to find the truth behind Protocol Zero."
 
 export default function BookDetailsPage() {
   return (
@@ -32,9 +37,8 @@ export default function BookDetailsPage() {
         <div className="relative z-10 grid grid-cols-1 items-start gap-[48px] md:grid-cols-12">
           <div className="group flex flex-col items-center md:col-span-4 md:items-start">
             <div className="relative aspect-[2/3] w-2/3 overflow-hidden rounded-[0.5rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] transition-transform duration-500 hover:scale-[1.02] md:w-full">
-              <img
+              <ShimmerImage
                 alt="Neon Ascendant: Protocol Zero cover"
-                className="h-full w-full object-cover"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA44t8f7WDYU30gO3u69bvfgVCzx2IbP3pmSJMJ5LLOXHwPf3Qs2oSHuFjohMvgCAVxR99KZWpwCXLKArzTFBjJ0cuGRsYffez_T3bjdq_Drzmr5VnoWpqYYpDGvHL682rc_8j9AfLLdmnfk1DoDf1l6LxjCPoqEqDynDw-AXKl8X9TNLKl_a5SlkVCKqqUp73GnRiGVfsd4wiDkTYn-chFJ3T6PHg30nF21jQ-Hc6rv6eQ_CgdDyonpw"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
@@ -97,14 +101,16 @@ export default function BookDetailsPage() {
             </div>
 
             <div className="mb-[48px]">
-              <h3 className="mb-2 font-noir-display text-[20px] font-semibold text-noir-on-surface">Synopsis</h3>
+              <div className="mb-2 flex flex-wrap items-center gap-3">
+                <h3 className="font-noir-display text-[20px] font-semibold text-noir-on-surface">Synopsis</h3>
+                <ReadAloud
+                  text={synopsis}
+                  label="Read Synopsis"
+                  className="rounded-[0.25rem] border border-white/10 bg-noir-surface-container px-3 py-1 font-noir-mono text-[11px] uppercase tracking-wider text-noir-on-surface-variant transition-colors hover:border-noir-secondary-fixed-dim/50 hover:text-noir-secondary-fixed-dim disabled:cursor-not-allowed disabled:opacity-40"
+                />
+              </div>
               <p className="max-w-3xl font-noir-display text-[16px] leading-relaxed text-noir-on-surface-variant">
-                In the sprawling mega-structure of Sector 7, power is everything, and the Ascendant
-                Syndicate holds all the cards. When former enforcer Jax is resurrected with
-                experimental cybernetics, he discovers a conspiracy that reaches the highest levels
-                of the city&apos;s elite. Stripped of his past and fueled by a volatile new energy
-                source, he must navigate a brutal underworld of augmented mercs and rogue AI to find
-                the truth behind Protocol Zero.
+                {synopsis}
               </p>
             </div>
 
@@ -168,9 +174,8 @@ export default function BookDetailsPage() {
               </h3>
               <div className="mb-4 flex items-center gap-4">
                 <div className="h-12 w-12 overflow-hidden rounded-full bg-noir-surface-bright">
-                  <img
+                  <ShimmerImage
                     alt="Kaelen Vance"
-                    className="h-full w-full object-cover"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl1RrjTUGRTSxrAQYjOayZ60EI7iPJply4b98JCQ3V1DSrBOY_9OcJd7HU1Xxr9ei65QjuNnjUlg1-bl-SoojQ_oEMOT1MCekS0HZ0pFQ9WK38cvClE86rxX2l9Nl4VM3sq8Fe1MIWQrSsxTI1YA5t89idxoegv9HQggyAD0GuKbr3M0wLeNBwLv2RuIeaeeMm39OjehvOzb_qIQxaxxh3BZyA5e6EbRcgHvsK9s9noQ8xnCqPwwHV7w"
                   />
                 </div>

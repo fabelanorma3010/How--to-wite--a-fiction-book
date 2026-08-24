@@ -12,6 +12,7 @@ import PublishSteps from './components/PublishSteps'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import FictionHelper from './components/FictionHelper'
+import ScrollReveal from './components/ScrollReveal'
 import type { BookTypeId } from './data/bookTypes'
 
 function App() {
@@ -22,13 +23,27 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <BookQuiz onSelect={setSelectedType} />
-        <BookTypes selected={selectedType} onSelect={setSelectedType} />
-        <ActionTextGenerator selected={selectedType} onSelect={setSelectedType} />
-        <IllustrationGenerator selected={selectedType} onSelect={setSelectedType} />
-        <StoryNotebook />
-        <PublishSteps />
-        <ContactForm />
+        <ScrollReveal>
+          <BookQuiz onSelect={setSelectedType} />
+        </ScrollReveal>
+        <ScrollReveal>
+          <BookTypes selected={selectedType} onSelect={setSelectedType} />
+        </ScrollReveal>
+        <ScrollReveal>
+          <ActionTextGenerator selected={selectedType} onSelect={setSelectedType} />
+        </ScrollReveal>
+        <ScrollReveal>
+          <IllustrationGenerator selected={selectedType} onSelect={setSelectedType} />
+        </ScrollReveal>
+        <ScrollReveal>
+          <StoryNotebook />
+        </ScrollReveal>
+        <ScrollReveal>
+          <PublishSteps />
+        </ScrollReveal>
+        <ScrollReveal>
+          <ContactForm />
+        </ScrollReveal>
       </main>
       <Footer />
       <FictionHelper selected={selectedType} />

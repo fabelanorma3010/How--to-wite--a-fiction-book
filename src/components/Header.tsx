@@ -1,7 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+interface AuthUser {
+  id: string
+  name: string
+  email: string
+}
 
 const navLinks = [
   { href: '#quiz', label: 'Quiz' },
@@ -20,6 +27,31 @@ const pageLinks = [
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
+  const router = useRouter()
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setUser(data?.user ?? null)
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  async function handleLogout() {
+    setOpen(false)
+    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
+    setUser(null)
+    router.push('/')
+    router.refresh()
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b-4 border-ink/10 bg-base/90 backdrop-blur">
@@ -54,6 +86,36 @@ export default function Header() {
           >
             Digital Library ↗
           </Link>
+
+          {user ? (
+            <div className="ml-1 flex items-center gap-1.5">
+              <span className="whitespace-nowrap px-1.5 text-sm font-semibold text-ink/60">
+                Hi, {user.name.split(' ')[0]}
+              </span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+              >
+                Log out
+              </button>
+            </div>
+          ) : user === null ? (
+            <div className="ml-1 flex items-center gap-1.5">
+              <Link
+                href="/login"
+                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/signup"
+                className="whitespace-nowrap rounded-full border-2 border-ink px-2.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
+              >
+                Sign Up
+              </Link>
+            </div>
+          ) : null}
         </nav>
 
         <button
@@ -84,11 +146,16 @@ export default function Header() {
         </button>
       </div>
 
-      {open && (
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none md:hidden ${
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="flex flex-col gap-1 border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2 md:hidden"
+          inert={!open}
+          className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2"
         >
           {navLinks.map((link) => (
             <a
@@ -117,8 +184,40 @@ export default function Header() {
           >
             Digital Library ↗
           </Link>
+
+          <div className="mt-1 border-t-2 border-ink/10 pt-2">
+            {user ? (
+              <div className="flex items-center justify-between px-3 py-2">
+                <span className="font-semibold text-ink/60">Hi, {user.name.split(' ')[0]}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-full bg-white/70 px-3 py-1.5 text-sm font-bold text-ink transition-colors hover:bg-white"
+                >
+                  Log out
+                </button>
+              </div>
+            ) : user === null ? (
+              <div className="flex gap-2 px-3 py-1">
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 rounded-xl border-2 border-ink/15 py-2.5 text-center font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+                >
+                  Log In
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 rounded-xl bg-ink py-2.5 text-center font-semibold text-white transition-colors hover:bg-ink/80"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            ) : null}
+          </div>
         </nav>
-      )}
+      </div>
     </header>
   )
 }

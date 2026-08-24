@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ShimmerImage from '../../../../components/library/ShimmerImage'
 
 const chapters = [
   {
@@ -40,9 +41,8 @@ export default function MangaProfileOriginalPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-noir-surface via-noir-surface/80 to-transparent" />
         <div className="absolute bottom-0 left-0 mx-auto flex w-full max-w-7xl flex-col gap-6 px-[16px] pb-[24px] sm:flex-row sm:items-end sm:px-[32px]">
           <div className="hidden aspect-[2/3] w-48 shrink-0 overflow-hidden rounded-[0.5rem] border border-white/10 shadow-2xl sm:block">
-            <img
+            <ShimmerImage
               alt="Neon Abyss: The Silent Echo cover"
-              className="h-full w-full object-cover"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAMMtApm-dqfSSIFnmL9XpYGbJXkuEuDICJxTGFR_vBF2Lf24zDcvMZfKdtFDE52r7BusMKdaB-v7Rgk-A_PgEZfWjiIKzT6S52HJubLjNxBumHv7nGEzJ4Aqakv-rDDBFoiIQtdf9Qjr3CLQlAHykn2gIXVvNewYMJeG5ADr9uyu8y9kR-3eJ9Kix3BzgtbPqkznxdQsV2m3Fvql0SJ12TzxYAIZCedaGdmzkztu0578FvvQc_Yp3ig"
             />
           </div>
@@ -103,7 +103,11 @@ export default function MangaProfileOriginalPage() {
             >
               <div className="z-10 flex items-center gap-4">
                 <div className="hidden h-16 w-12 shrink-0 overflow-hidden rounded sm:block">
-                  <img alt="" className={`h-full w-full object-cover ${ch.read ? 'grayscale' : ''}`} src={ch.img} />
+                  <ShimmerImage
+                    alt=""
+                    imgClassName={`h-full w-full object-cover ${ch.read ? 'grayscale' : ''}`}
+                    src={ch.img}
+                  />
                 </div>
                 <div>
                   <span className={`mb-1 block font-noir-mono text-[12px] ${ch.isNew ? 'text-noir-primary-container' : 'text-noir-on-surface-variant'}`}>
