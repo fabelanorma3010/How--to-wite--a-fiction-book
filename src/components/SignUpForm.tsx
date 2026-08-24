@@ -10,6 +10,7 @@ export default function SignUpForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
+  const [agreed, setAgreed] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -21,13 +22,17 @@ export default function SignUpForm() {
       setError('Passwords don\'t match.')
       return
     }
+    if (!agreed) {
+      setError('Please agree to the Terms of Service and Privacy Policy to continue.')
+      return
+    }
 
     setSubmitting(true)
     try {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, agreedToTerms: agreed }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -112,6 +117,27 @@ export default function SignUpForm() {
             />
           </div>
 
+          <label className="mt-5 flex items-start gap-2.5 text-sm text-ink/70">
+            <input
+              type="checkbox"
+              required
+              checked={agreed}
+              onChange={(e) => setAgreed(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink/30 accent-primary"
+            />
+            <span>
+              I agree to the{' '}
+              <Link href="/terms" target="_blank" className="font-bold text-ink underline underline-offset-2">
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link href="/privacy" target="_blank" className="font-bold text-ink underline underline-offset-2">
+                Privacy Policy
+              </Link>
+              .
+            </span>
+          </label>
+
           {error && (
             <p role="alert" className="mt-4 text-sm font-semibold text-red-600">
               {error}
@@ -121,7 +147,7 @@ export default function SignUpForm() {
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !agreed}
               className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
             >
               {submitting ? 'Creating account…' : 'Create Account ✨'}

@@ -23,6 +23,7 @@ export async function ensureSchema(db: Client): Promise<void> {
         email TEXT NOT NULL UNIQUE,
         password_hash TEXT NOT NULL,
         password_salt TEXT NOT NULL,
+        agreed_to_terms_at TEXT NOT NULL,
         created_at TEXT NOT NULL
       )`,
       `CREATE TABLE IF NOT EXISTS sessions (
