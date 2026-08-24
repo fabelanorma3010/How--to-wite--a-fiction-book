@@ -1,4 +1,7 @@
+'use client'
+
 import { useState } from 'react'
+import Link from 'next/link'
 
 const navLinks = [
   { href: '#quiz', label: 'Quiz' },
@@ -7,7 +10,12 @@ const navLinks = [
   { href: '#illustration-generator', label: 'Illustrations' },
   { href: '#notebook', label: 'Notebook' },
   { href: '#publish', label: 'Publish' },
-  { href: '#contact', label: 'Contact' },
+]
+
+const pageLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export default function Header() {
@@ -21,16 +29,31 @@ export default function Header() {
           Storyburst
         </a>
 
-        <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:gap-1 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+              className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink lg:px-3.5"
             >
               {link.label}
             </a>
           ))}
+          {pageLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink lg:px-3.5"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/library"
+            className="ml-1 whitespace-nowrap rounded-full bg-ink px-3 py-2 font-semibold text-base transition-colors hover:bg-ink/80 lg:px-4"
+          >
+            Digital Library ↗
+          </Link>
         </nav>
 
         <button
@@ -77,6 +100,23 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          {pageLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/library"
+            onClick={() => setOpen(false)}
+            className="rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
+          >
+            Digital Library ↗
+          </Link>
         </nav>
       )}
     </header>

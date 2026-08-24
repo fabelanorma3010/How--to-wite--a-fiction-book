@@ -12,6 +12,64 @@
   --color-accent-content: #451a03;
   --color-base: #fdf4ff;
   --color-ink: #1e1b4b;
+
+  /* Kinetic Noir palette — the digital-library reader section under /library.
+     Prefixed to avoid colliding with the tokens above, which the rest of the
+     site (light theme) depends on. */
+  --font-noir-display: var(--font-sora), "Segoe UI", system-ui, sans-serif;
+  --font-noir-reading: var(--font-literata), Georgia, serif;
+  --font-noir-mono: var(--font-jetbrains-mono), "Courier New", monospace;
+
+  --color-noir-surface: #131313;
+  --color-noir-surface-dim: #131313;
+  --color-noir-surface-bright: #393939;
+  --color-noir-surface-container-lowest: #0e0e0e;
+  --color-noir-surface-container-low: #1c1b1b;
+  --color-noir-surface-container: #201f1f;
+  --color-noir-surface-container-high: #2a2a2a;
+  --color-noir-surface-container-highest: #353534;
+  --color-noir-surface-variant: #353534;
+  --color-noir-on-surface: #e5e2e1;
+  --color-noir-on-surface-variant: #d0c6ab;
+  --color-noir-outline: #999077;
+  --color-noir-outline-variant: #4d4732;
+  --color-noir-background: #131313;
+  --color-noir-on-background: #e5e2e1;
+  --color-noir-inverse-surface: #e5e2e1;
+  --color-noir-inverse-on-surface: #313030;
+
+  --color-noir-primary: #fff6df;
+  --color-noir-on-primary: #3a3000;
+  --color-noir-primary-container: #ffd700;
+  --color-noir-on-primary-container: #705e00;
+  --color-noir-primary-fixed: #ffe16d;
+  --color-noir-primary-fixed-dim: #e9c400;
+  --color-noir-on-primary-fixed: #221b00;
+  --color-noir-on-primary-fixed-variant: #544600;
+  --color-noir-inverse-primary: #705d00;
+
+  --color-noir-secondary: #bdf4ff;
+  --color-noir-on-secondary: #00363d;
+  --color-noir-secondary-container: #00e3fd;
+  --color-noir-on-secondary-container: #00616d;
+  --color-noir-secondary-fixed: #9cf0ff;
+  --color-noir-secondary-fixed-dim: #00daf3;
+  --color-noir-on-secondary-fixed: #001f24;
+  --color-noir-on-secondary-fixed-variant: #004f58;
+
+  --color-noir-tertiary: #fff4f4;
+  --color-noir-on-tertiary: #67001f;
+  --color-noir-tertiary-container: #ffced2;
+  --color-noir-on-tertiary-container: #bf0041;
+  --color-noir-tertiary-fixed: #ffd9dc;
+  --color-noir-tertiary-fixed-dim: #ffb2ba;
+  --color-noir-on-tertiary-fixed: #400010;
+  --color-noir-on-tertiary-fixed-variant: #910030;
+
+  --color-noir-error: #ffb4ab;
+  --color-noir-on-error: #690005;
+  --color-noir-error-container: #93000a;
+  --color-noir-on-error-container: #ffdad6;
 }
 
 @layer base {
@@ -76,5 +134,26 @@
 
   .animate-pop-in {
     animation: pop-in 0.25s ease-out;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .noir-text-gradient {
+    background: linear-gradient(180deg, #e5e2e1 0%, #a09d9c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .noir-glass-panel {
+    background: linear-gradient(145deg, rgba(32, 31, 31, 0.6) 0%, rgba(19, 19, 19, 0.8) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
