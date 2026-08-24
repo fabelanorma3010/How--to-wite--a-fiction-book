@@ -29,7 +29,7 @@ export default function NoirNav() {
             NW
           </div>
           <div>
-            <h2 className="font-noir-display text-[16px] font-semibold text-noir-on-surface">Manga Enthusiast</h2>
+            <h2 className="font-noir-display text-[16px] font-semibold text-noir-on-surface">Library Bookstore</h2>
             <p className="font-noir-mono text-[11px] text-noir-primary-container">Premium Member</p>
           </div>
         </div>

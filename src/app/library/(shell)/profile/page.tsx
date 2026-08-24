@@ -19,7 +19,7 @@ export default function ProfilePage() {
           />
         </div>
         <div>
-          <h1 className="font-noir-display text-[24px] font-bold text-noir-on-surface">Manga Enthusiast</h1>
+          <h1 className="font-noir-display text-[24px] font-bold text-noir-on-surface">Library Bookstore</h1>
           <p className="mt-1 font-noir-mono text-[12px] text-noir-primary-container">Premium Member</p>
           <p className="font-noir-mono text-[12px] text-noir-on-surface-variant">128 Titles Saved</p>
         </div>
