@@ -17,6 +17,10 @@ dist-ssr
 next-env.d.ts
 *.tsbuildinfo
 
+# Cloudflare / OpenNext
+.open-next
+.wrangler
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

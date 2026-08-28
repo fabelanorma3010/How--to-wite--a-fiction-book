@@ -1,4 +1,4 @@
-import type { Client } from '@libsql/client/web'
+import type { Client } from './db'
 
 export const SESSION_COOKIE = 'sb_session'
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
