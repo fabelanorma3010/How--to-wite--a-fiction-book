@@ -31,6 +31,14 @@ export async function ensureSchema(db: Client): Promise<void> {
         user_id TEXT NOT NULL REFERENCES users(id),
         expires_at TEXT NOT NULL
       )`,
+      `CREATE TABLE IF NOT EXISTS community_posts (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL REFERENCES users(id),
+        name TEXT NOT NULL,
+        book_type TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      )`,
     ],
     'write',
   )

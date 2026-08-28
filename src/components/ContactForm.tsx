@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Sticker from './Sticker'
 
 const CONTACT_EMAIL = 'fabelanorma3010@gmail.com'
 
@@ -34,8 +35,9 @@ export default function ContactForm() {
 
         <form
           onSubmit={handleSubmit}
-          className="animate-pop-in rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
+          className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
         >
+          <Sticker emoji="👋" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="contact-name" className="mb-1.5 block text-sm font-bold text-ink/80">

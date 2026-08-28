@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import ReadAloud from './ReadAloud'
+import Sticker from './Sticker'
 
 const STORAGE_KEY = 'storyburst-notebook'
 
@@ -47,7 +48,8 @@ export default function StoryNotebook() {
           </p>
         </div>
 
-        <div className="animate-pop-in rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
+        <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
+          <Sticker emoji="📓" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
           <label htmlFor="notebook-textarea" className="sr-only">
             Story notebook
           </label>

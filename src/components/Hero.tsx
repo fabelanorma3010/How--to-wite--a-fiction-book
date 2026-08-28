@@ -1,3 +1,5 @@
+import Sticker from './Sticker'
+
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden px-4 pb-20 pt-14 sm:px-6 sm:pt-20">
@@ -11,6 +13,7 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
+        <Sticker emoji="✨" className="-top-8 right-2 rotate-12 sm:-top-10 sm:right-8" />
         <span className="animate-fade-up rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
           ✨ Your creative launchpad for illustrated storytelling
         </span>
