@@ -1,4 +1,5 @@
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
+import Sticker from './Sticker'
 
 interface BookTypesProps {
   selected: BookTypeId
@@ -56,8 +57,9 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
           id={`panel-${active.id}`}
           aria-labelledby={`tab-${active.id}`}
           key={active.id}
-          className="animate-pop-in rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
+          className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
         >
+          <Sticker emoji="📌" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
           <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
             <h3 className="text-2xl font-extrabold text-ink">
               <span aria-hidden="true">{active.emoji}</span> {active.name}
