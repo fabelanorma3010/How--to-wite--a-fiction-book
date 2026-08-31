@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Env files — real secrets live here, never commit them (.env.example is tracked)
+.env
+.env.local
+.env.*.local
+
 # Next.js
 .next
 next-env.d.ts
@@ -20,6 +25,11 @@ next-env.d.ts
 # Cloudflare / OpenNext
 .open-next
 .wrangler
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/.env
 
 # Editor directories and files
 .vscode/*
