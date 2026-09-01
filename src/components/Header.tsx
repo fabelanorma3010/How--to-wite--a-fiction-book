@@ -29,6 +29,7 @@ const pageLinks = [
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
+  const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -41,6 +42,12 @@ export default function Header() {
       .catch(() => {
         if (!cancelled) setUser(null)
       })
+    fetch('/api/admin/status')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setIsAdmin(Boolean(data?.isAdmin))
+      })
+      .catch(() => {})
     return () => {
       cancelled = true
     }
@@ -87,6 +94,15 @@ export default function Header() {
           >
             Digital Library ↗
           </Link>
+
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="ml-1 whitespace-nowrap rounded-full border-2 border-primary/40 px-2.5 py-1.5 text-sm font-bold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+            >
+              ⚙ Admin
+            </Link>
+          )}
 
           {user ? (
             <div className="ml-1 flex items-center gap-1.5">
@@ -185,6 +201,16 @@ export default function Header() {
           >
             Digital Library ↗
           </Link>
+
+          {isAdmin && (
+            <Link
+              href="/admin"
+              onClick={() => setOpen(false)}
+              className="rounded-xl border-2 border-primary/40 px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+            >
+              ⚙ Admin
+            </Link>
+          )}
 
           <div className="mt-1 border-t-2 border-ink/10 pt-2">
             {user ? (
