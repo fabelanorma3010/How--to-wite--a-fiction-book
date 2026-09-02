@@ -51,4 +51,25 @@ create trigger on_auth_user_email_change
   after update of email on auth.users
   for each row execute function public.handle_user_email_change();
 
+-- When an auth user is deleted, remove their profile row (posts / messages /
+-- reviews / subscriptions / files cascade from public.users). Only touches
+-- rows that came from Supabase Auth — seed and admin-created members that have
+-- no auth.users entry are unaffected.
+create or replace function public.handle_user_delete()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  delete from public.users where id = old.id;
+  return old;
+end;
+$$;
+
+drop trigger if exists on_auth_user_deleted on auth.users;
+create trigger on_auth_user_deleted
+  after delete on auth.users
+  for each row execute function public.handle_user_delete();
+
 notify pgrst, 'reload schema';
