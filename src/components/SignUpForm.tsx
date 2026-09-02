@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createClient } from '../lib/supabase/client'
 
 export default function SignUpForm() {
   const router = useRouter()
@@ -13,13 +14,14 @@ export default function SignUpForm() {
   const [agreed, setAgreed] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [checkEmail, setCheckEmail] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
 
     if (password !== confirm) {
-      setError('Passwords don\'t match.')
+      setError("Passwords don't match.")
       return
     }
     if (!agreed) {
@@ -29,23 +31,59 @@ export default function SignUpForm() {
 
     setSubmitting(true)
     try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, agreedToTerms: agreed }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setError(data?.error || 'Something went wrong creating your account.')
+      const supabase = createClient()
+      if (!supabase) {
+        setError('Sign-up is unavailable right now.')
         setSubmitting(false)
         return
       }
-      router.push('/')
-      router.refresh()
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: { data: { name: name.trim(), agreed_to_terms: 'true' } },
+      })
+      if (error) {
+        setError(error.message)
+        setSubmitting(false)
+        return
+      }
+      if (data.session) {
+        router.push('/')
+        router.refresh()
+        return
+      }
+      // Email confirmation is on — no session yet.
+      setCheckEmail(true)
+      setSubmitting(false)
     } catch {
       setError('Something went wrong creating your account.')
       setSubmitting(false)
     }
+  }
+
+  if (checkEmail) {
+    return (
+      <section className="px-4 pb-16 sm:px-6">
+        <div className="mx-auto max-w-md">
+          <div className="animate-pop-in rounded-3xl border-2 border-ink/10 bg-white/70 p-6 text-center shadow-sm sm:p-8">
+            <p className="text-2xl" aria-hidden="true">
+              📬
+            </p>
+            <h2 className="mt-2 text-xl font-extrabold text-ink">Check your email</h2>
+            <p className="mt-2 text-sm text-ink/70">
+              We sent a confirmation link to <span className="font-bold">{email.trim()}</span>. Click it
+              to finish setting up your account, then log in.
+            </p>
+            <Link
+              href="/login"
+              className="mt-6 inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
+            >
+              Go to log in
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   return (

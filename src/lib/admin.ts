@@ -19,6 +19,7 @@ export function isAdminEmail(email: string | null | undefined): boolean {
  */
 export async function requireAdmin(): Promise<User> {
   const supabase = await createClient()
+  if (!supabase) throw new Error('Supabase is not configured.')
   const {
     data: { user },
   } = await supabase.auth.getUser()

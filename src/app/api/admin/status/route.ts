@@ -7,6 +7,7 @@ import { isAdminEmail } from '../../../../lib/admin'
 export async function GET() {
   try {
     const supabase = await createClient()
+    if (!supabase) return NextResponse.json({ isAdmin: false })
     const {
       data: { user },
     } = await supabase.auth.getUser()

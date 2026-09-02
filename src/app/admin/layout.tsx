@@ -14,9 +14,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = supabase ? (await supabase.auth.getUser()).data.user : null
   const admin = isAdminEmail(user?.email)
 
   return (

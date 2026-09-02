@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import { getSupabase, isSupabaseConfigured } from '../../../../lib/supabase'
+import { createClient, isSupabaseConfigured } from '../../../../lib/supabase/server'
 
 // Diagnostic endpoint: confirms the Supabase connection works by reading a
 // couple of rows from `posts`. Safe to leave in — it only returns published
 // posts, which are world-readable under the RLS policy.
 export async function GET() {
-  const supabase = getSupabase()
+  const supabase = await createClient()
   if (!supabase) {
     return NextResponse.json(
       {
@@ -20,6 +20,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from('posts')
     .select('id, title, category, tags, published_at')
+    .not('published_at', 'is', null)
     .order('published_at', { ascending: false })
     .limit(2)
 

@@ -17,6 +17,11 @@ export default function AdminLoginPage() {
     setError(null)
     try {
       const supabase = createClient()
+      if (!supabase) {
+        setError('Sign-in is unavailable right now.')
+        setSubmitting(false)
+        return
+      }
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) {
         setError(error.message)

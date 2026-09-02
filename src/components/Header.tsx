@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createClient } from '../lib/supabase/client'
 
 interface AuthUser {
   id: string
@@ -33,29 +34,33 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
-    let cancelled = false
-    fetch('/api/auth/me')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setUser(data?.user ?? null)
-      })
-      .catch(() => {
-        if (!cancelled) setUser(null)
-      })
+    const supabase = createClient()
+    if (!supabase) {
+      setUser(null)
+      return
+    }
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      const u = session?.user
+      setUser(
+        u
+          ? { id: u.id, email: u.email ?? '', name: (u.user_metadata?.name as string) || u.email || 'there' }
+          : null,
+      )
+    })
+
     fetch('/api/admin/status')
       .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setIsAdmin(Boolean(data?.isAdmin))
-      })
+      .then((data) => setIsAdmin(Boolean(data?.isAdmin)))
       .catch(() => {})
-    return () => {
-      cancelled = true
-    }
+
+    return () => sub.subscription.unsubscribe()
   }, [])
 
   async function handleLogout() {
     setOpen(false)
-    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
+    const supabase = createClient()
+    await supabase?.auth.signOut()
     setUser(null)
     router.push('/')
     router.refresh()
