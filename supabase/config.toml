@@ -40,8 +40,13 @@ file_size_limit = "50MiB"
 
 [auth]
 enabled = true
-site_url = "http://127.0.0.1:3000"
-additional_redirect_urls = ["http://127.0.0.1:3000"]
+site_url = "http://localhost:3000"
+additional_redirect_urls = [
+  "http://localhost:3000",
+  "http://localhost:3000/auth/callback",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:3000/auth/callback",
+]
 jwt_expiry = 3600
 enable_refresh_token_rotation = true
 refresh_token_reuse_interval = 10
@@ -50,7 +55,21 @@ enable_signup = true
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
+# Local only. In the hosted project, turn "Confirm email" OFF for launch (or
+# configure custom SMTP first and leave it ON) — see README.
 enable_confirmations = false
+
+# "Continue with Google". In the hosted project this is configured in the
+# dashboard (Authentication → Providers → Google). To test it against the local
+# stack, put the credentials in supabase/.env (git-ignored) as
+# SUPABASE_AUTH_GOOGLE_CLIENT_ID / SUPABASE_AUTH_GOOGLE_SECRET and set
+# enabled = true below.
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"
+redirect_uri = "http://127.0.0.1:54321/auth/v1/callback"
+skip_nonce_check = false
 
 [analytics]
 enabled = false

@@ -8,20 +8,26 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '')
 
 /**
  * Runs on every request: refreshes the Supabase Auth session cookie (standard
- * @supabase/ssr pattern) and, on /admin routes, enforces that the signed-in
- * user's email is on ADMIN_EMAILS — bouncing everyone else to /admin/login.
+ * @supabase/ssr pattern) and gates two areas —
+ *   /admin/*   → email must be on ADMIN_EMAILS, else bounced to /admin/login
+ *   /account/* → must be signed in, else bounced to /login?next=…
+ * Everything else (home, tools, /library) stays public.
  */
 export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   const path = request.nextUrl.pathname
   const isAdminRoute = path === '/admin' || path.startsWith('/admin/')
+  const isAccountRoute = path === '/account' || path.startsWith('/account/')
 
   let response = NextResponse.next({ request })
 
   if (!url || !anonKey) {
     if (isAdminRoute && path !== '/admin/login') {
       return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    if (isAccountRoute) {
+      return NextResponse.redirect(new URL('/login', request.url))
     }
     return response
   }
@@ -52,6 +58,12 @@ export async function middleware(request: NextRequest) {
     if (!isAdmin && !onLoginPage) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
+  }
+
+  if (isAccountRoute && !user) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('next', path + request.nextUrl.search)
+    return NextResponse.redirect(loginUrl)
   }
 
   return response

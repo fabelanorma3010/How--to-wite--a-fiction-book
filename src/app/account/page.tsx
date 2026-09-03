@@ -1,20 +1,26 @@
-import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import LoginForm from '../../components/LoginForm'
+import AccountForms from '../../components/account/AccountForms'
+import { getCurrentUser } from '../../lib/user'
 
 export const metadata: Metadata = {
-  title: 'Log In — Storyburst',
-  description: 'Log in to your Storyburst account.',
+  title: 'Your Account — Storyburst',
+  description: 'Manage your Storyburst name, email address, and password.',
 }
 
-export default function LoginPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AccountPage() {
+  const user = await getCurrentUser()
+  if (!user) redirect('/login?next=/account')
+
   return (
     <div className="min-h-screen">
       <Header />
       <main>
-        <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">
+        <section className="relative overflow-hidden px-4 pb-8 pt-14 sm:px-6 sm:pt-20">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-secondary/30 blur-2xl sm:h-72 sm:w-72"
@@ -25,20 +31,28 @@ export default function LoginPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              👋 Welcome back
+              ⚙️ Signed in as {user.email}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Log{' '}
+              Account{' '}
               <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                In
+                Settings
               </span>
             </h1>
+            <p className="max-w-xl text-ink/70">
+              Update your name, email address, and password.
+            </p>
           </div>
         </section>
 
-        <Suspense fallback={null}>
-          <LoginForm />
-        </Suspense>
+        <section className="px-4 pb-16 sm:px-6">
+          <AccountForms
+            firstName={user.firstName}
+            lastName={user.lastName}
+            email={user.email}
+            hasPassword={user.hasPassword}
+          />
+        </section>
       </main>
       <Footer />
     </div>

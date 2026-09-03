@@ -25,9 +25,12 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-extrabold text-ink">What we collect</h2>
               <p className="mt-2 leading-relaxed">
-                If you create an account: your name, email address, and password. Passwords are never
-                stored in plain text — they're hashed (PBKDF2) before being saved, so we can't see or
-                recover your actual password. That's the only personal data our servers store.
+                If you create an account: your name and email address. Sign-in is handled by our
+                authentication provider, Supabase. If you set a password, Supabase stores only a
+                secure hash of it — we never see or store your actual password. If you choose
+                &ldquo;Continue with Google,&rdquo; Google verifies your identity and shares your
+                name, email address, and profile picture with us; your Google password is never
+                shared. That account information is the only personal data our servers keep.
               </p>
             </section>
 
@@ -42,8 +45,8 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-extrabold text-ink">Cookies</h2>
               <p className="mt-2 leading-relaxed">
-                Signing in sets one cookie to keep you logged in. We don't use tracking, analytics, or
-                advertising cookies.
+                Signing in sets a small number of cookies to keep you logged in. We don't use
+                tracking, analytics, or advertising cookies.
               </p>
             </section>
 
