@@ -47,10 +47,20 @@ export default async function AccountPage() {
 
         <section className="px-4 pb-16 sm:px-6">
           <AccountForms
+            userId={user.id}
             firstName={user.firstName}
             lastName={user.lastName}
             email={user.email}
             hasPassword={user.hasPassword}
+            avatarUrl={user.avatarUrl}
+            username={user.username}
+            bio={user.bio}
+            websiteUrl={user.websiteUrl}
+            instagramUrl={user.instagramUrl}
+            tiktokUrl={user.tiktokUrl}
+            youtubeUrl={user.youtubeUrl}
+            twitterUrl={user.twitterUrl}
+            isPublic={user.isPublic}
           />
         </section>
       </main>

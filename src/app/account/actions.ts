@@ -10,6 +10,21 @@ export interface ActionState {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 8
+const USERNAME_RE = /^[a-z0-9](?:[a-z0-9-]{1,28}[a-z0-9])?$/
+
+/** Accepts a bare handle ("@name", "name") or a full URL and returns a full URL. */
+function socialUrl(base: string, raw: string): string {
+  const value = raw.trim()
+  if (!value) return ''
+  if (/^https?:\/\//i.test(value)) return value
+  return base + value.replace(/^@/, '').replace(/^\//, '')
+}
+
+function websiteUrl(raw: string): string {
+  const value = raw.trim()
+  if (!value) return ''
+  return /^https?:\/\//i.test(value) ? value : `https://${value}`
+}
 
 async function requireUser() {
   const supabase = await createClient()
@@ -69,6 +84,44 @@ export async function updateEmail(_prev: ActionState, formData: FormData): Promi
   return {
     ok: `Almost there. We've emailed a confirmation link to ${user.email} and to ${email} — the change takes effect once you open both.`,
   }
+}
+
+export async function updateProfile(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const usernameRaw = String(formData.get('username') ?? '')
+    .trim()
+    .toLowerCase()
+  const bio = String(formData.get('bio') ?? '').trim().slice(0, 280)
+  const isPublic = formData.get('isPublic') === 'on'
+
+  if (!USERNAME_RE.test(usernameRaw)) {
+    return { error: 'Username must be 3-30 characters: lowercase letters, numbers, and hyphens only.' }
+  }
+
+  const auth = await requireUser()
+  if ('error' in auth) return { error: auth.error }
+  const { supabase, user } = auth
+
+  const { error } = await supabase
+    .from('users')
+    .update({
+      username: usernameRaw,
+      bio: bio || null,
+      website_url: websiteUrl(String(formData.get('website') ?? '')) || null,
+      instagram_url: socialUrl('https://instagram.com/', String(formData.get('instagram') ?? '')) || null,
+      tiktok_url: socialUrl('https://tiktok.com/@', String(formData.get('tiktok') ?? '')) || null,
+      youtube_url: socialUrl('https://youtube.com/@', String(formData.get('youtube') ?? '')) || null,
+      twitter_url: socialUrl('https://x.com/', String(formData.get('twitter') ?? '')) || null,
+      is_public: isPublic,
+    })
+    .eq('id', user.id)
+
+  if (error) {
+    return { error: error.message.includes('duplicate') ? 'That username is already taken.' : error.message }
+  }
+
+  revalidatePath('/account')
+  revalidatePath(`/u/${usernameRaw}`)
+  return { ok: 'Profile updated.' }
 }
 
 export async function updatePassword(_prev: ActionState, formData: FormData): Promise<ActionState> {
