@@ -1,7 +1,13 @@
 export const BILLING_CYCLES = ['monthly', 'yearly'] as const
 export const SUBSCRIPTION_STATUSES = ['trialing', 'active', 'past_due', 'canceled', 'expired'] as const
-export const ROLES = ['member', 'admin'] as const
+export const ROLES = ['member', 'supporter', 'studio', 'admin'] as const
 export type Role = (typeof ROLES)[number]
+export const ROLE_LABELS: Record<Role, string> = {
+  member: 'Free',
+  supporter: 'Supporter',
+  studio: 'Studio',
+  admin: 'Admin',
+}
 
 export interface MemberOption {
   id: string

@@ -1,16 +1,23 @@
 'use client'
 
 import { useActionState, useEffect, useState, useTransition } from 'react'
-import type { ActionResult, MemberRow } from '../types'
+import { ROLES, ROLE_LABELS, type ActionResult, type MemberRow } from '../types'
 import { createMember, deleteMember, updateMember } from './actions'
 
 const inputClass =
   'w-full rounded-lg border-2 border-ink/15 bg-white px-3 py-1.5 text-sm text-ink focus:border-primary/50'
 
 function RoleBadge({ role }: { role: MemberRow['role'] }) {
-  if (role !== 'admin') return null
+  if (role === 'member') return null
+  const isAdmin = role === 'admin'
   return (
-    <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-bold text-primary-content">Admin</span>
+    <span
+      className={`rounded-full px-2 py-0.5 text-xs font-bold ${
+        isAdmin ? 'bg-primary/15 text-primary-content' : 'bg-accent/20 text-accent-content'
+      }`}
+    >
+      {ROLE_LABELS[role]}
+    </span>
   )
 }
 
@@ -28,8 +35,11 @@ function Fields({ row, disableRole }: { row?: MemberRow; disableRole?: boolean }
       <label className="text-xs font-bold text-ink/60">
         Role
         <select name="role" defaultValue={row?.role ?? 'member'} disabled={disableRole} className={inputClass}>
-          <option value="member">Member</option>
-          <option value="admin">Admin</option>
+          {ROLES.map((role) => (
+            <option key={role} value={role}>
+              {ROLE_LABELS[role]}
+            </option>
+          ))}
         </select>
         {disableRole && <span className="mt-1 block font-normal text-ink/40">You can&apos;t change your own role.</span>}
       </label>
