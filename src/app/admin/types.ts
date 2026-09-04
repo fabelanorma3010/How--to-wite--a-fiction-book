@@ -1,5 +1,7 @@
 export const BILLING_CYCLES = ['monthly', 'yearly'] as const
 export const SUBSCRIPTION_STATUSES = ['trialing', 'active', 'past_due', 'canceled', 'expired'] as const
+export const ROLES = ['member', 'admin'] as const
+export type Role = (typeof ROLES)[number]
 
 export interface MemberOption {
   id: string
@@ -15,6 +17,7 @@ export interface MemberRow {
   phone: string | null
   address: string | null
   avatar_url: string | null
+  role: Role
   created_at: string
   subscriptions: { plan: string; status: string }[]
 }

@@ -13,6 +13,21 @@ export function isAdminEmail(email: string | null | undefined): boolean {
 }
 
 /**
+ * Admin access is granted by either signal: the ADMIN_EMAILS allowlist (the
+ * original, env-based bootstrap) or a `role = 'admin'` row in public.users
+ * (settable from /admin/members). Either is sufficient.
+ */
+export async function isCurrentUserAdmin(
+  supabase: SupabaseClient,
+  user: User | null | undefined,
+): Promise<boolean> {
+  if (!user) return false
+  if (isAdminEmail(user.email)) return true
+  const { data } = await supabase.from('users').select('role').eq('id', user.id).maybeSingle()
+  return data?.role === 'admin'
+}
+
+/**
  * Confirms the caller is a signed-in admin, from a Server Component / Action /
  * route handler. The /admin middleware already enforces this, but Server Actions
  * re-check here as defence in depth. Throws when not an admin.
@@ -23,7 +38,7 @@ export async function requireAdmin(): Promise<User> {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user || !isAdminEmail(user.email)) throw new Error('Unauthorized.')
+  if (!user || !(await isCurrentUserAdmin(supabase, user))) throw new Error('Unauthorized.')
   return user
 }
 

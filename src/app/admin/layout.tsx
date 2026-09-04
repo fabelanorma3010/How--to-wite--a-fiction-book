@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
-import { isAdminEmail } from '@/lib/admin'
+import { isCurrentUserAdmin } from '@/lib/admin'
 import AdminNav from './AdminNav'
 import { signOut } from './actions'
 
@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic'
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
   const user = supabase ? (await supabase.auth.getUser()).data.user : null
-  const admin = isAdminEmail(user?.email)
+  const admin = supabase ? await isCurrentUserAdmin(supabase, user) : false
 
   return (
     <div className="min-h-screen bg-base text-ink">
