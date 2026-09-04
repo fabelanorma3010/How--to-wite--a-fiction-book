@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { bookTypes } from '@/data/bookTypes'
@@ -239,10 +240,9 @@ export default function BookManager({ userId, books }: { userId: string; books: 
               key={book.id}
               className="flex items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white/60 p-3"
             >
-              <div className="h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
+              <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
                 {book.coverUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={book.coverUrl} alt="" className="h-full w-full object-cover" />
+                  <Image src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-lg">
                     {typeEmoji(book.bookType)}

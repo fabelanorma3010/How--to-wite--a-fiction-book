@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
+import { bookTypes } from '../data/bookTypes'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://fiction-book-builder.com'
 
@@ -12,6 +13,13 @@ const staticRoutes: MetadataRoute.Sitemap = [
   { url: `${siteUrl}/login`, changeFrequency: 'yearly', priority: 0.2 },
   { url: `${siteUrl}/privacy`, changeFrequency: 'yearly', priority: 0.1 },
   { url: `${siteUrl}/terms`, changeFrequency: 'yearly', priority: 0.1 },
+  ...bookTypes.map(
+    (type): MetadataRoute.Sitemap[number] => ({
+      url: `${siteUrl}/write/${type.id}`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    }),
+  ),
 ]
 
 /**

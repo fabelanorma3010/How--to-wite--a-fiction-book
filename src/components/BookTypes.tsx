@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import Sticker from './Sticker'
 
@@ -82,6 +83,13 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
               </li>
             ))}
           </ul>
+
+          <Link
+            href={`/write/${active.id}`}
+            className="mt-6 inline-flex items-center gap-1.5 font-bold text-ink underline underline-offset-2"
+          >
+            Read the full {active.name} writing guide →
+          </Link>
         </div>
       </div>
     </section>
