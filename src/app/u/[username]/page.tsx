@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
@@ -46,10 +47,15 @@ function typeEmoji(bookType: Book['bookType']) {
 function BookCard({ book }: { book: Book }) {
   const card = (
     <div className="group flex flex-col overflow-hidden rounded-2xl border-2 border-ink/10 bg-white/70 transition-colors hover:border-primary/40">
-      <div className="flex aspect-[2/3] items-center justify-center overflow-hidden bg-base">
+      <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden bg-base">
         {book.coverUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={book.coverUrl} alt={book.title} className="h-full w-full object-cover" />
+          <Image
+            src={book.coverUrl}
+            alt={book.title}
+            fill
+            sizes="(min-width: 768px) 22vw, 40vw"
+            className="object-cover"
+          />
         ) : (
           <span className="text-4xl">{typeEmoji(book.bookType)}</span>
         )}
@@ -106,10 +112,9 @@ export default async function PublicProfilePage({
             </div>
           ) : (
             <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-              <div className="h-28 w-28 overflow-hidden rounded-full border-2 border-ink/10 bg-white shadow-md">
+              <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-ink/10 bg-white shadow-md">
                 {profile.avatarUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={profile.avatarUrl} alt={profile.name} className="h-full w-full object-cover" />
+                  <Image src={profile.avatarUrl} alt={profile.name} fill sizes="112px" className="object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-3xl font-black text-ink/20">
                     {profile.name[0]?.toUpperCase() ?? '?'}
