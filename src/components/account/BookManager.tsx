@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { bookTypes } from '@/data/bookTypes'
+import ShimmerNextImage from '@/components/ShimmerNextImage'
 import type { Book } from '@/lib/books'
 
 const MAX_COVER_BYTES = 5 * 1024 * 1024
@@ -242,7 +242,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
             >
               <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
                 {book.coverUrl ? (
-                  <Image src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
+                  <ShimmerNextImage src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-lg">
                     {typeEmoji(book.bookType)}

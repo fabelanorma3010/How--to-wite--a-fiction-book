@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
+import ShimmerNextImage from '../../../components/ShimmerNextImage'
 import { getPublicProfile } from '../../../lib/publicProfile'
 import { getCurrentUser } from '../../../lib/user'
 import { getUserBooks, type Book } from '../../../lib/books'
@@ -49,7 +49,7 @@ function BookCard({ book }: { book: Book }) {
     <div className="group flex flex-col overflow-hidden rounded-2xl border-2 border-ink/10 bg-white/70 transition-colors hover:border-primary/40">
       <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden bg-base">
         {book.coverUrl ? (
-          <Image
+          <ShimmerNextImage
             src={book.coverUrl}
             alt={book.title}
             fill
@@ -114,7 +114,7 @@ export default async function PublicProfilePage({
             <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
               <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-ink/10 bg-white shadow-md">
                 {profile.avatarUrl ? (
-                  <Image src={profile.avatarUrl} alt={profile.name} fill sizes="112px" className="object-cover" />
+                  <ShimmerNextImage src={profile.avatarUrl} alt={profile.name} fill sizes="112px" className="object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-3xl font-black text-ink/20">
                     {profile.name[0]?.toUpperCase() ?? '?'}
