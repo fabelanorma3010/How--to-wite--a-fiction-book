@@ -3,14 +3,14 @@
 -- Fixed UUIDs so re-seeding is idempotent. The three members below exist only
 -- to satisfy posts.user_id; the five Posts rows are the requested seed data.
 
-insert into public.users (id, name, email, bio, avatar_url) values
-  ('11111111-1111-1111-1111-111111111111', 'Ada Quill',    'ada@example.com',
+insert into public.users (id, name, first_name, last_name, email, bio, avatar_url) values
+  ('11111111-1111-1111-1111-111111111111', 'Ada Quill',    'Ada',   'Quill',  'ada@example.com',
    'Comic-book writer, ex-newspaper strip artist.',
    'https://i.pravatar.cc/240?img=47'),
-  ('22222222-2222-2222-2222-222222222222', 'Marco Panels',  'marco@example.com',
+  ('22222222-2222-2222-2222-222222222222', 'Marco Panels',  'Marco', 'Panels', 'marco@example.com',
    'Self-publishing manga one-shots and learning as I go.',
    'https://i.pravatar.cc/240?img=12'),
-  ('33333333-3333-3333-3333-333333333333', 'Rin Sketch',    'rin@example.com',
+  ('33333333-3333-3333-3333-333333333333', 'Rin Sketch',    'Rin',   'Sketch', 'rin@example.com',
    'Picture-book author-illustrator. Rhyme enthusiast.',
    'https://i.pravatar.cc/240?img=32')
 on conflict (id) do nothing;

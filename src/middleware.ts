@@ -7,18 +7,30 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '')
   .filter(Boolean)
 
 /**
- * Gate for /admin: a valid Supabase Auth session whose email is on ADMIN_EMAILS.
- * Everyone else is bounced to /admin/login. This is separate from the main
- * site's Turso auth and only runs on /admin routes.
+ * Runs on every request: refreshes the Supabase Auth session cookie (standard
+ * @supabase/ssr pattern) and gates two areas —
+ *   /admin/*   → email must be on ADMIN_EMAILS, else bounced to /admin/login
+ *   /account/* → must be signed in, else bounced to /login?next=…
+ * Everything else (home, tools, /library) stays public.
  */
 export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !anonKey) {
-    return new NextResponse('Admin is not configured (Supabase env vars missing).', { status: 503 })
-  }
+  const path = request.nextUrl.pathname
+  const isAdminRoute = path === '/admin' || path.startsWith('/admin/')
+  const isAccountRoute = path === '/account' || path.startsWith('/account/')
 
   let response = NextResponse.next({ request })
+
+  if (!url || !anonKey) {
+    if (isAdminRoute && path !== '/admin/login') {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    if (isAccountRoute) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    return response
+  }
 
   const supabase = createServerClient(url, anonKey, {
     cookies: {
@@ -36,19 +48,28 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const email = user?.email?.toLowerCase()
-  const isAdmin = Boolean(email && ADMIN_EMAILS.includes(email))
-  const onLoginPage = request.nextUrl.pathname === '/admin/login'
 
-  if (isAdmin && onLoginPage) {
-    return NextResponse.redirect(new URL('/admin', request.url))
+  if (isAdminRoute) {
+    const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()))
+    const onLoginPage = path === '/admin/login'
+    if (isAdmin && onLoginPage) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+    if (!isAdmin && !onLoginPage) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
   }
-  if (!isAdmin && !onLoginPage) {
-    return NextResponse.redirect(new URL('/admin/login', request.url))
+
+  if (isAccountRoute && !user) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('next', path + request.nextUrl.search)
+    return NextResponse.redirect(loginUrl)
   }
+
   return response
 }
 
 export const config = {
-  matcher: ['/admin', '/admin/:path*'],
+  // Everything except Next internals and static assets.
+  matcher: ['/((?!_next/static|_next/image|favicon.svg|favicon.ico|robots.txt|sitemap.xml).*)'],
 }

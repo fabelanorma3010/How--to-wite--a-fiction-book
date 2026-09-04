@@ -4,41 +4,89 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { MAX_CONTENT_LENGTH, type CommunityPost } from '../lib/community'
+import { createClient } from '../lib/supabase/client'
 import Sticker from './Sticker'
 
 interface AuthUser {
   id: string
   name: string
-  email: string
 }
 
 type Status = 'loading' | 'ready' | 'error'
+
+const VALID_TYPES = new Set<string>(bookTypes.map((t) => t.id))
+
+interface PostRow {
+  id: string
+  title: string | null
+  body: string
+  category: string | null
+  published_at: string
+  user_id: string
+}
+
+function toPost(row: PostRow, authorName: string): CommunityPost {
+  return {
+    id: row.id,
+    authorName,
+    bookType: (row.category && VALID_TYPES.has(row.category) ? row.category : 'comic') as BookTypeId,
+    title: row.title,
+    content: row.body,
+    createdAt: row.published_at,
+  }
+}
 
 export default function Community() {
   const [posts, setPosts] = useState<CommunityPost[]>([])
   const [status, setStatus] = useState<Status>('loading')
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [bookType, setBookType] = useState<BookTypeId>('comic')
+  const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
   useEffect(() => {
     loadPosts()
-    fetch('/api/auth/me')
-      .then((res) => res.json())
-      .then((data) => setUser(data?.user ?? null))
-      .catch(() => setUser(null))
+
+    const supabase = createClient()
+    if (!supabase) {
+      setUser(null)
+      return
+    }
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      const u = session?.user
+      setUser(u ? { id: u.id, name: (u.user_metadata?.name as string) || u.email || 'A writer' } : null)
+    })
+    return () => sub.subscription.unsubscribe()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function loadPosts() {
     setStatus('loading')
+    const supabase = createClient()
+    if (!supabase) {
+      setStatus('error')
+      return
+    }
     try {
-      const res = await fetch('/api/community')
-      if (!res.ok) throw new Error('Request failed')
-      const data = await res.json()
-      setPosts(Array.isArray(data.posts) ? data.posts : [])
+      const { data: rows, error } = await supabase
+        .from('posts')
+        .select('id, title, body, category, published_at, user_id')
+        .not('published_at', 'is', null)
+        .lte('published_at', new Date().toISOString())
+        .order('published_at', { ascending: false })
+        .limit(50)
+      if (error) throw error
+
+      const ids = [...new Set((rows ?? []).map((r) => r.user_id))]
+      const names = new Map<string, string>()
+      if (ids.length) {
+        const { data: profiles } = await supabase.from('public_profiles').select('id, name').in('id', ids)
+        profiles?.forEach((p) => names.set(p.id as string, (p.name as string) ?? 'A writer'))
+      }
+
+      setPosts((rows ?? []).map((r) => toPost(r as PostRow, names.get(r.user_id) ?? 'A writer')))
       setStatus('ready')
     } catch {
       setStatus('error')
@@ -47,20 +95,34 @@ export default function Community() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const trimmed = content.trim()
-    if (!trimmed || submitting || !user) return
+    const trimmedContent = content.trim()
+    if (!trimmedContent || submitting || !user) return
 
     setSubmitting(true)
     setSubmitError('')
+    const supabase = createClient()
+    if (!supabase) {
+      setSubmitError("The community wall isn't available right now.")
+      setSubmitting(false)
+      return
+    }
     try {
-      const res = await fetch('/api/community', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookType, content: trimmed }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Could not post.')
-      setPosts((prev) => [data.post, ...prev])
+      const { data, error } = await supabase
+        .from('posts')
+        .insert({
+          user_id: user.id,
+          title: title.trim() || null,
+          body: trimmedContent,
+          category: bookType,
+          tags: [bookType],
+          published_at: new Date().toISOString(),
+        })
+        .select('id, title, body, category, published_at, user_id')
+        .single()
+      if (error) throw error
+
+      setPosts((prev) => [toPost(data as PostRow, user.name), ...prev])
+      setTitle('')
       setContent('')
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Could not post.')
@@ -112,6 +174,21 @@ export default function Community() {
                     </button>
                   )
                 })}
+              </div>
+
+              <div className="mt-4">
+                <label htmlFor="community-title" className="mb-1.5 block text-sm font-bold text-ink/80">
+                  Title <span className="font-normal text-ink/40">(optional)</span>
+                </label>
+                <input
+                  id="community-title"
+                  type="text"
+                  maxLength={120}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Give it a headline, or leave blank"
+                  className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                />
               </div>
 
               <div className="mt-4">
@@ -191,11 +268,12 @@ export default function Community() {
                 <div key={post.id} className="animate-pop-in rounded-2xl border-2 border-ink/10 bg-white/70 p-4 sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wide text-ink/40">
                     <span>
-                      <span aria-hidden="true">{type?.emoji}</span> {post.name}
+                      <span aria-hidden="true">{type?.emoji}</span> {post.authorName}
                       {type ? ` · ${type.name}` : ''}
                     </span>
                     <span>{formatRelativeTime(post.createdAt)}</span>
                   </div>
+                  {post.title && <h3 className="mt-2 font-extrabold text-ink">{post.title}</h3>}
                   <p className="mt-2 whitespace-pre-wrap text-ink/90">{post.content}</p>
                 </div>
               )

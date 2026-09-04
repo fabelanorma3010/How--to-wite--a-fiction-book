@@ -11,7 +11,7 @@ const faqs = [
   {
     question: 'Do I need to make an account?',
     answer:
-      "No. There's no sign-up anywhere on the site. Everything works the moment you land on the page.",
+      'Not for the writing tools — the quiz, generators, notebook, and publishing guide all work the moment you land on the page. A free account (email and password, or "Continue with Google") lets you post to the community wall and keeps your name with you between visits.',
   },
   {
     question: "What happens to my notebook if I don't have an account?",

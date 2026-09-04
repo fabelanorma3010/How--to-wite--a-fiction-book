@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createClient } from '../lib/supabase/client'
 
 interface AuthUser {
   id: string
   name: string
+  firstName: string
   email: string
 }
 
@@ -33,29 +35,37 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
-    let cancelled = false
-    fetch('/api/auth/me')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setUser(data?.user ?? null)
-      })
-      .catch(() => {
-        if (!cancelled) setUser(null)
-      })
+    const supabase = createClient()
+    if (!supabase) {
+      setUser(null)
+      return
+    }
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      const u = session?.user
+      if (!u) {
+        setUser(null)
+        return
+      }
+      const meta = (u.user_metadata ?? {}) as Record<string, unknown>
+      const name = (meta.name as string) || (meta.full_name as string) || u.email || 'there'
+      const firstName =
+        (meta.first_name as string) || (meta.given_name as string) || name.split(' ')[0] || 'there'
+      setUser({ id: u.id, email: u.email ?? '', name, firstName })
+    })
+
     fetch('/api/admin/status')
       .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setIsAdmin(Boolean(data?.isAdmin))
-      })
+      .then((data) => setIsAdmin(Boolean(data?.isAdmin)))
       .catch(() => {})
-    return () => {
-      cancelled = true
-    }
+
+    return () => sub.subscription.unsubscribe()
   }, [])
 
   async function handleLogout() {
     setOpen(false)
-    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
+    const supabase = createClient()
+    await supabase?.auth.signOut()
     setUser(null)
     router.push('/')
     router.refresh()
@@ -106,9 +116,12 @@ export default function Header() {
 
           {user ? (
             <div className="ml-1 flex items-center gap-1.5">
-              <span className="whitespace-nowrap px-1.5 text-sm font-semibold text-ink/60">
-                Hi, {user.name.split(' ')[0]}
-              </span>
+              <Link
+                href="/account"
+                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/70 transition-colors hover:bg-primary/15 hover:text-ink"
+              >
+                Hi, {user.firstName}
+              </Link>
               <button
                 type="button"
                 onClick={handleLogout}
@@ -215,7 +228,13 @@ export default function Header() {
           <div className="mt-1 border-t-2 border-ink/10 pt-2">
             {user ? (
               <div className="flex items-center justify-between px-3 py-2">
-                <span className="font-semibold text-ink/60">Hi, {user.name.split(' ')[0]}</span>
+                <Link
+                  href="/account"
+                  onClick={() => setOpen(false)}
+                  className="font-semibold text-ink/70 underline underline-offset-2"
+                >
+                  Hi, {user.firstName} · Account
+                </Link>
                 <button
                   type="button"
                   onClick={handleLogout}

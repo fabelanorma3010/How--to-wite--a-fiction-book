@@ -37,9 +37,10 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-extrabold text-ink">2. Accounts</h2>
               <p className="mt-2 leading-relaxed">
-                You need to be at least 13 years old to create an account. Give us a real email and keep
-                your password to yourself — you're responsible for anything that happens under your
-                account. One account per person, please.
+                You need to be at least 13 years old to create an account. Sign up with a real email
+                and a password, or with your Google account. Keep your login to yourself — you're
+                responsible for anything that happens under your account. One account per person,
+                please.
               </p>
             </section>
 
