@@ -50,7 +50,13 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   if (isAdminRoute) {
-    const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()))
+    let isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()))
+    if (!isAdmin && user) {
+      // Second, additive path to admin: a role = 'admin' row in public.users,
+      // settable from /admin/members. See src/lib/admin.ts isCurrentUserAdmin.
+      const { data: profile } = await supabase.from('users').select('role').eq('id', user.id).maybeSingle()
+      isAdmin = profile?.role === 'admin'
+    }
     const onLoginPage = path === '/admin/login'
     if (isAdmin && onLoginPage) {
       return NextResponse.redirect(new URL('/admin', request.url))

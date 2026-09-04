@@ -7,7 +7,14 @@ import { createMember, deleteMember, updateMember } from './actions'
 const inputClass =
   'w-full rounded-lg border-2 border-ink/15 bg-white px-3 py-1.5 text-sm text-ink focus:border-primary/50'
 
-function Fields({ row }: { row?: MemberRow }) {
+function RoleBadge({ role }: { role: MemberRow['role'] }) {
+  if (role !== 'admin') return null
+  return (
+    <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-bold text-primary-content">Admin</span>
+  )
+}
+
+function Fields({ row, disableRole }: { row?: MemberRow; disableRole?: boolean }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <label className="text-xs font-bold text-ink/60">
@@ -17,6 +24,14 @@ function Fields({ row }: { row?: MemberRow }) {
       <label className="text-xs font-bold text-ink/60">
         Email
         <input name="email" type="email" defaultValue={row?.email ?? ''} required className={inputClass} />
+      </label>
+      <label className="text-xs font-bold text-ink/60">
+        Role
+        <select name="role" defaultValue={row?.role ?? 'member'} disabled={disableRole} className={inputClass}>
+          <option value="member">Member</option>
+          <option value="admin">Admin</option>
+        </select>
+        {disableRole && <span className="mt-1 block font-normal text-ink/40">You can&apos;t change your own role.</span>}
       </label>
       <label className="text-xs font-bold text-ink/60">
         Phone
@@ -69,7 +84,15 @@ function CreateForm({ onDone }: { onDone: () => void }) {
   )
 }
 
-function EditRow({ row, onDone }: { row: MemberRow; onDone: () => void }) {
+function EditRow({
+  row,
+  isSelf,
+  onDone,
+}: {
+  row: MemberRow
+  isSelf: boolean
+  onDone: () => void
+}) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(
     updateMember.bind(null, row.id),
     null,
@@ -83,7 +106,7 @@ function EditRow({ row, onDone }: { row: MemberRow; onDone: () => void }) {
       <td colSpan={4} className="p-3">
         <form action={action} className="rounded-2xl border-2 border-ink/15 bg-white p-4">
           <p className="mb-3 text-sm font-extrabold text-ink">Editing · {row.name}</p>
-          <Fields row={row} />
+          <Fields row={row} disableRole={isSelf} />
           {state && 'error' in state && (
             <p role="alert" className="mt-3 text-sm font-semibold text-red-600">
               {state.error}
@@ -107,9 +130,12 @@ function EditRow({ row, onDone }: { row: MemberRow; onDone: () => void }) {
   )
 }
 
-function DeleteButton({ id, label }: { id: string; label: string }) {
+function DeleteButton({ id, label, disabled }: { id: string; label: string; disabled?: boolean }) {
   const [pending, start] = useTransition()
   const [err, setErr] = useState<string | null>(null)
+  if (disabled) {
+    return <span className="text-ink/30" title="You can't delete your own account from here.">Delete</span>
+  }
   return (
     <span className="inline-flex items-center gap-2">
       <button
@@ -133,7 +159,13 @@ function DeleteButton({ id, label }: { id: string; label: string }) {
   )
 }
 
-export default function MembersTable({ members }: { members: MemberRow[] }) {
+export default function MembersTable({
+  members,
+  currentUserId,
+}: {
+  members: MemberRow[]
+  currentUserId: string | null
+}) {
   const [creating, setCreating] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
 
@@ -174,11 +206,19 @@ export default function MembersTable({ members }: { members: MemberRow[] }) {
             )}
             {members.map((member) =>
               editingId === member.id ? (
-                <EditRow key={member.id} row={member} onDone={() => setEditingId(null)} />
+                <EditRow
+                  key={member.id}
+                  row={member}
+                  isSelf={member.id === currentUserId}
+                  onDone={() => setEditingId(null)}
+                />
               ) : (
                 <tr key={member.id} className="align-top">
                   <td className="px-4 py-3">
-                    <div className="font-bold text-ink">{member.name}</div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-ink">{member.name}</span>
+                      <RoleBadge role={member.role} />
+                    </div>
                     <div className="text-xs text-ink/50">{member.email}</div>
                     {member.bio && <div className="mt-1 max-w-xs text-xs text-ink/50">{member.bio}</div>}
                   </td>
@@ -207,7 +247,7 @@ export default function MembersTable({ members }: { members: MemberRow[] }) {
                       >
                         Edit
                       </button>
-                      <DeleteButton id={member.id} label={member.name} />
+                      <DeleteButton id={member.id} label={member.name} disabled={member.id === currentUserId} />
                     </div>
                   </td>
                 </tr>

@@ -39,7 +39,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
   const { data: profile } = await supabase
     .from('users')
-    .select('first_name, last_name, name, email, avatar_url')
+    .select('first_name, last_name, name, email, avatar_url, role')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -58,7 +58,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       email.split('@')[0] ||
       'Member',
     avatarUrl: pick(profile?.avatar_url, meta.avatar_url, meta.picture) || null,
-    isAdmin: isAdminEmail(user.email),
+    isAdmin: isAdminEmail(user.email) || profile?.role === 'admin',
     hasPassword: (user.identities ?? []).some((identity) => identity.provider === 'email'),
   }
 }

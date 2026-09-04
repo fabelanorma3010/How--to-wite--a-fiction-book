@@ -2,7 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { adminClient } from '@/lib/admin'
-import type { ActionResult } from '../types'
+import { getCurrentUser } from '@/lib/user'
+import { ROLES, type ActionResult, type Role } from '../types'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -13,6 +14,7 @@ type MemberValues = {
   phone: string | null
   address: string | null
   avatar_url: string | null
+  role: Role
 }
 
 function parseForm(formData: FormData): { ok: true; values: MemberValues } | { ok: false; error: string } {
@@ -22,13 +24,23 @@ function parseForm(formData: FormData): { ok: true; values: MemberValues } | { o
   const phone = String(formData.get('phone') ?? '').trim()
   const address = String(formData.get('address') ?? '').trim()
   const avatar_url = String(formData.get('avatar_url') ?? '').trim()
+  const role = String(formData.get('role') ?? 'member')
 
   if (!name) return { ok: false, error: 'Name is required.' }
   if (!EMAIL_RE.test(email)) return { ok: false, error: 'A valid email is required.' }
+  if (!ROLES.includes(role as Role)) return { ok: false, error: 'Invalid role.' }
 
   return {
     ok: true,
-    values: { name, email, bio: bio || null, phone: phone || null, address: address || null, avatar_url: avatar_url || null },
+    values: {
+      name,
+      email,
+      bio: bio || null,
+      phone: phone || null,
+      address: address || null,
+      avatar_url: avatar_url || null,
+      role: role as Role,
+    },
   }
 }
 
@@ -54,7 +66,15 @@ export async function updateMember(
   const parsed = parseForm(formData)
   if (!parsed.ok) return { error: parsed.error }
 
-  const { error } = await supabase.from('users').update(parsed.values).eq('id', id)
+  // Never let editing your own row change your own role — the dropdown is
+  // disabled for that row in the UI (so it isn't even submitted), and this
+  // strips it server-side too, so an ordinary self-edit (e.g. your phone
+  // number) can't accidentally demote you and lock you out of /admin.
+  const currentUser = await getCurrentUser()
+  const { role, ...rest } = parsed.values
+  const values = currentUser?.id === id ? rest : { role, ...rest }
+
+  const { error } = await supabase.from('users').update(values).eq('id', id)
   if (error) {
     return { error: error.message.includes('duplicate') ? 'That email is already in use.' : error.message }
   }
@@ -64,6 +84,10 @@ export async function updateMember(
 
 export async function deleteMember(id: string): Promise<ActionResult> {
   const supabase = await adminClient()
+
+  const currentUser = await getCurrentUser()
+  if (currentUser?.id === id) return { error: "You can't delete your own account from here." }
+
   // Their subscriptions / posts / reviews / messages / files cascade via the FK.
   const { error } = await supabase.from('users').delete().eq('id', id)
   if (error) return { error: error.message }
