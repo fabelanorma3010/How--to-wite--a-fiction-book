@@ -3,10 +3,16 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import PricingFaq from '../../components/PricingFaq'
 
+const title = 'Pricing — Storyburst'
+const description =
+  "See what's included with Storyburst: the format quiz, genre tips, action-text and illustration generators, story notebook, and publishing guide are free, no account required."
+
 export const metadata: Metadata = {
-  title: 'Pricing — Storyburst',
-  description:
-    "See what's included with Storyburst: the format quiz, genre tips, action-text and illustration generators, story notebook, and publishing guide are free, no account required.",
+  title,
+  description,
+  alternates: { canonical: '/pricing' },
+  openGraph: { title, description, url: '/pricing', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 const tiers = [

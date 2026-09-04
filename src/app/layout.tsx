@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Baloo_2, Nunito } from 'next/font/google'
 import './globals.css'
 
@@ -46,6 +46,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: title, template: '%s' },
   description,
+  alternates: { canonical: '/' },
   icons: {
     icon: '/favicon.svg',
   },
@@ -62,6 +63,10 @@ export const metadata: Metadata = {
     title,
     description,
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#e879f9',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

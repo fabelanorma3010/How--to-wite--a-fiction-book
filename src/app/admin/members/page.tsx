@@ -1,8 +1,10 @@
+import type { Metadata } from 'next'
 import { adminClient } from '@/lib/admin'
 import { getCurrentUser } from '@/lib/user'
 import type { MemberRow } from '../types'
 import MembersTable from './MembersTable'
 
+export const metadata: Metadata = { title: 'Members' }
 export const dynamic = 'force-dynamic'
 
 export default async function MembersPage() {

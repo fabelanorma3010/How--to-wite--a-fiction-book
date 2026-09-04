@@ -3,9 +3,15 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import SignUpForm from '../../components/SignUpForm'
 
+const title = 'Sign Up — Storyburst'
+const description = 'Create a free Storyburst account.'
+
 export const metadata: Metadata = {
-  title: 'Sign Up — Storyburst',
-  description: 'Create a free Storyburst account.',
+  title,
+  description,
+  alternates: { canonical: '/signup' },
+  openGraph: { title, description, url: '/signup', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function SignUpPage() {

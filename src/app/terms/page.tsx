@@ -2,9 +2,15 @@ import type { Metadata } from 'next'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
+const title = 'Terms of Service — Storyburst'
+const description = 'The terms for using Storyburst.'
+
 export const metadata: Metadata = {
-  title: 'Terms of Service — Storyburst',
-  description: 'The terms for using Storyburst.',
+  title,
+  description,
+  alternates: { canonical: '/terms' },
+  openGraph: { title, description, url: '/terms', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function TermsPage() {

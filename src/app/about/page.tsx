@@ -2,10 +2,16 @@ import type { Metadata } from 'next'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
+const title = 'About — Storyburst'
+const description =
+  'The story behind Storyburst: a free toolkit built to help anyone start writing comics, manga, cartoons, and children\'s books, one page at a time.'
+
 export const metadata: Metadata = {
-  title: 'About — Storyburst',
-  description:
-    'The story behind Storyburst: a free toolkit built to help anyone start writing comics, manga, cartoons, and children\'s books, one page at a time.',
+  title,
+  description,
+  alternates: { canonical: '/about' },
+  openGraph: { title, description, url: '/about', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function AboutPage() {

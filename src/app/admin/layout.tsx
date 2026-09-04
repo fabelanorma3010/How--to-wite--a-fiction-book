@@ -5,7 +5,7 @@ import AdminNav from './AdminNav'
 import { signOut } from './actions'
 
 export const metadata: Metadata = {
-  title: 'Admin — Storyburst',
+  title: { default: 'Admin — Storyburst', template: '%s — Storyburst Admin' },
   robots: { index: false, follow: false },
 }
 

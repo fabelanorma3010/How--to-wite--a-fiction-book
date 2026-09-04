@@ -22,12 +22,13 @@ export async function generateMetadata({
   }
   const title = `${profile.name} (@${profile.username}) — Storyburst`
   const description = profile.bio || `${profile.name}'s Storyburst profile — books, and how to find them elsewhere.`
+  const images = profile.avatarUrl ? [profile.avatarUrl] : '/opengraph-image'
   return {
     title,
     description,
     alternates: { canonical: `/u/${profile.username}` },
-    openGraph: { title, description, url: `/u/${profile.username}`, type: 'profile' },
-    twitter: { card: 'summary', title, description },
+    openGraph: { title, description, url: `/u/${profile.username}`, type: 'profile', images },
+    twitter: { card: 'summary', title, description, images },
   }
 }
 

@@ -29,8 +29,8 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/write/${active.id}` },
-    openGraph: { title, description, url: `/write/${active.id}`, type: 'article' },
-    twitter: { card: 'summary', title, description },
+    openGraph: { title, description, url: `/write/${active.id}`, type: 'article', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
   }
 }
 
