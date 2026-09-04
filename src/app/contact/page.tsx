@@ -5,7 +5,8 @@ import ContactForm from '../../components/ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact — Storyburst',
-  description: 'Questions, feedback, or just want to share what you\'re writing? Get in touch.',
+  description:
+    'Get in touch with Storyburst — questions about the writing tools, feedback on the site, or just want to share what comic, manga, or story you\'re working on.',
 }
 
 export default function ContactPage() {

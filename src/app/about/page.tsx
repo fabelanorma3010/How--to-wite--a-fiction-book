@@ -4,7 +4,8 @@ import Footer from '../../components/Footer'
 
 export const metadata: Metadata = {
   title: 'About — Storyburst',
-  description: 'Why Storyburst exists, and an invitation to write your own story.',
+  description:
+    'The story behind Storyburst: a free toolkit built to help anyone start writing comics, manga, cartoons, and children\'s books, one page at a time.',
 }
 
 export default function AboutPage() {

@@ -23,8 +23,10 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Newsletter — Digital Library',
+  title: { default: 'Digital Library — Storyburst', template: '%s — Storyburst Digital Library' },
   description: 'A dark, cinematic comic, manga, and fiction reading experience.',
+  // Design preview: hardcoded sample data throughout, not real catalog content.
+  robots: { index: false, follow: false },
 }
 
 export default function LibraryLayout({ children }: { children: React.ReactNode }) {
