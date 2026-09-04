@@ -3,7 +3,9 @@ import { redirect } from 'next/navigation'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import AccountForms from '../../components/account/AccountForms'
+import BookManager from '../../components/account/BookManager'
 import { getCurrentUser } from '../../lib/user'
+import { getUserBooks } from '../../lib/books'
 
 export const metadata: Metadata = {
   title: 'Your Account — Storyburst',
@@ -15,6 +17,7 @@ export const dynamic = 'force-dynamic'
 export default async function AccountPage() {
   const user = await getCurrentUser()
   if (!user) redirect('/login?next=/account')
+  const books = await getUserBooks(user.id)
 
   return (
     <div className="min-h-screen">
@@ -46,22 +49,25 @@ export default async function AccountPage() {
         </section>
 
         <section className="px-4 pb-16 sm:px-6">
-          <AccountForms
-            userId={user.id}
-            firstName={user.firstName}
-            lastName={user.lastName}
-            email={user.email}
-            hasPassword={user.hasPassword}
-            avatarUrl={user.avatarUrl}
-            username={user.username}
-            bio={user.bio}
-            websiteUrl={user.websiteUrl}
-            instagramUrl={user.instagramUrl}
-            tiktokUrl={user.tiktokUrl}
-            youtubeUrl={user.youtubeUrl}
-            twitterUrl={user.twitterUrl}
-            isPublic={user.isPublic}
-          />
+          <div className="mx-auto max-w-md space-y-6">
+            <AccountForms
+              userId={user.id}
+              firstName={user.firstName}
+              lastName={user.lastName}
+              email={user.email}
+              hasPassword={user.hasPassword}
+              avatarUrl={user.avatarUrl}
+              username={user.username}
+              bio={user.bio}
+              websiteUrl={user.websiteUrl}
+              instagramUrl={user.instagramUrl}
+              tiktokUrl={user.tiktokUrl}
+              youtubeUrl={user.youtubeUrl}
+              twitterUrl={user.twitterUrl}
+              isPublic={user.isPublic}
+            />
+            <BookManager userId={user.id} books={books} />
+          </div>
         </section>
       </main>
       <Footer />
