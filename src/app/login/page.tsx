@@ -4,9 +4,15 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import LoginForm from '../../components/LoginForm'
 
+const title = 'Log In — Storyburst'
+const description = 'Log in to your Storyburst account.'
+
 export const metadata: Metadata = {
-  title: 'Log In — Storyburst',
-  description: 'Log in to your Storyburst account.',
+  title,
+  description,
+  alternates: { canonical: '/login' },
+  openGraph: { title, description, url: '/login', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function LoginPage() {

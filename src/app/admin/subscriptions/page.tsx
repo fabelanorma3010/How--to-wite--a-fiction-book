@@ -1,7 +1,9 @@
+import type { Metadata } from 'next'
 import { adminClient } from '@/lib/admin'
 import type { MemberOption, SubscriptionRow } from '../types'
 import SubscriptionsTable from './SubscriptionsTable'
 
+export const metadata: Metadata = { title: 'Subscriptions' }
 export const dynamic = 'force-dynamic'
 
 export default async function SubscriptionsPage() {

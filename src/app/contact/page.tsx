@@ -3,10 +3,16 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ContactForm from '../../components/ContactForm'
 
+const title = 'Contact — Storyburst'
+const description =
+  'Get in touch with Storyburst — questions about the writing tools, feedback on the site, or just want to share what comic, manga, or story you\'re working on.'
+
 export const metadata: Metadata = {
-  title: 'Contact — Storyburst',
-  description:
-    'Get in touch with Storyburst — questions about the writing tools, feedback on the site, or just want to share what comic, manga, or story you\'re working on.',
+  title,
+  description,
+  alternates: { canonical: '/contact' },
+  openGraph: { title, description, url: '/contact', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function ContactPage() {

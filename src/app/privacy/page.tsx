@@ -2,9 +2,15 @@ import type { Metadata } from 'next'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
+const title = 'Privacy Policy — Storyburst'
+const description = 'What Storyburst collects and how it is used.'
+
 export const metadata: Metadata = {
-  title: 'Privacy Policy — Storyburst',
-  description: 'What Storyburst collects and how it is used.',
+  title,
+  description,
+  alternates: { canonical: '/privacy' },
+  openGraph: { title, description, url: '/privacy', images: '/opengraph-image' },
+  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
 
 export default function PrivacyPage() {
