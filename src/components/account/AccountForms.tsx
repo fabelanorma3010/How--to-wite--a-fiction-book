@@ -77,7 +77,7 @@ export default function AccountForms({
   }, [profileState, router])
 
   return (
-    <div className="mx-auto max-w-md space-y-6">
+    <>
       <form action={profileAction} className={cardClass}>
         <h2 className="text-lg font-extrabold text-ink">Public profile</h2>
         <p className="mt-1 text-sm text-ink/60">
@@ -311,6 +311,6 @@ export default function AccountForms({
           {passwordPending ? 'Saving…' : hasPassword ? 'Change password' : 'Set password'}
         </button>
       </form>
-    </div>
+    </>
   )
 }

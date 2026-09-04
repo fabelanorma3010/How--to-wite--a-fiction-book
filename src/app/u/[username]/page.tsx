@@ -4,6 +4,8 @@ import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
 import { getPublicProfile } from '../../../lib/publicProfile'
 import { getCurrentUser } from '../../../lib/user'
+import { getUserBooks, type Book } from '../../../lib/books'
+import { bookTypes } from '../../../data/bookTypes'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,6 +32,36 @@ const socialLinks = (profile: NonNullable<Awaited<ReturnType<typeof getPublicPro
     { label: 'X / Twitter', url: profile.twitterUrl },
   ].filter((link) => link.url)
 
+function typeEmoji(bookType: Book['bookType']) {
+  return bookTypes.find((t) => t.id === bookType)?.emoji ?? '📘'
+}
+
+function BookCard({ book }: { book: Book }) {
+  const card = (
+    <div className="group flex flex-col overflow-hidden rounded-2xl border-2 border-ink/10 bg-white/70 transition-colors hover:border-primary/40">
+      <div className="flex aspect-[2/3] items-center justify-center overflow-hidden bg-base">
+        {book.coverUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={book.coverUrl} alt={book.title} className="h-full w-full object-cover" />
+        ) : (
+          <span className="text-4xl">{typeEmoji(book.bookType)}</span>
+        )}
+      </div>
+      <div className="p-3">
+        <p className="line-clamp-1 text-sm font-bold text-ink">{book.title}</p>
+        {book.description && <p className="mt-0.5 line-clamp-2 text-xs text-ink/50">{book.description}</p>}
+      </div>
+    </div>
+  )
+  return book.fileUrl ? (
+    <a href={book.fileUrl} target="_blank" rel="noopener noreferrer">
+      {card}
+    </a>
+  ) : (
+    card
+  )
+}
+
 export default async function PublicProfilePage({
   params,
 }: {
@@ -37,6 +69,8 @@ export default async function PublicProfilePage({
 }) {
   const { username } = await params
   const [profile, currentUser] = await Promise.all([getPublicProfile(username), getCurrentUser()])
+  const books = profile ? await getUserBooks(profile.id) : []
+  const favorite = books.find((b) => b.isFavorite)
 
   return (
     <div className="min-h-screen">
@@ -115,6 +149,36 @@ export default async function PublicProfilePage({
             </div>
           )}
         </section>
+
+        {profile && books.length > 0 && (
+          <section className="px-4 pb-16 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              {favorite && (
+                <div className="mb-8">
+                  <p className="mb-2 text-center text-xs font-bold uppercase tracking-wide text-accent-content">
+                    ★ Favorite
+                  </p>
+                  <div className="mx-auto max-w-xs">
+                    <BookCard book={favorite} />
+                  </div>
+                </div>
+              )}
+
+              {books.length > (favorite ? 1 : 0) && (
+                <>
+                  <h2 className="mb-4 text-center text-lg font-extrabold text-ink">Books</h2>
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    {books
+                      .filter((book) => book.id !== favorite?.id)
+                      .map((book) => (
+                        <BookCard key={book.id} book={book} />
+                      ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
