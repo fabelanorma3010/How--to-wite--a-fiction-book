@@ -1,17 +1,57 @@
+'use client'
+
 import { useEffect, useRef, useState } from 'react'
 import ReadAloud from './ReadAloud'
 import Sticker from './Sticker'
+import { createClient } from '../lib/supabase/client'
 
 const STORAGE_KEY = 'storyburst-notebook'
 
 export default function StoryNotebook() {
   const [text, setText] = useState('')
   const [saved, setSaved] = useState(true)
+  const [userId, setUserId] = useState<string | null>(null)
   const saveTimeout = useRef<number | undefined>(undefined)
 
+  // Always paint from this browser's copy first — instant, no network wait.
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     if (stored) setText(stored)
+  }, [])
+
+  // Then, if signed in, reconcile with the account's copy so the notebook
+  // follows a member between devices instead of living in one browser only.
+  useEffect(() => {
+    const supabase = createClient()
+    if (!supabase) return
+
+    supabase.auth.getUser().then(({ data }) => {
+      const id = data.user?.id
+      if (!id) return
+      setUserId(id)
+
+      supabase
+        .from('notebooks')
+        .select('content')
+        .eq('user_id', id)
+        .maybeSingle()
+        .then(({ data: row }) => {
+          const remote = row?.content ?? ''
+          const local = window.localStorage.getItem(STORAGE_KEY) ?? ''
+          if (remote) {
+            // The account already has a copy — it wins, and becomes this
+            // browser's copy too.
+            setText(remote)
+            window.localStorage.setItem(STORAGE_KEY, remote)
+          } else if (local) {
+            // First time this account has synced a notebook — carry this
+            // browser's draft up instead of discarding it.
+            void supabase
+              .from('notebooks')
+              .upsert({ user_id: id, content: local, updated_at: new Date().toISOString() })
+          }
+        })
+    })
   }, [])
 
   function handleChange(value: string) {
@@ -20,6 +60,12 @@ export default function StoryNotebook() {
     window.clearTimeout(saveTimeout.current)
     saveTimeout.current = window.setTimeout(() => {
       window.localStorage.setItem(STORAGE_KEY, value)
+      if (userId) {
+        const supabase = createClient()
+        void supabase
+          ?.from('notebooks')
+          .upsert({ user_id: userId, content: value, updated_at: new Date().toISOString() })
+      }
       setSaved(true)
     }, 400)
   }
@@ -30,6 +76,10 @@ export default function StoryNotebook() {
     }
     setText('')
     window.localStorage.removeItem(STORAGE_KEY)
+    if (userId) {
+      const supabase = createClient()
+      void supabase?.from('notebooks').upsert({ user_id: userId, content: '', updated_at: new Date().toISOString() })
+    }
     setSaved(true)
   }
 
@@ -44,7 +94,9 @@ export default function StoryNotebook() {
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-ink/70">
             Jot down character notes, plot twists, or a line of dialogue before it slips away.
-            It's saved right in this browser, so it'll be here next time you visit.
+            {userId
+              ? " It's synced to your account, so it'll follow you to any device you log in on."
+              : " It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices."}
           </p>
         </div>
 
@@ -64,7 +116,8 @@ export default function StoryNotebook() {
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
             <span className="font-semibold text-ink/60">
-              {wordCount} {wordCount === 1 ? 'word' : 'words'} · {saved ? 'Saved ✓' : 'Saving…'}
+              {wordCount} {wordCount === 1 ? 'word' : 'words'} ·{' '}
+              {saved ? (userId ? 'Synced to your account ✓' : 'Saved ✓') : 'Saving…'}
             </span>
             <div className="flex flex-wrap items-center gap-3">
               <ReadAloud

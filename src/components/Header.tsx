@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '../lib/supabase/client'
 
 interface AuthUser {
@@ -33,6 +33,8 @@ export default function Header() {
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
+  const onHome = pathname === '/'
 
   useEffect(() => {
     const supabase = createClient()
@@ -80,15 +82,19 @@ export default function Header() {
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-x-0.5 lg:flex 2xl:gap-x-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
-            >
-              {link.label}
-            </a>
-          ))}
+          {onHome && (
+            <div className="hidden items-center gap-x-0.5 xl:flex 2xl:gap-x-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
           {pageLinks.map((link) => (
             <Link
               key={link.href}
@@ -100,9 +106,15 @@ export default function Header() {
           ))}
           <Link
             href="/library"
-            className="ml-0.5 whitespace-nowrap rounded-full bg-ink px-2 py-1.5 text-sm font-semibold text-base transition-colors hover:bg-ink/80 2xl:ml-1 2xl:px-4 2xl:text-base"
+            className="relative ml-0.5 whitespace-nowrap rounded-full bg-ink px-2 py-1.5 text-sm font-semibold text-base transition-colors hover:bg-ink/80 2xl:ml-1 2xl:px-4 2xl:text-base"
           >
             Digital Library ↗
+            <span
+              aria-hidden="true"
+              className="absolute -top-1.5 right-0 rounded-full bg-accent px-1 py-0.5 text-[8px] font-black uppercase leading-none tracking-wide text-accent-content shadow-sm"
+            >
+              Preview
+            </span>
           </Link>
 
           {isAdmin && (
@@ -130,7 +142,7 @@ export default function Header() {
                 Log out
               </button>
             </div>
-          ) : user === null ? (
+          ) : (
             <div className="ml-1 flex items-center gap-1">
               <Link
                 href="/login"
@@ -145,7 +157,7 @@ export default function Header() {
                 Sign Up
               </Link>
             </div>
-          ) : null}
+          )}
         </nav>
 
         <button
@@ -187,16 +199,17 @@ export default function Header() {
           inert={!open}
           className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2"
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
-            >
-              {link.label}
-            </a>
-          ))}
+          {onHome &&
+            navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+              >
+                {link.label}
+              </a>
+            ))}
           {pageLinks.map((link) => (
             <Link
               key={link.href}
@@ -210,9 +223,12 @@ export default function Header() {
           <Link
             href="/library"
             onClick={() => setOpen(false)}
-            className="rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
+            className="flex items-center justify-between rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
           >
             Digital Library ↗
+            <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-accent-content">
+              Preview
+            </span>
           </Link>
 
           {isAdmin && (
@@ -243,7 +259,7 @@ export default function Header() {
                   Log out
                 </button>
               </div>
-            ) : user === null ? (
+            ) : (
               <div className="flex gap-2 px-3 py-1">
                 <Link
                   href="/login"
@@ -260,7 +276,7 @@ export default function Header() {
                   Sign Up
                 </Link>
               </div>
-            ) : null}
+            )}
           </div>
         </nav>
       </div>
