@@ -79,12 +79,12 @@ export default function Header() {
           Storyburst
         </a>
 
-        <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:gap-1 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-x-0.5 lg:flex 2xl:gap-x-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink lg:px-3.5"
+              className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
             >
               {link.label}
             </a>
@@ -93,14 +93,14 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink lg:px-3.5"
+              className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
             >
               {link.label}
             </Link>
           ))}
           <Link
             href="/library"
-            className="ml-1 whitespace-nowrap rounded-full bg-ink px-3 py-2 font-semibold text-base transition-colors hover:bg-ink/80 lg:px-4"
+            className="ml-0.5 whitespace-nowrap rounded-full bg-ink px-2 py-1.5 text-sm font-semibold text-base transition-colors hover:bg-ink/80 2xl:ml-1 2xl:px-4 2xl:text-base"
           >
             Digital Library ↗
           </Link>
@@ -108,39 +108,39 @@ export default function Header() {
           {isAdmin && (
             <Link
               href="/admin"
-              className="ml-1 whitespace-nowrap rounded-full border-2 border-primary/40 px-2.5 py-1.5 text-sm font-bold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+              className="ml-1 whitespace-nowrap rounded-full border-2 border-primary/40 px-2 py-1 text-sm font-bold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
             >
               ⚙ Admin
             </Link>
           )}
 
           {user ? (
-            <div className="ml-1 flex items-center gap-1.5">
+            <div className="ml-1 flex items-center gap-1">
               <Link
                 href="/account"
-                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/70 transition-colors hover:bg-primary/15 hover:text-ink"
+                className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/70 transition-colors hover:bg-primary/15 hover:text-ink"
               >
                 Hi, {user.firstName}
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+                className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
               >
                 Log out
               </button>
             </div>
           ) : user === null ? (
-            <div className="ml-1 flex items-center gap-1.5">
+            <div className="ml-1 flex items-center gap-1">
               <Link
                 href="/login"
-                className="whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+                className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
               >
                 Log In
               </Link>
               <Link
                 href="/signup"
-                className="whitespace-nowrap rounded-full border-2 border-ink px-2.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
+                className="whitespace-nowrap rounded-full border-2 border-ink px-2 py-1 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
               >
                 Sign Up
               </Link>
@@ -150,7 +150,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="flex items-center justify-center rounded-full border-2 border-ink/15 p-2 text-ink transition-colors hover:bg-primary/15 md:hidden"
+          className="flex items-center justify-center rounded-full border-2 border-ink/15 p-2 text-ink transition-colors hover:bg-primary/15 lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -177,7 +177,7 @@ export default function Header() {
       </div>
 
       <div
-        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none md:hidden ${
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none lg:hidden ${
           open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         }`}
       >
