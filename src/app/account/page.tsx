@@ -10,6 +10,7 @@ import { getUserBooks } from '../../lib/books'
 export const metadata: Metadata = {
   title: 'Your Account — Storyburst',
   description: 'Manage your Storyburst name, email address, and password.',
+  robots: { index: false, follow: false },
 }
 
 export const dynamic = 'force-dynamic'

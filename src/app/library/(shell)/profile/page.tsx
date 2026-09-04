@@ -1,7 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import ShimmerImage from '../../../../components/library/ShimmerImage'
 import LogoutButton from '../../../../components/library/LogoutButton'
 import { getCurrentUser } from '../../../../lib/user'
+
+export const metadata: Metadata = { title: 'Profile' }
 
 // Reads the session, so it can't be statically rendered like its sibling
 // (shell) routes.

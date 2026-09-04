@@ -16,10 +16,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { username } = await params
   const profile = await getPublicProfile(username)
-  if (!profile) return { title: 'Profile — Storyburst' }
+  if (!profile) {
+    return { title: 'Profile — Storyburst', robots: { index: false, follow: false } }
+  }
+  const title = `${profile.name} (@${profile.username}) — Storyburst`
+  const description = profile.bio || `${profile.name}'s Storyburst profile — books, and how to find them elsewhere.`
   return {
-    title: `${profile.name} (@${profile.username}) — Storyburst`,
-    description: profile.bio || `${profile.name}'s Storyburst profile.`,
+    title,
+    description,
+    alternates: { canonical: `/u/${profile.username}` },
+    openGraph: { title, description, url: `/u/${profile.username}`, type: 'profile' },
+    twitter: { card: 'summary', title, description },
   }
 }
 

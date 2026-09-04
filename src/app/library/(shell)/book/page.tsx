@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import ReadAloud from '../../../../components/ReadAloud'
 import ShimmerImage from '../../../../components/library/ShimmerImage'
+
+export const metadata: Metadata = { title: 'Book' }
 
 const chapters = [
   { num: 'CH 142', title: "The Architect's Fall", date: 'Today', read: false },

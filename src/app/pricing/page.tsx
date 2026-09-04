@@ -5,7 +5,8 @@ import PricingFaq from '../../components/PricingFaq'
 
 export const metadata: Metadata = {
   title: 'Pricing — Storyburst',
-  description: 'Storyburst is free to use. Placeholder tiers below for layout only.',
+  description:
+    "See what's included with Storyburst: the format quiz, genre tips, action-text and illustration generators, story notebook, and publishing guide are free, no account required.",
 }
 
 const tiers = [

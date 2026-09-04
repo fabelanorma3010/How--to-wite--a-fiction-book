@@ -1,5 +1,8 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import ShimmerImage from '../../../../components/library/ShimmerImage'
+
+export const metadata: Metadata = { title: 'Discovery Feed' }
 
 const newReleases = [
   {
