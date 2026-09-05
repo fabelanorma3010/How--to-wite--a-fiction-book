@@ -20,7 +20,7 @@ export default function PrivacyPage() {
       <main className="px-4 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Privacy Policy</h1>
-          <p className="mt-3 text-sm font-semibold text-ink/50">Last updated August 24, 2026</p>
+          <p className="mt-3 text-sm font-semibold text-ink/50">Last updated September 5, 2026</p>
 
           <p className="mt-8 rounded-2xl border-2 border-ink/10 bg-white/60 p-5 text-sm text-ink/70">
             Storyburst is a small personal project. This page describes, honestly and in plain language,
@@ -36,23 +36,51 @@ export default function PrivacyPage() {
                 secure hash of it — we never see or store your actual password. If you choose
                 &ldquo;Continue with Google,&rdquo; Google verifies your identity and shares your
                 name, email address, and profile picture with us; your Google password is never
-                shared. That account information is the only personal data our servers keep.
+                shared. If you write in the Story Notebook while signed in, that text is saved to
+                your account too, so it follows you between devices — see below if you'd rather it
+                stay local only.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-extrabold text-ink">Public profiles &amp; uploaded books</h2>
+              <p className="mt-2 leading-relaxed">
+                You can optionally turn on a public profile page (at{' '}
+                <span className="font-semibold">www.fiction-book-builder.com/u/your-username</span>) and
+                add a bio, avatar, website, and social media links to it — all of that is visible to
+                anyone who visits the link, not just to us. You can also upload your own books (title,
+                description, cover image, and the book file itself) to show on that page. Anything you
+                mark private, or any book on a private profile, stays visible only to you. Turning your
+                profile off, or deleting a book, removes it from public view immediately.
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-extrabold text-ink">Your notebook</h2>
               <p className="mt-2 leading-relaxed">
-                Text you write in the Story Notebook is saved in your own browser's local storage — it
-                stays on your device and isn't sent to or stored on our servers.
+                Text you write in the Story Notebook is always saved in your own browser's local
+                storage first. If you're signed in, it's also saved to your account so you can pick up
+                where you left off on another device. If you're signed out, it stays on your device
+                only and isn't sent to our servers.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-extrabold text-ink">Cookies</h2>
+              <h2 className="text-xl font-extrabold text-ink">Cookies &amp; analytics</h2>
               <p className="mt-2 leading-relaxed">
                 Signing in sets a small number of cookies to keep you logged in. We don't use
-                tracking, analytics, or advertising cookies.
+                advertising cookies, and we don't sell or share data with advertisers. We do use{' '}
+                <a
+                  href="https://umami.is"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-ink underline underline-offset-2"
+                >
+                  Umami
+                </a>
+                , a privacy-focused analytics tool, to see how many people visit and which pages are
+                popular. Umami doesn't use cookies, doesn't track you across other websites, and
+                doesn't collect anything that identifies you personally — just aggregate counts.
               </p>
             </section>
 
@@ -69,8 +97,10 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-extrabold text-ink">How your data is used</h2>
               <p className="mt-2 leading-relaxed">
-                Only to run your account — signing you in and remembering who you are. We don't sell your
-                data, and we don't use it for advertising.
+                To run your account (signing you in and remembering who you are), to show your public
+                profile and books if you choose to make them public, and to understand in aggregate how
+                the site is used so we know what to improve. We don't sell your data, and we don't use
+                it for advertising.
               </p>
             </section>
 
