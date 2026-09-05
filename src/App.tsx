@@ -9,6 +9,7 @@ import ActionTextGenerator from './components/ActionTextGenerator'
 import IllustrationGenerator from './components/IllustrationGenerator'
 import StoryNotebook from './components/StoryNotebook'
 import PublishSteps from './components/PublishSteps'
+import LaunchChecklist from './components/LaunchChecklist'
 import Community from './components/Community'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
@@ -41,6 +42,9 @@ function App() {
         </ScrollReveal>
         <ScrollReveal>
           <PublishSteps />
+        </ScrollReveal>
+        <ScrollReveal>
+          <LaunchChecklist />
         </ScrollReveal>
         <ScrollReveal>
           <Community />
