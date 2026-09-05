@@ -99,6 +99,18 @@ export default function PublishSteps() {
                   <p className={`mt-1.5 text-sm sm:text-base ${isDone ? 'text-ink/40' : 'text-ink/70'}`}>
                     {step.description}
                   </p>
+                  {step.details && !isDone && (
+                    <ul className="mt-3 space-y-1.5 text-sm text-ink/60">
+                      {step.details.map((detail) => (
+                        <li key={detail} className="flex gap-2">
+                          <span aria-hidden="true" className="mt-0.5 shrink-0 text-primary-content">
+                            –
+                          </span>
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </label>
               </li>
             )
