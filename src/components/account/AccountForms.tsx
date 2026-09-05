@@ -123,7 +123,7 @@ export default function AccountForms({
             rows={3}
             maxLength={280}
             defaultValue={bio}
-            placeholder="Comic-book writer, ex-newspaper strip artist."
+            placeholder="God loves you"
             className={inputClass}
           />
         </div>
