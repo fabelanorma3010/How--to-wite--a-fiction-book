@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Baloo_2, Nunito } from 'next/font/google'
-import Script from 'next/script'
+import CookieConsent from '../components/CookieConsent'
 import './globals.css'
 
 const baloo2 = Baloo_2({
@@ -70,9 +70,6 @@ export const viewport: Viewport = {
   themeColor: '#e879f9',
 }
 
-const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
-const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SRC ?? 'https://cloud.umami.is/script.js'
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${baloo2.variable} ${nunito.variable}`}>
@@ -82,10 +79,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {umamiWebsiteId && (
-          <Script src={umamiScriptSrc} data-website-id={umamiWebsiteId} strategy="afterInteractive" />
-        )}
         {children}
+        <CookieConsent />
       </body>
     </html>
   )

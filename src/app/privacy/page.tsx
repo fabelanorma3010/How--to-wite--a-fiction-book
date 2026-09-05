@@ -79,8 +79,19 @@ export default function PrivacyPage() {
                   Umami
                 </a>
                 , a privacy-focused analytics tool, to see how many people visit and which pages are
-                popular. Umami doesn't use cookies, doesn't track you across other websites, and
-                doesn't collect anything that identifies you personally — just aggregate counts.
+                popular, and{' '}
+                <a
+                  href="https://vercel.com/docs/speed-insights"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-ink underline underline-offset-2"
+                >
+                  Vercel Speed Insights
+                </a>{' '}
+                to measure page-loading performance. Neither uses cookies, tracks you across other
+                websites, or collects anything that identifies you personally — just aggregate
+                counts and timings. Both only run if you accept the cookie notice on your first
+                visit.
               </p>
             </section>
 
