@@ -119,5 +119,13 @@ falls back to **Anthropic** (chat, `ANTHROPIC_API_KEY`) and **OpenAI** (images,
 2. Set `GEMINI_API_KEY` to that value — in `.env.local` for local dev, and in your
    deploy platform's environment variables for production. Redeploy after adding it.
 
-The chat uses `gemini-2.5-flash`; images use `gemini-2.5-flash-image`. If Google
-renames a model, update the two constants at the top of `src/lib/gemini.ts`.
+The chat uses `gemini-3.6-flash`; images use `gemini-2.5-flash-image`. If Google
+renames a model, its error message names the replacement — update the two
+constants at the top of `src/lib/gemini.ts`.
+
+**Heads up on image generation:** Gemini's *free* tier covers the chat but **not**
+image generation (the free quota for image models is 0). To use Gemini for the
+"Turn into Image" button you have to enable billing on your Google AI Studio /
+Google Cloud account. If you'd rather not, set `OPENAI_API_KEY` instead — with
+`GEMINI_API_KEY` also set, chat uses Gemini and images fall through to OpenAI
+automatically.

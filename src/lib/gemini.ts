@@ -4,7 +4,9 @@
 // set, in preference to OPENAI_API_KEY / ANTHROPIC_API_KEY.
 
 const BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
-const CHAT_MODEL = 'gemini-2.5-flash'
+// If Google retires a model ("no longer available to new users"), its error
+// message names the replacement — swap it in here.
+const CHAT_MODEL = 'gemini-3.6-flash'
 const IMAGE_MODEL = 'gemini-2.5-flash-image'
 
 export function hasGeminiKey(): boolean {
