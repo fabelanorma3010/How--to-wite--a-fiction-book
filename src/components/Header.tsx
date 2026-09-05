@@ -23,6 +23,7 @@ const navLinks = [
 ]
 
 const pageLinks = [
+  { href: '/tools', label: 'Tools' },
   { href: '/about', label: 'About' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/contact', label: 'Contact' },
