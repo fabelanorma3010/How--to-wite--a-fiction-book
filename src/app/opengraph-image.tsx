@@ -107,7 +107,7 @@ export default function OpengraphImage() {
               fontSize: 19,
               fontWeight: 700,
               transform: 'rotate(-2deg)',
-              width: 'fit-content',
+              alignSelf: 'flex-start',
             }}
           >
             ✨ Your creative launchpad for illustrated storytelling

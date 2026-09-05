@@ -96,6 +96,26 @@ export default function PrivacyPage() {
             </section>
 
             <section>
+              <h2 className="text-xl font-extrabold text-ink">Error monitoring</h2>
+              <p className="mt-2 leading-relaxed">
+                If something breaks while you're using Storyburst, we use{' '}
+                <a
+                  href="https://sentry.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-ink underline underline-offset-2"
+                >
+                  Sentry
+                </a>{' '}
+                to find out and fix it — it captures the error itself, the page you
+                were on, and basic technical details like your browser and device
+                type. This is separate from the analytics above (it exists to catch
+                bugs, not to analyze behavior), doesn't set cookies, and runs
+                regardless of the cookie notice choice.
+              </p>
+            </section>
+
+            <section>
               <h2 className="text-xl font-extrabold text-ink">Third-party AI services</h2>
               <p className="mt-2 leading-relaxed">
                 A few features send your input to a third-party AI provider to generate a response: the
@@ -109,9 +129,9 @@ export default function PrivacyPage() {
               <h2 className="text-xl font-extrabold text-ink">How your data is used</h2>
               <p className="mt-2 leading-relaxed">
                 To run your account (signing you in and remembering who you are), to show your public
-                profile and books if you choose to make them public, and to understand in aggregate how
-                the site is used so we know what to improve. We don't sell your data, and we don't use
-                it for advertising.
+                profile and books if you choose to make them public, to understand in aggregate how the
+                site is used so we know what to improve, and to catch and fix errors when something
+                breaks. We don't sell your data, and we don't use it for advertising.
               </p>
             </section>
 
