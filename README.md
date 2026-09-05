@@ -77,11 +77,14 @@ dashboard SQL Editor in filename order, then `supabase/seed.sql`.
    relying on signup confirmation, email-change, or password-reset emails.
 5. Set `NEXT_PUBLIC_SITE_URL` in the deploy environment.
 
-## Analytics — Umami
+## Analytics — Umami + Speed Insights
 
-Optional, privacy-focused visitor analytics via [Umami](https://umami.is). Wired up
-in the root layout ([`src/app/layout.tsx`](src/app/layout.tsx)) behind an env var —
-with it unset, nothing is rendered and no tracking script loads.
+Optional, privacy-focused visitor analytics via [Umami](https://umami.is) and
+page-performance monitoring via
+[Vercel Speed Insights](https://vercel.com/docs/speed-insights). Both are wired up
+in [`src/components/CookieConsent.tsx`](src/components/CookieConsent.tsx), gated
+behind an env var *and* the first-visit cookie banner — a visitor who declines gets
+neither, regardless of whether the env var is set.
 
 1. Sign up at [cloud.umami.is](https://cloud.umami.is) (free tier is enough for most
    sites) and add your site's domain as a new website.
@@ -93,4 +96,35 @@ with it unset, nothing is rendered and no tracking script loads.
 4. Self-hosting Umami instead of using the cloud version? Also set
    `NEXT_PUBLIC_UMAMI_SRC` to your own instance's `script.js` URL.
 
-Visits show up in the Umami dashboard within a few seconds of a page load.
+Visits show up in the Umami dashboard within a few seconds of a page load. Speed
+Insights needs no extra setup or account — it activates automatically for any
+project deployed on Vercel once a visitor accepts the cookie banner.
+
+## Error monitoring — Sentry
+
+Optional crash/error reporting via [Sentry](https://sentry.io), wired up in
+[`src/instrumentation.ts`](src/instrumentation.ts) (server + edge),
+[`src/instrumentation-client.ts`](src/instrumentation-client.ts) (browser), and
+[`src/app/global-error.tsx`](src/app/global-error.tsx) (catches errors that escape
+the root layout itself). Unlike Umami/Speed Insights, this is **not** gated behind
+the cookie banner — it exists to catch and fix bugs, not to analyze visitor
+behavior, and doesn't set cookies or track anyone across sessions (see
+[`/privacy`](src/app/privacy/page.tsx)).
+
+1. Sign up at [sentry.io](https://sentry.io) (free tier is enough for most sites)
+   and create a new **Next.js** project.
+2. Copy its **DSN** from **Settings → Projects → (your project) → Client Keys
+   (DSN)**.
+3. Set `NEXT_PUBLIC_SENTRY_DSN` to that value — in `.env.local` for local testing,
+   and in your deploy platform's environment variables for production. Redeploy
+   after adding it there. Leave it blank to disable Sentry entirely; nothing runs
+   without it.
+4. Configure how you want to be notified (email, Slack, etc.) in Sentry's own
+   **Settings → Alerts** — that part isn't code, it's a dashboard setting on your
+   Sentry account.
+
+Optional, for readable stack traces instead of minified code in the Sentry
+dashboard: set `SENTRY_ORG`, `SENTRY_PROJECT` (both from the same project settings
+page), and `SENTRY_AUTH_TOKEN` (**Settings → Auth Tokens**, scoped to
+`project:releases`). Without these three, error capturing still works — source maps
+just aren't uploaded.

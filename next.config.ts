@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs/config'
 
 const nextConfig: NextConfig = {
   images: {
@@ -23,4 +24,15 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+// Source map upload only activates once SENTRY_ORG/SENTRY_PROJECT/SENTRY_AUTH_TOKEN
+// are set (a real Sentry project + token, not the public DSN above) — without
+// them this safely no-ops rather than failing the build. See README
+// "Error monitoring — Sentry".
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  sourcemaps: { disable: !process.env.SENTRY_AUTH_TOKEN },
+  silent: true,
+  errorHandler: (err) => console.warn('[Sentry build plugin]', err),
+})
