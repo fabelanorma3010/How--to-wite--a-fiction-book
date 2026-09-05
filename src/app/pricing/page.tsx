@@ -2,10 +2,11 @@ import type { Metadata } from 'next'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import PricingFaq from '../../components/PricingFaq'
+import PricingTiers from '../../components/PricingTiers'
 
 const title = 'Pricing — Storyburst'
 const description =
-  "See what's included with Storyburst: the format quiz, genre tips, action-text and illustration generators, story notebook, and publishing guide are free, no account required."
+  'Every Storyburst tool — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — is free, no account required. A Membership (launching soon) adds more.'
 
 export const metadata: Metadata = {
   title,
@@ -14,55 +15,6 @@ export const metadata: Metadata = {
   openGraph: { title, description, url: '/pricing', images: '/opengraph-image' },
   twitter: { card: 'summary', title, description, images: '/opengraph-image' },
 }
-
-const tiers = [
-  {
-    name: 'Free',
-    price: '$0',
-    cadence: 'forever',
-    tagline: "What you get today — no account, no paywall.",
-    features: [
-      'The full format-matching quiz',
-      'All genre tips for every book type',
-      'Action-text & illustration idea generators',
-      'Auto-saving story notebook',
-      'The 10-step publishing guide',
-    ],
-    cta: 'Start writing',
-    ctaHref: '/#quiz',
-    highlight: false,
-  },
-  {
-    name: 'Supporter',
-    price: '$5',
-    cadence: '/mo (example)',
-    tagline: 'Illustrative placeholder — not a real plan yet.',
-    features: [
-      'Unlimited saved notebooks',
-      'Priority new generator prompts',
-      'Early access to new book types',
-      'A little badge, because you\'re nice',
-    ],
-    cta: 'Placeholder',
-    ctaHref: '#',
-    highlight: true,
-  },
-  {
-    name: 'Studio',
-    price: '$15',
-    cadence: '/mo (example)',
-    tagline: 'Illustrative placeholder — for classrooms or small teams.',
-    features: [
-      'Everything in Supporter',
-      'Shared notebooks for a group',
-      'Shared publishing checklists',
-      'Priority email support',
-    ],
-    cta: 'Placeholder',
-    ctaHref: '#',
-    highlight: false,
-  },
-]
 
 export default function PricingPage() {
   return (
@@ -83,66 +35,21 @@ export default function PricingPage() {
               💸 Simple, honest pricing
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Storyburst is{' '}
+              Start for{' '}
               <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Free
               </span>
             </h1>
             <p className="max-w-2xl text-balance text-lg text-ink/70">
-              Every tool on this site — the quiz, the generators, the notebook, the publishing
-              guide — works today with no account and no cost.
+              Every tool on this site works today with no account and no cost. A Membership —
+              launching soon — adds more AI, exports, and higher limits for people going all the way
+              to a finished book.
             </p>
           </div>
         </section>
 
         <section className="px-4 pb-16 sm:px-6">
-          <div className="mx-auto mb-8 max-w-3xl rounded-2xl border-2 border-dashed border-accent/50 bg-accent/10 p-4 text-center text-sm font-semibold text-ink/70">
-            ⚠️ The two paid tiers below are placeholder layout content, not a real offer — swap in
-            real plans here before this page goes live, or delete them and keep Storyburst free.
-          </div>
-
-          <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-3">
-            {tiers.map((tier) => (
-              <div
-                key={tier.name}
-                className={`animate-pop-in flex flex-col rounded-3xl border-2 p-6 shadow-sm sm:p-8 ${
-                  tier.highlight
-                    ? 'border-primary bg-white shadow-lg sm:scale-105'
-                    : 'border-ink/10 bg-white/70'
-                }`}
-              >
-                {tier.highlight && (
-                  <span className="mb-3 w-fit rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-content">
-                    Example only
-                  </span>
-                )}
-                <h2 className="text-xl font-extrabold text-ink">{tier.name}</h2>
-                <p className="mt-1 text-sm text-ink/60">{tier.tagline}</p>
-                <p className="mt-4">
-                  <span className="text-4xl font-extrabold text-ink">{tier.price}</span>
-                  <span className="ml-1 text-sm font-semibold text-ink/50">{tier.cadence}</span>
-                </p>
-                <ul className="mt-6 flex-1 space-y-3">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-ink/80">
-                      <span aria-hidden="true" className="mt-0.5 text-secondary-content">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={tier.ctaHref}
-                  className={`mt-8 rounded-full px-6 py-3 text-center font-bold shadow-sm transition-transform hover:scale-105 active:scale-95 ${
-                    tier.highlight
-                      ? 'bg-primary text-primary-content'
-                      : 'border-2 border-ink/15 bg-white text-ink hover:bg-base'
-                  }`}
-                >
-                  {tier.cta}
-                </a>
-              </div>
-            ))}
-          </div>
+          <PricingTiers />
         </section>
 
         <section className="px-4 pb-16 sm:px-6">
