@@ -85,7 +85,7 @@ export default function AccountForms({
             <>
               Visible at{' '}
               <span className="font-semibold text-ink/80">
-                fiction-book-builder.com/u/{username}
+                www.fiction-book-builder.com/u/{username}
               </span>
               {isPublic ? '' : ' (currently private)'}
             </>
