@@ -76,3 +76,21 @@ dashboard SQL Editor in filename order, then `supabase/seed.sql`.
    not for production — set up custom SMTP (Resend / Postmark / SES / …) before
    relying on signup confirmation, email-change, or password-reset emails.
 5. Set `NEXT_PUBLIC_SITE_URL` in the deploy environment.
+
+## Analytics — Umami
+
+Optional, privacy-focused visitor analytics via [Umami](https://umami.is). Wired up
+in the root layout ([`src/app/layout.tsx`](src/app/layout.tsx)) behind an env var —
+with it unset, nothing is rendered and no tracking script loads.
+
+1. Sign up at [cloud.umami.is](https://cloud.umami.is) (free tier is enough for most
+   sites) and add your site's domain as a new website.
+2. Copy the **Website ID** (a UUID) it gives you.
+3. Set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` to that value — in `.env.local` for local
+   testing, and in your deploy platform's environment variables (e.g. Vercel
+   **Project → Settings → Environment Variables**) for production. Redeploy after
+   adding it there.
+4. Self-hosting Umami instead of using the cloud version? Also set
+   `NEXT_PUBLIC_UMAMI_SRC` to your own instance's `script.js` URL.
+
+Visits show up in the Umami dashboard within a few seconds of a page load.
