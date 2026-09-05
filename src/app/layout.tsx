@@ -17,7 +17,7 @@ const nunito = Nunito({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://fiction-book-builder.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 const title = 'Storyburst — How to Write & Publish a Fiction Book'
 const description =
   "Free tools to write and publish comics, manga, cartoons, and children's books: a format quiz, story generators, an auto-saving notebook, and a step-by-step publishing guide."
