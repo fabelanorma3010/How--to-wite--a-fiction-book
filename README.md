@@ -99,3 +99,25 @@ neither, regardless of whether the env var is set.
 Visits show up in the Umami dashboard within a few seconds of a page load. Speed
 Insights needs no extra setup or account — it activates automatically for any
 project deployed on Vercel once a visitor accepts the cookie banner.
+
+## AI features — Gemini / Anthropic / OpenAI
+
+Two features call an AI provider: the **Fiction Helper** chat
+([`src/app/api/fiction-helper/route.ts`](src/app/api/fiction-helper/route.ts)) and
+the **Illustration Generator**'s "Turn into Image" button
+([`src/app/api/generate-illustration/route.ts`](src/app/api/generate-illustration/route.ts)).
+Both are no-ops (a 503, with a friendly in-UI message) until at least one key is set.
+
+Provider selection is automatic — each route prefers **Google Gemini** when
+`GEMINI_API_KEY` is set ([`src/lib/gemini.ts`](src/lib/gemini.ts)), and otherwise
+falls back to **Anthropic** (chat, `ANTHROPIC_API_KEY`) and **OpenAI** (images,
+`OPENAI_API_KEY`). There's no user-facing model picker.
+
+**Gemini (recommended — free, no billing):**
+1. Go to [aistudio.google.com](https://aistudio.google.com), click **Get API key**,
+   and create one. The free tier is enough for a low-traffic site.
+2. Set `GEMINI_API_KEY` to that value — in `.env.local` for local dev, and in your
+   deploy platform's environment variables for production. Redeploy after adding it.
+
+The chat uses `gemini-2.5-flash`; images use `gemini-2.5-flash-image`. If Google
+renames a model, update the two constants at the top of `src/lib/gemini.ts`.
