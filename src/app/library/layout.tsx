@@ -1,17 +1,10 @@
 import type { Metadata } from 'next'
-import { Sora, Literata, JetBrains_Mono } from 'next/font/google'
+import { Sora, JetBrains_Mono } from 'next/font/google'
 
 const sora = Sora({
   subsets: ['latin'],
   weight: ['400', '600', '700', '800'],
   variable: '--font-sora',
-  display: 'swap',
-})
-
-const literata = Literata({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-literata',
   display: 'swap',
 })
 
@@ -31,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function LibraryLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${sora.variable} ${literata.variable} ${jetbrainsMono.variable} dark`}>
+    <div className={`${sora.variable} ${jetbrainsMono.variable} dark`}>
       <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet"

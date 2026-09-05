@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const panels = [
@@ -55,7 +56,16 @@ export default function ComicReaderPage() {
 
       <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[800px] flex-col gap-[4px]">
         {panels.map((src, i) => (
-          <img key={i} className="h-auto w-full object-cover" alt={`Panel ${i + 1}`} src={src} />
+          <Image
+            key={i}
+            className="h-auto w-full object-cover"
+            alt={`Panel ${i + 1}`}
+            src={src}
+            width={800}
+            height={1200}
+            sizes="800px"
+            priority={i === 0}
+          />
         ))}
         <div className="mx-[16px] mt-[24px] flex flex-col items-center justify-center gap-[8px] border-t border-white/10 py-[48px] md:mx-0">
           <span className="font-noir-display text-[28px] font-extrabold uppercase tracking-tighter text-noir-on-surface">

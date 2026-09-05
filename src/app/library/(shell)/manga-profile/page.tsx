@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 
 export const metadata: Metadata = { title: 'Manga Profile' }
 
@@ -43,10 +43,13 @@ export default function MangaProfileOriginalPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-noir-surface via-noir-surface/80 to-transparent" />
         <div className="absolute bottom-0 left-0 mx-auto flex w-full max-w-7xl flex-col gap-6 px-[16px] pb-[24px] sm:flex-row sm:items-end sm:px-[32px]">
-          <div className="hidden aspect-[2/3] w-48 shrink-0 overflow-hidden rounded-[0.5rem] border border-white/10 shadow-2xl sm:block">
-            <ShimmerImage
+          <div className="relative hidden aspect-[2/3] w-48 shrink-0 overflow-hidden rounded-[0.5rem] border border-white/10 shadow-2xl sm:block">
+            <ShimmerNextImage
               alt="Neon Abyss: The Silent Echo cover"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAMMtApm-dqfSSIFnmL9XpYGbJXkuEuDICJxTGFR_vBF2Lf24zDcvMZfKdtFDE52r7BusMKdaB-v7Rgk-A_PgEZfWjiIKzT6S52HJubLjNxBumHv7nGEzJ4Aqakv-rDDBFoiIQtdf9Qjr3CLQlAHykn2gIXVvNewYMJeG5ADr9uyu8y9kR-3eJ9Kix3BzgtbPqkznxdQsV2m3Fvql0SJ12TzxYAIZCedaGdmzkztu0578FvvQc_Yp3ig"
+              fill
+              sizes="192px"
+              className="object-cover"
             />
           </div>
           <div className="flex-1 space-y-4">
@@ -105,11 +108,13 @@ export default function MangaProfileOriginalPage() {
               }`}
             >
               <div className="z-10 flex items-center gap-4">
-                <div className="hidden h-16 w-12 shrink-0 overflow-hidden rounded sm:block">
-                  <ShimmerImage
+                <div className="relative hidden h-16 w-12 shrink-0 overflow-hidden rounded sm:block">
+                  <ShimmerNextImage
                     alt=""
-                    imgClassName={`h-full w-full object-cover ${ch.read ? 'grayscale' : ''}`}
                     src={ch.img}
+                    fill
+                    sizes="48px"
+                    className={`object-cover ${ch.read ? 'grayscale' : ''}`}
                   />
                 </div>
                 <div>
