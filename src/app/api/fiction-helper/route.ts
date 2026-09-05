@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { bookTypes, type BookTypeId } from '../../../data/bookTypes'
+import { GeminiError, geminiChat, hasGeminiKey } from '../../../lib/gemini'
 
 const MODEL = 'claude-opus-5'
 const MAX_TOKENS = 400
@@ -35,8 +36,11 @@ function buildSystemPrompt(genreName: string): string {
 
 export async function POST(request: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    return NextResponse.json({ error: 'AI helper is not configured yet (missing ANTHROPIC_API_KEY).' }, { status: 503 })
+  if (!hasGeminiKey() && !apiKey) {
+    return NextResponse.json(
+      { error: 'AI helper is not configured yet (missing GEMINI_API_KEY or ANTHROPIC_API_KEY).' },
+      { status: 503 },
+    )
   }
 
   let messages: unknown
@@ -61,6 +65,22 @@ export async function POST(request: Request) {
   const activeGenre = bookTypes.find((b) => b.id === genre)
   const genreId: BookTypeId = activeGenre?.id ?? bookTypes[0].id
   const genreName = activeGenre?.name ?? bookTypes[0].name
+
+  // Prefer Gemini when its key is set; otherwise use Anthropic below.
+  if (hasGeminiKey()) {
+    try {
+      const reply = await geminiChat(buildSystemPrompt(genreName), history, MAX_TOKENS)
+      return NextResponse.json({ reply, genre: genreId })
+    } catch (err) {
+      const status = err instanceof GeminiError ? err.status : 502
+      const message = err instanceof Error ? err.message : 'Something went wrong talking to the AI helper.'
+      return NextResponse.json({ error: message }, { status })
+    }
+  }
+
+  if (!apiKey) {
+    return NextResponse.json({ error: 'AI helper is not configured.' }, { status: 503 })
+  }
 
   try {
     const client = new Anthropic({ apiKey })

@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server'
+import { GeminiError, geminiGenerateImage, hasGeminiKey } from '../../../lib/gemini'
 
 const OPENAI_IMAGES_URL = 'https://api.openai.com/v1/images/generations'
 const MAX_PROMPT_LENGTH = 2000
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) {
+  if (!hasGeminiKey() && !apiKey) {
     return NextResponse.json(
-      { error: 'Image generation is not configured yet (missing OPENAI_API_KEY).' },
+      { error: 'Image generation is not configured yet (missing GEMINI_API_KEY or OPENAI_API_KEY).' },
       { status: 503 },
     )
   }
@@ -25,6 +26,23 @@ export async function POST(request: Request) {
   }
   if (prompt.length > MAX_PROMPT_LENGTH) {
     return NextResponse.json({ error: 'Prompt is too long.' }, { status: 400 })
+  }
+
+  // Prefer Gemini when its key is set; otherwise fall back to OpenAI below.
+  if (hasGeminiKey()) {
+    try {
+      const image = await geminiGenerateImage(prompt)
+      return NextResponse.json({ image })
+    } catch (err) {
+      const status = err instanceof GeminiError ? err.status : 502
+      const message = err instanceof Error ? err.message : 'Could not generate the image.'
+      return NextResponse.json({ error: message }, { status })
+    }
+  }
+
+  // No Gemini key — the check at the top guarantees OpenAI's is set.
+  if (!apiKey) {
+    return NextResponse.json({ error: 'Image generation is not configured.' }, { status: 503 })
   }
 
   let upstream: Response

@@ -99,9 +99,10 @@ export default function PrivacyPage() {
               <h2 className="text-xl font-extrabold text-ink">Third-party AI services</h2>
               <p className="mt-2 leading-relaxed">
                 A few features send your input to a third-party AI provider to generate a response: the
-                Illustration Generator sends your prompt to OpenAI, and the Fiction Helper chat sends your
-                messages to Anthropic. Those providers process that content under their own privacy
-                policies — we don't control how they handle it.
+                Illustration Generator sends your prompt, and the Fiction Helper chat sends your
+                messages, to Google (Gemini), OpenAI, or Anthropic depending on how the site is
+                configured. Those providers process that content under their own privacy policies — we
+                don't control how they handle it.
               </p>
             </section>
 
