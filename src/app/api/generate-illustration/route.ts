@@ -28,19 +28,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Prompt is too long.' }, { status: 400 })
   }
 
-  // Prefer Gemini when its key is set; otherwise fall back to OpenAI below.
+  // Prefer Gemini when its key is set. If it fails (notably: image generation
+  // isn't on Gemini's free tier) and OpenAI is also configured, fall through to
+  // it rather than surfacing the Gemini error.
   if (hasGeminiKey()) {
     try {
       const image = await geminiGenerateImage(prompt)
       return NextResponse.json({ image })
     } catch (err) {
-      const status = err instanceof GeminiError ? err.status : 502
-      const message = err instanceof Error ? err.message : 'Could not generate the image.'
-      return NextResponse.json({ error: message }, { status })
+      if (!apiKey) {
+        const status = err instanceof GeminiError ? err.status : 502
+        const message = err instanceof Error ? err.message : 'Could not generate the image.'
+        return NextResponse.json({ error: message }, { status })
+      }
+      // else: OpenAI key present — fall through to the OpenAI path below.
     }
   }
 
-  // No Gemini key — the check at the top guarantees OpenAI's is set.
+  // Reached either with no Gemini key, or after a Gemini failure with OpenAI as
+  // the fallback. The top check guarantees an OpenAI key exists here.
   if (!apiKey) {
     return NextResponse.json({ error: 'Image generation is not configured.' }, { status: 503 })
   }
