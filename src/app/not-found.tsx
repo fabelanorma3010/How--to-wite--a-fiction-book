@@ -51,6 +51,7 @@ export default function NotFound() {
               </Link>
               <Link
                 href="/library"
+                prefetch={false}
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
                 Digital Library ↗
