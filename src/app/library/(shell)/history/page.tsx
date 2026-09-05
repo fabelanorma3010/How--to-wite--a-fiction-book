@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 
 export const metadata: Metadata = { title: 'History' }
 
@@ -51,7 +51,7 @@ export default function HistoryPage() {
             className="group flex items-center gap-4 rounded-[0.5rem] border border-transparent bg-noir-surface-container-low p-3 transition-colors hover:border-white/10 hover:bg-noir-surface-container"
           >
             <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded">
-              <ShimmerImage alt={item.title} src={item.img} />
+              <ShimmerNextImage alt={item.title} src={item.img} fill sizes="48px" className="object-cover" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="truncate font-noir-display text-[16px] text-noir-on-surface transition-colors group-hover:text-noir-primary">

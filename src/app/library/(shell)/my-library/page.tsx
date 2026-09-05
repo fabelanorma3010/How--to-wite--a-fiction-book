@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 
 const tabs = ['Reading', 'Completed', 'Downloaded'] as const
 
@@ -90,6 +90,8 @@ function EmptyState({ query }: { query: string }) {
   )
 }
 
+const gridImageSizes = '(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 50vw'
+
 export default function MyLibraryPage() {
   const [active, setActive] = useState<(typeof tabs)[number]>('Reading')
   const [query, setQuery] = useBookSearch()
@@ -176,10 +178,12 @@ export default function MyLibraryPage() {
                 className="group relative flex flex-col overflow-hidden rounded-[0.125rem] border border-white/10 bg-noir-surface-container-low transition-colors duration-300 hover:border-noir-primary-container"
               >
                 <div className="relative aspect-[2/3] w-full bg-noir-surface-container">
-                  <ShimmerImage
+                  <ShimmerNextImage
                     alt={book.title}
-                    imgClassName="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     src={book.img}
+                    fill
+                    sizes={gridImageSizes}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                   <span className="absolute left-2 top-2 flex items-center gap-1 rounded-[0.125rem] bg-noir-secondary-container px-2 py-0.5 font-noir-mono text-[10px] uppercase tracking-wider text-noir-on-secondary-container">
@@ -215,10 +219,12 @@ export default function MyLibraryPage() {
                 className="group relative flex flex-col overflow-hidden rounded-[0.125rem] border border-white/10 bg-noir-surface-container-low transition-colors duration-300 hover:border-noir-primary-container"
               >
                 <div className="relative aspect-[2/3] w-full bg-noir-surface-container">
-                  <ShimmerImage
+                  <ShimmerNextImage
                     alt={book.title}
-                    imgClassName="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     src={book.img}
+                    fill
+                    sizes={gridImageSizes}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                   <span className="absolute left-2 top-2 flex items-center gap-1 rounded-[0.125rem] bg-noir-surface-container-high px-2 py-0.5 font-noir-mono text-[10px] uppercase tracking-wider text-noir-on-surface">
@@ -254,10 +260,12 @@ export default function MyLibraryPage() {
                       className="group relative flex flex-col overflow-hidden rounded-[0.125rem] border border-white/10 bg-noir-surface-container-low transition-colors duration-300 hover:border-noir-primary-container"
                     >
                       <div className="relative aspect-[2/3] w-full bg-noir-surface-container">
-                        <ShimmerImage
+                        <ShimmerNextImage
                           alt={book.title}
-                          imgClassName="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                           src={book.img}
+                          fill
+                          sizes={gridImageSizes}
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                         {book.badge && (
@@ -302,11 +310,12 @@ export default function MyLibraryPage() {
                         key={book.title}
                         className="group relative aspect-[2/3] overflow-hidden rounded-[0.5rem] border border-white/10 bg-noir-surface-container-low transition-colors hover:border-noir-primary-fixed/50"
                       >
-                        <ShimmerImage
+                        <ShimmerNextImage
                           alt={book.title}
-                          wrapperClassName="absolute inset-0"
-                          imgClassName="h-full w-full object-cover opacity-60 grayscale transition-all group-hover:opacity-80 group-hover:grayscale-0"
                           src={book.img}
+                          fill
+                          sizes="(min-width: 768px) 20vw, 50vw"
+                          className="object-cover opacity-60 grayscale transition-all group-hover:opacity-80 group-hover:grayscale-0"
                         />
                         <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black to-transparent p-3">
                           <h3 className="font-noir-display text-[16px] text-noir-on-surface-variant transition-colors group-hover:text-noir-on-surface">

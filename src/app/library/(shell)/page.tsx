@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ShimmerImage from '../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../components/ShimmerNextImage'
 
 export const metadata: Metadata = { title: 'Discover' }
 
@@ -43,11 +43,13 @@ export default function LibraryDiscoverPage() {
       <section className="mb-[48px] w-full">
         <div className="flex gap-4 overflow-x-auto px-[16px] pb-4 hide-scrollbar md:px-[32px]">
           <div className="group relative h-[480px] w-full shrink-0 overflow-hidden rounded-[0.75rem] border border-white/10 bg-noir-surface-container-low md:w-[85%] lg:w-[70%]">
-            <ShimmerImage
+            <ShimmerNextImage
               alt="Cyberfall Initiative cover art"
-              wrapperClassName="absolute inset-0"
-              imgClassName="h-full w-full object-cover opacity-70 mix-blend-lighten transition-transform duration-700 ease-out group-hover:scale-105"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUpmRj9A_IfB6Tn2wWx_wfFILMBjVt8ZHEDx0FJhryP5qY0aui0n50qICOfXZrpA-7E3M4bxr7uTkiHbMUJKcmWW9xC2B8IuArHSyLTflKzQFEUjrcaNxLHy5zdIQdDnNE1ATERhkkUc_umQTptg5fDjz9xs4n0ZVmRuCH5aCSqOqB1cdY8wPKlOf2daxJRENgDVjCGpVdJWYeC5jjKBIO41noo-JLu2bKOXBXgcBrXzvDp0hmB2y45A"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-70 mix-blend-lighten transition-transform duration-700 ease-out group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
             <div className="absolute bottom-0 left-0 flex w-full flex-col justify-end p-[24px]">
@@ -103,7 +105,7 @@ export default function LibraryDiscoverPage() {
               className="group flex w-40 shrink-0 flex-col gap-3 md:w-52"
             >
               <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[0.5rem] border border-white/10 bg-noir-surface-container shadow-lg shadow-black/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-noir-primary-fixed">
-                <ShimmerImage alt={item.title} wrapperClassName="absolute inset-0" src={item.img} />
+                <ShimmerNextImage alt={item.title} src={item.img} fill sizes="(min-width: 768px) 208px, 160px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
                 {item.tag && (
                   <span className="absolute left-2 top-2 rounded-[0.25rem] border border-noir-tertiary-container/50 bg-noir-tertiary-container px-2 py-0.5 font-noir-mono text-[10px] font-bold uppercase text-noir-on-tertiary-container">
@@ -159,11 +161,13 @@ export default function LibraryDiscoverPage() {
             href="/library/book"
             className="group relative flex gap-4 overflow-hidden rounded-[0.75rem] border border-white/5 bg-noir-surface-container-low p-4 shadow-md shadow-black/20 transition-colors hover:border-noir-primary-fixed/40"
           >
-            <div className="aspect-[2/3] w-20 shrink-0 overflow-hidden rounded-[0.375rem] border border-white/10 md:w-24">
-              <ShimmerImage
+            <div className="relative aspect-[2/3] w-20 shrink-0 overflow-hidden rounded-[0.375rem] border border-white/10 md:w-24">
+              <ShimmerNextImage
                 alt="Blade & Blood"
-                imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQKRYBii5ulPeNmXMJPBrK_uM8xwOuzanbzlFcj8iOfzBZ6cCGQBguUCDkT1NBzxlq-L6gVkJ1wJEc-LpyG9rK7oi2NvnUTFA86hWdn9xPIxCpdxyiH405EKmuSpNVT3VL_Aj70YIeRfuHJ2M4xggmXr_ZdF3Dj84hdN4bfblrYIu20wfUOnY02vtotGadhUV7N2AwrOdJtpzjJJY1jGvSC1I01vYy0dh5rRxLWOOt6iVpmEsX6powzA"
+                fill
+                sizes="96px"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
             </div>
             <div className="flex flex-1 flex-col justify-center py-1">

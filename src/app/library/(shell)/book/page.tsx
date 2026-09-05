@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ReadAloud from '../../../../components/ReadAloud'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 
 export const metadata: Metadata = { title: 'Book' }
 
@@ -40,9 +40,13 @@ export default function BookDetailsPage() {
         <div className="relative z-10 grid grid-cols-1 items-start gap-[48px] md:grid-cols-12">
           <div className="group flex flex-col items-center md:col-span-4 md:items-start">
             <div className="relative aspect-[2/3] w-2/3 overflow-hidden rounded-[0.5rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] transition-transform duration-500 hover:scale-[1.02] md:w-full">
-              <ShimmerImage
+              <ShimmerNextImage
                 alt="Neon Ascendant: Protocol Zero cover"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA44t8f7WDYU30gO3u69bvfgVCzx2IbP3pmSJMJ5LLOXHwPf3Qs2oSHuFjohMvgCAVxR99KZWpwCXLKArzTFBjJ0cuGRsYffez_T3bjdq_Drzmr5VnoWpqYYpDGvHL682rc_8j9AfLLdmnfk1DoDf1l6LxjCPoqEqDynDw-AXKl8X9TNLKl_a5SlkVCKqqUp73GnRiGVfsd4wiDkTYn-chFJ3T6PHg30nF21jQ-Hc6rv6eQ_CgdDyonpw"
+                fill
+                priority
+                sizes="(min-width: 768px) 33vw, 66vw"
+                className="object-cover"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
                 <Link
@@ -176,10 +180,13 @@ export default function BookDetailsPage() {
                 About the Creator
               </h3>
               <div className="mb-4 flex items-center gap-4">
-                <div className="h-12 w-12 overflow-hidden rounded-full bg-noir-surface-bright">
-                  <ShimmerImage
+                <div className="relative h-12 w-12 overflow-hidden rounded-full bg-noir-surface-bright">
+                  <ShimmerNextImage
                     alt="Kaelen Vance"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl1RrjTUGRTSxrAQYjOayZ60EI7iPJply4b98JCQ3V1DSrBOY_9OcJd7HU1Xxr9ei65QjuNnjUlg1-bl-SoojQ_oEMOT1MCekS0HZ0pFQ9WK38cvClE86rxX2l9Nl4VM3sq8Fe1MIWQrSsxTI1YA5t89idxoegv9HQggyAD0GuKbr3M0wLeNBwLv2RuIeaeeMm39OjehvOzb_qIQxaxxh3BZyA5e6EbRcgHvsK9s9noQ8xnCqPwwHV7w"
+                    fill
+                    sizes="48px"
+                    className="object-cover"
                   />
                 </div>
                 <div>

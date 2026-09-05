@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 
 export const metadata: Metadata = { title: 'Discovery Feed' }
 
@@ -43,11 +43,12 @@ export default function DiscoveryFeedOriginalPage() {
 
       <section className="relative mb-[48px] h-[420px] w-full sm:h-[530px]">
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-noir-background via-noir-background/40 to-transparent" />
-        <ShimmerImage
+        <ShimmerNextImage
           alt="Trending manga cover"
-          wrapperClassName="absolute inset-0"
-          imgClassName="h-full w-full object-cover object-top"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9OGy7eJ22WUzQdWHHxCoVBY8DRphZfiwCB-P58hbmOQo4knwoilx9eRDOdSxAbH1geTBJO3XdlIWVVI3_kualoyUJ8RQ-awgiz2_F6e7AdMIjzKCrwyeGAE853q6I33nuHg49PEm7FrLDhIiuP_vJZAZge9IWYhtSvLSpsX4AdbPWGfGgXQAZ1RLSMuBy_h4yo-c_zMJLY01KV3H99ImNDc6FZTVfk5Klmh0Id4LNNuE4n2k3mC4yBQ"
+          fill
+          sizes="100vw"
+          className="object-cover object-top"
         />
         <div className="absolute bottom-0 left-0 z-20 flex w-full flex-col items-start gap-[8px] p-[16px] sm:p-[32px]">
           <span className="rounded-[0.125rem] border border-noir-tertiary-container/30 bg-noir-tertiary-container/20 px-2 py-1 font-noir-mono text-[12px] text-noir-tertiary-container backdrop-blur-md">
@@ -93,10 +94,12 @@ export default function DiscoveryFeedOriginalPage() {
           {newReleases.map((item) => (
             <div key={item.title} className="group w-36 shrink-0 cursor-pointer snap-start sm:w-48">
               <Link href="/library/book" className="relative block aspect-[2/3] w-full overflow-hidden rounded-[0.5rem] border border-white/10 transition-colors group-hover:border-noir-primary-container">
-                <ShimmerImage
+                <ShimmerNextImage
                   alt={item.title}
-                  imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   src={item.img}
+                  fill
+                  sizes="(min-width: 640px) 192px, 144px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute left-2 top-2 flex items-center gap-1 rounded-[0.125rem] border border-white/10 bg-black/60 px-1.5 py-0.5 backdrop-blur-sm">
                   <span className="material-symbols-outlined text-[10px] text-noir-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const panels = [
@@ -38,7 +39,19 @@ export default function MangaReaderPage() {
       >
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center">
           {panels.map((src, i) => (
-            <img key={i} className="mb-[8px] w-full select-none object-contain pointer-events-none" alt={`Page ${i + 1}`} src={src} />
+            <Image
+              key={i}
+              className="mb-[8px] w-full select-none object-contain pointer-events-none"
+              alt={`Page ${i + 1}`}
+              src={src}
+              width={800}
+              height={1200}
+              sizes="768px"
+              // This reader scrolls its own overflow-y-auto div rather than the
+              // document, which native lazy-loading doesn't reliably observe —
+              // and there are only 2 demo panels, so eager-loading both is cheap.
+              priority
+            />
           ))}
         </div>
       </div>

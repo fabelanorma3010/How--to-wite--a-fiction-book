@@ -17,7 +17,7 @@
      Prefixed to avoid colliding with the tokens above, which the rest of the
      site (light theme) depends on. */
   --font-noir-display: var(--font-sora), "Segoe UI", system-ui, sans-serif;
-  --font-noir-reading: var(--font-literata), Georgia, serif;
+  --font-noir-reading: Georgia, "Times New Roman", serif;
   --font-noir-mono: var(--font-jetbrains-mono), "Courier New", monospace;
 
   --color-noir-surface: #131313;

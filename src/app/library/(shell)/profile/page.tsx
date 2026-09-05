@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ShimmerImage from '../../../../components/library/ShimmerImage'
+import ShimmerNextImage from '../../../../components/ShimmerNextImage'
 import LogoutButton from '../../../../components/library/LogoutButton'
 import { getCurrentUser } from '../../../../lib/user'
 
@@ -49,8 +49,8 @@ export default async function ProfilePage() {
   return (
     <div className="mx-auto max-w-2xl px-[16px] py-[24px] md:px-[32px] md:py-[48px]">
       <div className="noir-glass-panel mb-[48px] flex flex-col items-center gap-4 rounded-[0.75rem] border border-white/5 p-8 text-center">
-        <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-noir-surface-container-lowest font-noir-display text-[24px] font-black text-noir-primary-container">
-          {user.avatarUrl ? <ShimmerImage alt="" src={user.avatarUrl} /> : initials}
+        <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-noir-surface-container-lowest font-noir-display text-[24px] font-black text-noir-primary-container">
+          {user.avatarUrl ? <ShimmerNextImage alt="" src={user.avatarUrl} fill sizes="80px" className="object-cover" /> : initials}
         </div>
         <div>
           <h1 className="font-noir-display text-[24px] font-bold text-noir-on-surface">{user.name}</h1>
