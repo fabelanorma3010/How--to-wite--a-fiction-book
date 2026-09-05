@@ -102,16 +102,19 @@ project deployed on Vercel once a visitor accepts the cookie banner.
 
 ## AI features — Gemini / Anthropic / OpenAI
 
-Two features call an AI provider: the **Fiction Helper** chat
-([`src/app/api/fiction-helper/route.ts`](src/app/api/fiction-helper/route.ts)) and
-the **Illustration Generator**'s "Turn into Image" button
-([`src/app/api/generate-illustration/route.ts`](src/app/api/generate-illustration/route.ts)).
-Both are no-ops (a 503, with a friendly in-UI message) until at least one key is set.
+Three surfaces call an AI provider: the **Fiction Helper** chat
+([`fiction-helper`](src/app/api/fiction-helper/route.ts)), the **Illustration
+Generator**'s "Turn into Image" button
+([`generate-illustration`](src/app/api/generate-illustration/route.ts)), and the
+**Writing Tools** at `/tools` — Summarize / Critique / Structure notes
+([`writing-tools`](src/app/api/writing-tools/route.ts)). All are no-ops (a 503, with
+a friendly in-UI message) until at least one key is set.
 
 Provider selection is automatic — each route prefers **Google Gemini** when
 `GEMINI_API_KEY` is set ([`src/lib/gemini.ts`](src/lib/gemini.ts)), and otherwise
-falls back to **Anthropic** (chat, `ANTHROPIC_API_KEY`) and **OpenAI** (images,
-`OPENAI_API_KEY`). There's no user-facing model picker.
+falls back to **Anthropic** (text: chat, critique, summarize, structure —
+`ANTHROPIC_API_KEY`) and **OpenAI** (images — `OPENAI_API_KEY`). There's no
+user-facing model picker.
 
 **Gemini (recommended — free, no billing):**
 1. Go to [aistudio.google.com](https://aistudio.google.com), click **Get API key**,

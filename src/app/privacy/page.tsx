@@ -98,11 +98,12 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-extrabold text-ink">Third-party AI services</h2>
               <p className="mt-2 leading-relaxed">
-                A few features send your input to a third-party AI provider to generate a response: the
-                Illustration Generator sends your prompt, and the Fiction Helper chat sends your
-                messages, to Google (Gemini), OpenAI, or Anthropic depending on how the site is
-                configured. Those providers process that content under their own privacy policies — we
-                don't control how they handle it.
+                A few features send whatever you type or upload to a third-party AI provider to
+                generate a response: the Fiction Helper chat, the Illustration Generator, and the
+                Writing Tools (Summarize / Critique / Structure). Depending on how the site is
+                configured, that text or prompt goes to Google (Gemini), OpenAI, or Anthropic. Those
+                providers process it under their own privacy policies — we don't control how they
+                handle it, and we don't store what you put in or what comes back.
               </p>
             </section>
 
