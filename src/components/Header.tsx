@@ -106,6 +106,7 @@ export default function Header() {
           ))}
           <Link
             href="/library"
+            prefetch={false}
             className="relative ml-0.5 whitespace-nowrap rounded-full bg-ink px-2 py-1.5 text-sm font-semibold text-base transition-colors hover:bg-ink/80 2xl:ml-1 2xl:px-4 2xl:text-base"
           >
             Digital Library ↗
@@ -222,6 +223,7 @@ export default function Header() {
           ))}
           <Link
             href="/library"
+            prefetch={false}
             onClick={() => setOpen(false)}
             className="flex items-center justify-between rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
           >
