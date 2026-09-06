@@ -105,6 +105,12 @@ export default function PrivacyPage() {
                 providers process it under their own privacy policies — we don't control how they
                 handle it, and we don't store what you put in or what comes back.
               </p>
+              <p className="mt-2 leading-relaxed">
+                To stop these AI features from being abused, we keep a per-day count of how many times
+                they've been used — against your account if you're signed in, or against a one-way
+                hashed version of your IP address if you're not. We don't store the IP itself, and the
+                counts reset daily.
+              </p>
             </section>
 
             <section>

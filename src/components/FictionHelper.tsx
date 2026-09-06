@@ -50,7 +50,11 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
         body: JSON.stringify({ messages: nextMessages, genre: selected }),
       })
       const data = await res.json()
-      reply = res.ok && typeof data?.reply === 'string' ? data.reply : getHelperReply(trimmed, selected)
+      if (res.status === 429 && typeof data?.error === 'string') {
+        reply = data.error
+      } else {
+        reply = res.ok && typeof data?.reply === 'string' ? data.reply : getHelperReply(trimmed, selected)
+      }
     } catch {
       reply = getHelperReply(trimmed, selected)
     }

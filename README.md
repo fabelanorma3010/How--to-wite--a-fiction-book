@@ -116,6 +116,14 @@ falls back to **Anthropic** (text: chat, critique, summarize, structure —
 `ANTHROPIC_API_KEY`) and **OpenAI** (images — `OPENAI_API_KEY`). There's no
 user-facing model picker.
 
+**Daily usage limits** ([`src/lib/aiLimits.ts`](src/lib/aiLimits.ts)) keep a
+runaway bill off your card: each feature has a per-day cap per signed-in user, or
+per salted-hashed IP for anonymous visitors, counted in the `ai_usage` table
+(migration `20260909120000_ai_usage.sql`). Over the cap returns a `429` with a
+"come back tomorrow / sign in for more" message. Tune the numbers in
+`aiLimits.ts`; the check fails open if Supabase isn't configured. Set an optional
+`AI_LIMIT_SALT` to control the IP-hash salt.
+
 **Gemini (recommended — free, no billing):**
 1. Go to [aistudio.google.com](https://aistudio.google.com), click **Get API key**,
    and create one. The free tier is enough for a low-traffic site.
