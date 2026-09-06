@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "打个招呼",
-    "intro": "有问题、反馈，或想聊聊你正在做的东西？发条消息——它会在你的邮件应用里打开，随时可以发送。",
+    "intro": "有问题、反馈，或想聊聊你正在做的东西？发条消息，我们会回复你。",
     "name": "姓名",
     "namePlaceholder": "你的名字",
     "email": "邮箱",
     "message": "消息",
     "messagePlaceholder": "你在想什么？",
     "send": "发送消息",
-    "sent": "正在打开你的邮件应用——感谢联系！",
-    "disclaimer": "这会打开你默认的邮件应用并预填好内容——不会自动发送任何东西。",
-    "emailSubject": "来自 {name} 的消息（通过 Storyburst）"
+    "sending": "发送中…",
+    "sent": "消息已发送——感谢联系！",
+    "genericError": "出了点问题——请重试。"
   },
   "CookieConsent": {
     "title": "Cookie 提示",

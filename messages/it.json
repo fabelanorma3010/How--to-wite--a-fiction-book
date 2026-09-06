@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Salutaci",
-    "intro": "Domande, commenti o voglia di raccontare a cosa stai lavorando? Invia un messaggio — si aprirà nella tua app di posta, pronto da inviare.",
+    "intro": "Domande, commenti o voglia di raccontare a cosa stai lavorando? Invia un messaggio, ti risponderemo.",
     "name": "Nome",
     "namePlaceholder": "Il tuo nome",
     "email": "Email",
     "message": "Messaggio",
     "messagePlaceholder": "Cosa hai in mente?",
     "send": "Invia messaggio",
-    "sent": "Apertura della tua app di posta — grazie per averci scritto!",
-    "disclaimer": "Questo apre la tua app di posta predefinita con il messaggio già compilato — non viene inviato nulla automaticamente.",
-    "emailSubject": "Messaggio da {name} tramite Storyburst"
+    "sending": "Invio…",
+    "sent": "Messaggio inviato — grazie per averci scritto!",
+    "genericError": "Qualcosa è andato storto — riprova."
   },
   "CookieConsent": {
     "title": "Avviso sui cookie",

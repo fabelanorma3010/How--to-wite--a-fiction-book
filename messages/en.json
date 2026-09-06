@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Say Hello",
-    "intro": "Questions, feedback, or want to share what you're working on? Send a message — it'll open in your email app, ready to go.",
+    "intro": "Questions, feedback, or want to share what you're working on? Send a message and we'll get back to you.",
     "name": "Name",
     "namePlaceholder": "Your name",
     "email": "Email",
     "message": "Message",
     "messagePlaceholder": "What's on your mind?",
     "send": "Send Message",
-    "sent": "Opening your email app — thanks for reaching out!",
-    "disclaimer": "This opens your default email app with the message pre-filled — nothing is sent automatically.",
-    "emailSubject": "Message from {name} via Storyburst"
+    "sending": "Sending…",
+    "sent": "Message sent — thanks for reaching out!",
+    "genericError": "Something went wrong — please try again."
   },
   "CookieConsent": {
     "title": "Cookie notice",

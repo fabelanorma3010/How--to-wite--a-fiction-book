@@ -4,24 +4,38 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import Sticker from './Sticker'
 
-const CONTACT_EMAIL = 'fabelanorma3010@gmail.com'
+type Status = 'idle' | 'sending' | 'error' | 'sent'
 
 export default function ContactForm() {
   const t = useTranslations('Contact')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState('')
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (status === 'sending') return
+    setStatus('sending')
+    setError('')
 
-    const subject = t('emailSubject', { name })
-    const body = `${message}\n\n— ${name} (${email})`
-    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-
-    window.location.href = mailtoUrl
-    setSent(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || t('genericError'))
+      setStatus('sent')
+      setName('')
+      setEmail('')
+      setMessage('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('genericError'))
+      setStatus('error')
+    }
   }
 
   return (
@@ -86,18 +100,22 @@ export default function ContactForm() {
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <button
               type="submit"
-              className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
+              disabled={status === 'sending'}
+              className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {t('send')} 💌
+              {status === 'sending' ? t('sending') : <>{t('send')} 💌</>}
             </button>
-            {sent && (
+            {status === 'sent' && (
               <p className="font-semibold text-secondary-content/80" role="status">
                 {t('sent')}
               </p>
             )}
+            {status === 'error' && (
+              <p className="font-semibold text-red-600" role="alert">
+                {error}
+              </p>
+            )}
           </div>
-
-          <p className="mt-4 text-xs text-ink/50">{t('disclaimer')}</p>
         </form>
       </div>
     </section>

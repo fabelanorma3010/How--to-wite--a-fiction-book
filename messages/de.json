@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Sag Hallo",
-    "intro": "Fragen, Feedback oder Lust, zu erzählen, woran du arbeitest? Schick eine Nachricht — sie öffnet sich versandfertig in deiner E-Mail-App.",
+    "intro": "Fragen, Feedback oder Lust, zu erzählen, woran du arbeitest? Schick eine Nachricht, wir melden uns bei dir.",
     "name": "Name",
     "namePlaceholder": "Dein Name",
     "email": "E-Mail",
     "message": "Nachricht",
     "messagePlaceholder": "Was hast du auf dem Herzen?",
     "send": "Nachricht senden",
-    "sent": "Deine E-Mail-App wird geöffnet — danke, dass du dich meldest!",
-    "disclaimer": "Das öffnet deine Standard-E-Mail-App mit vorausgefüllter Nachricht — es wird nichts automatisch gesendet.",
-    "emailSubject": "Nachricht von {name} über Storyburst"
+    "sending": "Wird gesendet…",
+    "sent": "Nachricht gesendet — danke, dass du dich meldest!",
+    "genericError": "Etwas ist schiefgelaufen — bitte versuch es erneut."
   },
   "CookieConsent": {
     "title": "Cookie-Hinweis",

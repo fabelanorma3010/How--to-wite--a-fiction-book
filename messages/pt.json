@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Diga olá",
-    "intro": "Dúvidas, comentários ou quer contar no que está trabalhando? Envie uma mensagem — ela vai abrir no seu app de e-mail, pronta para enviar.",
+    "intro": "Dúvidas, comentários ou quer contar no que está trabalhando? Envie uma mensagem e responderemos.",
     "name": "Nome",
     "namePlaceholder": "Seu nome",
     "email": "E-mail",
     "message": "Mensagem",
     "messagePlaceholder": "O que você está pensando?",
     "send": "Enviar mensagem",
-    "sent": "Abrindo seu app de e-mail — obrigado por entrar em contato!",
-    "disclaimer": "Isso abre seu app de e-mail padrão com a mensagem já preenchida — nada é enviado automaticamente.",
-    "emailSubject": "Mensagem de {name} via Storyburst"
+    "sending": "Enviando…",
+    "sent": "Mensagem enviada — obrigado por entrar em contato!",
+    "genericError": "Algo deu errado — tente novamente."
   },
   "CookieConsent": {
     "title": "Aviso de cookies",

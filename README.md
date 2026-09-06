@@ -104,11 +104,12 @@ project deployed on Vercel once a visitor accepts the cookie banner.
 
 Three surfaces call an AI provider: the **Fiction Helper** chat
 ([`fiction-helper`](src/app/api/fiction-helper/route.ts)), the **Illustration
-Generator**'s "Turn into Image" button
-([`generate-illustration`](src/app/api/generate-illustration/route.ts)), and the
-**Writing Tools** at `/tools` — Summarize / Critique / Structure notes
-([`writing-tools`](src/app/api/writing-tools/route.ts)). All are no-ops (a 503, with
-a friendly in-UI message) until at least one key is set.
+Generator**'s image route
+([`generate-illustration`](src/app/api/generate-illustration/route.ts) — its "Turn
+into Image" button is currently disabled ("Coming soon") in the UI, but the route
+itself still works if called), and the **Writing Tools** at `/tools` — Summarize /
+Critique / Structure notes ([`writing-tools`](src/app/api/writing-tools/route.ts)).
+All are no-ops (a 503, with a friendly in-UI message) until at least one key is set.
 
 Provider selection is automatic — each route prefers **Google Gemini** when
 `GEMINI_API_KEY` is set ([`src/lib/gemini.ts`](src/lib/gemini.ts)), and otherwise
@@ -122,7 +123,8 @@ per salted-hashed IP for anonymous visitors, counted in the `ai_usage` table
 (migration `20260909120000_ai_usage.sql`). Over the cap returns a `429` with a
 "come back tomorrow / sign in for more" message. Tune the numbers in
 `aiLimits.ts`; the check fails open if Supabase isn't configured. Set an optional
-`AI_LIMIT_SALT` to control the IP-hash salt.
+`AI_LIMIT_SALT` to control the IP-hash salt. The same table/mechanism also caps
+the Contact form (see below) — not AI, but the same spam-protection shape.
 
 **Gemini (recommended — free, no billing):**
 1. Go to [aistudio.google.com](https://aistudio.google.com), click **Get API key**,
@@ -140,3 +142,28 @@ image generation (the free quota for image models is 0). To use Gemini for the
 Google Cloud account. If you'd rather not, set `OPENAI_API_KEY` instead — with
 `GEMINI_API_KEY` also set, chat uses Gemini and images fall through to OpenAI
 automatically.
+
+## Contact form — Resend
+
+The [`/contact`](src/app/contact/page.tsx) page's form posts to
+[`/api/contact`](src/app/api/contact/route.ts), which sends the message as an
+email via [Resend](https://resend.com) ([`src/lib/resend.ts`](src/lib/resend.ts) —
+a hand-rolled fetch wrapper, no SDK, matching `gemini.ts`). Without a key it
+returns a friendly 503 instead of pretending to send anything.
+
+1. Sign up at [resend.com](https://resend.com) (free tier is generous enough for a
+   low-traffic site's contact form) and create an **API key**.
+2. Set `RESEND_API_KEY` to that value — in `.env.local` for local dev, and in your
+   deploy platform's environment variables for production. Redeploy after adding
+   it there.
+3. Messages land in the address hardcoded as `TO_EMAIL` in
+   [`route.ts`](src/app/api/contact/route.ts); change it to your own.
+4. By default the email is sent from Resend's sandbox address
+   (`onboarding@resend.dev`), which works immediately with no setup but always
+   shows that address to you as the recipient. To send from your own domain
+   instead: verify it under **Domains** in the Resend dashboard, then set
+   `RESEND_FROM_EMAIL` to e.g. `"Storyburst <hello@yourdomain.com>"`.
+
+Replies go straight back to the visitor — each email's `reply_to` is set to the
+address they typed in the form. Submissions are capped per day (same mechanism as
+the AI features above) to keep the endpoint from being spammed.
