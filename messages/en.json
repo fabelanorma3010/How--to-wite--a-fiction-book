@@ -690,5 +690,38 @@
     "editProfile": "Edit your profile",
     "favorite": "Favorite",
     "books": "Books"
+  },
+  "PrivacyPage": {
+    "metaTitle": "Privacy Policy — Storyburst",
+    "metaDescription": "What Storyburst collects and how it is used.",
+    "heading": "Privacy Policy",
+    "lastUpdated": "Last updated September 5, 2026",
+    "langNotice": "",
+    "collectTitle": "What we collect",
+    "profilesTitle": "Public profiles & uploaded books",
+    "notebookTitle": "Your notebook",
+    "cookiesTitle": "Cookies & analytics",
+    "aiTitle": "Third-party AI services",
+    "dataUseTitle": "How your data is used",
+    "deleteTitle": "Deleting your data",
+    "childrenTitle": "Children's privacy",
+    "changesTitle": "Changes to this policy",
+    "contactTitle": "Contact"
+  },
+  "TermsPage": {
+    "metaTitle": "Terms of Service — Storyburst",
+    "metaDescription": "The terms for using Storyburst.",
+    "heading": "Terms of Service",
+    "lastUpdated": "Last updated August 24, 2026",
+    "langNotice": "",
+    "s1Title": "1. Accepting these terms",
+    "s2Title": "2. Accounts",
+    "s3Title": "3. Acceptable use",
+    "s4Title": "4. Your content & AI-assisted tools",
+    "s5Title": "5. No warranty",
+    "s6Title": "6. Limitation of liability",
+    "s7Title": "7. Ending your account",
+    "s8Title": "8. Changes to these terms",
+    "s9Title": "9. Contact"
   }
 }

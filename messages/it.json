@@ -690,5 +690,38 @@
     "editProfile": "Modifica il tuo profilo",
     "favorite": "Preferito",
     "books": "Libri"
+  },
+  "PrivacyPage": {
+    "metaTitle": "Informativa sulla privacy — Storyburst",
+    "metaDescription": "Cosa raccoglie Storyburst e come viene usato.",
+    "heading": "Informativa sulla privacy",
+    "lastUpdated": "Ultimo aggiornamento: 5 settembre 2026",
+    "langNotice": "Questa informativa è redatta in inglese. Questa traduzione è fornita per comodità; in caso di conflitto prevale la versione inglese.",
+    "collectTitle": "Cosa raccogliamo",
+    "profilesTitle": "Profili pubblici e libri caricati",
+    "notebookTitle": "Il tuo taccuino",
+    "cookiesTitle": "Cookie e analisi",
+    "aiTitle": "Servizi di IA di terze parti",
+    "dataUseTitle": "Come vengono usati i tuoi dati",
+    "deleteTitle": "Eliminare i tuoi dati",
+    "childrenTitle": "Privacy dei minori",
+    "changesTitle": "Modifiche a questa informativa",
+    "contactTitle": "Contatti"
+  },
+  "TermsPage": {
+    "metaTitle": "Termini di servizio — Storyburst",
+    "metaDescription": "I termini per usare Storyburst.",
+    "heading": "Termini di servizio",
+    "lastUpdated": "Ultimo aggiornamento: 24 agosto 2026",
+    "langNotice": "Questi termini sono redatti in inglese. Questa traduzione è fornita per comodità; in caso di conflitto prevale la versione inglese.",
+    "s1Title": "1. Accettazione di questi termini",
+    "s2Title": "2. Account",
+    "s3Title": "3. Uso accettabile",
+    "s4Title": "4. I tuoi contenuti e gli strumenti assistiti da IA",
+    "s5Title": "5. Nessuna garanzia",
+    "s6Title": "6. Limitazione di responsabilità",
+    "s7Title": "7. Chiusura del tuo account",
+    "s8Title": "8. Modifiche a questi termini",
+    "s9Title": "9. Contatti"
   }
 }

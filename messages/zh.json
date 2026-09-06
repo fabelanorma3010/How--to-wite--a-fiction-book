@@ -690,5 +690,38 @@
     "editProfile": "编辑你的资料",
     "favorite": "最爱",
     "books": "作品"
+  },
+  "PrivacyPage": {
+    "metaTitle": "隐私政策 — Storyburst",
+    "metaDescription": "Storyburst 收集什么以及如何使用。",
+    "heading": "隐私政策",
+    "lastUpdated": "最后更新：2026 年 9 月 5 日",
+    "langNotice": "本政策以英文撰写。此译文仅供参考；如有冲突，以英文版本为准。",
+    "collectTitle": "我们收集什么",
+    "profilesTitle": "公开资料与上传的作品",
+    "notebookTitle": "你的笔记本",
+    "cookiesTitle": "Cookie 与分析",
+    "aiTitle": "第三方 AI 服务",
+    "dataUseTitle": "你的数据如何被使用",
+    "deleteTitle": "删除你的数据",
+    "childrenTitle": "儿童隐私",
+    "changesTitle": "本政策的变更",
+    "contactTitle": "联系"
+  },
+  "TermsPage": {
+    "metaTitle": "服务条款 — Storyburst",
+    "metaDescription": "使用 Storyburst 的条款。",
+    "heading": "服务条款",
+    "lastUpdated": "最后更新：2026 年 8 月 24 日",
+    "langNotice": "本条款以英文撰写。此译文仅供参考；如有冲突，以英文版本为准。",
+    "s1Title": "1. 接受本条款",
+    "s2Title": "2. 账户",
+    "s3Title": "3. 可接受的使用",
+    "s4Title": "4. 你的内容与 AI 辅助工具",
+    "s5Title": "5. 不提供保证",
+    "s6Title": "6. 责任限制",
+    "s7Title": "7. 结束你的账户",
+    "s8Title": "8. 本条款的变更",
+    "s9Title": "9. 联系"
   }
 }
