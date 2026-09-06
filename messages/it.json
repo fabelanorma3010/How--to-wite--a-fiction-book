@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "Lingua: {name}. Cambia lingua",
     "choose": "Scegli una lingua"
+  },
+  "ActionText": {
+    "title": "Generatore di testo d'azione",
+    "intro": "Bloccato su una scena della sceneggiatura? Genera una battuta d'azione incisiva — effetto sonoro incluso — in linea con il genere del tuo libro.",
+    "genreLabel": "Scegli il genere per il testo d'azione",
+    "generate": "Genera battuta d'azione {emoji}"
+  },
+  "Illustration": {
+    "title": "Generatore di idee per illustrazioni",
+    "intro": "Ti serve una scintilla per la prossima vignetta o pagina? Genera un prompt di illustrazione completo — soggetto, azione, ambientazione, dettaglio e palette di colori — per il tuo disegnatore (o per te). Oppure passa direttamente a un'immagine generata.",
+    "genreLabel": "Scegli il genere per l'idea di illustrazione",
+    "generate": "Genera idea di illustrazione {emoji}",
+    "generating": "Generazione…",
+    "turnIntoImage": "Trasforma in immagine"
+  },
+  "Notebook": {
+    "title": "Il tuo taccuino di storie",
+    "intro": "Annota note sui personaggi, colpi di scena o una battuta di dialogo prima che ti sfuggano.",
+    "syncedNote": "È sincronizzato con il tuo account, quindi ti segue su qualsiasi dispositivo su cui accedi.",
+    "localNote": "È salvato in questo browser, quindi sarà qui alla tua prossima visita. Accedi per sincronizzarlo tra i dispositivi.",
+    "exportNote": "Esportalo in PDF o Word ogni volta che vuoi portarlo altrove.",
+    "placeholder": "C'era una volta... (la debolezza segreta del tuo eroe, un colpo di scena devastante, quella battuta perfetta — scrivila qui prima di dimenticarla!)",
+    "wordCount": "{count, plural, one {# parola} other {# parole}}",
+    "synced": "Sincronizzato con il tuo account ✓",
+    "saved": "Salvato ✓",
+    "saving": "Salvataggio…",
+    "readAloud": "Leggi ad alta voce",
+    "clear": "Svuota il taccuino",
+    "clearConfirm": "Cancellare tutto il taccuino? L'operazione non è reversibile."
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "Salva il tuo taccuino come PDF",
+    "docxTitle": "Scarica il tuo taccuino come documento Word",
+    "exporting": "Esportazione…",
+    "retry": "Riprova"
+  },
+  "ReadAloud": {
+    "readAloud": "Leggi ad alta voce",
+    "stop": "Ferma"
+  },
+  "Community": {
+    "title": "Community di Storyburst",
+    "intro": "Condividi una battuta, un'idea o qualcosa di cui vai fiero — e guarda a cosa stanno lavorando ora altri scrittori e artisti.",
+    "postingAs": "Pubblichi come {name}",
+    "bookTypeLabel": "Tipo di libro per il tuo post",
+    "titleField": "Titolo",
+    "optional": "(facoltativo)",
+    "titlePlaceholder": "Dagli un titolo, o lascialo vuoto",
+    "contentField": "A cosa stai lavorando?",
+    "contentPlaceholder": "Condividi una battuta di dialogo, un colpo di scena o un'idea di cui vai fiero...",
+    "sharing": "Condivisione…",
+    "share": "Condividi con la community",
+    "loginPrompt": "<login>Accedi</login> o <signup>registrati</signup> per condividere con la community.",
+    "loading": "Caricamento dei post della community…",
+    "loadError": "Non è stato possibile caricare la bacheca della community in questo momento.",
+    "tryAgain": "Riprova",
+    "empty": "Ancora nessun post — sii il primo a condividere! ✨",
+    "unavailable": "La bacheca della community non è disponibile in questo momento.",
+    "couldNotPost": "Impossibile pubblicare."
+  },
+  "Contact": {
+    "title": "Salutaci",
+    "intro": "Domande, commenti o voglia di raccontare a cosa stai lavorando? Invia un messaggio — si aprirà nella tua app di posta, pronto da inviare.",
+    "name": "Nome",
+    "namePlaceholder": "Il tuo nome",
+    "email": "Email",
+    "message": "Messaggio",
+    "messagePlaceholder": "Cosa hai in mente?",
+    "send": "Invia messaggio",
+    "sent": "Apertura della tua app di posta — grazie per averci scritto!",
+    "disclaimer": "Questo apre la tua app di posta predefinita con il messaggio già compilato — non viene inviato nulla automaticamente.",
+    "emailSubject": "Messaggio da {name} tramite Storyburst"
+  },
+  "CookieConsent": {
+    "title": "Avviso sui cookie",
+    "body": "Usiamo alcuni cookie essenziali per tenerti connesso — quelli non sono influenzati da questa scelta. Accettando attivi anche analisi senza cookie e rispettose della privacy e il monitoraggio delle prestazioni, così possiamo vedere come viene usato il sito e quanto è veloce. Leggi la nostra <privacy>Informativa sulla privacy</privacy>.",
+    "accept": "Accetta",
+    "decline": "Rifiuta"
+  },
+  "PanelPlanner": {
+    "panelWord": "Vignetta",
+    "noDialogue": "senza dialogo",
+    "silent": "muta",
+    "bleed": "al vivo",
+    "inputLabel": "Descrizioni delle vignette",
+    "help": "Una vignetta per riga, oppure separale con “then”, virgole o punti. Usa le parole inglesi “wide”, “tall / skinny”, “big / splash” o “beat / silent” per dare forma a ogni vignetta.",
+    "pageCount": "{count, plural, one {Pagina · # vignetta} other {Pagina · # vignette}}",
+    "breakdown": "Scaletta delle vignette",
+    "emptyHint": "Scrivi qualche vignetta qui sopra per vedere la pagina prendere forma.",
+    "size": {
+      "splash": "Pagina intera",
+      "wide": "Larga",
+      "big": "Grande",
+      "tall": "Alta",
+      "medium": "Media",
+      "beat": "Pausa"
+    },
+    "comic": {
+      "title": "Pianificatore di vignette per fumetti",
+      "lead": "Descrivi la pagina con parole semplici: «vignetta larga per il caveau, vignetta alta e stretta per la caduta, poi una vignetta di pausa prima del colpo». Ricevi una bozza della pagina, vignetta per vignetta.",
+      "reading": "Una griglia regolare — fasce uniformi, canaline dritte, da sinistra a destra, dall'alto in basso.",
+      "scriptNote": "si legge da sinistra a destra"
+    },
+    "manga": {
+      "title": "Pianificatore di vignette per manga",
+      "lead": "Le pagine manga rompono la griglia — tagli obliqui, canaline strette tra le colonne e i momenti forti che escono dal bordo. Descrivi la pagina e ricevi quel layout, letto da destra a sinistra.",
+      "reading": "Da destra a sinistra, dall'alto in basso. Tagli diagonali tra le vignette; pagine intere e grandi momenti escono dal bordo.",
+      "scriptNote": "si legge da destra a sinistra"
+    }
   }
 }

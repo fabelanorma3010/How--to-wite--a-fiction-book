@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "语言：{name}。更改语言",
     "choose": "选择语言"
+  },
+  "ActionText": {
+    "title": "趣味动作拟声词生成器",
+    "intro": "卡在某个剧本节拍上？生成一句有冲击力的动作文字——附带音效——贴合你作品的类型。",
+    "genreLabel": "为动作文字选择类型",
+    "generate": "生成动作台词 {emoji}"
+  },
+  "Illustration": {
+    "title": "创意插画点子生成器",
+    "intro": "下一格或下一页需要灵感？生成一段完整的插画提示词——主体、动作、场景、细节和配色——交给你的画师（或你自己）。也可以直接生成一张图。",
+    "genreLabel": "为插画点子选择类型",
+    "generate": "生成插画点子 {emoji}",
+    "generating": "生成中…",
+    "turnIntoImage": "生成为图片"
+  },
+  "Notebook": {
+    "title": "你的故事笔记本",
+    "intro": "在灵感溜走之前，记下人物笔记、剧情转折或一句台词。",
+    "syncedNote": "它已与你的账户同步，所以你在任何登录的设备上都能接着写。",
+    "localNote": "它就保存在这个浏览器里，下次再来时还在。登录后可在多个设备间同步。",
+    "exportNote": "想把它带到别处时，随时可以导出为 PDF 或 Word。",
+    "placeholder": "从前有一天……（你主角的秘密弱点、一个绝妙的剧情转折、那句完美的台词——趁没忘记，写在这里！）",
+    "wordCount": "{count} 字",
+    "synced": "已同步到你的账户 ✓",
+    "saved": "已保存 ✓",
+    "saving": "保存中…",
+    "readAloud": "朗读",
+    "clear": "清空笔记本",
+    "clearConfirm": "清空笔记本里的所有内容？此操作无法撤销。"
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "将笔记本保存为 PDF",
+    "docxTitle": "将笔记本下载为 Word 文档",
+    "exporting": "导出中…",
+    "retry": "重试"
+  },
+  "ReadAloud": {
+    "readAloud": "朗读",
+    "stop": "停止"
+  },
+  "Community": {
+    "title": "Storyburst 社区",
+    "intro": "分享一句台词、一个点子或你引以为傲的东西——看看其他作者和画师现在都在做什么。",
+    "postingAs": "以 {name} 的身份发布",
+    "bookTypeLabel": "帖子的图书类型",
+    "titleField": "标题",
+    "optional": "（可选）",
+    "titlePlaceholder": "给它起个标题，或留空",
+    "contentField": "你正在做什么？",
+    "contentPlaceholder": "分享一句台词、一个剧情转折或你引以为傲的点子……",
+    "sharing": "发布中…",
+    "share": "分享到社区",
+    "loginPrompt": "<login>登录</login>或<signup>注册</signup>即可分享到社区。",
+    "loading": "正在加载社区帖子…",
+    "loadError": "暂时无法加载社区墙。",
+    "tryAgain": "重试",
+    "empty": "还没有帖子——来做第一个分享的人吧！ ✨",
+    "unavailable": "社区墙暂时不可用。",
+    "couldNotPost": "无法发布。"
+  },
+  "Contact": {
+    "title": "打个招呼",
+    "intro": "有问题、反馈，或想聊聊你正在做的东西？发条消息——它会在你的邮件应用里打开，随时可以发送。",
+    "name": "姓名",
+    "namePlaceholder": "你的名字",
+    "email": "邮箱",
+    "message": "消息",
+    "messagePlaceholder": "你在想什么？",
+    "send": "发送消息",
+    "sent": "正在打开你的邮件应用——感谢联系！",
+    "disclaimer": "这会打开你默认的邮件应用并预填好内容——不会自动发送任何东西。",
+    "emailSubject": "来自 {name} 的消息（通过 Storyburst）"
+  },
+  "CookieConsent": {
+    "title": "Cookie 提示",
+    "body": "我们使用少量必要的 Cookie 来保持你的登录状态——这些不受此选择影响。选择“接受”还会开启注重隐私、无 Cookie 的分析和性能监测，帮助我们了解网站的使用情况和运行速度。请阅读我们的<privacy>隐私政策</privacy>。",
+    "accept": "接受",
+    "decline": "拒绝"
+  },
+  "PanelPlanner": {
+    "panelWord": "格",
+    "noDialogue": "无对白",
+    "silent": "静默",
+    "bleed": "出血",
+    "inputLabel": "分格描述",
+    "help": "每行一格，或用“then”、逗号、句号分隔。用英文词“wide”“tall / skinny”“big / splash”或“beat / silent”来设定每一格的形状。",
+    "pageCount": "页 · {count} 格",
+    "breakdown": "分格清单",
+    "emptyHint": "在上方写几格，看这一页如何成形。",
+    "size": {
+      "splash": "整版",
+      "wide": "宽格",
+      "big": "大格",
+      "tall": "竖格",
+      "medium": "中格",
+      "beat": "停顿"
+    },
+    "comic": {
+      "title": "美式漫画分格规划器",
+      "lead": "用简单的话描述你的页面：“金库用宽格，坠落用竖长的窄格，然后在出拳前放一个停顿格。”得到一张逐格的页面草图。",
+      "reading": "规整的网格——层级均匀、间隔笔直，从左到右、从上到下。",
+      "scriptNote": "从左到右阅读"
+    },
+    "manga": {
+      "title": "日式漫画分格规划器",
+      "lead": "日式漫画的页面会打破网格——倾斜的切分、列间狭窄的间隔，重要的节拍冲出画框。描述你的页面，得到这种从右到左阅读的版式。",
+      "reading": "从右到左、从上到下。格与格之间是斜切；整版和大节拍出血到画框边缘。",
+      "scriptNote": "从右到左阅读"
+    }
   }
 }

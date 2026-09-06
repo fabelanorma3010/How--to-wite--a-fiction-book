@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
+import { useTranslations } from 'next-intl'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const CONSENT_KEY = 'storyburst-cookie-consent'
@@ -20,6 +21,7 @@ function isConsent(value: string | null): value is Consent {
 // "Decline" actually means nothing extra loads. See src/app/privacy/page.tsx,
 // "Cookies & analytics".
 export default function CookieConsent() {
+  const t = useTranslations('CookieConsent')
   const [consent, setConsent] = useState<Consent | null>(null)
   const [ready, setReady] = useState(false)
 
@@ -42,17 +44,16 @@ export default function CookieConsent() {
       {consent === 'accepted' && <SpeedInsights />}
 
       {ready && consent === null && (
-        <div className="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6" role="dialog" aria-label="Cookie notice">
+        <div className="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6" role="dialog" aria-label={t('title')}>
           <div className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border-2 border-ink/10 bg-white p-5 shadow-xl sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm leading-relaxed text-ink/80">
-              We use a few essential cookies to keep you signed in — those aren&apos;t affected by
-              this choice. Accepting also turns on privacy-focused, cookie-free analytics and
-              performance monitoring so we can see how the site is used and how fast it runs. Read
-              our{' '}
-              <Link href="/privacy" className="font-bold text-ink underline underline-offset-2">
-                Privacy Policy
-              </Link>
-              .
+              {t.rich('body', {
+                privacy: (chunks) => (
+                  <Link href="/privacy" className="font-bold text-ink underline underline-offset-2">
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </p>
             <div className="flex shrink-0 gap-3">
               <button
@@ -60,14 +61,14 @@ export default function CookieConsent() {
                 onClick={() => decide('declined')}
                 className="rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-base"
               >
-                Decline
+                {t('decline')}
               </button>
               <button
                 type="button"
                 onClick={() => decide('accepted')}
                 className="rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
               >
-                Accept
+                {t('accept')}
               </button>
             </div>
           </div>

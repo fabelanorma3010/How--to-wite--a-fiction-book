@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { generateIllustrationIdea } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
@@ -13,6 +14,7 @@ interface IllustrationGeneratorProps {
 type ImageStatus = 'idle' | 'loading' | 'error' | 'done'
 
 export default function IllustrationGenerator({ selected, onSelect }: IllustrationGeneratorProps) {
+  const t = useTranslations('Illustration')
   const [idea, setIdea] = useState<string>('')
   const [imageStatus, setImageStatus] = useState<ImageStatus>('idle')
   const [imageUrl, setImageUrl] = useState<string | null>(null)
@@ -59,18 +61,12 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
       <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
         <Sticker emoji="🎨" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            Creative Illustration Idea Generator 🎨
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">
-            Need a spark for your next panel or page? Generate a full illustration
-            prompt — subject, action, setting, detail, and color palette — for your
-            artist (or yourself). Or skip straight to a generated image.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 🎨</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{t('intro')}</p>
         </div>
 
         <div className="mt-6">
-          <GenreSwitcher selected={selected} onSelect={onSelect} label="Choose genre for illustration idea" />
+          <GenreSwitcher selected={selected} onSelect={onSelect} label={t('genreLabel')} />
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -79,7 +75,7 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
             onClick={handleGenerate}
             className="rounded-full bg-accent px-8 py-3.5 text-lg font-extrabold text-accent-content shadow-md transition-transform hover:scale-105 active:scale-95"
           >
-            Generate {activeType.emoji} Illustration Idea
+            {t('generate', { emoji: activeType.emoji })}
           </button>
         </div>
 
@@ -101,10 +97,10 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
                     aria-hidden="true"
                     className="h-4 w-4 animate-spin rounded-full border-2 border-ink/30 border-t-ink"
                   />
-                  Generating…
+                  {t('generating')}
                 </>
               ) : (
-                <>🖼️ Turn into Image</>
+                <>🖼️ {t('turnIntoImage')}</>
               )}
             </button>
             <CopyButton text={idea} />

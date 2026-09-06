@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { generateActionText } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
@@ -11,6 +12,7 @@ interface ActionTextGeneratorProps {
 }
 
 export default function ActionTextGenerator({ selected, onSelect }: ActionTextGeneratorProps) {
+  const t = useTranslations('ActionText')
   const [lines, setLines] = useState<string[]>([])
   const activeType = bookTypes.find((b) => b.id === selected) ?? bookTypes[0]
 
@@ -30,17 +32,12 @@ export default function ActionTextGenerator({ selected, onSelect }: ActionTextGe
       <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
         <Sticker emoji="⚡" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            Fun Action Text Generator ⚡
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">
-            Stuck on a script beat? Generate a punchy line of action text — sound effect
-            included — tuned to your book's genre.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} ⚡</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{t('intro')}</p>
         </div>
 
         <div className="mt-6">
-          <GenreSwitcher selected={selected} onSelect={onSelect} label="Choose genre for action text" />
+          <GenreSwitcher selected={selected} onSelect={onSelect} label={t('genreLabel')} />
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -49,7 +46,7 @@ export default function ActionTextGenerator({ selected, onSelect }: ActionTextGe
             onClick={handleGenerate}
             className="rounded-full bg-secondary px-8 py-3.5 text-lg font-extrabold text-secondary-content shadow-md transition-transform hover:scale-105 active:scale-95"
           >
-            Generate {activeType.emoji} Action Line
+            {t('generate', { emoji: activeType.emoji })}
           </button>
         </div>
 
