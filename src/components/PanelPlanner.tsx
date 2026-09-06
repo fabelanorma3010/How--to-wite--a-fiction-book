@@ -3,20 +3,34 @@ import { planPanels, sizeLabel, WIDTH_WEIGHT } from '../lib/panelLayout'
 import CopyButton from './CopyButton'
 import Sticker from './Sticker'
 
-type Mode = 'comic' | 'manga'
+export type PlannerMode = 'comic' | 'manga'
 
 interface ModeConfig {
-  label: string
+  id: string
+  title: string
+  emoji: string
+  sticker: string
+  lead: string
   rtl: boolean
+  /** manga = diagonal panel cuts, bleeds on the big beats, tight column gutters. */
+  dynamic: boolean
   reading: string
+  scriptNote: string
   examples: { label: string; text: string }[]
 }
 
-const MODES: Record<Mode, ModeConfig> = {
+const MODES: Record<PlannerMode, ModeConfig> = {
   comic: {
-    label: 'Comic',
+    id: 'comic-planner',
+    title: 'Comic Panel Planner',
+    emoji: '💥',
+    sticker: '🗂️',
+    lead:
+      'Describe your page in plain words — “wide panel for the vault, tall skinny panel for the drop, then a beat panel before the punch.” Get a rough page layout back, panel by panel.',
     rtl: false,
-    reading: 'Panels read left to right, top to bottom.',
+    dynamic: false,
+    reading: 'A regular grid — even tiers, straight gutters, left to right, top to bottom.',
+    scriptNote: 'reads left to right',
     examples: [
       {
         label: 'Heist beat',
@@ -33,9 +47,16 @@ const MODES: Record<Mode, ModeConfig> = {
     ],
   },
   manga: {
-    label: 'Manga',
+    id: 'manga-planner',
+    title: 'Manga Panel Planner',
+    emoji: '🌸',
+    sticker: '📖',
+    lead:
+      'Manga pages break the grid — slanted cuts, tight column gutters, and the big beats bleeding past the frame. Describe your page and get that layout back, read right to left.',
     rtl: true,
-    reading: 'Panels read right to left, top to bottom — the manga convention.',
+    dynamic: true,
+    reading: 'Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.',
+    scriptNote: 'reads right to left',
     examples: [
       {
         label: 'Impact frame',
@@ -53,18 +74,20 @@ const MODES: Record<Mode, ModeConfig> = {
   },
 }
 
-export default function PanelPlanner() {
-  const [mode, setMode] = useState<Mode>('comic')
-  const [text, setText] = useState(MODES.comic.examples[0].text)
-  const cfg = MODES[mode]
-  const plan = useMemo(() => planPanels(text), [text])
+interface PanelPlannerProps {
+  mode: PlannerMode
+}
 
+export default function PanelPlanner({ mode }: PanelPlannerProps) {
+  const cfg = MODES[mode]
+  const [text, setText] = useState(cfg.examples[0].text)
+  const plan = useMemo(() => planPanels(text), [text])
   const flatPanels = useMemo(() => plan.tiers.flatMap((t) => t.panels), [plan])
 
   const script = useMemo(
     () =>
       [
-        `// ${cfg.label} page — ${cfg.rtl ? 'reads right to left' : 'reads left to right'}`,
+        `// ${cfg.title} — ${cfg.scriptNote}`,
         ...flatPanels.map(
           (p) =>
             `PANEL ${p.n} — ${sizeLabel(p.size).toUpperCase()}${p.silent ? ' · no dialogue' : ''}\n${p.text}`,
@@ -73,55 +96,22 @@ export default function PanelPlanner() {
     [flatPanels, cfg],
   )
 
-  function switchMode(next: Mode) {
-    setMode(next)
-    setText((current) =>
-      MODES.comic.examples.some((e) => e.text === current) ||
-      MODES.manga.examples.some((e) => e.text === current)
-        ? MODES[next].examples[0].text
-        : current,
-    )
-  }
-
   const totalWeight = plan.tiers.reduce((sum, t) => sum + t.height, 0)
   const pageHeight = Math.min(1000, Math.max(360, Math.round(totalWeight * 82)))
+  const inputId = `${cfg.id}-input`
 
   return (
-    <section id="panel-planner" className="px-4 py-16 sm:px-6">
+    <section id={cfg.id} className="px-4 py-16 sm:px-6">
       <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
-        <Sticker emoji="🗂️" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
+        <Sticker emoji={cfg.sticker} className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Panel Planner 🗂️</h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">
-            Describe your page in plain words &mdash; &ldquo;wide panel for the vault, tall skinny
-            panel for the drop, then a beat panel before the punch.&rdquo; Get a rough page layout
-            back, panel by panel.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
+            {cfg.title} {cfg.emoji}
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{cfg.lead}</p>
         </div>
 
-        <div className="mt-6 flex justify-center">
-          <div
-            className="inline-flex rounded-full border-2 border-ink/15 bg-white/70 p-1"
-            role="group"
-            aria-label="Layout style"
-          >
-            {(Object.keys(MODES) as Mode[]).map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => switchMode(m)}
-                aria-pressed={mode === m}
-                className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
-                  mode === m ? 'bg-primary text-primary-content shadow-sm' : 'text-ink/60 hover:text-ink'
-                }`}
-              >
-                {MODES[m].label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-5 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
           {cfg.examples.map((ex) => (
             <button
               key={ex.label}
@@ -134,11 +124,11 @@ export default function PanelPlanner() {
           ))}
         </div>
 
-        <label htmlFor="panel-input" className="sr-only">
+        <label htmlFor={inputId} className="sr-only">
           Panel descriptions
         </label>
         <textarea
-          id="panel-input"
+          id={inputId}
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={4}
@@ -155,38 +145,59 @@ export default function PanelPlanner() {
           <>
             <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-4">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
-                {cfg.label} page &middot; {plan.panelCount}{' '}
-                {plan.panelCount === 1 ? 'panel' : 'panels'}
+                Page &middot; {plan.panelCount} {plan.panelCount === 1 ? 'panel' : 'panels'}
               </h3>
               <p className="text-xs font-semibold text-ink/45">{cfg.reading}</p>
             </div>
             <div
-              className="mx-auto mt-3 flex w-full max-w-sm flex-col gap-1.5 rounded-xl border-2 border-ink/15 bg-white p-1.5"
+              className={`mx-auto mt-3 flex w-full max-w-sm flex-col overflow-hidden rounded-xl border-2 border-ink/15 bg-white p-1.5 ${
+                cfg.dynamic ? 'gap-3' : 'gap-1.5'
+              }`}
               style={{ height: pageHeight }}
             >
               {plan.tiers.map((tier, ti) => (
                 <div
                   key={ti}
-                  className={`flex min-h-0 gap-1.5 ${cfg.rtl ? 'flex-row-reverse' : ''}`}
+                  className={`flex min-h-0 ${cfg.dynamic ? 'gap-1' : 'gap-1.5'} ${
+                    cfg.rtl ? 'flex-row-reverse' : ''
+                  }`}
                   style={{ flexGrow: tier.height, flexBasis: 0 }}
                 >
-                  {tier.panels.map((p) => (
-                    <div
-                      key={p.n}
-                      className={`flex min-w-0 flex-col overflow-hidden rounded-sm border-[3px] border-ink p-2 ${
-                        p.silent ? 'bg-ink/[0.05]' : 'bg-base/40'
-                      }`}
-                      style={{ flexGrow: WIDTH_WEIGHT[p.size], flexBasis: 0 }}
-                    >
-                      <span className="text-[9px] font-black uppercase tracking-wider text-ink/45">
-                        {p.n} &middot; {sizeLabel(p.size)}
-                        {p.silent ? ' · silent' : ''}
-                      </span>
-                      <span className="mt-0.5 line-clamp-4 text-[11px] font-semibold leading-snug text-ink/80">
-                        {p.text}
-                      </span>
-                    </div>
-                  ))}
+                  {tier.panels.map((p) => {
+                    const bleed =
+                      cfg.dynamic && tier.panels.length === 1 && (p.size === 'splash' || p.size === 'big')
+                    const diagonal = cfg.dynamic && tier.panels.length > 1
+                    return (
+                      <div
+                        key={p.n}
+                        className={`flex min-w-0 flex-col overflow-hidden ${
+                          bleed
+                            ? 'rounded-[2px] bg-gradient-to-br from-ink/15 to-ink/[0.03]'
+                            : cfg.dynamic
+                              ? 'rounded-[2px] border-2 border-ink'
+                              : 'rounded-sm border-[3px] border-ink'
+                        } ${diagonal ? 'px-3 py-2' : 'p-2'} ${
+                          p.silent && !bleed ? 'bg-ink/[0.05]' : !bleed ? 'bg-base/40' : ''
+                        }`}
+                        style={{
+                          flexGrow: WIDTH_WEIGHT[p.size],
+                          flexBasis: 0,
+                          ...(bleed ? { margin: '-6px' } : null),
+                          ...(diagonal
+                            ? { clipPath: 'polygon(0% 0%, 94% 0%, 100% 100%, 6% 100%)' }
+                            : null),
+                        }}
+                      >
+                        <span className="text-[9px] font-black uppercase tracking-wider text-ink/45">
+                          {p.n} &middot; {sizeLabel(p.size)}
+                          {bleed ? ' · bleed' : p.silent ? ' · silent' : ''}
+                        </span>
+                        <span className="mt-0.5 line-clamp-4 text-[11px] font-semibold leading-snug text-ink/80">
+                          {p.text}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               ))}
             </div>

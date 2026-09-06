@@ -39,7 +39,10 @@ function App() {
           <IllustrationGenerator selected={selectedType} onSelect={setSelectedType} />
         </ScrollReveal>
         <ScrollReveal>
-          <PanelPlanner />
+          <PanelPlanner mode="comic" />
+        </ScrollReveal>
+        <ScrollReveal>
+          <PanelPlanner mode="manga" />
         </ScrollReveal>
         <ScrollReveal>
           <StoryNotebook />
