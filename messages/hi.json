@@ -79,8 +79,19 @@
     "saved": "सहेजा गया ✓",
     "saving": "सहेज रहे हैं…",
     "readAloud": "ज़ोर से पढ़ें",
+    "dictate": "बोलकर लिखें",
     "clear": "नोटबुक खाली करें",
-    "clearConfirm": "नोटबुक में सब कुछ हटा दें? यह वापस नहीं आएगा।"
+    "clearConfirm": "नोटबुक में सब कुछ हटा दें? यह वापस नहीं आएगा।",
+    "fontSizeLabel": "टेक्स्ट आकार",
+    "fontSizeSmall": "छोटा",
+    "fontSizeMedium": "मध्यम",
+    "fontSizeLarge": "बड़ा",
+    "fontFamilyLabel": "फ़ॉन्ट",
+    "fontDefault": "डिफ़ॉल्ट",
+    "fontHandwritten": "हस्तलिखित",
+    "fontSerif": "सेरिफ़",
+    "fontMono": "मोनोस्पेस",
+    "picturesTitle": "संदर्भ चित्र"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "एक्सपोर्ट हो रहा है…",
     "retry": "फिर से कोशिश करें"
   },
+  "NotebookImages": {
+    "addPictures": "चित्र जोड़ें",
+    "signInPrompt": "अपनी नोटबुक में संदर्भ चित्र जोड़ने के लिए लॉग इन करें।",
+    "remove": "चित्र हटाएं",
+    "tooMany": "आप अधिकतम {max} चित्र जोड़ सकते हैं।",
+    "invalidType": "कृपया PNG, JPEG, WebP छवि, या PDF फ़ाइल चुनें।",
+    "tooLarge": "यह फ़ाइल बहुत बड़ी है — अधिकतम 5MB।",
+    "unavailable": "अभी अपलोड उपलब्ध नहीं हैं।"
+  },
   "ReadAloud": {
     "readAloud": "ज़ोर से पढ़ें",
+    "stop": "रोकें"
+  },
+  "Dictate": {
+    "dictate": "बोलकर लिखें",
     "stop": "रोकें"
   },
   "Community": {

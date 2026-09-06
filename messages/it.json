@@ -79,8 +79,19 @@
     "saved": "Salvato ✓",
     "saving": "Salvataggio…",
     "readAloud": "Leggi ad alta voce",
+    "dictate": "Detta",
     "clear": "Svuota il taccuino",
-    "clearConfirm": "Cancellare tutto il taccuino? L'operazione non è reversibile."
+    "clearConfirm": "Cancellare tutto il taccuino? L'operazione non è reversibile.",
+    "fontSizeLabel": "Dimensione testo",
+    "fontSizeSmall": "Piccolo",
+    "fontSizeMedium": "Medio",
+    "fontSizeLarge": "Grande",
+    "fontFamilyLabel": "Carattere",
+    "fontDefault": "Predefinito",
+    "fontHandwritten": "Scrittura a mano",
+    "fontSerif": "Serif",
+    "fontMono": "Monospace",
+    "picturesTitle": "Immagini di riferimento"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "Esportazione…",
     "retry": "Riprova"
   },
+  "NotebookImages": {
+    "addPictures": "Aggiungi immagini",
+    "signInPrompt": "Accedi per allegare immagini di riferimento al tuo taccuino.",
+    "remove": "Rimuovi immagine",
+    "tooMany": "Puoi allegare fino a {max} immagini.",
+    "invalidType": "Scegli un'immagine PNG, JPEG, WebP, o un file PDF.",
+    "tooLarge": "Questo file è troppo grande — massimo 5MB.",
+    "unavailable": "I caricamenti non sono disponibili al momento."
+  },
   "ReadAloud": {
     "readAloud": "Leggi ad alta voce",
+    "stop": "Ferma"
+  },
+  "Dictate": {
+    "dictate": "Detta",
     "stop": "Ferma"
   },
   "Community": {

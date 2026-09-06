@@ -79,8 +79,19 @@
     "saved": "Enregistré ✓",
     "saving": "Enregistrement…",
     "readAloud": "Lire à voix haute",
+    "dictate": "Dicter",
     "clear": "Effacer le carnet",
-    "clearConfirm": "Tout effacer dans votre carnet ? C'est irréversible."
+    "clearConfirm": "Tout effacer dans votre carnet ? C'est irréversible.",
+    "fontSizeLabel": "Taille du texte",
+    "fontSizeSmall": "Petite",
+    "fontSizeMedium": "Moyenne",
+    "fontSizeLarge": "Grande",
+    "fontFamilyLabel": "Police",
+    "fontDefault": "Par défaut",
+    "fontHandwritten": "Manuscrite",
+    "fontSerif": "Serif",
+    "fontMono": "Monospace",
+    "picturesTitle": "Images de référence"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "Exportation…",
     "retry": "Réessayer"
   },
+  "NotebookImages": {
+    "addPictures": "Ajouter des images",
+    "signInPrompt": "Connectez-vous pour ajouter des images de référence à votre carnet.",
+    "remove": "Supprimer l'image",
+    "tooMany": "Vous pouvez ajouter jusqu'à {max} images.",
+    "invalidType": "Choisissez une image PNG, JPEG, WebP, ou un fichier PDF.",
+    "tooLarge": "Ce fichier est trop volumineux — 5 Mo maximum.",
+    "unavailable": "Les envois ne sont pas disponibles pour le moment."
+  },
   "ReadAloud": {
     "readAloud": "Lire à voix haute",
+    "stop": "Arrêter"
+  },
+  "Dictate": {
+    "dictate": "Dicter",
     "stop": "Arrêter"
   },
   "Community": {
