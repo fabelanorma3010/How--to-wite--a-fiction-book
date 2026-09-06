@@ -21,9 +21,10 @@ export class ResendError extends Error {
 interface SendEmailInput {
   to: string
   from: string
-  replyTo: string
+  replyTo?: string
   subject: string
   text: string
+  html?: string
 }
 
 export async function sendEmail(input: SendEmailInput): Promise<void> {
@@ -38,9 +39,10 @@ export async function sendEmail(input: SendEmailInput): Promise<void> {
       body: JSON.stringify({
         to: input.to,
         from: input.from,
-        reply_to: input.replyTo,
+        ...(input.replyTo && { reply_to: input.replyTo }),
         subject: input.subject,
         text: input.text,
+        ...(input.html && { html: input.html }),
       }),
     })
   } catch {

@@ -143,26 +143,42 @@ Google Cloud account. If you'd rather not, set `OPENAI_API_KEY` instead — with
 `GEMINI_API_KEY` also set, chat uses Gemini and images fall through to OpenAI
 automatically.
 
-## Contact form — Resend
+## Transactional email — Resend
 
-The [`/contact`](src/app/contact/page.tsx) page's form posts to
-[`/api/contact`](src/app/api/contact/route.ts), which sends the message as an
-email via [Resend](https://resend.com) ([`src/lib/resend.ts`](src/lib/resend.ts) —
-a hand-rolled fetch wrapper, no SDK, matching `gemini.ts`). Without a key it
-returns a friendly 503 instead of pretending to send anything.
+Two things send mail via [Resend](https://resend.com)
+([`src/lib/resend.ts`](src/lib/resend.ts) — a hand-rolled fetch wrapper, no SDK,
+matching `gemini.ts`): the Contact form and the welcome email. Without a key both
+return a friendly 503 instead of pretending to send anything.
 
-1. Sign up at [resend.com](https://resend.com) (free tier is generous enough for a
-   low-traffic site's contact form) and create an **API key**.
+1. Sign up at [resend.com](https://resend.com) (free tier: 3,000 emails/month) and
+   create an **API key**.
 2. Set `RESEND_API_KEY` to that value — in `.env.local` for local dev, and in your
    deploy platform's environment variables for production. Redeploy after adding
    it there.
-3. Messages land in the address hardcoded as `TO_EMAIL` in
-   [`route.ts`](src/app/api/contact/route.ts); change it to your own.
-4. By default the email is sent from Resend's sandbox address
-   (`onboarding@resend.dev`), which works immediately with no setup but always
-   shows that address to you as the recipient. To send from your own domain
-   instead: verify it under **Domains** in the Resend dashboard, then set
-   `RESEND_FROM_EMAIL` to e.g. `"Storyburst <hello@yourdomain.com>"`.
+3. By default mail is sent from Resend's sandbox address (`onboarding@resend.dev`),
+   which works immediately with no setup but always shows that address to the
+   recipient. To send from your own domain instead: verify it under **Domains** in
+   the Resend dashboard, then set `RESEND_FROM_EMAIL` to e.g.
+   `"Storyburst <hello@yourdomain.com>"`.
+
+**Contact form**: the [`/contact`](src/app/contact/page.tsx) page posts to
+[`/api/contact`](src/app/api/contact/route.ts), which emails the message to the
+address hardcoded as `TO_EMAIL` there (change it to your own), with `reply_to` set
+to the visitor so you can just hit reply.
+
+**Welcome email**: [`SignUpForm`](src/components/SignUpForm.tsx) fires a
+fire-and-forget POST to [`/api/welcome-email`](src/app/api/welcome-email/route.ts)
+right after a password signup that gets an immediate session (i.e. **Confirm
+email** is off in the Supabase dashboard — see "Auth dashboard setup" above). The
+route reads the recipient from the caller's own Supabase session server-side —
+never from the request body — so it can't be used as an open relay to spam
+arbitrary addresses. The HTML template lives in
+[`src/lib/emailTemplates.ts`](src/lib/emailTemplates.ts). Known gap: since it
+needs a session to authorize the send, it does **not** currently fire for Google
+sign-ups or for password sign-ups that require clicking an email-confirmation
+link first (no session exists yet at that point) — hooking those in would mean
+sending from `/auth/callback` instead, with an idempotency check so a repeat
+visit there doesn't re-send it.
 
 Replies go straight back to the visitor — each email's `reply_to` is set to the
 address they typed in the form. Submissions are capped per day (same mechanism as

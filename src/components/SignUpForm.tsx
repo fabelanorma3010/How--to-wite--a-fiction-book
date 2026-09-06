@@ -62,6 +62,8 @@ export default function SignUpForm() {
         return
       }
       if (data.session) {
+        // Fire-and-forget — a welcome-email hiccup should never block signup.
+        void fetch('/api/welcome-email', { method: 'POST' }).catch(() => {})
         router.push('/')
         router.refresh()
         return
