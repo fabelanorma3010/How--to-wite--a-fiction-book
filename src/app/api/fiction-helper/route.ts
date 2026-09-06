@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { bookTypes, type BookTypeId } from '../../../data/bookTypes'
 import { GeminiError, geminiChat, hasGeminiKey } from '../../../lib/gemini'
+import { checkAiLimit } from '../../../lib/aiLimits'
 
 const MODEL = 'claude-opus-5'
 const MAX_TOKENS = 400
@@ -61,6 +62,9 @@ export async function POST(request: Request) {
   if (history[history.length - 1].role !== 'user') {
     return NextResponse.json({ error: 'The last message must be from the user.' }, { status: 400 })
   }
+
+  const limited = await checkAiLimit(request, 'chat')
+  if (limited) return NextResponse.json({ error: limited.error }, { status: limited.status })
 
   const activeGenre = bookTypes.find((b) => b.id === genre)
   const genreId: BookTypeId = activeGenre?.id ?? bookTypes[0].id

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { GeminiError, geminiGenerateImage, hasGeminiKey } from '../../../lib/gemini'
+import { checkAiLimit } from '../../../lib/aiLimits'
 
 const OPENAI_IMAGES_URL = 'https://api.openai.com/v1/images/generations'
 const MAX_PROMPT_LENGTH = 2000
@@ -27,6 +28,9 @@ export async function POST(request: Request) {
   if (prompt.length > MAX_PROMPT_LENGTH) {
     return NextResponse.json({ error: 'Prompt is too long.' }, { status: 400 })
   }
+
+  const limited = await checkAiLimit(request, 'image')
+  if (limited) return NextResponse.json({ error: limited.error }, { status: limited.status })
 
   // Prefer Gemini when its key is set. If it fails (notably: image generation
   // isn't on Gemini's free tier) and OpenAI is also configured, fall through to

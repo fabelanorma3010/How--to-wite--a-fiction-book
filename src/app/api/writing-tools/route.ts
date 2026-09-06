@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { GeminiError, geminiChat, hasGeminiKey } from '../../../lib/gemini'
+import { checkAiLimit } from '../../../lib/aiLimits'
 
 const ANTHROPIC_MODEL = 'claude-opus-5'
 const MAX_INPUT_CHARS = 50_000
@@ -58,6 +59,9 @@ export async function POST(request: Request) {
       { status: 400 },
     )
   }
+
+  const limited = await checkAiLimit(request, 'tools')
+  if (limited) return NextResponse.json({ error: limited.error }, { status: limited.status })
 
   const system = MODES[mode].system
   const content = text.trim()
