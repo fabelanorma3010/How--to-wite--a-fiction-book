@@ -11,12 +11,17 @@ const faqs = [
   {
     question: 'Can I sign up for Membership yet?',
     answer:
-      "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page. Everything listed under Membership is free to use in the meantime.",
+      "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first month is free. Everything listed under Membership is free to use in the meantime.",
+  },
+  {
+    question: 'How does the free first month work?',
+    answer:
+      "When Membership launches, you'll get your first month free — full access, no charge. Billing only starts after that, and you can cancel any time before it does.",
   },
   {
     question: 'Monthly or annual?',
     answer:
-      "Both, once Membership is live. Annual works out to about two months free versus paying monthly, and you'll be able to switch between them anytime.",
+      "Both, once Membership is live. Annual ($99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime.",
   },
   {
     question: 'Do I need to make an account?',
