@@ -2,8 +2,16 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import JsonLd from '../../components/JsonLd'
 import PricingFaq from '../../components/PricingFaq'
 import PricingTiers from '../../components/PricingTiers'
+import { PRICES } from '../../data/pricing'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
+
+function priceNumber(amount: string): string {
+  return amount.replace(/[^0-9.]/g, '')
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('PricingPage')
@@ -20,9 +28,41 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PricingPage() {
   const t = await getTranslations('PricingPage')
+  const tiers = await getTranslations('PricingTiers')
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${siteUrl}/pricing#service`,
+    name: 'Storyburst Membership',
+    description: t('metaDescription'),
+    url: `${siteUrl}/pricing`,
+    provider: { '@id': `${siteUrl}/#organization` },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Plans',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          name: tiers('freeTitle'),
+          price: '0',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: tiers('memberTitle'),
+          price: priceNumber(PRICES.monthly.amount),
+          priceCurrency: 'USD',
+          // Membership billing isn't live yet (see "Coming soon" in PricingTiers).
+          availability: 'https://schema.org/PreOrder',
+        },
+      ],
+    },
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">

@@ -2,11 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-
-const PRICES = {
-  monthly: { amount: '$9.99', unit: 'perMonth' },
-  annual: { amount: '$99', unit: 'perYear' },
-} as const
+import { PRICES } from '../data/pricing'
 
 type Cadence = keyof typeof PRICES
 

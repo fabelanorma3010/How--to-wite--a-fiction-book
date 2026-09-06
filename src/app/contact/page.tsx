@@ -3,6 +3,9 @@ import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ContactForm from '../../components/ContactForm'
+import JsonLd from '../../components/JsonLd'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('ContactPage')
@@ -19,9 +22,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   const t = await getTranslations('ContactPage')
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${siteUrl}/contact#webpage`,
+    url: `${siteUrl}/contact`,
+    name: t('metaTitle'),
+    description: t('metaDescription'),
+    isPartOf: { '@id': `${siteUrl}/#website` },
+    about: { '@id': `${siteUrl}/#organization` },
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">

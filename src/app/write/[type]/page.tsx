@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
+import JsonLd from '../../../components/JsonLd'
 import { bookTypes, bookTypeEmoji, type BookTypeId } from '../../../data/bookTypes'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 
 export function generateStaticParams() {
   return bookTypes.map((type) => ({ type: type.id }))
@@ -12,6 +15,18 @@ export function generateStaticParams() {
 
 function isBookTypeId(value: string): value is BookTypeId {
   return bookTypes.some((t) => t.id === value)
+}
+
+async function buildMeta(type: BookTypeId) {
+  const bt = await getTranslations('BookTypes')
+  const wg = await getTranslations('WriteGuide')
+  const name = bt(`types.${type}.name`)
+  const title = wg('metaTitle', { name })
+  const description = wg('metaDescription', {
+    name,
+    tagline: bt(`types.${type}.tagline`),
+  })
+  return { title, description, name }
 }
 
 export async function generateMetadata({
@@ -22,14 +37,7 @@ export async function generateMetadata({
   const { type } = await params
   if (!isBookTypeId(type)) return { title: 'Storyburst' }
 
-  const bt = await getTranslations('BookTypes')
-  const wg = await getTranslations('WriteGuide')
-  const name = bt(`types.${type}.name`)
-  const title = wg('metaTitle', { name })
-  const description = wg('metaDescription', {
-    name,
-    tagline: bt(`types.${type}.tagline`),
-  })
+  const { title, description } = await buildMeta(type)
 
   return {
     title,
@@ -49,9 +57,38 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
   const tips = bt.raw(`types.${type}.tips`) as string[]
   const name = bt(`types.${type}.name`)
   const others = bookTypes.filter((t) => t.id !== type)
+  const locale = await getLocale()
+  const { title, description } = await buildMeta(type)
+  const pageUrl = `${siteUrl}/write/${type}`
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `${pageUrl}#article`,
+        headline: title,
+        description,
+        url: pageUrl,
+        image: `${siteUrl}/opengraph-image`,
+        inLanguage: locale,
+        isPartOf: { '@id': `${siteUrl}/#website` },
+        author: { '@id': `${siteUrl}/#organization` },
+        publisher: { '@id': `${siteUrl}/#organization` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Storyburst', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name, item: pageUrl },
+        ],
+      },
+    ],
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">

@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import JsonLd from '../../components/JsonLd'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('AboutPage')
@@ -18,9 +21,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const t = await getTranslations('AboutPage')
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${siteUrl}/about#webpage`,
+    url: `${siteUrl}/about`,
+    name: t('metaTitle'),
+    description: t('metaDescription'),
+    isPartOf: { '@id': `${siteUrl}/#website` },
+    about: { '@id': `${siteUrl}/#organization` },
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pt-20">

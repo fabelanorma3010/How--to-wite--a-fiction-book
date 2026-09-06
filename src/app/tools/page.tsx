@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import JsonLd from '../../components/JsonLd'
 import WritingTools from '../../components/WritingTools'
+import { TOOL_IDS } from '../../data/writingTools'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('ToolsPage')
@@ -19,9 +23,29 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ToolsPage() {
   const t = await getTranslations('ToolsPage')
+  const wt = await getTranslations('WritingTools')
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${siteUrl}/tools#webpage`,
+    url: `${siteUrl}/tools`,
+    name: t('metaTitle'),
+    description: t('metaDescription'),
+    isPartOf: { '@id': `${siteUrl}/#website` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: TOOL_IDS.map((id, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: wt(`tools.${id}.label`),
+        description: wt(`tools.${id}.blurb`),
+      })),
+    },
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">

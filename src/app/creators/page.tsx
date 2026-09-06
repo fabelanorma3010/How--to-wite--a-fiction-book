@@ -3,10 +3,13 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import JsonLd from '../../components/JsonLd'
 import ShimmerNextImage from '../../components/ShimmerNextImage'
 import { listPublicProfiles } from '../../lib/publicProfile'
 
 export const dynamic = 'force-dynamic'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('CreatorsPage')
@@ -24,9 +27,34 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function CreatorsPage() {
   const t = await getTranslations('CreatorsPage')
   const profiles = await listPublicProfiles()
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${siteUrl}/creators#webpage`,
+    url: `${siteUrl}/creators`,
+    name: t('metaTitle'),
+    description: t('metaDescription'),
+    isPartOf: { '@id': `${siteUrl}/#website` },
+    ...(profiles.length > 0 && {
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: profiles.map((profile, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'Person',
+            name: profile.name,
+            url: `${siteUrl}/u/${profile.username}`,
+            ...(profile.avatarUrl && { image: profile.avatarUrl }),
+          },
+        })),
+      },
+    }),
+  }
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={jsonLd} />
       <Header />
       <main>
         <section className="relative overflow-hidden px-4 pb-4 pt-14 sm:px-6 sm:pt-20">
