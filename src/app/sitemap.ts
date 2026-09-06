@@ -7,6 +7,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-bu
 const staticRoutes: MetadataRoute.Sitemap = [
   { url: `${siteUrl}/`, changeFrequency: 'weekly', priority: 1 },
   { url: `${siteUrl}/tools`, changeFrequency: 'monthly', priority: 0.7 },
+  { url: `${siteUrl}/creators`, changeFrequency: 'daily', priority: 0.6 },
   { url: `${siteUrl}/about`, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${siteUrl}/pricing`, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${siteUrl}/contact`, changeFrequency: 'yearly', priority: 0.3 },

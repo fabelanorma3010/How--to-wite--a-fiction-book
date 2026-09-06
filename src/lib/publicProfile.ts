@@ -52,3 +52,38 @@ export async function getPublicProfile(username: string): Promise<PublicProfile 
     createdAt: data.created_at,
   }
 }
+
+export interface PublicProfileCard {
+  id: string
+  username: string
+  name: string
+  avatarUrl: string | null
+  bio: string
+}
+
+/**
+ * Newest public profiles for the /creators gallery. Only returns rows that have
+ * *some* content (a bio or an avatar) — every signup is public by default, so
+ * this keeps blank auto-generated profiles out of the directory.
+ */
+export async function listPublicProfiles(limit = 60): Promise<PublicProfileCard[]> {
+  const supabase = await createClient()
+  if (!supabase) return []
+
+  const { data } = await supabase
+    .from('public_profile_cards')
+    .select('id, username, name, avatar_url, bio')
+    .order('created_at', { ascending: false })
+    .limit(limit * 3)
+
+  return (data ?? [])
+    .map((row) => ({
+      id: row.id as string,
+      username: row.username as string,
+      name: row.name as string,
+      avatarUrl: (row.avatar_url as string | null) ?? null,
+      bio: ((row.bio as string | null) ?? '').trim(),
+    }))
+    .filter((p) => p.bio || p.avatarUrl)
+    .slice(0, limit)
+}
