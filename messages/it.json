@@ -106,8 +106,8 @@
     "signInPrompt": "Accedi per allegare immagini di riferimento al tuo taccuino.",
     "remove": "Rimuovi immagine",
     "tooMany": "Puoi allegare fino a {max} immagini.",
-    "invalidType": "Scegli un'immagine PNG, JPEG o WebP.",
-    "tooLarge": "Questa immagine è troppo grande — massimo 5MB.",
+    "invalidType": "Scegli un'immagine PNG, JPEG, WebP, o un file PDF.",
+    "tooLarge": "Questo file è troppo grande — massimo 5MB.",
     "unavailable": "I caricamenti non sono disponibili al momento."
   },
   "ReadAloud": {

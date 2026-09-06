@@ -106,8 +106,8 @@
     "signInPrompt": "Inicia sesión para adjuntar imágenes de referencia a tu cuaderno.",
     "remove": "Quitar imagen",
     "tooMany": "Puedes adjuntar hasta {max} imágenes.",
-    "invalidType": "Elige una imagen PNG, JPEG o WebP.",
-    "tooLarge": "Esa imagen es demasiado grande — 5MB máximo.",
+    "invalidType": "Elige una imagen PNG, JPEG, WebP, o un archivo PDF.",
+    "tooLarge": "Ese archivo es demasiado grande — 5MB máximo.",
     "unavailable": "Las subidas no están disponibles en este momento."
   },
   "ReadAloud": {

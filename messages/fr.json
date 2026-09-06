@@ -106,8 +106,8 @@
     "signInPrompt": "Connectez-vous pour ajouter des images de référence à votre carnet.",
     "remove": "Supprimer l'image",
     "tooMany": "Vous pouvez ajouter jusqu'à {max} images.",
-    "invalidType": "Choisissez une image PNG, JPEG ou WebP.",
-    "tooLarge": "Cette image est trop volumineuse — 5 Mo maximum.",
+    "invalidType": "Choisissez une image PNG, JPEG, WebP, ou un fichier PDF.",
+    "tooLarge": "Ce fichier est trop volumineux — 5 Mo maximum.",
     "unavailable": "Les envois ne sont pas disponibles pour le moment."
   },
   "ReadAloud": {

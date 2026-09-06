@@ -106,8 +106,8 @@
     "signInPrompt": "登录后即可在笔记本中添加参考图片。",
     "remove": "移除图片",
     "tooMany": "最多可添加 {max} 张图片。",
-    "invalidType": "请选择 PNG、JPEG 或 WebP 格式的图片。",
-    "tooLarge": "图片太大——最大 5MB。",
+    "invalidType": "请选择 PNG、JPEG、WebP 格式的图片，或 PDF 文件。",
+    "tooLarge": "文件太大——最大 5MB。",
     "unavailable": "上传功能暂不可用。"
   },
   "ReadAloud": {

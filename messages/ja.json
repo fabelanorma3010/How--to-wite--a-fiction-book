@@ -106,8 +106,8 @@
     "signInPrompt": "ノートに参考画像を添付するにはログインしてください。",
     "remove": "画像を削除",
     "tooMany": "画像は最大{max}枚まで添付できます。",
-    "invalidType": "PNG、JPEG、WebPのいずれかの画像を選んでください。",
-    "tooLarge": "この画像は大きすぎます — 最大5MB。",
+    "invalidType": "PNG、JPEG、WebPの画像、またはPDFファイルを選んでください。",
+    "tooLarge": "このファイルは大きすぎます — 最大5MB。",
     "unavailable": "現在アップロードはご利用いただけません。"
   },
   "ReadAloud": {

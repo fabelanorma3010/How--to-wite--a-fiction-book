@@ -106,8 +106,8 @@
     "signInPrompt": "Melde dich an, um deinem Notizbuch Referenzbilder hinzuzufügen.",
     "remove": "Bild entfernen",
     "tooMany": "Du kannst bis zu {max} Bilder hinzufügen.",
-    "invalidType": "Bitte wähle ein PNG-, JPEG- oder WebP-Bild.",
-    "tooLarge": "Dieses Bild ist zu groß — maximal 5MB.",
+    "invalidType": "Bitte wähle ein PNG-, JPEG- oder WebP-Bild oder eine PDF-Datei.",
+    "tooLarge": "Diese Datei ist zu groß — maximal 5MB.",
     "unavailable": "Uploads sind gerade nicht verfügbar."
   },
   "ReadAloud": {

@@ -5,14 +5,16 @@ import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 
 const MAX_BYTES = 5 * 1024 * 1024
-const ACCEPTED = ['image/png', 'image/jpeg', 'image/webp']
+const ACCEPTED = ['image/png', 'image/jpeg', 'image/webp', 'application/pdf']
 const MAX_IMAGES = 6
 const SIGNED_URL_TTL = 3600
+const PDF_TYPE = 'application/pdf'
 
 interface NotebookImage {
   id: string
   path: string
   url: string
+  contentType: string | null
 }
 
 export default function NotebookImages({ userId }: { userId: string | null }) {
@@ -34,7 +36,7 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
       if (!supabase) return
       const { data } = await supabase
         .from('notebook_images')
-        .select('id, path')
+        .select('id, path, content_type')
         .eq('user_id', userId)
         .order('created_at', { ascending: true })
       if (!data || cancelled) return
@@ -44,7 +46,12 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
           const { data: signed } = await supabase.storage
             .from('notebook-images')
             .createSignedUrl(row.path, SIGNED_URL_TTL)
-          return { id: row.id as string, path: row.path as string, url: signed?.signedUrl ?? '' }
+          return {
+            id: row.id as string,
+            path: row.path as string,
+            contentType: row.content_type as string | null,
+            url: signed?.signedUrl ?? '',
+          }
         }),
       )
       if (!cancelled) setImages(withUrls.filter((img) => img.url))
@@ -94,7 +101,7 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
 
       const { data: inserted, error: insertError } = await supabase
         .from('notebook_images')
-        .insert({ user_id: userId, path })
+        .insert({ user_id: userId, path, content_type: file.type })
         .select('id')
         .single()
       if (insertError || !inserted) {
@@ -106,7 +113,10 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
       const { data: signed } = await supabase.storage
         .from('notebook-images')
         .createSignedUrl(path, SIGNED_URL_TTL)
-      setImages((prev) => [...prev, { id: inserted.id as string, path, url: signed?.signedUrl ?? '' }])
+      setImages((prev) => [
+        ...prev,
+        { id: inserted.id as string, path, contentType: file.type, url: signed?.signedUrl ?? '' },
+      ])
       setLoading(false)
     }
   }
@@ -142,8 +152,22 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
             key={image.id}
             className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-ink/10 bg-base"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={image.url} alt="" className="h-full w-full object-cover" />
+            {image.contentType === PDF_TYPE ? (
+              <a
+                href={image.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-full w-full flex-col items-center justify-center gap-0.5 text-ink/60 hover:text-ink"
+              >
+                <span aria-hidden="true" className="text-xl">
+                  📄
+                </span>
+                <span className="text-[0.6rem] font-bold uppercase">PDF</span>
+              </a>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={image.url} alt="" className="h-full w-full object-cover" />
+            )}
             <button
               type="button"
               onClick={() => void handleRemove(image)}

@@ -106,8 +106,8 @@
     "signInPrompt": "Log in to attach reference pictures to your notebook.",
     "remove": "Remove picture",
     "tooMany": "You can attach up to {max} pictures.",
-    "invalidType": "Please choose a PNG, JPEG, or WebP image.",
-    "tooLarge": "That image is too large — 5MB max.",
+    "invalidType": "Please choose a PNG, JPEG, WebP image, or PDF file.",
+    "tooLarge": "That file is too large — 5MB max.",
     "unavailable": "Uploads are unavailable right now."
   },
   "ReadAloud": {
