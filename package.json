@@ -8,7 +8,9 @@
     "build": "next build",
     "build:cf": "opennextjs-cloudflare build",
     "start": "next start",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
@@ -24,12 +26,18 @@
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.4",
     "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.0.1",
     "oxlint": "^1.71.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
+    "vitest": "^5.0.0",
     "wrangler": "^4.127.0"
   }
 }
