@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { bookTypes } from '@/data/bookTypes'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
@@ -25,6 +26,7 @@ function typeEmoji(bookType: Book['bookType']) {
 
 export default function BookManager({ userId, books }: { userId: string; books: Book[] }) {
   const router = useRouter()
+  const bt = useTranslations('BookTypes')
   const [adding, setAdding] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -174,9 +176,9 @@ export default function BookManager({ userId, books }: { userId: string; books: 
             </label>
             <select id="book-type" value={bookType} onChange={(e) => setBookType(e.target.value)} className={inputClass}>
               <option value="">— optional —</option>
-              {bookTypes.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.emoji} {t.name}
+              {bookTypes.map((bookTypeOption) => (
+                <option key={bookTypeOption.id} value={bookTypeOption.id}>
+                  {bookTypeOption.emoji} {bt(`types.${bookTypeOption.id}.name`)}
                 </option>
               ))}
             </select>

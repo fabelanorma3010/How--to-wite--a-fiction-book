@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 
 interface GenreSwitcherProps {
@@ -7,6 +8,8 @@ interface GenreSwitcherProps {
 }
 
 export default function GenreSwitcher({ selected, onSelect, label }: GenreSwitcherProps) {
+  const t = useTranslations('BookTypes')
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label={label}>
       {bookTypes.map((type) => {
@@ -24,7 +27,7 @@ export default function GenreSwitcher({ selected, onSelect, label }: GenreSwitch
             }`}
           >
             <span aria-hidden="true">{type.emoji}</span>
-            {type.name}
+            {t(`types.${type.id}.name`)}
           </button>
         )
       })}

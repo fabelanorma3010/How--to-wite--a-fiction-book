@@ -163,5 +163,270 @@
       "reading": "Da direita para a esquerda, de cima para baixo. Cortes diagonais entre quadros; páginas inteiras e grandes momentos sangram a moldura.",
       "scriptNote": "lê-se da direita para a esquerda"
     }
+  },
+  "BookTypes": {
+    "sectionTitle": "Escolha o seu tipo de livro",
+    "sectionIntro": "Cada formato tem as suas próprias regras narrativas. Escolha um para ver dicas sob medida — a sua escolha também alimenta os geradores abaixo.",
+    "readGuide": "Ler o guia completo de escrita de {name} →",
+    "types": {
+      "comic": {
+        "name": "História em quadrinhos",
+        "tagline": "Heróis ousados, quadros grandes, ação ainda maior.",
+        "blurb": "Os quadrinhos de estilo ocidental contam histórias com quadros sequenciais cheios de poses dinâmicas, diálogos de impacto e onomatopeias que saltam da página. Pense em capas, esconderijos secretos e uma página inteira que faz o leitor parar.",
+        "tips": [
+          "Roteirize cada página como descrições de quadro + diálogo + legendas — a maioria dos desenhistas quer de 3 a 6 quadros por página.",
+          "Guarde sua maior revelação para uma página inteira ou dupla — não a desperdice num quadro pequeno.",
+          "Varie a forma e o tamanho dos quadros para controlar o ritmo: quadros altos e estreitos aceleram a ação, os largos a desaceleram.",
+          "Escreva as onomatopeias (POW! CRASH!) direto no roteiro para o letrista saber onde vão os efeitos sonoros.",
+          "Dê ao seu herói um design reconhecível pela silhueta — você deve identificá-lo mesmo todo em preto."
+        ]
+      },
+      "manga": {
+        "name": "Mangá japonês",
+        "tagline": "Olhos expressivos, linhas de velocidade e chicotada emocional.",
+        "blurb": "O mangá se lê da direita para a esquerda e aposta em arte de personagem expressiva, retículas e diagramação dramática para alternar entre comédia, tensão e emoção numa única página. O gênero importa: shōnen para ação, shōjo para romance, seinen para temas adultos.",
+        "tips": [
+          "Planeje as páginas para ler da direita para a esquerda, de cima para baixo — a ordem dos quadros é o que mais confunde os mangakás iniciantes.",
+          "Use linhas de velocidade e quadros de impacto para vender o movimento; uma pose parada pode parecer congelada sem eles.",
+          "Aposte em expressões exageradas (modo chibi) nos momentos de comédia e volte ao realismo detalhado para o drama.",
+          "Estruture o capítulo em torno de uma única virada emocional — o mangá prefere volumes seriados (tankōbon) à história autoconclusiva.",
+          "Efeitos sonoros ao estilo japonês (giongo/gitaigo) podem ser parte do próprio desenho — GOGOGO para um estrondo, SHIIN para o silêncio."
+        ]
+      },
+      "cartoon": {
+        "name": "Livro de desenho animado",
+        "tagline": "Membros de borracha, gags visuais e timing cômico.",
+        "blurb": "Livros de desenho animado apostam na comédia física exagerada de esticar e comprimir e em histórias movidas a gag — o equivalente visual de uma tirada. Perfeitos para tiras de humor, aventuras absurdas e personagens que se recuperam de tudo.",
+        "tips": [
+          "Construa cada cena rumo a uma tirada: monte a expectativa e depois a subverta, visual ou verbalmente.",
+          "Use esticar e comprimir: os personagens devem parecer elásticos e com mola, nunca rígidos, nas grandes reações.",
+          "Gags recorrentes recompensam quem volta — plante a piada cedo e pague-a maior depois.",
+          "Mantenha os fundos simples e marcantes para a comédia do primeiro plano sempre se ler com clareza.",
+          "O timing vive na contagem de quadros: o ritmo de 3 quadros montagem-montagem-tirada é um clássico da comédia por um motivo."
+        ]
+      },
+      "childrens": {
+        "name": "Livro infantil",
+        "tagline": "Ritmo, repetição e uma grande ideia por página.",
+        "blurb": "Livros infantis combinam texto enxuto e rítmico com ilustrações grandes e acolhedoras. Cada virada de página é uma batida da história, e os melhores se leem em voz alta como uma canção — com repetições que as crianças podem prever e acompanhar.",
+        "tips": [
+          "Escreva uma ideia por página — virar a página deve ser uma mini surpresa ou tirada.",
+          "Leia seu texto em voz alta; se você tropeçar, uma criança de 5 anos também tropeça. Prefira frases curtas e rítmicas.",
+          "Repetição é uma qualidade, não uma muleta — uma frase repetida dá aos pequenos leitores algo para acompanhar em coro.",
+          "Deixe as ilustrações carregarem detalhes que o texto não conta — as imagens podem acrescentar piadas e subtramas.",
+          "Termine com uma resolução suave e satisfatória — até histórias bobas se beneficiam de uma última página aconchegante."
+        ]
+      }
+    }
+  },
+  "Quiz": {
+    "sectionTitle": "Não sabe qual formato combina com você?",
+    "sectionIntro": "Responda a seis perguntas rápidas e indicaremos um formato de livro para experimentar.",
+    "progress": "Pergunta {current} de {total}",
+    "resultLabel": "O seu resultado é...",
+    "seeTips": "Ver dicas e ferramentas de {name}",
+    "retake": "Refazer o teste 🔄",
+    "questions": [
+      {
+        "q": "O seu tipo de final favorito é...",
+        "comic": "Um confronto dramático que muda tudo",
+        "manga": "Uma virada emocional que acerta em cheio e fica com você",
+        "cartoon": "Uma reviravolta ridícula que arranca uma risada de verdade",
+        "childrens": "Um desfecho aconchegante que parece quente e seguro"
+      },
+      {
+        "q": "Escolha um layout de página:",
+        "comic": "Um único quadro gigante de tirar o fôlego",
+        "manga": "Linhas de velocidade e closes dramáticos",
+        "cartoon": "Uma sequência maluca de poses exageradas",
+        "childrens": "Uma grande ilustração acolhedora, algumas palavras que rimam"
+      },
+      {
+        "q": "O seu elenco dos sonhos é...",
+        "comic": "Super-heróis e vilões maquinadores",
+        "manga": "Estudantes escondendo poderes e sentimentos confusos",
+        "cartoon": "Amigos atrapalhados que brigam e fazem as pazes",
+        "childrens": "Um bichinho corajoso conhecendo novos amigos"
+      },
+      {
+        "q": "Escolha um efeito sonoro:",
+        "comic": "BOOM! CRASH!",
+        "manga": "GOGOGO... / SHIIN (silêncio absoluto)",
+        "cartoon": "BOING! HONK!",
+        "childrens": "Riso, riso"
+      },
+      {
+        "q": "O seu leitor ideal é...",
+        "comic": "Adolescentes e adultos que amam muita ação",
+        "manga": "Fãs de arcos emocionais e volumes seriados",
+        "cartoon": "Qualquer um que queira uma fuga para rir alto",
+        "childrens": "Crianças pequenas (e os adultos lendo em voz alta)"
+      },
+      {
+        "q": "O seu estilo de arte tende a...",
+        "comic": "Traço marcado a nanquim e sombras dinâmicas",
+        "manga": "Olhos expressivos e sombreado com retícula",
+        "cartoon": "Formas emborrachadas e saltitantes, de esticar e comprimir",
+        "childrens": "Formas suaves, acolhedoras e simples"
+      }
+    ]
+  },
+  "WriteGuide": {
+    "metaTitle": "Como escrever {name} — Storyburst",
+    "metaDescription": "{tagline} Um guia prático e gratuito para escrever {name}.",
+    "badge": "Guia de escrita gratuito",
+    "heading": "Como escrever <highlight>{name}</highlight>",
+    "tipsHeading": "{count} dicas para escrever {name}",
+    "tryTools": "Experimente as ferramentas de {name} 🎯",
+    "takeQuiz": "Não sabe se combina? Faça o teste",
+    "somethingElse": "Escrevendo outra coisa?",
+    "howToWrite": "Como escrever {name}"
+  },
+  "PublishSteps": {
+    "title": "Seu caminho até a publicação",
+    "intro": "Do rascunho final ao livro pronto nas prateleiras (reais ou digitais) — este é o processo passo a passo que a maioria dos livros ilustrados segue. Marque cada passo conforme concluí-lo.",
+    "allDone": "Todos os passos marcados — parabéns, você publicou! 🎉",
+    "progress": "{done} de {total} passos concluídos",
+    "stepLabel": "Passo {number}",
+    "markDone": "Marcar \"{title}\" como concluído",
+    "markNotDone": "Marcar \"{title}\" como não concluído",
+    "steps": [
+      {
+        "title": "Termine e revise seu manuscrito",
+        "description": "Primeiro conclua um rascunho inteiro — roteiro e miniaturas para livros ilustrados, texto completo para prosa. Depois revise ritmo, clareza e consistência antes de qualquer pessoa ver.",
+        "details": [
+          "\"Pronto\" significa que a história funciona do começo ao fim — não que cada frase esteja perfeita. A edição vem depois.",
+          "Deixe o rascunho descansar uma ou duas semanas e releia-o inteiro antes de mexer em qualquer coisa.",
+          "Prazo aproximado do rascunho pronto ao livro publicado: 2 a 6 meses para um iniciante, principalmente edição, capa e diagramação."
+        ]
+      },
+      {
+        "title": "Peça opiniões e edite",
+        "description": "Compartilhe com beta leitores ou um grupo de crítica e depois mande editar. Olhos novos pegam furos de trama e problemas de ritmo que você já não enxerga.",
+        "details": [
+          "Edição de desenvolvimento = visão geral (estrutura, personagem, ritmo). Copidesque = gramática e estilo linha a linha. Revisão = última caça a erros de digitação.",
+          "Custos aproximados: revisão ~US$ 150–400 para um livro curto, copidesque ~US$ 300–1.000, edição de desenvolvimento ~US$ 500–2.500 ou mais. Muitos primeiros livros pulam a de desenvolvimento e se apoiam em beta leitores.",
+          "Trocar críticas com outros autores, ou trocar habilidades (você letra a HQ deles, eles revisam seu texto), não custa nada."
+        ]
+      },
+      {
+        "title": "Finalize ilustrações e diagramação",
+        "description": "Encomende ou conclua a arte final, o letreiramento e a diagramação. Pense em resolução e modo de cor (CMYK para impressão, RGB para digital) desde o início para evitar refações caras.",
+        "details": [
+          "Trabalhe a 300 DPI para impressão. Defina o tamanho da página cedo — incluindo sangria — para a arte não ser cortada depois.",
+          "HQs e livros ilustrados: Affinity Publisher, Adobe InDesign ou Clip Studio para diagramação e letreiramento.",
+          "Arte encomendada varia muito — o miolo de um livro ilustrado pode custar US$ 1.000–5.000 ou mais. Fazer você mesmo é o principal jeito de publicar quase sem custo."
+        ]
+      },
+      {
+        "title": "Desenhe sua capa",
+        "description": "Sua capa é sua ferramenta de marketing nº 1. Estude os best-sellers do seu gênero e depois desenhe (ou encomende) uma capa que se leia com clareza mesmo como miniatura.",
+        "details": [
+          "Olhe os 20 livros mais vendidos da sua categoria exata na Amazon. Adote a linguagem visual do gênero — fontes, cor, clima — e se destaque dentro dela.",
+          "Opções DIY: Canva, Affinity ou o Cover Creator da KDP (grátis, básico). Uma capa pré-pronta profissional custa ~US$ 50–150; uma totalmente sob medida ~US$ 300–800.",
+          "Para impressão você também precisa de uma capa completa (quarta capa + lombada). A largura da lombada depende do número de páginas — a KDP dá um modelo quando você souber."
+        ]
+      },
+      {
+        "title": "Escolha seu caminho de publicação",
+        "description": "Autopublique para ter controle total e agilidade, ou envie para agentes literários e editoras pela distribuição mais ampla da publicação tradicional e um adiantamento. Muitos criadores fazem os dois em projetos diferentes.",
+        "details": [
+          "Amazon KDP: grátis, impressão sob demanda (sem estoque, sem custo inicial), a maior loja de e-books e impressos. Comece aqui.",
+          "IngramSpark: grátis para configurar, alcança ~40.000 varejistas e bibliotecas — o caminho para livrarias físicas. Muitos autores usam KDP + IngramSpark juntos.",
+          "Tradicional: você envia o livro pronto a agentes, que o vendem a uma editora. Mais alcance e um adiantamento, mas mais lento e muito seletivo — espere meses de envio.",
+          "Orçamento realista de autopublicação: US$ 0 se você faz tudo, ~US$ 500–2.500 se paga edição e uma capa profissional."
+        ]
+      },
+      {
+        "title": "Consiga um ISBN e registre o direito autoral",
+        "description": "Resolva os identificadores e a papelada legal. É mais rápido e barato do que a maioria imagina.",
+        "details": [
+          "A KDP atribui um ISBN grátis (ou um ASIN grátis só para Kindle) — ok se você só vende pela Amazon.",
+          "Compre seu próprio ISBN se quiser constar como editora e vender amplo: Bowker (EUA) ~US$ 125 por um, bem mais barato em lote. Grátis pela biblioteca nacional no Canadá, no Reino Unido e em outros países. (No Brasil, o ISBN é emitido pela Câmara Brasileira do Livro.)",
+          "O direito autoral é seu no momento em que você cria a obra. Registrá-lo dá força legal caso precise garanti-lo um dia."
+        ]
+      },
+      {
+        "title": "Formate para impressão e e-book",
+        "description": "Prepare um PDF pronto para impressão com sangria e margens corretas e um arquivo de e-book. EPUB funciona bem para livros com muito texto; EPUB de layout fixo ou PDF servem para HQs e livros ilustrados.",
+        "details": [
+          "E-books de prosa: Vellum (Mac, ~US$ 250 pagamento único), Atticus (~US$ 147, multiplataforma) ou Kindle Create (grátis, básico) exportam EPUBs limpos.",
+          "HQs e livros ilustrados: exporte um arquivo de layout fixo para a arte não refluir — Affinity ou InDesign fazem isso.",
+          "Sempre baixe o modelo da própria plataforma para seu tamanho e número de páginas, e use o pré-visualizador antes de publicar."
+        ]
+      },
+      {
+        "title": "Publique e distribua",
+        "description": "Envie seus arquivos finais, defina seu preço e publique — ou envie seus arquivos à equipe de produção de uma editora tradicional se foi por esse caminho.",
+        "details": [
+          "Royalty de e-book na KDP: 70% num preço de tabela de US$ 2,99–9,99 (35% fora dessa faixa). Royalty de impresso: 60% do preço de tabela menos o custo de impressão por cópia.",
+          "Defina o preço de acordo com sua categoria — veja o que livros comparáveis cobram. Pontos de partida comuns: US$ 2,99–4,99 para um e-book curto, US$ 9,99–16,99 para um livro físico.",
+          "O KDP Select inscreve seu e-book no Kindle Unlimited e libera ferramentas promocionais, mas exige 90 dias de exclusividade com a Amazon. Pule se você também vende na Apple Books, Kobo ou no seu site.",
+          "Configure uma pré-venda (até um ano antes para e-books) para as vendas iniciais caírem no dia do lançamento e elevarem sua posição."
+        ]
+      },
+      {
+        "title": "Divulgue seu livro",
+        "description": "Monte uma página simples de autor ou artista, compartilhe seu trabalho e alcance quem tem mais chance de querer este livro específico.",
+        "details": [
+          "Comece uma lista de e-mails agora — até 50 leitores que pediram para ouvir de você superam qualquer rede social no dia do lançamento.",
+          "Poste arte de bastidores e progresso enquanto faz o livro; uma revelação de capa pronta e um empurrão na semana de lançamento dão impulso.",
+          "Contate blogueiros de livros, booktubers ou resenhistas do seu gênero e envie uma cópia grátis bem antes do lançamento."
+        ]
+      },
+      {
+        "title": "Junte resenhas e continue criando",
+        "description": "Peça com educação resenhas honestas aos primeiros leitores — elas são enormes para a descoberta. Depois comece seu próximo projeto; uma obra que cresce é o melhor marketing de longo prazo.",
+        "details": [
+          "Coloque uma nota curta na última página: \"se você gostou, uma resenha ajuda muito\".",
+          "Você pode corrigir erros de digitação ou trocar por uma capa melhor a qualquer momento — só reenvie o arquivo, sem ISBN novo.",
+          "Livros vendem outros livros. A coisa mais forte que você pode fazer pelo livro um é publicar o livro dois."
+        ]
+      }
+    ]
+  },
+  "LaunchChecklist": {
+    "title": "Checklist da semana de lançamento",
+    "intro": "Depois que o livro está diagramado e pronto, este é o plano tático do que fazer nas semanas em torno do lançamento. Vá marcando conforme avança.",
+    "allDone": "Todas as caixas marcadas — vá comemorar, você lançou um livro! 🎉",
+    "progress": "{done} de {total} concluídos",
+    "phases": [
+      {
+        "phase": "Antes do lançamento",
+        "when": "2 a 4 semanas antes",
+        "items": [
+          "Ative a pré-venda do e-book para as vendas iniciais caírem no dia do lançamento e elevarem sua posição",
+          "Peça uma prova física e confira em mãos — corte, margens, cor, texto da lombada",
+          "Escreva e revise a descrição do livro, e confira duas vezes o título, o subtítulo e o nome do autor",
+          "Escolha suas duas categorias e até sete palavras-chave, com base no que livros comparáveis ranqueiam",
+          "Monte ou atualize sua página no Amazon Author Central — bio, foto e vincule todas as edições entre si",
+          "Organize um time de lançamento: pessoas que de fato concordaram em comprar e resenhar na primeira semana",
+          "Rascunhe seu e-mail de anúncio e 3 a 5 posts de rede social para o dia do lançamento ser só apertar enviar"
+        ]
+      },
+      {
+        "phase": "Dia do lançamento",
+        "when": "o dia em que vai ao ar",
+        "items": [
+          "Confirme que o livro está no ar e comprável em todas as lojas em que você publicou",
+          "Abra o preview \"Ler amostra\" e verifique se ele exibe corretamente",
+          "Envie um e-mail à sua lista com o link de compra — a coisa de maior impacto que você pode fazer",
+          "Poste o anúncio em todos os lugares onde você tem público, e fixe",
+          "Adicione o link de compra ao seu site, à sua bio de links e aos seus perfis sociais",
+          "Avise seu time de lançamento que está no ar e peça para comprarem e resenharem hoje"
+        ]
+      },
+      {
+        "phase": "Semana de lançamento",
+        "when": "os primeiros 7 a 14 dias",
+        "items": [
+          "Peça resenhas honestas aos primeiros leitores — mire em 10 ou mais nas duas primeiras semanas",
+          "Compartilhe em comunidades onde a autopromoção é bem-vinda, e responda a cada comentário",
+          "Mantenha o ritmo com uma troca de newsletters, um anúncio pequeno ou uma promo de preço curta",
+          "Acompanhe seu ranking de mais vendidos e o de categoria, e anote o que realmente o move",
+          "Agradeça a todos que compraram, compartilharam ou resenharam — e então comece o próximo livro"
+        ]
+      }
+    ]
   }
 }

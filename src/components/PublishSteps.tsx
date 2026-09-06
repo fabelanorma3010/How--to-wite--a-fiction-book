@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
-import { publishSteps } from '../data/publishSteps'
+import { useTranslations } from 'next-intl'
+import { PUBLISH_STEP_COUNT, PUBLISH_STEP_EMOJIS, type PublishStepCopy } from '../data/publishSteps'
 import Sticker from './Sticker'
 
 const STORAGE_KEY = 'storyburst-publish-progress'
 
-const badgeColors = ['bg-primary text-primary-content', 'bg-secondary text-secondary-content', 'bg-accent text-accent-content']
+const badgeColors = [
+  'bg-primary text-primary-content',
+  'bg-secondary text-secondary-content',
+  'bg-accent text-accent-content',
+]
 
 export default function PublishSteps() {
+  const t = useTranslations('PublishSteps')
+  const steps = t.raw('steps') as PublishStepCopy[]
   const [completed, setCompleted] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
@@ -28,24 +35,18 @@ export default function PublishSteps() {
     })
   }
 
-  const doneCount = publishSteps.reduce((total, _, i) => total + (completed[i] ? 1 : 0), 0)
+  const doneCount = steps.reduce((total, _, i) => total + (completed[i] ? 1 : 0), 0)
 
   return (
     <section id="publish" className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            Your Path to Publishing 🚀
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            From final draft to finished book on shelves (real or digital) — here's the
-            step-by-step process most illustrated books follow. Check off each step as you
-            complete it.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 🚀</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-ink/70">{t('intro')}</p>
           <p className="mt-4 text-sm font-bold text-ink/50">
-            {doneCount === publishSteps.length
-              ? "All steps checked off — congrats, you're published! 🎉"
-              : `${doneCount} of ${publishSteps.length} steps checked off`}
+            {doneCount === PUBLISH_STEP_COUNT
+              ? t('allDone')
+              : t('progress', { done: doneCount, total: PUBLISH_STEP_COUNT })}
           </p>
         </div>
 
@@ -56,17 +57,17 @@ export default function PublishSteps() {
             className="absolute left-[27px] top-2 bottom-2 w-1 rounded-full bg-gradient-to-b from-primary via-secondary to-accent sm:left-[31px]"
           />
 
-          {publishSteps.map((step, i) => {
+          {steps.map((step, i) => {
             const isDone = Boolean(completed[i])
             return (
-              <li key={step.title} className="relative mb-8 flex gap-4 sm:gap-6 last:mb-0">
+              <li key={i} className="relative mb-8 flex gap-4 sm:gap-6 last:mb-0">
                 <span
                   aria-hidden="true"
                   className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-xl font-extrabold shadow-md transition-colors sm:h-16 sm:w-16 sm:text-2xl ${
                     isDone ? 'bg-ink text-base' : badgeColors[i % badgeColors.length]
                   }`}
                 >
-                  {isDone ? '✓' : step.emoji}
+                  {isDone ? '✓' : PUBLISH_STEP_EMOJIS[i]}
                 </span>
                 <label
                   htmlFor={`publish-step-${i}`}
@@ -78,14 +79,14 @@ export default function PublishSteps() {
                 >
                   <span className="flex items-center justify-between gap-2">
                     <span className="text-xs font-bold uppercase tracking-wide text-ink/40">
-                      Step {i + 1}
+                      {t('stepLabel', { number: i + 1 })}
                     </span>
                     <input
                       id={`publish-step-${i}`}
                       type="checkbox"
                       checked={isDone}
                       onChange={() => toggleStep(i)}
-                      aria-label={`Mark "${step.title}" as ${isDone ? 'not done' : 'done'}`}
+                      aria-label={t(isDone ? 'markNotDone' : 'markDone', { title: step.title })}
                       className="h-5 w-5 shrink-0 cursor-pointer accent-primary"
                     />
                   </span>
@@ -101,8 +102,8 @@ export default function PublishSteps() {
                   </p>
                   {step.details && !isDone && (
                     <ul className="mt-3 space-y-1.5 text-sm text-ink/60">
-                      {step.details.map((detail) => (
-                        <li key={detail} className="flex gap-2">
+                      {step.details.map((detail, di) => (
+                        <li key={di} className="flex gap-2">
                           <span aria-hidden="true" className="mt-0.5 shrink-0 text-primary-content">
                             –
                           </span>

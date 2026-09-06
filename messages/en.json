@@ -163,5 +163,270 @@
       "reading": "Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.",
       "scriptNote": "reads right to left"
     }
+  },
+  "BookTypes": {
+    "sectionTitle": "Pick Your Book Type",
+    "sectionIntro": "Every format has its own storytelling rules. Choose one to see tailored tips — your pick also powers the generators below.",
+    "readGuide": "Read the full {name} writing guide →",
+    "types": {
+      "comic": {
+        "name": "Comic Book",
+        "tagline": "Bold heroes, big panels, bigger action.",
+        "blurb": "Western-style comics tell stories through sequential panels packed with dynamic poses, punchy dialogue, and sound effects that leap off the page. Think capes, secret lairs, and a splash page that stops readers in their tracks.",
+        "tips": [
+          "Script each page as panel descriptions + dialogue + captions — most artists want 3–6 panels per page.",
+          "Save your biggest reveal for a full-page or double-page \"splash\" — don't waste it on a small panel.",
+          "Vary panel shape and size to control pacing: tall skinny panels speed up action, wide panels slow it down.",
+          "Write onomatopoeia (POW! CRASH!) directly into the script so your letterer knows where sound effects go.",
+          "Give your hero a silhouette-readable design — you should recognize them in solid black shadow."
+        ]
+      },
+      "manga": {
+        "name": "Japanese Manga",
+        "tagline": "Expressive eyes, speed lines, and emotional whiplash.",
+        "blurb": "Manga reads right-to-left and leans on expressive character art, screentones, and dramatic paneling to swing between comedy, tension, and heart in a single page. Genre matters: shōnen for action, shōjo for romance, seinen for mature themes.",
+        "tips": [
+          "Plan pages to read right-to-left, top-to-bottom — panel order is the #1 thing new mangaka get backwards.",
+          "Use speed lines and impact frames to sell motion; a still pose can look frozen without them.",
+          "Lean into exaggerated expressions (chibi mode) for comedic beats, then snap back to detailed realism for drama.",
+          "Structure a chapter around one emotional turn — manga favors serialized tankōbon volumes over one-shot completeness.",
+          "Japanese-style sound effects (giongo/gitaigo) can be part of the art itself — GOGOGO for rumbling, SHIIN for silence."
+        ]
+      },
+      "cartoon": {
+        "name": "Cartoon Book",
+        "tagline": "Rubber-hose limbs, sight gags, and comic timing.",
+        "blurb": "Cartoon books favor exaggerated, squash-and-stretch physical comedy and gag-driven storytelling — the visual equivalent of a punchline. Perfect for humor strips, absurd adventures, and characters who bounce back from anything.",
+        "tips": [
+          "Build every scene toward a punchline — set up the expectation, then subvert it visually or verbally.",
+          "Use squash-and-stretch: characters should look springy and elastic, never rigid, during big reactions.",
+          "Running gags reward readers who return — plant a joke early and pay it off bigger later.",
+          "Keep backgrounds simple and bold so the comedy in the foreground always reads clearly.",
+          "Timing lives in panel count: a 3-panel setup-setup-punchline beat is a comedy classic for a reason."
+        ]
+      },
+      "childrens": {
+        "name": "Children's Book",
+        "tagline": "Rhythm, repetition, and one big idea per page.",
+        "blurb": "Children's books pair spare, rhythmic text with big, warm illustrations. Every page turn is a story beat, and the best ones read aloud like a song — with repetition kids can predict and join in on.",
+        "tips": [
+          "Write one idea per page — a page turn should feel like a mini surprise or punchline.",
+          "Read your text aloud; if you stumble, a 5-year-old will too. Favor short, rhythmic sentences.",
+          "Repetition is a feature, not a crutch — a repeated phrase gives young readers something to chant along with.",
+          "Let illustrations carry story details the words don't — pictures can add jokes and subplots text never mentions.",
+          "End with a gentle, satisfying resolution — even silly stories benefit from a cozy final page."
+        ]
+      }
+    }
+  },
+  "Quiz": {
+    "sectionTitle": "Not Sure Which Format Fits You?",
+    "sectionIntro": "Answer six quick questions and we'll match you with a book format to try.",
+    "progress": "Question {current} of {total}",
+    "resultLabel": "Your match is...",
+    "seeTips": "See {name} Tips & Tools",
+    "retake": "Retake Quiz 🔄",
+    "questions": [
+      {
+        "q": "Your favorite kind of ending is...",
+        "comic": "A dramatic showdown that changes everything",
+        "manga": "A gut-punch emotional twist that lingers",
+        "cartoon": "A ridiculous twist that earns a real laugh",
+        "childrens": "A cozy resolution that feels warm and safe"
+      },
+      {
+        "q": "Pick a page layout:",
+        "comic": "One giant, jaw-dropping splash panel",
+        "manga": "Speed lines and dramatic close-ups",
+        "cartoon": "A wacky sequence of exaggerated poses",
+        "childrens": "One big warm illustration, a few rhyming words"
+      },
+      {
+        "q": "Your dream cast is...",
+        "comic": "Superheroes and scheming villains",
+        "manga": "Students hiding powers and messier feelings",
+        "cartoon": "Goofy best friends who bicker and bounce back",
+        "childrens": "A brave little critter meeting new friends"
+      },
+      {
+        "q": "Pick a sound effect:",
+        "comic": "BOOM! CRASH!",
+        "manga": "GOGOGO... / SHIIN (dead silence)",
+        "cartoon": "BOING! HONK!",
+        "childrens": "Giggle giggle"
+      },
+      {
+        "q": "Your ideal reader is...",
+        "comic": "Teens and adults who love big action",
+        "manga": "Fans of emotional arcs and serialized volumes",
+        "cartoon": "Anyone who wants a laugh-out-loud escape",
+        "childrens": "Little kids (and the grown-ups reading aloud)"
+      },
+      {
+        "q": "Your art style leans toward...",
+        "comic": "Bold inked linework and dynamic shadows",
+        "manga": "Expressive eyes and screentone shading",
+        "cartoon": "Rubbery, bouncy, squash-and-stretch shapes",
+        "childrens": "Soft, warm, simple shapes"
+      }
+    ]
+  },
+  "WriteGuide": {
+    "metaTitle": "How to Write a {name} — Storyburst",
+    "metaDescription": "{tagline} A free, practical guide to writing a {name}.",
+    "badge": "Free writing guide",
+    "heading": "How to Write a <highlight>{name}</highlight>",
+    "tipsHeading": "{count} tips for writing a {name}",
+    "tryTools": "Try the {name} tools 🎯",
+    "takeQuiz": "Not sure it's the right fit? Take the quiz",
+    "somethingElse": "Writing something else?",
+    "howToWrite": "How to write {name}"
+  },
+  "PublishSteps": {
+    "title": "Your Path to Publishing",
+    "intro": "From final draft to finished book on shelves (real or digital) — here's the step-by-step process most illustrated books follow. Check off each step as you complete it.",
+    "allDone": "All steps checked off — congrats, you're published! 🎉",
+    "progress": "{done} of {total} steps checked off",
+    "stepLabel": "Step {number}",
+    "markDone": "Mark \"{title}\" as done",
+    "markNotDone": "Mark \"{title}\" as not done",
+    "steps": [
+      {
+        "title": "Finish & revise your manuscript",
+        "description": "Complete a full draft first — script and thumbnails for illustrated books, full text for prose. Then revise for pacing, clarity, and consistency before anyone else sees it.",
+        "details": [
+          "\"Done\" means the story works start to finish — not that every sentence is perfect. Editing comes next.",
+          "Let the draft rest a week or two, then reread it start to finish before touching anything.",
+          "Rough timeline from finished draft to published book: 2–6 months for a first-timer, mostly editing, cover, and formatting."
+        ]
+      },
+      {
+        "title": "Get feedback & edit",
+        "description": "Share it with beta readers or a critique group, then get it edited. Fresh eyes catch plot holes and pacing issues you can't see anymore.",
+        "details": [
+          "Developmental edit = big-picture (structure, character, pacing). Copy edit = line-level grammar and style. Proofread = final typo catch.",
+          "Ballpark costs: proofread ~$150–$400 for a short book, copy edit ~$300–$1,000, developmental edit ~$500–$2,500+. Many first books skip the developmental edit and lean on beta readers.",
+          "Swapping critiques with other writers, or trading skills (you letter their comic, they proof your text), costs nothing."
+        ]
+      },
+      {
+        "title": "Finalize illustrations & layout",
+        "description": "Commission or complete final art, lettering, and page layout. Keep resolution and color mode (CMYK for print, RGB for digital) in mind from the start to avoid costly redos.",
+        "details": [
+          "Work at 300 DPI for print. Set up your page size early — including bleed — so art isn't cropped later.",
+          "Comics & picture books: Affinity Publisher, Adobe InDesign, or Clip Studio for layout and lettering.",
+          "Commissioned art varies widely — a picture book's interior can run $1,000–$5,000+. Doing it yourself is the main way to publish for near-zero cost."
+        ]
+      },
+      {
+        "title": "Design your cover",
+        "description": "Your cover is your #1 marketing tool. Study bestsellers in your genre, then design (or commission) a cover that reads clearly even as a tiny thumbnail.",
+        "details": [
+          "Look at the top 20 books in your exact category on Amazon. Match the genre's visual language — fonts, color, mood — then stand out within it.",
+          "DIY options: Canva, Affinity, or KDP's Cover Creator (free, basic). A pro pre-made cover runs ~$50–$150; a fully custom one ~$300–$800.",
+          "For print you also need a full wraparound (back cover + spine). The spine width depends on page count — KDP gives you a template once you know it."
+        ]
+      },
+      {
+        "title": "Choose your publishing path",
+        "description": "Self-publish for full control and speed, or query literary agents and publishers for traditional publishing's wider distribution and an upfront advance. Many creators do both across different projects.",
+        "details": [
+          "Amazon KDP: free, print-on-demand (no inventory, no upfront cost), the biggest ebook + print store. Start here.",
+          "IngramSpark: free to set up, reaches ~40,000 retailers and libraries — the route into physical bookstores. Many authors use KDP + IngramSpark together.",
+          "Traditional: you query agents with the finished book, they sell it to a publisher. Wider reach and an advance, but slower and highly selective — expect months of querying.",
+          "A realistic self-publishing budget: $0 if you DIY everything, ~$500–$2,500 if you pay for editing and a pro cover."
+        ]
+      },
+      {
+        "title": "Get an ISBN & register copyright",
+        "description": "Sort out the identifiers and legal paperwork. It's quicker and cheaper than most people expect.",
+        "details": [
+          "KDP will assign a free ISBN (or a free ASIN for Kindle-only) — fine if you only sell through Amazon.",
+          "Buy your own ISBN if you want to be listed as the publisher and sell wide: Bowker (US) ~$125 for one, much cheaper in bulk. Free from the national library in Canada, the UK, and some other countries.",
+          "You own the copyright the moment you create the work. Registering it (US Copyright Office, ~$45–$65) adds legal muscle if you ever need to enforce it."
+        ]
+      },
+      {
+        "title": "Format for print & ebook",
+        "description": "Prepare a print-ready PDF with correct bleed and margins, and an ebook file. EPUB works well for text-heavy books; fixed-layout EPUB or PDF suits comics and picture books.",
+        "details": [
+          "Prose ebooks: Vellum (Mac, ~$250 one-time), Atticus (~$147, cross-platform), or Kindle Create (free, basic) all export clean EPUBs.",
+          "Comics & picture books: export a fixed-layout file so the art doesn't reflow — Affinity or InDesign handle this.",
+          "Always download the platform's own template for your trim size and page count, and use their previewer before you hit publish."
+        ]
+      },
+      {
+        "title": "Publish & distribute",
+        "description": "Upload your final files, set your price, and hit publish — or send your files to a traditional publisher's production team if you went that route.",
+        "details": [
+          "KDP ebook royalty: 70% on a list price of $2.99–$9.99 (35% outside that band). Print royalty: 60% of list price minus the per-copy printing cost.",
+          "Price to match your category — check what comparable books charge. Common starting points: $2.99–$4.99 for a short ebook, $9.99–$16.99 for a paperback.",
+          "KDP Select enrolls your ebook in Kindle Unlimited and unlocks promo tools, but requires 90 days of Amazon exclusivity. Skip it if you're also selling on Apple Books, Kobo, or your own site.",
+          "Set up a preorder (up to a year out for ebooks) so early sales land on launch day and boost your ranking."
+        ]
+      },
+      {
+        "title": "Market your book",
+        "description": "Build a simple author or artist page, share your work, and reach the people most likely to want this specific book.",
+        "details": [
+          "Start an email list now — even 50 readers who asked to hear from you outperform any social platform on launch day.",
+          "Post process art and progress while you build the book; a finished cover reveal and a launch-week push give you momentum.",
+          "Reach out to book bloggers, BookTubers, or reviewers who cover your genre, and send them a free copy well before launch."
+        ]
+      },
+      {
+        "title": "Gather reviews & keep creating",
+        "description": "Politely ask early readers for honest reviews — they're huge for discoverability. Then start your next project; a growing body of work is the best long-term marketing there is.",
+        "details": [
+          "Put a short \"if you enjoyed this, a review really helps\" note on the last page of the book.",
+          "You can fix typos or swap in a better cover any time — just re-upload the file, no new ISBN needed.",
+          "Books sell other books. The strongest thing you can do for book one is publish book two."
+        ]
+      }
+    ]
+  },
+  "LaunchChecklist": {
+    "title": "Launch Week Checklist",
+    "intro": "Once the book is formatted and ready to go, this is the tactical run of what to do in the weeks around launch. Check things off as you go.",
+    "allDone": "Every box ticked — go celebrate, you launched a book! 🎉",
+    "progress": "{done} of {total} done",
+    "phases": [
+      {
+        "phase": "Before launch",
+        "when": "2–4 weeks out",
+        "items": [
+          "Set the ebook preorder live so early sales all land on launch day and boost your ranking",
+          "Order a physical proof copy and check it in person — trim, margins, colour, spine text",
+          "Write and proofread the book description, and double-check the title, subtitle, and author name",
+          "Pick your two categories and up to seven keywords, based on what comparable books rank for",
+          "Set up or refresh your Amazon Author Central page — bio, photo, and link every edition together",
+          "Line up a launch team: people who have actually agreed to buy and review in week one",
+          "Draft your announcement email and 3–5 social posts so launch day is just hitting send"
+        ]
+      },
+      {
+        "phase": "Launch day",
+        "when": "the day it goes live",
+        "items": [
+          "Confirm the book is live and buyable on every store you published to",
+          "Open the \"Look Inside\" / sample preview and check it renders correctly",
+          "Email your list with the buy link — the single highest-impact thing you can do",
+          "Post the announcement everywhere you have an audience, and pin it",
+          "Add the buy link to your website, link-in-bio, and social profiles",
+          "Tell your launch team it's live and ask them to buy and review today"
+        ]
+      },
+      {
+        "phase": "Launch week",
+        "when": "the first 7–14 days",
+        "items": [
+          "Ask early readers for honest reviews — aim for 10+ in the first two weeks",
+          "Share in communities where self-promotion is welcome, and answer every comment",
+          "Sustain momentum with a newsletter swap, a small ad, or a short price promo",
+          "Watch your Best Sellers Rank and category rank, and note what actually moves it",
+          "Thank everyone who bought, shared, or reviewed — then start the next book"
+        ]
+      }
+    ]
   }
 }
