@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { BookTypeId } from '../data/bookTypes'
 import { getHelperReply, quickPrompts } from '../data/helper'
 
@@ -11,14 +12,11 @@ interface FictionHelperProps {
   selected: BookTypeId
 }
 
-const WELCOME: Message = {
-  role: 'assistant',
-  text: "Hi! I'm your Fiction Helper 🤖 — ask me for a villain, a hero, a plot twist, a title, a line of dialogue, or how to publish. Tap a suggestion below to try it out!",
-}
-
 export default function FictionHelper({ selected }: FictionHelperProps) {
+  const t = useTranslations('FictionHelper')
+  const welcome = useMemo<Message>(() => ({ role: 'assistant', text: t('welcome') }), [t])
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([WELCOME])
+  const [messages, setMessages] = useState<Message[]>([welcome])
   const [input, setInput] = useState('')
   const [thinking, setThinking] = useState(false)
 
@@ -69,7 +67,7 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
   }
 
   function handleReset() {
-    setMessages([WELCOME])
+    setMessages([welcome])
     setInput('')
   }
 
@@ -82,23 +80,23 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
       {open && (
         <div
           role="region"
-          aria-label="Fiction Helper chat"
+          aria-label={t('title')}
           className="animate-pop-in mb-3 flex h-[70vh] max-h-[36rem] w-[92vw] max-w-sm flex-col overflow-hidden rounded-3xl border-2 border-ink/10 bg-base shadow-xl sm:w-96"
         >
           <div className="flex items-center justify-between border-b-2 border-ink/10 bg-white/70 px-4 py-3">
-            <h2 className="font-extrabold text-ink">Fiction Helper 🤖</h2>
+            <h2 className="font-extrabold text-ink">{t('title')} 🤖</h2>
             <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={handleReset}
                 className="rounded-full px-2.5 py-1.5 text-xs font-bold text-ink/60 transition-colors hover:bg-primary/15 hover:text-ink"
               >
-                Reset
+                {t('reset')}
               </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                aria-label="Close Fiction Helper"
+                aria-label={t('close')}
                 className="flex h-8 w-8 items-center justify-center rounded-full text-ink/60 transition-colors hover:bg-primary/15 hover:text-ink"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -130,7 +128,7 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
               <div className="flex justify-start">
                 <p className="rounded-2xl border-2 border-ink/10 bg-white/80 px-3.5 py-2.5 text-sm text-ink/50">
                   <span aria-hidden="true">···</span>
-                  <span className="sr-only">Thinking</span>
+                  <span className="sr-only">{t('thinking')}</span>
                 </p>
               </div>
             )}
@@ -139,20 +137,20 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
           <div className="flex gap-2 overflow-x-auto border-t-2 border-ink/10 bg-white/50 px-3 py-2">
             {quickPrompts.map((qp) => (
               <button
-                key={qp.label}
+                key={qp.key}
                 type="button"
                 onClick={() => sendPrompt(qp.prompt)}
                 disabled={thinking}
                 className="shrink-0 rounded-full border-2 border-ink/15 bg-white/80 px-3 py-1.5 text-xs font-bold text-ink/70 transition-colors hover:border-secondary/50 hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {qp.label}
+                {t(`quick.${qp.key}`)}
               </button>
             ))}
           </div>
 
           <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t-2 border-ink/10 p-3">
             <label htmlFor="helper-input" className="sr-only">
-              Ask the Fiction Helper
+              {t('inputLabel')}
             </label>
             <input
               ref={inputRef}
@@ -160,13 +158,13 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask for a villain, twist, title..."
+              placeholder={t('inputPlaceholder')}
               className="flex-1 rounded-full border-2 border-ink/15 bg-white/80 px-4 py-2 text-sm text-ink placeholder:text-ink/40 focus:border-primary/50"
             />
             <button
               type="submit"
               disabled={!input.trim() || thinking}
-              aria-label="Send"
+              aria-label={t('send')}
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-content shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -181,7 +179,7 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={open ? 'Minimize Fiction Helper' : 'Open Fiction Helper'}
+        aria-label={open ? t('minimize') : t('open')}
         className="relative ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary text-2xl shadow-lg transition-transform hover:scale-105 active:scale-95"
       >
         {!open && (

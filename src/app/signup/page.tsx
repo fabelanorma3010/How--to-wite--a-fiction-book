@@ -1,20 +1,25 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import SignUpForm from '../../components/SignUpForm'
 
-const title = 'Sign Up — Storyburst'
-const description = 'Create a free Storyburst account.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/signup' },
-  openGraph: { title, description, url: '/signup', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('SignUpPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/signup' },
+    openGraph: { title, description, url: '/signup', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const t = await getTranslations('SignUpPage')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -30,17 +35,18 @@ export default function SignUpPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              ✨ Free forever
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Create Your{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Account
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
-            <p className="max-w-xl text-ink/70">
-              Free, always. Sign up to have a Storyburst account of your own.
-            </p>
+            <p className="max-w-xl text-ink/70">{t('intro')}</p>
           </div>
         </section>
 

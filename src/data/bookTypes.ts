@@ -19,6 +19,6 @@ export const bookTypes: BookType[] = [
 
 export const bookTypeIds: BookTypeId[] = bookTypes.map((b) => b.id)
 
-export function bookTypeEmoji(id: BookTypeId): string {
+export function bookTypeEmoji(id: string): string {
   return bookTypes.find((b) => b.id === id)?.emoji ?? '📘'
 }

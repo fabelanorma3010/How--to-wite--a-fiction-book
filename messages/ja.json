@@ -571,5 +571,124 @@
         "blurb": "散らかったメモ → すっきりした見出し、まとめた箇条書き、別立てのアクション項目リスト。"
       }
     }
+  },
+  "LoginPage": {
+    "metaTitle": "ログイン — Storyburst",
+    "metaDescription": "Storyburst アカウントにログイン。",
+    "badge": "👋 おかえりなさい",
+    "heading": "<highlight>ログイン</highlight>"
+  },
+  "SignUpPage": {
+    "metaTitle": "新規登録 — Storyburst",
+    "metaDescription": "無料の Storyburst アカウントを作成。",
+    "badge": "✨ ずっと無料",
+    "heading": "<highlight>アカウント</highlight>を作成",
+    "intro": "いつでも無料。登録して、自分の Storyburst アカウントを持ちましょう。"
+  },
+  "LoginForm": {
+    "or": "または",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワード",
+    "submit": "ログイン 🔑",
+    "submitting": "ログイン中…",
+    "newHere": "はじめてですか？ <signup>アカウントを作成</signup>",
+    "unavailable": "現在、ログインはご利用いただけません。",
+    "confirmFirst": "先にメールを確認してください。受信トレイのリンクをご確認ください。",
+    "genericError": "ログイン中に問題が発生しました。"
+  },
+  "SignUpForm": {
+    "or": "または",
+    "firstName": "名",
+    "lastName": "姓",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "passwordPlaceholder": "8文字以上",
+    "confirmPassword": "パスワードの確認",
+    "confirmPlaceholder": "もう一度入力",
+    "agree": "<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意します。",
+    "submit": "アカウントを作成 ✨",
+    "submitting": "アカウント作成中…",
+    "googleAgree": "「Google で続行」も、利用規約とプライバシーポリシーへの同意を意味します。",
+    "haveAccount": "すでにアカウントをお持ちですか？ <login>ログイン</login>",
+    "checkEmailTitle": "メールを確認してください",
+    "checkEmailBody": "<email></email> に確認リンクを送信しました。リンクをクリックしてアカウント設定を完了し、ログインしてください。",
+    "goToLogin": "ログインへ",
+    "passwordMismatch": "パスワードが一致しません。",
+    "mustAgree": "続けるには、利用規約とプライバシーポリシーに同意してください。",
+    "unavailable": "現在、新規登録はご利用いただけません。",
+    "genericError": "アカウントの作成中に問題が発生しました。"
+  },
+  "GoogleButton": {
+    "label": "Google で続行",
+    "redirecting": "リダイレクト中…",
+    "unavailable": "現在、Google ログインはご利用いただけません。"
+  },
+  "FictionHelper": {
+    "title": "フィクションヘルパー",
+    "welcome": "こんにちは！あなたのフィクションヘルパーです 🤖 — 悪役、主人公、展開のひねり、タイトル、台詞、出版のしかたを聞いてみてください。下の候補をタップしてお試しを！",
+    "reset": "リセット",
+    "close": "フィクションヘルパーを閉じる",
+    "open": "フィクションヘルパーを開く",
+    "minimize": "フィクションヘルパーを最小化",
+    "thinking": "考え中",
+    "inputLabel": "フィクションヘルパーに聞く",
+    "inputPlaceholder": "悪役、ひねり、タイトルなどを聞いてみて…",
+    "send": "送信",
+    "quick": {
+      "villain": "悪役のアイデア 😈",
+      "hero": "主人公のアイデア 🦸",
+      "twist": "展開のひねり 🔀",
+      "title": "本のタイトル 📖",
+      "dialogue": "台詞 💬",
+      "publish": "出版のしかた 🚀"
+    }
+  },
+  "AccountPage": {
+    "metaTitle": "あなたのアカウント — Storyburst",
+    "metaDescription": "Storyburst の名前、メールアドレス、パスワードを管理。",
+    "signedInAs": "{email} としてログイン中",
+    "heading": "アカウント<highlight>設定</highlight>",
+    "intro": "名前、メールアドレス、パスワードを更新します。"
+  },
+  "AccountForms": {
+    "publicProfile": "公開プロフィール",
+    "visibleAt": "公開URL：",
+    "currentlyPrivate": "（現在は非公開）",
+    "pickUsername": "ユーザー名を選ぶと公開ページが持てます。",
+    "username": "ユーザー名",
+    "bio": "自己紹介",
+    "website": "ウェブサイト",
+    "makePublic": "プロフィールを公開する",
+    "saving": "保存中…",
+    "saveProfile": "プロフィールを保存",
+    "yourName": "あなたの名前",
+    "firstName": "名",
+    "lastName": "姓",
+    "saveName": "名前を保存",
+    "emailAddress": "メールアドレス",
+    "currentlyEmail": "現在：<email></email>",
+    "newEmail": "新しいメールアドレス",
+    "sending": "送信中…",
+    "updateEmail": "メールアドレスを更新",
+    "changePassword": "パスワードを変更",
+    "setAPassword": "パスワードを設定する",
+    "setPassword": "パスワードを設定",
+    "googleNote": "Google でログインしています。メールでもログインするにはパスワードを追加してください。",
+    "newPassword": "新しいパスワード",
+    "passwordPlaceholder": "8文字以上",
+    "confirmPassword": "パスワードの確認",
+    "confirmPlaceholder": "もう一度入力"
+  },
+  "ProfilePage": {
+    "metaTitle": "{name}（@{username}）— Storyburst",
+    "metaFallbackTitle": "プロフィール — Storyburst",
+    "metaDescription": "{name} さんの Storyburst プロフィール — 作品と、ほかで見つける方法。",
+    "notFoundTitle": "プロフィールが見つかりません",
+    "notFoundBody": "<handle></handle> に公開プロフィールはありません。存在しないか、所有者が非公開にしています。",
+    "memberSince": "{date} から利用",
+    "editProfile": "プロフィールを編集",
+    "favorite": "お気に入り",
+    "books": "作品"
   }
 }
