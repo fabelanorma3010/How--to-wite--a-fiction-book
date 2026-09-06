@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 const freeFeatures = [
   'The full format-matching quiz + genre tips for every book type',
-  'The 10-step publishing guide',
+  'The 10-step publishing guide and launch-week checklist',
   'Auto-saving story notebook',
   'Action-text and illustration idea generators',
   'AI Fiction Helper and Writing Tools (summarize, critique, structure) for shorter pieces',
@@ -23,8 +23,8 @@ const memberFeatures = [
 ]
 
 const PRICES = {
-  monthly: { amount: '$5', unit: '/month', note: 'Billed monthly, cancel anytime' },
-  annual: { amount: '$50', unit: '/year', note: "Billed yearly — that's two months free" },
+  monthly: { amount: '$9.99', unit: '/month', note: 'then billed monthly — cancel anytime' },
+  annual: { amount: '$99', unit: '/year', note: 'then billed yearly — about 17% off' },
 } as const
 
 type Cadence = keyof typeof PRICES
@@ -93,7 +93,10 @@ export default function PricingTiers() {
           </span>
           <h2 className="text-xl font-extrabold text-ink">Membership</h2>
           <p className="mt-1 text-sm text-ink/60">For when you&apos;re serious about finishing your book.</p>
-          <p className="mt-4">
+          <p className="mt-4 text-sm font-black uppercase tracking-wide text-accent-content">
+            First month free
+          </p>
+          <p className="mt-1">
             <span className="text-4xl font-extrabold text-ink">{price.amount}</span>
             <span className="ml-1 text-sm font-semibold text-ink/50">{price.unit}</span>
           </p>
