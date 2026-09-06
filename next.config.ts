@@ -22,6 +22,19 @@ const nextConfig: NextConfig = {
         source: '/favicon.svg',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
       },
+      {
+        // Site-wide: nothing here is meant to be framed by another site, so
+        // block clickjacking outright. X-Frame-Options is the legacy header
+        // still honored by some crawlers/older clients; frame-ancestors is
+        // the modern equivalent. Scoped to framing only — no script/style
+        // allowlisting — so this can't break any existing page.
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+        ],
+      },
     ]
   },
 }
