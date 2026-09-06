@@ -126,6 +126,7 @@ export default function AccountForms({
             placeholder="God loves you"
             className={inputClass}
           />
+          <p className="mt-1.5 text-sm font-semibold text-primary-content">God loves you</p>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
