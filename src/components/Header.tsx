@@ -17,6 +17,7 @@ const navLinks = [
   { href: '#book-types', label: 'Book Types' },
   { href: '#action-generator', label: 'Action Text' },
   { href: '#illustration-generator', label: 'Illustrations' },
+  { href: '#panel-planner', label: 'Panels' },
   { href: '#notebook', label: 'Notebook' },
   { href: '#publish', label: 'Publish' },
   { href: '#community', label: 'Community' },
