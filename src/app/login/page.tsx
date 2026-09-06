@@ -1,21 +1,26 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import LoginForm from '../../components/LoginForm'
 
-const title = 'Log In — Storyburst'
-const description = 'Log in to your Storyburst account.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/login' },
-  openGraph: { title, description, url: '/login', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('LoginPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/login' },
+    openGraph: { title, description, url: '/login', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const t = await getTranslations('LoginPage')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -31,13 +36,16 @@ export default function LoginPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              👋 Welcome back
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Log{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                In
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
           </div>
         </section>

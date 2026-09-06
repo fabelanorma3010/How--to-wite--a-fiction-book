@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 import GoogleButton from './GoogleButton'
 
@@ -11,6 +12,7 @@ function safeNext(raw: string | null): string {
 }
 
 export default function LoginForm() {
+  const t = useTranslations('LoginForm')
   const router = useRouter()
   const searchParams = useSearchParams()
   const next = safeNext(searchParams.get('next'))
@@ -27,24 +29,20 @@ export default function LoginForm() {
     try {
       const supabase = createClient()
       if (!supabase) {
-        setError('Log in is unavailable right now.')
+        setError(t('unavailable'))
         setSubmitting(false)
         return
       }
       const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
       if (error) {
-        setError(
-          error.message === 'Email not confirmed'
-            ? 'Please confirm your email first — check your inbox for the link.'
-            : error.message,
-        )
+        setError(error.message === 'Email not confirmed' ? t('confirmFirst') : error.message)
         setSubmitting(false)
         return
       }
       router.push(next)
       router.refresh()
     } catch {
-      setError('Something went wrong signing you in.')
+      setError(t('genericError'))
       setSubmitting(false)
     }
   }
@@ -57,14 +55,14 @@ export default function LoginForm() {
 
           <div className="my-6 flex items-center gap-3 text-xs font-bold uppercase tracking-wide text-ink/40">
             <span className="h-px flex-1 bg-ink/10" />
-            or
+            {t('or')}
             <span className="h-px flex-1 bg-ink/10" />
           </div>
 
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="login-email" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Email
+                {t('email')}
               </label>
               <input
                 id="login-email"
@@ -80,7 +78,7 @@ export default function LoginForm() {
 
             <div className="mt-4">
               <label htmlFor="login-password" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Password
+                {t('password')}
               </label>
               <input
                 id="login-password"
@@ -89,7 +87,7 @@ export default function LoginForm() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Your password"
+                placeholder={t('passwordPlaceholder')}
                 className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
@@ -106,16 +104,19 @@ export default function LoginForm() {
                 disabled={submitting}
                 className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
               >
-                {submitting ? 'Logging in…' : 'Log In 🔑'}
+                {submitting ? t('submitting') : t('submit')}
               </button>
             </div>
           </form>
 
           <p className="mt-6 text-sm text-ink/60">
-            New here?{' '}
-            <Link href="/signup" className="font-bold text-ink underline underline-offset-2">
-              Create an account
-            </Link>
+            {t.rich('newHere', {
+              signup: (chunks) => (
+                <Link href="/signup" className="font-bold text-ink underline underline-offset-2">
+                  {chunks}
+                </Link>
+              ),
+            })}
           </p>
         </div>
       </div>

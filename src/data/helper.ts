@@ -284,11 +284,16 @@ export function getHelperReply(rawInput: string, genre: BookTypeId): string {
   return `I'm not sure about that one yet! Try asking me for a villain, a hero, a plot twist, a title, a line of dialogue, or how to publish — I'll tune it to ${genreName}.`
 }
 
+/**
+ * `prompt` stays English — it's the query sent to the AI, and the offline
+ * fallback in getHelperReply() matches English keywords. The visible label is
+ * translated in FictionHelper via `FictionHelper.quick.<key>`.
+ */
 export const quickPrompts = [
-  { label: 'Villain idea 😈', prompt: 'Give me a villain idea' },
-  { label: 'Hero idea 🦸', prompt: 'Give me a hero idea' },
-  { label: 'Plot twist 🔀', prompt: 'Give me a plot twist' },
-  { label: 'Book title 📖', prompt: 'Give me a book title' },
-  { label: 'Dialogue line 💬', prompt: 'Give me a line of dialogue' },
-  { label: 'How to publish 🚀', prompt: 'How do I publish my book?' },
-]
+  { key: 'villain', prompt: 'Give me a villain idea' },
+  { key: 'hero', prompt: 'Give me a hero idea' },
+  { key: 'twist', prompt: 'Give me a plot twist' },
+  { key: 'title', prompt: 'Give me a book title' },
+  { key: 'dialogue', prompt: 'Give me a line of dialogue' },
+  { key: 'publish', prompt: 'How do I publish my book?' },
+] as const

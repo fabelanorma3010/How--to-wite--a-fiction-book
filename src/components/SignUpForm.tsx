@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 import GoogleButton from './GoogleButton'
 
 export default function SignUpForm() {
+  const t = useTranslations('SignUpForm')
   const router = useRouter()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -23,11 +25,11 @@ export default function SignUpForm() {
     setError(null)
 
     if (password !== confirm) {
-      setError("Passwords don't match.")
+      setError(t('passwordMismatch'))
       return
     }
     if (!agreed) {
-      setError('Please agree to the Terms of Service and Privacy Policy to continue.')
+      setError(t('mustAgree'))
       return
     }
 
@@ -35,7 +37,7 @@ export default function SignUpForm() {
     try {
       const supabase = createClient()
       if (!supabase) {
-        setError('Sign-up is unavailable right now.')
+        setError(t('unavailable'))
         setSubmitting(false)
         return
       }
@@ -68,7 +70,7 @@ export default function SignUpForm() {
       setCheckEmail(true)
       setSubmitting(false)
     } catch {
-      setError('Something went wrong creating your account.')
+      setError(t('genericError'))
       setSubmitting(false)
     }
   }
@@ -81,16 +83,17 @@ export default function SignUpForm() {
             <p className="text-2xl" aria-hidden="true">
               📬
             </p>
-            <h2 className="mt-2 text-xl font-extrabold text-ink">Check your email</h2>
+            <h2 className="mt-2 text-xl font-extrabold text-ink">{t('checkEmailTitle')}</h2>
             <p className="mt-2 text-sm text-ink/70">
-              We sent a confirmation link to <span className="font-bold">{email.trim()}</span>. Click it
-              to finish setting up your account, then log in.
+              {t.rich('checkEmailBody', {
+                email: () => <span className="font-bold">{email.trim()}</span>,
+              })}
             </p>
             <Link
               href="/login"
               className="mt-6 inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
             >
-              Go to log in
+              {t('goToLogin')}
             </Link>
           </div>
         </div>
@@ -106,7 +109,7 @@ export default function SignUpForm() {
 
           <div className="my-6 flex items-center gap-3 text-xs font-bold uppercase tracking-wide text-ink/40">
             <span className="h-px flex-1 bg-ink/10" />
-            or
+            {t('or')}
             <span className="h-px flex-1 bg-ink/10" />
           </div>
 
@@ -114,7 +117,7 @@ export default function SignUpForm() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="signup-first" className="mb-1.5 block text-sm font-bold text-ink/80">
-                  First name
+                  {t('firstName')}
                 </label>
                 <input
                   id="signup-first"
@@ -129,7 +132,7 @@ export default function SignUpForm() {
               </div>
               <div>
                 <label htmlFor="signup-last" className="mb-1.5 block text-sm font-bold text-ink/80">
-                  Last name
+                  {t('lastName')}
                 </label>
                 <input
                   id="signup-last"
@@ -146,7 +149,7 @@ export default function SignUpForm() {
 
             <div className="mt-4">
               <label htmlFor="signup-email" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Email
+                {t('email')}
               </label>
               <input
                 id="signup-email"
@@ -162,7 +165,7 @@ export default function SignUpForm() {
 
             <div className="mt-4">
               <label htmlFor="signup-password" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Password
+                {t('password')}
               </label>
               <input
                 id="signup-password"
@@ -172,14 +175,14 @@ export default function SignUpForm() {
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="At least 8 characters"
+                placeholder={t('passwordPlaceholder')}
                 className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
 
             <div className="mt-4">
               <label htmlFor="signup-confirm" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Confirm password
+                {t('confirmPassword')}
               </label>
               <input
                 id="signup-confirm"
@@ -189,7 +192,7 @@ export default function SignUpForm() {
                 autoComplete="new-password"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                placeholder="Type it again"
+                placeholder={t('confirmPlaceholder')}
                 className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
@@ -203,15 +206,18 @@ export default function SignUpForm() {
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink/30 accent-primary"
               />
               <span>
-                I agree to the{' '}
-                <Link href="/terms" target="_blank" className="font-bold text-ink underline underline-offset-2">
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link href="/privacy" target="_blank" className="font-bold text-ink underline underline-offset-2">
-                  Privacy Policy
-                </Link>
-                .
+                {t.rich('agree', {
+                  terms: (chunks) => (
+                    <Link href="/terms" target="_blank" className="font-bold text-ink underline underline-offset-2">
+                      {chunks}
+                    </Link>
+                  ),
+                  privacy: (chunks) => (
+                    <Link href="/privacy" target="_blank" className="font-bold text-ink underline underline-offset-2">
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </span>
             </label>
 
@@ -227,20 +233,21 @@ export default function SignUpForm() {
                 disabled={submitting || !agreed}
                 className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
               >
-                {submitting ? 'Creating account…' : 'Create Account ✨'}
+                {submitting ? t('submitting') : t('submit')}
               </button>
             </div>
           </form>
 
-          <p className="mt-4 text-xs text-ink/50">
-            Continuing with Google also means you agree to the Terms of Service and Privacy Policy.
-          </p>
+          <p className="mt-4 text-xs text-ink/50">{t('googleAgree')}</p>
 
           <p className="mt-4 text-sm text-ink/60">
-            Already have an account?{' '}
-            <Link href="/login" className="font-bold text-ink underline underline-offset-2">
-              Log in
-            </Link>
+            {t.rich('haveAccount', {
+              login: (chunks) => (
+                <Link href="/login" className="font-bold text-ink underline underline-offset-2">
+                  {chunks}
+                </Link>
+              ),
+            })}
           </p>
         </div>
       </div>

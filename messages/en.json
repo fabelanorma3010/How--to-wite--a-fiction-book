@@ -571,5 +571,124 @@
         "blurb": "Messy notes → clean headings, grouped bullets, and a separate action-items list."
       }
     }
+  },
+  "LoginPage": {
+    "metaTitle": "Log In — Storyburst",
+    "metaDescription": "Log in to your Storyburst account.",
+    "badge": "👋 Welcome back",
+    "heading": "Log <highlight>In</highlight>"
+  },
+  "SignUpPage": {
+    "metaTitle": "Sign Up — Storyburst",
+    "metaDescription": "Create a free Storyburst account.",
+    "badge": "✨ Free forever",
+    "heading": "Create Your <highlight>Account</highlight>",
+    "intro": "Free, always. Sign up to have a Storyburst account of your own."
+  },
+  "LoginForm": {
+    "or": "or",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Your password",
+    "submit": "Log In 🔑",
+    "submitting": "Logging in…",
+    "newHere": "New here? <signup>Create an account</signup>",
+    "unavailable": "Log in is unavailable right now.",
+    "confirmFirst": "Please confirm your email first — check your inbox for the link.",
+    "genericError": "Something went wrong signing you in."
+  },
+  "SignUpForm": {
+    "or": "or",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "At least 8 characters",
+    "confirmPassword": "Confirm password",
+    "confirmPlaceholder": "Type it again",
+    "agree": "I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+    "submit": "Create Account ✨",
+    "submitting": "Creating account…",
+    "googleAgree": "Continuing with Google also means you agree to the Terms of Service and Privacy Policy.",
+    "haveAccount": "Already have an account? <login>Log in</login>",
+    "checkEmailTitle": "Check your email",
+    "checkEmailBody": "We sent a confirmation link to <email></email>. Click it to finish setting up your account, then log in.",
+    "goToLogin": "Go to log in",
+    "passwordMismatch": "Passwords don't match.",
+    "mustAgree": "Please agree to the Terms of Service and Privacy Policy to continue.",
+    "unavailable": "Sign-up is unavailable right now.",
+    "genericError": "Something went wrong creating your account."
+  },
+  "GoogleButton": {
+    "label": "Continue with Google",
+    "redirecting": "Redirecting…",
+    "unavailable": "Google sign-in is unavailable right now."
+  },
+  "FictionHelper": {
+    "title": "Fiction Helper",
+    "welcome": "Hi! I'm your Fiction Helper 🤖 — ask me for a villain, a hero, a plot twist, a title, a line of dialogue, or how to publish. Tap a suggestion below to try it out!",
+    "reset": "Reset",
+    "close": "Close Fiction Helper",
+    "open": "Open Fiction Helper",
+    "minimize": "Minimize Fiction Helper",
+    "thinking": "Thinking",
+    "inputLabel": "Ask the Fiction Helper",
+    "inputPlaceholder": "Ask for a villain, twist, title...",
+    "send": "Send",
+    "quick": {
+      "villain": "Villain idea 😈",
+      "hero": "Hero idea 🦸",
+      "twist": "Plot twist 🔀",
+      "title": "Book title 📖",
+      "dialogue": "Dialogue line 💬",
+      "publish": "How to publish 🚀"
+    }
+  },
+  "AccountPage": {
+    "metaTitle": "Your Account — Storyburst",
+    "metaDescription": "Manage your Storyburst name, email address, and password.",
+    "signedInAs": "Signed in as {email}",
+    "heading": "Account <highlight>Settings</highlight>",
+    "intro": "Update your name, email address, and password."
+  },
+  "AccountForms": {
+    "publicProfile": "Public profile",
+    "visibleAt": "Visible at",
+    "currentlyPrivate": "(currently private)",
+    "pickUsername": "Pick a username to get a public page.",
+    "username": "Username",
+    "bio": "Bio",
+    "website": "Website",
+    "makePublic": "Make my profile public",
+    "saving": "Saving…",
+    "saveProfile": "Save profile",
+    "yourName": "Your name",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "saveName": "Save name",
+    "emailAddress": "Email address",
+    "currentlyEmail": "Currently <email></email>.",
+    "newEmail": "New email",
+    "sending": "Sending…",
+    "updateEmail": "Update email",
+    "changePassword": "Change password",
+    "setAPassword": "Set a password",
+    "setPassword": "Set password",
+    "googleNote": "You sign in with Google. Add a password to also sign in with your email.",
+    "newPassword": "New password",
+    "passwordPlaceholder": "At least 8 characters",
+    "confirmPassword": "Confirm password",
+    "confirmPlaceholder": "Type it again"
+  },
+  "ProfilePage": {
+    "metaTitle": "{name} (@{username}) — Storyburst",
+    "metaFallbackTitle": "Profile — Storyburst",
+    "metaDescription": "{name}'s Storyburst profile — books, and how to find them elsewhere.",
+    "notFoundTitle": "Profile not found",
+    "notFoundBody": "There's no public profile at <handle></handle> — it may not exist, or its owner has kept it private.",
+    "memberSince": "Member since {date}",
+    "editProfile": "Edit your profile",
+    "favorite": "Favorite",
+    "books": "Books"
   }
 }

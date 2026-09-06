@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getLocale, getTranslations } from 'next-intl/server'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
 import ShimmerNextImage from '../../../components/ShimmerNextImage'
 import { getPublicProfile } from '../../../lib/publicProfile'
 import { getCurrentUser } from '../../../lib/user'
 import { getUserBooks, type Book } from '../../../lib/books'
-import { bookTypes } from '../../../data/bookTypes'
+import { bookTypeEmoji } from '../../../data/bookTypes'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,11 +18,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { username } = await params
   const profile = await getPublicProfile(username)
+  const t = await getTranslations('ProfilePage')
   if (!profile) {
-    return { title: 'Profile — Storyburst', robots: { index: false, follow: false } }
+    return { title: t('metaFallbackTitle'), robots: { index: false, follow: false } }
   }
-  const title = `${profile.name} (@${profile.username}) — Storyburst`
-  const description = profile.bio || `${profile.name}'s Storyburst profile — books, and how to find them elsewhere.`
+  const title = t('metaTitle', { name: profile.name, username: profile.username })
+  const description = profile.bio || t('metaDescription', { name: profile.name })
   const images = profile.avatarUrl ? [profile.avatarUrl] : '/opengraph-image'
   return {
     title,
@@ -41,10 +43,6 @@ const socialLinks = (profile: NonNullable<Awaited<ReturnType<typeof getPublicPro
     { label: 'X / Twitter', url: profile.twitterUrl },
   ].filter((link) => link.url)
 
-function typeEmoji(bookType: Book['bookType']) {
-  return bookTypes.find((t) => t.id === bookType)?.emoji ?? '📘'
-}
-
 function BookCard({ book }: { book: Book }) {
   const card = (
     <div className="group flex flex-col overflow-hidden rounded-2xl border-2 border-ink/10 bg-white/70 transition-colors hover:border-primary/40">
@@ -58,7 +56,7 @@ function BookCard({ book }: { book: Book }) {
             className="object-cover"
           />
         ) : (
-          <span className="text-4xl">{typeEmoji(book.bookType)}</span>
+          <span className="text-4xl">{bookTypeEmoji(book.bookType ?? '')}</span>
         )}
       </div>
       <div className="p-3">
@@ -83,6 +81,8 @@ export default async function PublicProfilePage({
 }) {
   const { username } = await params
   const [profile, currentUser] = await Promise.all([getPublicProfile(username), getCurrentUser()])
+  const t = await getTranslations('ProfilePage')
+  const locale = await getLocale()
   const books = profile ? await getUserBooks(profile.id) : []
   const favorite = books.find((b) => b.isFavorite)
 
@@ -105,10 +105,11 @@ export default async function PublicProfilePage({
               <p className="text-4xl" aria-hidden="true">
                 🔎
               </p>
-              <h1 className="mt-2 text-2xl font-extrabold text-ink">Profile not found</h1>
+              <h1 className="mt-2 text-2xl font-extrabold text-ink">{t('notFoundTitle')}</h1>
               <p className="mt-2 text-ink/70">
-                There's no public profile at <span className="font-semibold">@{username}</span> — it may not
-                exist, or its owner has kept it private.
+                {t.rich('notFoundBody', {
+                  handle: () => <span className="font-semibold">@{username}</span>,
+                })}
               </p>
             </div>
           ) : (
@@ -147,8 +148,12 @@ export default async function PublicProfilePage({
               )}
 
               <p className="text-xs font-semibold uppercase tracking-wide text-ink/40">
-                Member since{' '}
-                {new Date(profile.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+                {t('memberSince', {
+                  date: new Date(profile.createdAt).toLocaleDateString(locale, {
+                    month: 'long',
+                    year: 'numeric',
+                  }),
+                })}
               </p>
 
               {currentUser?.id === profile.id && (
@@ -156,7 +161,7 @@ export default async function PublicProfilePage({
                   href="/account"
                   className="mt-2 rounded-full bg-ink px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-ink/80"
                 >
-                  Edit your profile
+                  {t('editProfile')}
                 </Link>
               )}
             </div>
@@ -169,7 +174,7 @@ export default async function PublicProfilePage({
               {favorite && (
                 <div className="mb-8">
                   <p className="mb-2 text-center text-xs font-bold uppercase tracking-wide text-accent-content">
-                    ★ Favorite
+                    ★ {t('favorite')}
                   </p>
                   <div className="mx-auto max-w-xs">
                     <BookCard book={favorite} />
@@ -179,7 +184,7 @@ export default async function PublicProfilePage({
 
               {books.length > (favorite ? 1 : 0) && (
                 <>
-                  <h2 className="mb-4 text-center text-lg font-extrabold text-ink">Books</h2>
+                  <h2 className="mb-4 text-center text-lg font-extrabold text-ink">{t('books')}</h2>
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                     {books
                       .filter((book) => book.id !== favorite?.id)

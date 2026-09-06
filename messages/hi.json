@@ -571,5 +571,124 @@
         "blurb": "बिखरे नोट्स → साफ़ शीर्षक, समूहबद्ध बुलेट, और एक अलग एक्शन-आइटम सूची।"
       }
     }
+  },
+  "LoginPage": {
+    "metaTitle": "लॉग इन — Storyburst",
+    "metaDescription": "अपने Storyburst खाते में लॉग इन करें।",
+    "badge": "👋 फिर से स्वागत है",
+    "heading": "<highlight>लॉग इन</highlight>"
+  },
+  "SignUpPage": {
+    "metaTitle": "साइन अप — Storyburst",
+    "metaDescription": "एक मुफ़्त Storyburst खाता बनाएँ।",
+    "badge": "✨ हमेशा के लिए मुफ़्त",
+    "heading": "अपना <highlight>खाता</highlight> बनाएँ",
+    "intro": "हमेशा मुफ़्त। साइन अप करें और अपना ख़ुद का Storyburst खाता पाएँ।"
+  },
+  "LoginForm": {
+    "or": "या",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "आपका पासवर्ड",
+    "submit": "लॉग इन 🔑",
+    "submitting": "लॉग इन हो रहा है…",
+    "newHere": "यहाँ नए हैं? <signup>एक खाता बनाएँ</signup>",
+    "unavailable": "लॉग इन अभी उपलब्ध नहीं है।",
+    "confirmFirst": "पहले अपना ईमेल पुष्टि करें — अपने इनबॉक्स में लिंक देखें।",
+    "genericError": "आपको साइन इन कराते समय कुछ गड़बड़ हो गई।"
+  },
+  "SignUpForm": {
+    "or": "या",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "कम से कम 8 अक्षर",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "confirmPlaceholder": "इसे फिर से टाइप करें",
+    "agree": "मैं <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हूँ।",
+    "submit": "खाता बनाएँ ✨",
+    "submitting": "खाता बन रहा है…",
+    "googleAgree": "Google के साथ जारी रखने का अर्थ यह भी है कि आप सेवा की शर्तों और गोपनीयता नीति से सहमत हैं।",
+    "haveAccount": "पहले से खाता है? <login>लॉग इन</login>",
+    "checkEmailTitle": "अपना ईमेल देखें",
+    "checkEmailBody": "हमने <email></email> पर एक पुष्टि लिंक भेजा है। अपना खाता सेट अप पूरा करने के लिए उस पर क्लिक करें, फिर लॉग इन करें।",
+    "goToLogin": "लॉग इन पर जाएँ",
+    "passwordMismatch": "पासवर्ड मेल नहीं खाते।",
+    "mustAgree": "जारी रखने के लिए कृपया सेवा की शर्तों और गोपनीयता नीति से सहमत हों।",
+    "unavailable": "साइन अप अभी उपलब्ध नहीं है।",
+    "genericError": "आपका खाता बनाते समय कुछ गड़बड़ हो गई।"
+  },
+  "GoogleButton": {
+    "label": "Google के साथ जारी रखें",
+    "redirecting": "रीडायरेक्ट हो रहा है…",
+    "unavailable": "Google साइन-इन अभी उपलब्ध नहीं है।"
+  },
+  "FictionHelper": {
+    "title": "फ़िक्शन हेल्पर",
+    "welcome": "नमस्ते! मैं आपका फ़िक्शन हेल्पर हूँ 🤖 — मुझसे एक खलनायक, एक नायक, एक कथानक-मोड़, एक शीर्षक, संवाद की एक पंक्ति, या प्रकाशन कैसे करें, पूछें। आज़माने के लिए नीचे कोई सुझाव टैप करें!",
+    "reset": "रीसेट",
+    "close": "फ़िक्शन हेल्पर बंद करें",
+    "open": "फ़िक्शन हेल्पर खोलें",
+    "minimize": "फ़िक्शन हेल्पर छोटा करें",
+    "thinking": "सोच रहा है",
+    "inputLabel": "फ़िक्शन हेल्पर से पूछें",
+    "inputPlaceholder": "एक खलनायक, मोड़, शीर्षक पूछें...",
+    "send": "भेजें",
+    "quick": {
+      "villain": "खलनायक आइडिया 😈",
+      "hero": "नायक आइडिया 🦸",
+      "twist": "कथानक-मोड़ 🔀",
+      "title": "किताब का शीर्षक 📖",
+      "dialogue": "संवाद पंक्ति 💬",
+      "publish": "प्रकाशन कैसे करें 🚀"
+    }
+  },
+  "AccountPage": {
+    "metaTitle": "आपका खाता — Storyburst",
+    "metaDescription": "अपना Storyburst नाम, ईमेल पता और पासवर्ड प्रबंधित करें।",
+    "signedInAs": "{email} के रूप में साइन इन",
+    "heading": "खाता <highlight>सेटिंग्स</highlight>",
+    "intro": "अपना नाम, ईमेल पता और पासवर्ड अपडेट करें।"
+  },
+  "AccountForms": {
+    "publicProfile": "सार्वजनिक प्रोफ़ाइल",
+    "visibleAt": "यहाँ दिखती है",
+    "currentlyPrivate": "(अभी निजी)",
+    "pickUsername": "सार्वजनिक पेज पाने के लिए एक उपयोगकर्ता नाम चुनें।",
+    "username": "उपयोगकर्ता नाम",
+    "bio": "बायो",
+    "website": "वेबसाइट",
+    "makePublic": "मेरी प्रोफ़ाइल सार्वजनिक करें",
+    "saving": "सहेज रहे हैं…",
+    "saveProfile": "प्रोफ़ाइल सहेजें",
+    "yourName": "आपका नाम",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "saveName": "नाम सहेजें",
+    "emailAddress": "ईमेल पता",
+    "currentlyEmail": "अभी <email></email>।",
+    "newEmail": "नया ईमेल",
+    "sending": "भेज रहे हैं…",
+    "updateEmail": "ईमेल अपडेट करें",
+    "changePassword": "पासवर्ड बदलें",
+    "setAPassword": "एक पासवर्ड सेट करें",
+    "setPassword": "पासवर्ड सेट करें",
+    "googleNote": "आप Google से साइन इन करते हैं। ईमेल से भी साइन इन करने के लिए एक पासवर्ड जोड़ें।",
+    "newPassword": "नया पासवर्ड",
+    "passwordPlaceholder": "कम से कम 8 अक्षर",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "confirmPlaceholder": "इसे फिर से टाइप करें"
+  },
+  "ProfilePage": {
+    "metaTitle": "{name} (@{username}) — Storyburst",
+    "metaFallbackTitle": "प्रोफ़ाइल — Storyburst",
+    "metaDescription": "{name} की Storyburst प्रोफ़ाइल — किताबें, और उन्हें और कहाँ पाएँ।",
+    "notFoundTitle": "प्रोफ़ाइल नहीं मिली",
+    "notFoundBody": "<handle></handle> पर कोई सार्वजनिक प्रोफ़ाइल नहीं है — शायद यह मौजूद नहीं है, या इसके मालिक ने इसे निजी रखा है।",
+    "memberSince": "{date} से सदस्य",
+    "editProfile": "अपनी प्रोफ़ाइल संपादित करें",
+    "favorite": "पसंदीदा",
+    "books": "किताबें"
   }
 }

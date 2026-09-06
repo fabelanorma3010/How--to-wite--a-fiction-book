@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { updateEmail, updateName, updatePassword, updateProfile, type ActionState } from '@/app/account/actions'
 import AvatarUploader from './AvatarUploader'
 
@@ -63,6 +64,7 @@ export default function AccountForms({
   twitterUrl: string
   isPublic: boolean
 }) {
+  const t = useTranslations('AccountForms')
   const router = useRouter()
   const [nameState, nameAction, namePending] = useActionState(updateName, initial)
   const [profileState, profileAction, profilePending] = useActionState(updateProfile, initial)
@@ -79,18 +81,18 @@ export default function AccountForms({
   return (
     <>
       <form action={profileAction} className={cardClass}>
-        <h2 className="text-lg font-extrabold text-ink">Public profile</h2>
+        <h2 className="text-lg font-extrabold text-ink">{t('publicProfile')}</h2>
         <p className="mt-1 text-sm text-ink/60">
           {username ? (
             <>
-              Visible at{' '}
+              {t('visibleAt')}{' '}
               <span className="font-semibold text-ink/80">
                 www.fiction-book-builder.com/u/{username}
               </span>
-              {isPublic ? '' : ' (currently private)'}
+              {isPublic ? '' : ` ${t('currentlyPrivate')}`}
             </>
           ) : (
-            'Pick a username to get a public page.'
+            t('pickUsername')
           )}
         </p>
 
@@ -100,7 +102,7 @@ export default function AccountForms({
 
         <div className="mt-4">
           <label htmlFor="acc-username" className={labelClass}>
-            Username
+            {t('username')}
           </label>
           <input
             id="acc-username"
@@ -115,7 +117,7 @@ export default function AccountForms({
 
         <div className="mt-4">
           <label htmlFor="acc-bio" className={labelClass}>
-            Bio
+            {t('bio')}
           </label>
           <textarea
             id="acc-bio"
@@ -132,7 +134,7 @@ export default function AccountForms({
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="acc-website" className={labelClass}>
-              Website
+              {t('website')}
             </label>
             <input
               id="acc-website"
@@ -199,21 +201,21 @@ export default function AccountForms({
             defaultChecked={isPublic}
             className="h-4 w-4 rounded border-2 border-ink/30 accent-primary"
           />
-          Make my profile public
+          {t('makePublic')}
         </label>
 
         <Status state={profileState} />
         <button type="submit" disabled={profilePending} className={buttonClass}>
-          {profilePending ? 'Saving…' : 'Save profile'}
+          {profilePending ? t('saving') : t('saveProfile')}
         </button>
       </form>
 
       <form action={nameAction} className={cardClass}>
-        <h2 className="text-lg font-extrabold text-ink">Your name</h2>
+        <h2 className="text-lg font-extrabold text-ink">{t('yourName')}</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="acc-first" className={labelClass}>
-              First name
+              {t('firstName')}
             </label>
             <input
               id="acc-first"
@@ -226,7 +228,7 @@ export default function AccountForms({
           </div>
           <div>
             <label htmlFor="acc-last" className={labelClass}>
-              Last name
+              {t('lastName')}
             </label>
             <input
               id="acc-last"
@@ -239,18 +241,18 @@ export default function AccountForms({
         </div>
         <Status state={nameState} />
         <button type="submit" disabled={namePending} className={buttonClass}>
-          {namePending ? 'Saving…' : 'Save name'}
+          {namePending ? t('saving') : t('saveName')}
         </button>
       </form>
 
       <form action={emailAction} className={cardClass}>
-        <h2 className="text-lg font-extrabold text-ink">Email address</h2>
+        <h2 className="text-lg font-extrabold text-ink">{t('emailAddress')}</h2>
         <p className="mt-1 text-sm text-ink/60">
-          Currently <span className="font-semibold text-ink/80">{email}</span>.
+          {t.rich('currentlyEmail', { email: () => <span className="font-semibold text-ink/80">{email}</span> })}
         </p>
         <div className="mt-4">
           <label htmlFor="acc-email" className={labelClass}>
-            New email
+            {t('newEmail')}
           </label>
           <input
             id="acc-email"
@@ -264,22 +266,18 @@ export default function AccountForms({
         </div>
         <Status state={emailState} />
         <button type="submit" disabled={emailPending} className={buttonClass}>
-          {emailPending ? 'Sending…' : 'Update email'}
+          {emailPending ? t('sending') : t('updateEmail')}
         </button>
       </form>
 
       <form action={passwordAction} className={cardClass}>
         <h2 className="text-lg font-extrabold text-ink">
-          {hasPassword ? 'Change password' : 'Set a password'}
+          {hasPassword ? t('changePassword') : t('setAPassword')}
         </h2>
-        {!hasPassword && (
-          <p className="mt-1 text-sm text-ink/60">
-            You sign in with Google. Add a password to also sign in with your email.
-          </p>
-        )}
+        {!hasPassword && <p className="mt-1 text-sm text-ink/60">{t('googleNote')}</p>}
         <div className="mt-4">
           <label htmlFor="acc-password" className={labelClass}>
-            New password
+            {t('newPassword')}
           </label>
           <input
             id="acc-password"
@@ -288,13 +286,13 @@ export default function AccountForms({
             required
             minLength={8}
             autoComplete="new-password"
-            placeholder="At least 8 characters"
+            placeholder={t('passwordPlaceholder')}
             className={inputClass}
           />
         </div>
         <div className="mt-4">
           <label htmlFor="acc-password-confirm" className={labelClass}>
-            Confirm password
+            {t('confirmPassword')}
           </label>
           <input
             id="acc-password-confirm"
@@ -303,13 +301,13 @@ export default function AccountForms({
             required
             minLength={8}
             autoComplete="new-password"
-            placeholder="Type it again"
+            placeholder={t('confirmPlaceholder')}
             className={inputClass}
           />
         </div>
         <Status state={passwordState} />
         <button type="submit" disabled={passwordPending} className={buttonClass}>
-          {passwordPending ? 'Saving…' : hasPassword ? 'Change password' : 'Set password'}
+          {passwordPending ? t('saving') : hasPassword ? t('changePassword') : t('setPassword')}
         </button>
       </form>
     </>

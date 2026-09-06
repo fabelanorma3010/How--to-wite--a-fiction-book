@@ -571,5 +571,124 @@
         "blurb": "Notas bagunçadas → títulos limpos, tópicos agrupados e uma lista de ações à parte."
       }
     }
+  },
+  "LoginPage": {
+    "metaTitle": "Entrar — Storyburst",
+    "metaDescription": "Entre na sua conta do Storyburst.",
+    "badge": "👋 Bem-vindo de volta",
+    "heading": "<highlight>Entrar</highlight>"
+  },
+  "SignUpPage": {
+    "metaTitle": "Cadastrar-se — Storyburst",
+    "metaDescription": "Crie uma conta gratuita do Storyburst.",
+    "badge": "✨ Grátis para sempre",
+    "heading": "Crie a sua <highlight>conta</highlight>",
+    "intro": "Grátis, sempre. Cadastre-se para ter a sua própria conta do Storyburst."
+  },
+  "LoginForm": {
+    "or": "ou",
+    "email": "E-mail",
+    "password": "Senha",
+    "passwordPlaceholder": "Sua senha",
+    "submit": "Entrar 🔑",
+    "submitting": "Entrando…",
+    "newHere": "Novo por aqui? <signup>Crie uma conta</signup>",
+    "unavailable": "O login não está disponível agora.",
+    "confirmFirst": "Confirme seu e-mail primeiro — procure o link na sua caixa de entrada.",
+    "genericError": "Algo deu errado ao entrar."
+  },
+  "SignUpForm": {
+    "or": "ou",
+    "firstName": "Nome",
+    "lastName": "Sobrenome",
+    "email": "E-mail",
+    "password": "Senha",
+    "passwordPlaceholder": "Pelo menos 8 caracteres",
+    "confirmPassword": "Confirmar senha",
+    "confirmPlaceholder": "Digite novamente",
+    "agree": "Concordo com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.",
+    "submit": "Criar conta ✨",
+    "submitting": "Criando conta…",
+    "googleAgree": "Continuar com o Google também significa que você concorda com os Termos de serviço e a Política de privacidade.",
+    "haveAccount": "Já tem uma conta? <login>Entrar</login>",
+    "checkEmailTitle": "Verifique seu e-mail",
+    "checkEmailBody": "Enviamos um link de confirmação para <email></email>. Clique nele para terminar de configurar sua conta e depois entre.",
+    "goToLogin": "Ir para o login",
+    "passwordMismatch": "As senhas não coincidem.",
+    "mustAgree": "Concorde com os Termos de serviço e a Política de privacidade para continuar.",
+    "unavailable": "O cadastro não está disponível agora.",
+    "genericError": "Algo deu errado ao criar sua conta."
+  },
+  "GoogleButton": {
+    "label": "Continuar com o Google",
+    "redirecting": "Redirecionando…",
+    "unavailable": "O login com o Google não está disponível agora."
+  },
+  "FictionHelper": {
+    "title": "Assistente de Ficção",
+    "welcome": "Oi! Sou o seu Assistente de Ficção 🤖 — peça um vilão, um herói, uma reviravolta, um título, uma fala ou como publicar. Toque numa sugestão abaixo para experimentar!",
+    "reset": "Reiniciar",
+    "close": "Fechar o Assistente de Ficção",
+    "open": "Abrir o Assistente de Ficção",
+    "minimize": "Minimizar o Assistente de Ficção",
+    "thinking": "Pensando",
+    "inputLabel": "Pergunte ao Assistente de Ficção",
+    "inputPlaceholder": "Peça um vilão, uma reviravolta, um título...",
+    "send": "Enviar",
+    "quick": {
+      "villain": "Ideia de vilão 😈",
+      "hero": "Ideia de herói 🦸",
+      "twist": "Reviravolta 🔀",
+      "title": "Título de livro 📖",
+      "dialogue": "Fala 💬",
+      "publish": "Como publicar 🚀"
+    }
+  },
+  "AccountPage": {
+    "metaTitle": "Sua conta — Storyburst",
+    "metaDescription": "Gerencie seu nome, e-mail e senha do Storyburst.",
+    "signedInAs": "Conectado como {email}",
+    "heading": "Configurações da <highlight>conta</highlight>",
+    "intro": "Atualize seu nome, e-mail e senha."
+  },
+  "AccountForms": {
+    "publicProfile": "Perfil público",
+    "visibleAt": "Visível em",
+    "currentlyPrivate": "(atualmente privado)",
+    "pickUsername": "Escolha um nome de usuário para ter uma página pública.",
+    "username": "Nome de usuário",
+    "bio": "Bio",
+    "website": "Site",
+    "makePublic": "Tornar meu perfil público",
+    "saving": "Salvando…",
+    "saveProfile": "Salvar perfil",
+    "yourName": "Seu nome",
+    "firstName": "Nome",
+    "lastName": "Sobrenome",
+    "saveName": "Salvar nome",
+    "emailAddress": "E-mail",
+    "currentlyEmail": "Atualmente <email></email>.",
+    "newEmail": "Novo e-mail",
+    "sending": "Enviando…",
+    "updateEmail": "Atualizar e-mail",
+    "changePassword": "Alterar senha",
+    "setAPassword": "Definir uma senha",
+    "setPassword": "Definir senha",
+    "googleNote": "Você entra com o Google. Adicione uma senha para entrar também com seu e-mail.",
+    "newPassword": "Nova senha",
+    "passwordPlaceholder": "Pelo menos 8 caracteres",
+    "confirmPassword": "Confirmar senha",
+    "confirmPlaceholder": "Digite novamente"
+  },
+  "ProfilePage": {
+    "metaTitle": "{name} (@{username}) — Storyburst",
+    "metaFallbackTitle": "Perfil — Storyburst",
+    "metaDescription": "O perfil de {name} no Storyburst — livros e onde encontrá-los em outros lugares.",
+    "notFoundTitle": "Perfil não encontrado",
+    "notFoundBody": "Não há perfil público em <handle></handle> — pode não existir, ou o dono o manteve privado.",
+    "memberSince": "Membro desde {date}",
+    "editProfile": "Editar seu perfil",
+    "favorite": "Favorito",
+    "books": "Livros"
   }
 }

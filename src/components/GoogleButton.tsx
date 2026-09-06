@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 
 function GoogleGlyph() {
@@ -33,11 +34,12 @@ function GoogleGlyph() {
  */
 export default function GoogleButton({
   next = '/',
-  label = 'Continue with Google',
+  label,
 }: {
   next?: string
   label?: string
 }) {
+  const t = useTranslations('GoogleButton')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -46,7 +48,7 @@ export default function GoogleButton({
     setLoading(true)
     const supabase = createClient()
     if (!supabase) {
-      setError('Google sign-in is unavailable right now.')
+      setError(t('unavailable'))
       setLoading(false)
       return
     }
@@ -68,7 +70,7 @@ export default function GoogleButton({
         className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink/15 bg-white px-6 py-3 font-bold text-ink transition-colors hover:bg-base/60 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <GoogleGlyph />
-        {loading ? 'Redirecting…' : label}
+        {loading ? t('redirecting') : (label ?? t('label'))}
       </button>
       {error && (
         <p role="alert" className="mt-2 text-sm font-semibold text-red-600">

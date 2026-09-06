@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import AccountForms from '../../components/account/AccountForms'
@@ -7,15 +8,19 @@ import BookManager from '../../components/account/BookManager'
 import { getCurrentUser } from '../../lib/user'
 import { getUserBooks } from '../../lib/books'
 
-export const metadata: Metadata = {
-  title: 'Your Account — Storyburst',
-  description: 'Manage your Storyburst name, email address, and password.',
-  robots: { index: false, follow: false },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('AccountPage')
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    robots: { index: false, follow: false },
+  }
 }
 
 export const dynamic = 'force-dynamic'
 
 export default async function AccountPage() {
+  const t = await getTranslations('AccountPage')
   const user = await getCurrentUser()
   if (!user) redirect('/login?next=/account')
   const books = await getUserBooks(user.id)
@@ -35,17 +40,18 @@ export default async function AccountPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              ⚙️ Signed in as {user.email}
+              ⚙️ {t('signedInAs', { email: user.email })}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Account{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Settings
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
-            <p className="max-w-xl text-ink/70">
-              Update your name, email address, and password.
-            </p>
+            <p className="max-w-xl text-ink/70">{t('intro')}</p>
           </div>
         </section>
 
