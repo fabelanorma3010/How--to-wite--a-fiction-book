@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ShimmerNextImage from '../../components/ShimmerNextImage'
@@ -7,19 +8,21 @@ import { listPublicProfiles } from '../../lib/publicProfile'
 
 export const dynamic = 'force-dynamic'
 
-const title = 'Creators — Storyburst'
-const description =
-  "Meet the writers and artists building their comics, manga, cartoons, and children's books on Storyburst."
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/creators' },
-  openGraph: { title, description, url: '/creators', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('CreatorsPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/creators' },
+    openGraph: { title, description, url: '/creators', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
 export default async function CreatorsPage() {
+  const t = await getTranslations('CreatorsPage')
   const profiles = await listPublicProfiles()
 
   return (
@@ -37,30 +40,28 @@ export default async function CreatorsPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              ✨ Meet the makers
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
               <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Creators
+                {t('heading')}
               </span>
             </h1>
             <p className="max-w-xl text-lg font-semibold text-ink/70">
-              Writers and artists sharing their work on Storyburst. Turn on your own public profile
-              from your{' '}
-              <Link href="/account" className="underline underline-offset-2 hover:text-ink">
-                account page
-              </Link>
-              .
+              {t.rich('intro', {
+                account: (chunks) => (
+                  <Link href="/account" className="underline underline-offset-2 hover:text-ink">
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </p>
           </div>
         </section>
 
         <section className="px-4 pb-16 pt-6 sm:px-6">
           {profiles.length === 0 ? (
-            <p className="mx-auto max-w-md text-center text-ink/60">
-              No public profiles yet — be the first. Add a bio or an avatar in your account and flip
-              your profile to public.
-            </p>
+            <p className="mx-auto max-w-md text-center text-ink/60">{t('empty')}</p>
           ) : (
             <ul className="mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {profiles.map((profile) => (

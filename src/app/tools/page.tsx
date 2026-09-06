@@ -1,21 +1,25 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import WritingTools from '../../components/WritingTools'
 
-const title = 'Writing Tools — Storyburst'
-const description =
-  'Free AI writing tools: summarize a long article or meeting notes, get a critique of your draft, or turn messy notes into a clear structure. Paste text or upload a file.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/tools' },
-  openGraph: { title, description, url: '/tools', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('ToolsPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/tools' },
+    openGraph: { title, description, url: '/tools', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
-export default function ToolsPage() {
+export default async function ToolsPage() {
+  const t = await getTranslations('ToolsPage')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -31,18 +35,18 @@ export default function ToolsPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              ✨ Free AI writing tools
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Writing{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Tools
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
-            <p className="max-w-xl text-lg font-semibold text-ink/70">
-              Summarize, critique, and tidy up your writing — paste text or upload a file, get a
-              result back in seconds.
-            </p>
+            <p className="max-w-xl text-lg font-semibold text-ink/70">{t('intro')}</p>
           </div>
         </section>
 

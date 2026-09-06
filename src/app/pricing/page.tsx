@@ -1,22 +1,26 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import PricingFaq from '../../components/PricingFaq'
 import PricingTiers from '../../components/PricingTiers'
 
-const title = 'Pricing — Storyburst'
-const description =
-  'Every Storyburst tool — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — is free, no account required. A Membership (launching soon) adds more.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/pricing' },
-  openGraph: { title, description, url: '/pricing', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('PricingPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/pricing' },
+    openGraph: { title, description, url: '/pricing', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const t = await getTranslations('PricingPage')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -32,19 +36,18 @@ export default function PricingPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              💸 Simple, honest pricing
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Start for{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Free
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
-            <p className="max-w-2xl text-balance text-lg text-ink/70">
-              Every tool on this site works today with no account and no cost. A Membership —
-              launching soon — adds more AI, exports, and higher limits for people going all the way
-              to a finished book.
-            </p>
+            <p className="max-w-2xl text-balance text-lg text-ink/70">{t('intro')}</p>
           </div>
         </section>
 
@@ -54,7 +57,7 @@ export default function PricingPage() {
 
         <section className="px-4 pb-16 sm:px-6">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Questions?</h2>
+            <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('faqTitle')}</h2>
           </div>
           <PricingFaq />
         </section>

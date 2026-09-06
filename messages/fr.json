@@ -428,5 +428,148 @@
         ]
       }
     ]
+  },
+  "AboutPage": {
+    "metaTitle": "À propos — Storyburst",
+    "metaDescription": "L'histoire derrière Storyburst : une boîte à outils gratuite conçue pour aider n'importe qui à se lancer dans l'écriture de BD, manga, dessins animés et livres pour enfants, une page à la fois.",
+    "badge": "✨ D'une imagination débordante à une autre",
+    "heading": "À propos de <highlight>Storyburst</highlight>",
+    "intro": "J'ai une imagination débordante — et j'ai le sentiment que vous aussi. J'ai créé Storyburst pour que n'importe qui puisse écrire et partager une histoire à sa façon, créative et merveilleuse. Qui sait, vous pourriez même y trouver votre meilleur ami ou votre âme sœur. 😄",
+    "whyTitle": "Pourquoi je l'ai créé",
+    "whyBody": "Storyburst est né d'un souhait simple : donner aux gens une raison de s'asseoir et de vraiment commencer à écrire. Pas une page blanche et une échéance — un quiz pour trouver votre format, des générateurs rapides quand vous bloquez, un carnet qui s'enregistre tout seul, et un chemin clair du premier jet au livre fini. Écrivez ce que votre cœur désire, dans le genre qui vous parle.",
+    "storyTitle": "Mon histoire",
+    "storyBody": "La vie n'a pas toujours été facile pour moi. J'ai eu une enfance difficile, et un chemin cahoteux depuis. Plutôt que de laisser ça faire de moi quelqu'un d'amer, j'en ai fait de la narration — j'ai pris la tristesse et la colère et je les ai remodelées en quelque chose de créatif. C'est toute l'idée de cet endroit : quoi que vous portiez, la fiction peut être l'endroit où vous le déposez pour en faire quelque chose de nouveau.",
+    "godLovesYou": "Dieu vous aime.",
+    "ctaTitle": "Commencez votre propre histoire",
+    "ctaBody": "Lisez, inspirez-vous, puis allez écrire l'histoire que vous seul pouviez raconter.",
+    "ctaQuiz": "Faire le quiz 🎯",
+    "ctaBookTypes": "Voir les types de livres",
+    "ctaNotebook": "Ouvrir votre carnet"
+  },
+  "ContactPage": {
+    "metaTitle": "Contact — Storyburst",
+    "metaDescription": "Contactez Storyburst — des questions sur les outils d'écriture, des retours sur le site, ou simplement envie de partager la BD, le manga ou l'histoire sur laquelle vous travaillez.",
+    "badge": "💌 On serait ravis d'avoir de vos nouvelles",
+    "heading": "Nous <highlight>contacter</highlight>",
+    "expectTitle": "⏱️ À quoi s'attendre",
+    "expectBody": "C'est un projet mené par une seule personne, donc les réponses viennent directement de moi — pas d'une équipe support. Je lis chaque message ; je ne peux juste pas promettre un délai rapide.",
+    "bugTitle": "🐛 Un bug ou une idée ?",
+    "bugBody": "Les deux sont bienvenus — pour les bugs, dites ce que vous faisiez et ce que vous attendiez à la place. Pour les idées, une phrase sur ce que ça vous apporterait suffit largement."
+  },
+  "PricingPage": {
+    "metaTitle": "Tarifs — Storyburst",
+    "metaDescription": "Chaque outil Storyburst — le quiz, les générateurs, le carnet, l'assistant IA, les outils d'écriture et le guide de publication — est gratuit, sans compte. Un abonnement (bientôt) ajoute plus.",
+    "badge": "💸 Des tarifs simples et honnêtes",
+    "heading": "Commencez <highlight>gratuitement</highlight>",
+    "intro": "Chaque outil de ce site fonctionne aujourd'hui sans compte et sans frais. Un abonnement — bientôt disponible — ajoute plus d'IA, des exports et des limites plus élevées pour ceux qui vont jusqu'au livre fini.",
+    "faqTitle": "Des questions ?"
+  },
+  "ToolsPage": {
+    "metaTitle": "Outils d'écriture — Storyburst",
+    "metaDescription": "Outils d'écriture IA gratuits : résumez un long article ou des notes de réunion, obtenez une critique de votre brouillon, ou transformez des notes en pagaille en une structure claire. Collez du texte ou importez un fichier.",
+    "badge": "✨ Outils d'écriture IA gratuits",
+    "heading": "Outils <highlight>d'écriture</highlight>",
+    "intro": "Résumez, critiquez et mettez de l'ordre dans votre écriture — collez du texte ou importez un fichier, obtenez un résultat en quelques secondes."
+  },
+  "CreatorsPage": {
+    "metaTitle": "Créateurs — Storyburst",
+    "metaDescription": "Rencontrez les auteurs et artistes qui construisent leurs BD, manga, dessins animés et livres pour enfants sur Storyburst.",
+    "badge": "✨ Rencontrez les créateurs",
+    "heading": "Créateurs",
+    "intro": "Des auteurs et des artistes qui partagent leur travail sur Storyburst. Activez votre propre profil public depuis votre <account>page de compte</account>.",
+    "empty": "Aucun profil public pour l'instant — soyez le premier. Ajoutez une bio ou un avatar dans votre compte et passez votre profil en public."
+  },
+  "PricingTiers": {
+    "billingPeriod": "Période de facturation",
+    "monthly": "Mensuel",
+    "annual": "Annuel",
+    "save17": "· −17 %",
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "monthlyNote": "puis facturé mensuellement — annulable à tout moment",
+    "annualNote": "puis facturé annuellement — environ 17 % de moins",
+    "freeTitle": "Gratuit",
+    "freeSubtitle": "Tout ce qu'il faut pour commencer — sans compte, sans carte.",
+    "forever": "pour toujours",
+    "noStrings": "Sans contrepartie",
+    "freeCta": "Commencer à écrire",
+    "launchingSoon": "Bientôt disponible",
+    "memberTitle": "Abonnement",
+    "memberSubtitle": "Pour quand vous êtes sérieux quant à finir votre livre.",
+    "firstMonthFree": "Premier mois gratuit",
+    "comingSoon": "Bientôt",
+    "freeWhileBuilding": "Tout ce qui précède est gratuit pendant que la facturation se construit.",
+    "freeFeatures": [
+      "Le quiz complet de choix de format + des conseils de genre pour chaque type de livre",
+      "Le guide de publication en 10 étapes et la checklist de la semaine de lancement",
+      "Carnet d'histoires à enregistrement automatique",
+      "Générateurs d'onomatopées et d'idées d'illustration",
+      "Assistant Fiction IA et Outils d'écriture (résumer, critiquer, structurer) pour les textes plus courts",
+      "Un profil public de créateur avec jusqu'à 3 livres importés"
+    ],
+    "memberFeatures": [
+      "Tout ce qui est dans Gratuit, avec des limites d'IA bien plus élevées",
+      "Les Outils d'écriture fonctionnent sur des chapitres et travaux complets, pas seulement de courts extraits",
+      "Génération d'images IA incluse, pas seulement des prompts d'idées",
+      "Exportez votre carnet ou scénario en PDF et DOCX mis en forme",
+      "Historique du carnet — revenez à un brouillon antérieur",
+      "Imports de livres illimités, fichiers plus volumineux",
+      "Un badge Membre sur votre profil public",
+      "Support e-mail prioritaire"
+    ]
+  },
+  "PricingFaq": {
+    "items": [
+      {
+        "question": "Le palier Gratuit sera-t-il toujours gratuit ?",
+        "answer": "Oui. Tout ce qui est dans le palier Gratuit aujourd'hui — le quiz, les générateurs, le carnet, l'assistant IA, les outils d'écriture et le guide de publication — reste gratuit. L'abonnement ajoute des extras par-dessus ; rien de ce que vous pouvez déjà utiliser ne passera derrière un paywall."
+      },
+      {
+        "question": "Puis-je déjà souscrire à l'abonnement ?",
+        "answer": "Pas tout à fait — la facturation est encore en construction. Une fois lancée, vous pourrez passer à l'abonnement depuis votre page de compte, et le premier mois est gratuit. En attendant, tout ce qui figure sous Abonnement est gratuit à l'usage."
+      },
+      {
+        "question": "Comment fonctionne le premier mois gratuit ?",
+        "answer": "Au lancement de l'abonnement, votre premier mois sera gratuit — accès complet, sans frais. La facturation ne démarre qu'après, et vous pouvez annuler à tout moment avant."
+      },
+      {
+        "question": "Mensuel ou annuel ?",
+        "answer": "Les deux, une fois l'abonnement en ligne. L'annuel (99 $/an) revient environ 17 % moins cher que payer 9,99 $ par mois, et vous pourrez basculer entre les deux à tout moment."
+      },
+      {
+        "question": "Dois-je créer un compte ?",
+        "answer": "Pas pour les outils — le quiz, les générateurs, le carnet, l'assistant IA et les outils d'écriture fonctionnent dès que vous arrivez sur la page. Un compte gratuit (e-mail et mot de passe, ou « Continuer avec Google ») vous permet de publier sur le mur communautaire, de synchroniser votre carnet entre appareils et de créer un profil public de créateur."
+      },
+      {
+        "question": "Qu'arrive-t-il à mon carnet si je n'ai pas de compte ?",
+        "answer": "Votre carnet s'enregistre tout seul, directement dans votre navigateur, pendant que vous tapez — sans compte. Cela signifie aussi qu'il est lié à ce navigateur sur cet appareil : effacer les données du navigateur l'effacera aussi, et il ne vous suivra pas sur un autre appareil. Connectez-vous et il se synchronise avec votre compte."
+      }
+    ]
+  },
+  "WritingTools": {
+    "tablistLabel": "Outils d'écriture",
+    "yourText": "Votre texte",
+    "pasteHere": "Collez-le ici…",
+    "upload": "📄 Importer .txt / .md",
+    "working": "En cours…",
+    "run": "Lancer {tool}",
+    "resultLabel": "Résultat",
+    "fileTooBig": "Ce fichier dépasse 2 Mo — collez plutôt le texte, ou raccourcissez-le.",
+    "fileReadError": "Impossible de lire ce fichier. Utilisez un .txt ou .md simple, ou collez le texte.",
+    "genericError": "Un problème est survenu.",
+    "tools": {
+      "summarize": {
+        "label": "Résumer",
+        "blurb": "Long article, notes de réunion ou document → un aperçu en une ligne plus les points clés."
+      },
+      "critique": {
+        "label": "Critiquer",
+        "blurb": "Un brouillon, un essai, un chapitre ou un mémoire → des retours constructifs sur ce qui marche et ce qu'il faut corriger."
+      },
+      "structure": {
+        "label": "Structurer les notes",
+        "blurb": "Notes en pagaille → titres propres, puces regroupées et une liste d'actions à part."
+      }
+    }
   }
 }

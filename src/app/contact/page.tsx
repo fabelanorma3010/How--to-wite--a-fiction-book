@@ -1,21 +1,25 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ContactForm from '../../components/ContactForm'
 
-const title = 'Contact — Storyburst'
-const description =
-  'Get in touch with Storyburst — questions about the writing tools, feedback on the site, or just want to share what comic, manga, or story you\'re working on.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: '/contact' },
-  openGraph: { title, description, url: '/contact', images: '/opengraph-image' },
-  twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('ContactPage')
+  const title = t('metaTitle')
+  const description = t('metaDescription')
+  return {
+    title,
+    description,
+    alternates: { canonical: '/contact' },
+    openGraph: { title, description, url: '/contact', images: '/opengraph-image' },
+    twitter: { card: 'summary', title, description, images: '/opengraph-image' },
+  }
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getTranslations('ContactPage')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -31,13 +35,16 @@ export default function ContactPage() {
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              💌 We'd love to hear from you
+              {t('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              Get in{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Touch
-              </span>
+              {t.rich('heading', {
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
           </div>
         </section>
@@ -45,18 +52,12 @@ export default function ContactPage() {
         <section className="px-4 sm:px-6">
           <div className="mx-auto grid max-w-3xl gap-4 pb-4 sm:grid-cols-2">
             <div className="rounded-2xl border-2 border-ink/10 bg-white/70 p-5">
-              <p className="font-bold text-ink">⏱️ What to expect</p>
-              <p className="mt-1.5 text-sm text-ink/70">
-                This is a one-person project, so replies come straight from me — not a support
-                team. I read every message; I just can't promise a fast turnaround.
-              </p>
+              <p className="font-bold text-ink">{t('expectTitle')}</p>
+              <p className="mt-1.5 text-sm text-ink/70">{t('expectBody')}</p>
             </div>
             <div className="rounded-2xl border-2 border-ink/10 bg-white/70 p-5">
-              <p className="font-bold text-ink">🐛 Bug or idea?</p>
-              <p className="mt-1.5 text-sm text-ink/70">
-                Either is welcome — for bugs, mention what you were doing and what you expected
-                instead. For ideas, a sentence on why it'd help you is plenty.
-              </p>
+              <p className="font-bold text-ink">{t('bugTitle')}</p>
+              <p className="mt-1.5 text-sm text-ink/70">{t('bugBody')}</p>
             </div>
           </div>
         </section>
