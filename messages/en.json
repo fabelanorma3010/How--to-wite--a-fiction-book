@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "Quiz",
+    "bookTypes": "Book Types",
+    "actionText": "Action Text",
+    "illustrations": "Illustrations",
+    "comicPanels": "Comic Panels",
+    "mangaPanels": "Manga Panels",
+    "notebook": "Notebook",
+    "publish": "Publish",
+    "community": "Community",
+    "tools": "Tools",
+    "creators": "Creators",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "digitalLibrary": "Digital Library",
+    "preview": "Preview",
+    "admin": "Admin",
+    "greeting": "Hi, {name}",
+    "account": "Account",
+    "logOut": "Log out",
+    "logIn": "Log In",
+    "signUp": "Sign Up",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Footer": {
+    "navLabel": "Footer",
+    "legalLabel": "Legal",
+    "quiz": "Quiz",
+    "bookTypes": "Book Types",
+    "tools": "Tools",
+    "creators": "Creators",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "digitalLibrary": "Digital Library",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "tagline": "📖 Storyburst — made for writers, artists, and everyone in between.",
+    "subtagline": "Keep drafting, keep drawing, and get that story out into the world."
+  },
+  "Hero": {
+    "badge": "✨ Your creative launchpad for illustrated storytelling",
+    "headline": "How to Write & Publish a <highlight>Fiction Book</highlight>",
+    "subheadline": "Comics, manga, cartoons, and children's books — get genre tips, punch up your script with a fun action-text generator, spark illustration ideas, and follow a clear path to publishing your finished book.",
+    "ctaQuiz": "Take the Quiz 🎯",
+    "ctaBookTypes": "Browse Book Types",
+    "ctaPublish": "See Publishing Steps"
+  },
+  "LanguageTab": {
+    "label": "Language: {name}. Change language",
+    "choose": "Choose a language"
+  }
+}

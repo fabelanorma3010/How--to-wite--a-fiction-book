@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "Teste",
+    "bookTypes": "Tipos de livro",
+    "actionText": "Texto de ação",
+    "illustrations": "Ilustrações",
+    "comicPanels": "Quadros de HQ",
+    "mangaPanels": "Quadros de mangá",
+    "notebook": "Caderno",
+    "publish": "Publicar",
+    "community": "Comunidade",
+    "tools": "Ferramentas",
+    "creators": "Criadores",
+    "about": "Sobre",
+    "pricing": "Preços",
+    "contact": "Contato",
+    "digitalLibrary": "Biblioteca digital",
+    "preview": "Prévia",
+    "admin": "Admin",
+    "greeting": "Olá, {name}",
+    "account": "Conta",
+    "logOut": "Sair",
+    "logIn": "Entrar",
+    "signUp": "Cadastrar-se",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "Footer": {
+    "navLabel": "Rodapé",
+    "legalLabel": "Jurídico",
+    "quiz": "Teste",
+    "bookTypes": "Tipos de livro",
+    "tools": "Ferramentas",
+    "creators": "Criadores",
+    "about": "Sobre",
+    "pricing": "Preços",
+    "contact": "Contato",
+    "digitalLibrary": "Biblioteca digital",
+    "terms": "Termos de serviço",
+    "privacy": "Política de privacidade",
+    "tagline": "📖 Storyburst — feito para escritores, artistas e todo mundo no meio do caminho.",
+    "subtagline": "Continue rascunhando, continue desenhando e leve essa história para o mundo."
+  },
+  "Hero": {
+    "badge": "✨ Sua base criativa para narrativas ilustradas",
+    "headline": "Como escrever e publicar um <highlight>livro de ficção</highlight>",
+    "subheadline": "HQs, mangás, cartuns e livros infantis — receba dicas por gênero, dê um gás no seu roteiro com um gerador de texto de ação, tenha ideias de ilustração e siga um caminho claro para publicar seu livro pronto.",
+    "ctaQuiz": "Fazer o teste 🎯",
+    "ctaBookTypes": "Ver tipos de livro",
+    "ctaPublish": "Ver etapas de publicação"
+  },
+  "LanguageTab": {
+    "label": "Idioma: {name}. Mudar idioma",
+    "choose": "Escolha um idioma"
+  }
+}

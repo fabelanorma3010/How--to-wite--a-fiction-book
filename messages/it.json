@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "Quiz",
+    "bookTypes": "Tipi di libro",
+    "actionText": "Testo d'azione",
+    "illustrations": "Illustrazioni",
+    "comicPanels": "Vignette fumetto",
+    "mangaPanels": "Vignette manga",
+    "notebook": "Taccuino",
+    "publish": "Pubblica",
+    "community": "Community",
+    "tools": "Strumenti",
+    "creators": "Creatori",
+    "about": "Chi siamo",
+    "pricing": "Prezzi",
+    "contact": "Contatti",
+    "digitalLibrary": "Biblioteca digitale",
+    "preview": "Anteprima",
+    "admin": "Admin",
+    "greeting": "Ciao, {name}",
+    "account": "Account",
+    "logOut": "Esci",
+    "logIn": "Accedi",
+    "signUp": "Registrati",
+    "openMenu": "Apri il menu",
+    "closeMenu": "Chiudi il menu"
+  },
+  "Footer": {
+    "navLabel": "Piè di pagina",
+    "legalLabel": "Note legali",
+    "quiz": "Quiz",
+    "bookTypes": "Tipi di libro",
+    "tools": "Strumenti",
+    "creators": "Creatori",
+    "about": "Chi siamo",
+    "pricing": "Prezzi",
+    "contact": "Contatti",
+    "digitalLibrary": "Biblioteca digitale",
+    "terms": "Termini di servizio",
+    "privacy": "Informativa sulla privacy",
+    "tagline": "📖 Storyburst — fatto per scrittori, artisti e tutti quelli nel mezzo.",
+    "subtagline": "Continua a scrivere, continua a disegnare e porta quella storia nel mondo."
+  },
+  "Hero": {
+    "badge": "✨ La tua rampa di lancio creativa per il racconto illustrato",
+    "headline": "Come scrivere e pubblicare un <highlight>libro di narrativa</highlight>",
+    "subheadline": "Fumetti, manga, cartoni e libri per bambini: consigli per genere, un generatore di testo d'azione per dare ritmo alla sceneggiatura, spunti per le illustrazioni e un percorso chiaro per pubblicare il tuo libro finito.",
+    "ctaQuiz": "Fai il quiz 🎯",
+    "ctaBookTypes": "Sfoglia i tipi di libro",
+    "ctaPublish": "Vedi i passi per pubblicare"
+  },
+  "LanguageTab": {
+    "label": "Lingua: {name}. Cambia lingua",
+    "choose": "Scegli una lingua"
+  }
+}

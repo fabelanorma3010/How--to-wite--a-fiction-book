@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 
 interface AuthUser {
@@ -13,26 +14,27 @@ interface AuthUser {
 }
 
 const navLinks = [
-  { href: '#quiz', label: 'Quiz' },
-  { href: '#book-types', label: 'Book Types' },
-  { href: '#action-generator', label: 'Action Text' },
-  { href: '#illustration-generator', label: 'Illustrations' },
-  { href: '#comic-planner', label: 'Comic Panels' },
-  { href: '#manga-planner', label: 'Manga Panels' },
-  { href: '#notebook', label: 'Notebook' },
-  { href: '#publish', label: 'Publish' },
-  { href: '#community', label: 'Community' },
-]
+  { href: '#quiz', key: 'quiz' },
+  { href: '#book-types', key: 'bookTypes' },
+  { href: '#action-generator', key: 'actionText' },
+  { href: '#illustration-generator', key: 'illustrations' },
+  { href: '#comic-planner', key: 'comicPanels' },
+  { href: '#manga-planner', key: 'mangaPanels' },
+  { href: '#notebook', key: 'notebook' },
+  { href: '#publish', key: 'publish' },
+  { href: '#community', key: 'community' },
+] as const
 
 const pageLinks = [
-  { href: '/tools', label: 'Tools' },
-  { href: '/creators', label: 'Creators' },
-  { href: '/about', label: 'About' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/contact', label: 'Contact' },
-]
+  { href: '/tools', key: 'tools' },
+  { href: '/creators', key: 'creators' },
+  { href: '/about', key: 'about' },
+  { href: '/pricing', key: 'pricing' },
+  { href: '/contact', key: 'contact' },
+] as const
 
 export default function Header() {
+  const t = useTranslations('Header')
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [isAdmin, setIsAdmin] = useState(false)
@@ -94,7 +96,7 @@ export default function Header() {
                   href={link.href}
                   className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
                 >
-                  {link.label}
+                  {t(link.key)}
                 </a>
               ))}
             </div>
@@ -105,7 +107,7 @@ export default function Header() {
               href={link.href}
               className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
           <Link
@@ -113,12 +115,12 @@ export default function Header() {
             prefetch={false}
             className="relative ml-0.5 whitespace-nowrap rounded-full bg-ink px-2 py-1.5 text-sm font-semibold text-base transition-colors hover:bg-ink/80 2xl:ml-1 2xl:px-4 2xl:text-base"
           >
-            Digital Library ↗
+            {t('digitalLibrary')} ↗
             <span
               aria-hidden="true"
               className="absolute -top-1.5 right-0 rounded-full bg-accent px-1 py-0.5 text-[8px] font-black uppercase leading-none tracking-wide text-accent-content shadow-sm"
             >
-              Preview
+              {t('preview')}
             </span>
           </Link>
 
@@ -127,7 +129,7 @@ export default function Header() {
               href="/admin"
               className="ml-1 whitespace-nowrap rounded-full border-2 border-primary/40 px-2 py-1 text-sm font-bold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
             >
-              ⚙ Admin
+              ⚙ {t('admin')}
             </Link>
           )}
 
@@ -137,14 +139,14 @@ export default function Header() {
                 href="/account"
                 className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/70 transition-colors hover:bg-primary/15 hover:text-ink"
               >
-                Hi, {user.firstName}
+                {t('greeting', { name: user.firstName })}
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
                 className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
               >
-                Log out
+                {t('logOut')}
               </button>
             </div>
           ) : (
@@ -153,13 +155,13 @@ export default function Header() {
                 href="/login"
                 className="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
               >
-                Log In
+                {t('logIn')}
               </Link>
               <Link
                 href="/signup"
                 className="whitespace-nowrap rounded-full border-2 border-ink px-2 py-1 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
               >
-                Sign Up
+                {t('signUp')}
               </Link>
             </div>
           )}
@@ -170,7 +172,7 @@ export default function Header() {
           className="flex items-center justify-center rounded-full border-2 border-ink/15 p-2 text-ink transition-colors hover:bg-primary/15 lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? t('closeMenu') : t('openMenu')}
           onClick={() => setOpen((v) => !v)}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -212,7 +214,7 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
               >
-                {link.label}
+                {t(link.key)}
               </a>
             ))}
           {pageLinks.map((link) => (
@@ -222,7 +224,7 @@ export default function Header() {
               onClick={() => setOpen(false)}
               className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
           <Link
@@ -231,9 +233,9 @@ export default function Header() {
             onClick={() => setOpen(false)}
             className="flex items-center justify-between rounded-xl bg-ink px-3 py-3 font-semibold text-base transition-colors hover:bg-ink/80"
           >
-            Digital Library ↗
+            {t('digitalLibrary')} ↗
             <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-accent-content">
-              Preview
+              {t('preview')}
             </span>
           </Link>
 
@@ -243,7 +245,7 @@ export default function Header() {
               onClick={() => setOpen(false)}
               className="rounded-xl border-2 border-primary/40 px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
             >
-              ⚙ Admin
+              ⚙ {t('admin')}
             </Link>
           )}
 
@@ -255,14 +257,14 @@ export default function Header() {
                   onClick={() => setOpen(false)}
                   className="font-semibold text-ink/70 underline underline-offset-2"
                 >
-                  Hi, {user.firstName} · Account
+                  {t('greeting', { name: user.firstName })} · {t('account')}
                 </Link>
                 <button
                   type="button"
                   onClick={handleLogout}
                   className="rounded-full bg-white/70 px-3 py-1.5 text-sm font-bold text-ink transition-colors hover:bg-white"
                 >
-                  Log out
+                  {t('logOut')}
                 </button>
               </div>
             ) : (
@@ -272,14 +274,14 @@ export default function Header() {
                   onClick={() => setOpen(false)}
                   className="flex-1 rounded-xl border-2 border-ink/15 py-2.5 text-center font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
                 >
-                  Log In
+                  {t('logIn')}
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setOpen(false)}
                   className="flex-1 rounded-xl bg-ink py-2.5 text-center font-semibold text-white transition-colors hover:bg-ink/80"
                 >
-                  Sign Up
+                  {t('signUp')}
                 </Link>
               </div>
             )}

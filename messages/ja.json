@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "診断",
+    "bookTypes": "本のタイプ",
+    "actionText": "アクションテキスト",
+    "illustrations": "イラスト",
+    "comicPanels": "コマ割り（コミック）",
+    "mangaPanels": "コマ割り（マンガ）",
+    "notebook": "ノート",
+    "publish": "出版",
+    "community": "コミュニティ",
+    "tools": "ツール",
+    "creators": "クリエイター",
+    "about": "概要",
+    "pricing": "料金",
+    "contact": "お問い合わせ",
+    "digitalLibrary": "デジタルライブラリー",
+    "preview": "プレビュー",
+    "admin": "管理",
+    "greeting": "こんにちは、{name}さん",
+    "account": "アカウント",
+    "logOut": "ログアウト",
+    "logIn": "ログイン",
+    "signUp": "新規登録",
+    "openMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる"
+  },
+  "Footer": {
+    "navLabel": "フッター",
+    "legalLabel": "法的情報",
+    "quiz": "診断",
+    "bookTypes": "本のタイプ",
+    "tools": "ツール",
+    "creators": "クリエイター",
+    "about": "概要",
+    "pricing": "料金",
+    "contact": "お問い合わせ",
+    "digitalLibrary": "デジタルライブラリー",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "tagline": "📖 Storyburst — 作家、アーティスト、そしてその間のすべての人のために。",
+    "subtagline": "書き続けて、描き続けて、その物語を世界へ届けよう。"
+  },
+  "Hero": {
+    "badge": "✨ 絵物語のためのクリエイティブな出発点",
+    "headline": "<highlight>フィクション本</highlight>の書き方と出版のしかた",
+    "subheadline": "コミック、マンガ、カートゥーン、絵本 — ジャンル別のヒント、脚本を引き立てるアクションテキスト・ジェネレーター、イラストのアイデア、そして完成した本を出版するための明確な道筋。",
+    "ctaQuiz": "診断をはじめる 🎯",
+    "ctaBookTypes": "本のタイプを見る",
+    "ctaPublish": "出版の手順を見る"
+  },
+  "LanguageTab": {
+    "label": "言語：{name}。言語を変更",
+    "choose": "言語を選択"
+  }
+}
