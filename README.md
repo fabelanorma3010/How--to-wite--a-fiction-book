@@ -166,19 +166,24 @@ return a friendly 503 instead of pretending to send anything.
 address hardcoded as `TO_EMAIL` there (change it to your own), with `reply_to` set
 to the visitor so you can just hit reply.
 
-**Welcome email**: [`SignUpForm`](src/components/SignUpForm.tsx) fires a
-fire-and-forget POST to [`/api/welcome-email`](src/app/api/welcome-email/route.ts)
-right after a password signup that gets an immediate session (i.e. **Confirm
-email** is off in the Supabase dashboard — see "Auth dashboard setup" above). The
-route reads the recipient from the caller's own Supabase session server-side —
-never from the request body — so it can't be used as an open relay to spam
-arbitrary addresses. The HTML template lives in
-[`src/lib/emailTemplates.ts`](src/lib/emailTemplates.ts). Known gap: since it
-needs a session to authorize the send, it does **not** currently fire for Google
-sign-ups or for password sign-ups that require clicking an email-confirmation
-link first (no session exists yet at that point) — hooking those in would mean
-sending from `/auth/callback` instead, with an idempotency check so a repeat
-visit there doesn't re-send it.
+**Welcome email**: sent from [`/auth/callback`](src/app/auth/callback/route.ts)
+via [`src/lib/welcomeEmail.ts`](src/lib/welcomeEmail.ts) — but **only** at a point
+where the address is actually verified: a completed "Continue with Google"
+exchange (Google has verified it), or a clicked signup-confirmation email link
+(clicking it proves the person owns that inbox). An `isFirstSession()` check
+keeps a returning Google login from re-triggering it. The HTML template lives in
+[`src/lib/emailTemplates.ts`](src/lib/emailTemplates.ts).
+
+It deliberately does **not** fire right after a plain password `signUp()`, even
+though that's the more common signup path with this repo's recommended launch
+config (**Confirm email** off — see "Auth dashboard setup" above). With
+confirmation off, that call mints a live session for *any* syntactically valid
+email address with zero proof of ownership — so treating "has a session" as
+"owns this inbox" would let anyone sign up with someone else's address and get
+this app's own Resend account to send that stranger a branded email, repeatable
+for as many target addresses as they like. If you want password sign-ups to get
+a welcome email too, turn **Confirm email** on in the Supabase dashboard — that
+gives the flow above a real confirmation-link click to fire from.
 
 Replies go straight back to the visitor — each email's `reply_to` is set to the
 address they typed in the form. Submissions are capped per day (same mechanism as

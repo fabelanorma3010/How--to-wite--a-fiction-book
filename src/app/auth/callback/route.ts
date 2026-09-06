@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { EmailOtpType } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
+import { isFirstSession, sendWelcomeEmail } from '@/lib/welcomeEmail'
 
 // Return leg of every Supabase Auth redirect: "Continue with Google" (PKCE
 // `?code=`), and the email links for confirm-signup / change-email / recovery
@@ -33,14 +34,20 @@ export async function GET(request: Request) {
   const type = params.get('type') as EmailOtpType | null
 
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
     if (error) return fail(error.message)
+    // Google has verified this address — but this same code path fires on
+    // every Google login, not just the first, so only welcome brand-new users.
+    if (data.user && isFirstSession(data.user)) await sendWelcomeEmail(data.user)
     return NextResponse.redirect(new URL(next, origin))
   }
 
   if (tokenHash && type) {
-    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
+    const { data, error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
     if (error) return fail(error.message)
+    // Clicking the signup-confirmation link proves the user owns this
+    // address — unlike an unconfirmed signUp()'s session, which doesn't.
+    if (type === 'signup' && data.user) await sendWelcomeEmail(data.user)
     // An email-change confirmation from the *first* address has no session yet;
     // land on /account either way so the user sees the result.
     return NextResponse.redirect(new URL(type === 'email_change' ? '/account' : next, origin))

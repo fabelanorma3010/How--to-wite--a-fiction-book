@@ -30,6 +30,9 @@ export async function POST(request: Request) {
   if (typeof name !== 'string' || !name.trim()) {
     return NextResponse.json({ error: 'Your name is required.' }, { status: 400 })
   }
+  if (/[\r\n]/.test(name)) {
+    return NextResponse.json({ error: "Your name can't contain line breaks." }, { status: 400 })
+  }
   if (typeof email !== 'string' || !EMAIL_RE.test(email.trim())) {
     return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 })
   }
