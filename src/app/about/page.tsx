@@ -69,6 +69,7 @@ export default function AboutPage() {
               creative instead. That&apos;s the whole idea behind this place: whatever you&apos;re
               carrying, fiction can be where you put it down and make something new out of it.
             </p>
+            <p className="mt-4 text-lg font-extrabold text-primary-content">God loves you.</p>
           </div>
         </section>
 
