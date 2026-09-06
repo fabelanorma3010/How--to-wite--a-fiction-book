@@ -2,9 +2,9 @@
 
 import { useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { TOOL_IDS } from '../data/writingTools'
 import CopyButton from './CopyButton'
 
-const TOOL_IDS = ['summarize', 'critique', 'structure'] as const
 type ToolId = (typeof TOOL_IDS)[number]
 type Status = 'idle' | 'loading' | 'error' | 'done'
 

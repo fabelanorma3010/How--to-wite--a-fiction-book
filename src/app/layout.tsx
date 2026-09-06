@@ -3,6 +3,7 @@ import { Baloo_2, Nunito } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import CookieConsent from '../components/CookieConsent'
+import JsonLd from '../components/JsonLd'
 import LanguageTab from '../components/LanguageTab'
 import './globals.css'
 
@@ -78,11 +79,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale} className={`${baloo2.variable} ${nunito.variable}`}>
       <body>
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={jsonLd} />
         <NextIntlClientProvider>
           {children}
           <LanguageTab />
