@@ -91,7 +91,8 @@
     "fontHandwritten": "Handwritten",
     "fontSerif": "Serif",
     "fontMono": "Monospace",
-    "picturesTitle": "Reference pictures"
+    "picturesTitle": "Reference pictures",
+    "stockPhotosLink": "Need a picture? Browse Adobe Stock ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",

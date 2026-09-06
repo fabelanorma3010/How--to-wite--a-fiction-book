@@ -91,7 +91,8 @@
     "fontHandwritten": "手書き風",
     "fontSerif": "明朝体",
     "fontMono": "等幅",
-    "picturesTitle": "参考画像"
+    "picturesTitle": "参考画像",
+    "stockPhotosLink": "画像が必要？Adobe Stockを見る ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",

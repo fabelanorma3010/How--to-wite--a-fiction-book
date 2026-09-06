@@ -91,7 +91,8 @@
     "fontHandwritten": "手写体",
     "fontSerif": "衬线体",
     "fontMono": "等宽体",
-    "picturesTitle": "参考图片"
+    "picturesTitle": "参考图片",
+    "stockPhotosLink": "需要图片？浏览 Adobe Stock ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",
