@@ -2,7 +2,9 @@ import { createHash } from 'node:crypto'
 import { createClient } from './supabase/server'
 import { getSupabaseAdmin } from './supabase/admin'
 
-export type AiFeature = 'chat' | 'image' | 'tools'
+// 'contact' isn't AI — it reuses this same bucketed daily-cap machinery to
+// keep the /api/contact → Resend relay from being spammed.
+export type AiFeature = 'chat' | 'image' | 'tools' | 'contact'
 
 // Daily caps per bucket. Anonymous callers are bucketed by hashed IP; signed-in
 // callers by user id and get the higher number. Generous enough that someone
@@ -12,6 +14,7 @@ const LIMITS: Record<AiFeature, { anon: number; user: number }> = {
   chat: { anon: 20, user: 60 },
   image: { anon: 3, user: 12 },
   tools: { anon: 8, user: 30 },
+  contact: { anon: 5, user: 15 },
 }
 
 const SALT = process.env.AI_LIMIT_SALT ?? 'storyburst-ai-rl-v1'
@@ -22,7 +25,12 @@ function hashedIp(request: Request): string {
   return createHash('sha256').update(`${SALT}:${ip.trim()}`).digest('hex').slice(0, 32)
 }
 
-const noun: Record<AiFeature, string> = { chat: 'messages', image: 'images', tools: 'runs' }
+const noun: Record<AiFeature, string> = {
+  chat: 'AI messages',
+  image: 'AI images',
+  tools: 'AI runs',
+  contact: 'contact messages',
+}
 
 /**
  * Returns null when the caller may proceed, or `{ status, error }` for the route
@@ -64,7 +72,7 @@ export async function checkAiLimit(
   return {
     status: 429,
     error: signedIn
-      ? `You've used your ${limit} AI ${noun[feature]} for today — they reset at midnight UTC.`
+      ? `You've used your ${limit} ${noun[feature]} for today — they reset at midnight UTC.`
       : `You've hit today's free limit for this tool. Sign in for a higher daily allowance, or come back tomorrow.`,
   }
 }

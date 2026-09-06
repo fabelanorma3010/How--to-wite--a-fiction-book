@@ -64,8 +64,7 @@
     "intro": "¿Necesitas una chispa para tu próxima viñeta o página? Genera una descripción completa de ilustración —sujeto, acción, escenario, detalle y paleta de color— para tu artista (o para ti). O ve directo a una imagen generada.",
     "genreLabel": "Elige el género para la idea de ilustración",
     "generate": "Generar idea de ilustración {emoji}",
-    "generating": "Generando…",
-    "turnIntoImage": "Convertir en imagen"
+    "comingSoon": "Próximamente"
   },
   "Notebook": {
     "title": "Tu cuaderno de historias",
@@ -91,7 +90,8 @@
     "fontHandwritten": "Manuscrita",
     "fontSerif": "Serif",
     "fontMono": "Monoespaciada",
-    "picturesTitle": "Imágenes de referencia"
+    "picturesTitle": "Imágenes de referencia",
+    "stockPhotosLink": "¿Necesitas una imagen? Explora Adobe Stock ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Saluda",
-    "intro": "¿Preguntas, comentarios o quieres contar en qué trabajas? Envía un mensaje: se abrirá en tu app de correo, listo para enviar.",
+    "intro": "¿Preguntas, comentarios o quieres contar en qué trabajas? Envía un mensaje y te responderemos.",
     "name": "Nombre",
     "namePlaceholder": "Tu nombre",
     "email": "Correo electrónico",
     "message": "Mensaje",
     "messagePlaceholder": "¿Qué tienes en mente?",
     "send": "Enviar mensaje",
-    "sent": "Abriendo tu app de correo: ¡gracias por escribir!",
-    "disclaimer": "Esto abre tu app de correo predeterminada con el mensaje ya escrito; no se envía nada automáticamente.",
-    "emailSubject": "Mensaje de {name} vía Storyburst"
+    "sending": "Enviando…",
+    "sent": "Mensaje enviado — ¡gracias por escribir!",
+    "genericError": "Algo salió mal — inténtalo de nuevo."
   },
   "CookieConsent": {
     "title": "Aviso de cookies",
@@ -522,6 +522,7 @@
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
     "firstMonthFree": "Primer mes gratis",
     "comingSoon": "Próximamente",
+    "signUpFirst": "Regístrate primero",
     "freeWhileBuilding": "Todo lo de arriba es gratis mientras se construye la facturación.",
     "freeFeatures": [
       "El test completo de formato + consejos de género para cada tipo de libro",

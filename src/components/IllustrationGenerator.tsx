@@ -11,14 +11,9 @@ interface IllustrationGeneratorProps {
   onSelect: (id: BookTypeId) => void
 }
 
-type ImageStatus = 'idle' | 'loading' | 'error' | 'done'
-
 export default function IllustrationGenerator({ selected, onSelect }: IllustrationGeneratorProps) {
   const t = useTranslations('Illustration')
   const [idea, setIdea] = useState<string>('')
-  const [imageStatus, setImageStatus] = useState<ImageStatus>('idle')
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [imageError, setImageError] = useState<string | null>(null)
   const activeType = bookTypes.find((b) => b.id === selected) ?? bookTypes[0]
 
   // Generated client-side only, after mount — Math.random() output would
@@ -30,30 +25,6 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
 
   const handleGenerate = () => {
     setIdea(generateIllustrationIdea(selected))
-    setImageStatus('idle')
-    setImageUrl(null)
-    setImageError(null)
-  }
-
-  const handleGenerateImage = async () => {
-    setImageStatus('loading')
-    setImageError(null)
-    try {
-      const res = await fetch('/api/generate-illustration', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: idea }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data?.error || 'Something went wrong generating the image.')
-      }
-      setImageUrl(data.image)
-      setImageStatus('done')
-    } catch (err) {
-      setImageError(err instanceof Error ? err.message : 'Something went wrong.')
-      setImageStatus('error')
-    }
   }
 
   return (
@@ -87,37 +58,14 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
           <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
             <button
               type="button"
-              onClick={handleGenerateImage}
-              disabled={imageStatus === 'loading'}
-              className="flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 font-bold text-ink transition-colors hover:bg-base disabled:cursor-not-allowed disabled:opacity-60"
+              disabled
+              title={t('comingSoon')}
+              className="flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 font-bold text-ink opacity-60 cursor-not-allowed"
             >
-              {imageStatus === 'loading' ? (
-                <>
-                  <span
-                    aria-hidden="true"
-                    className="h-4 w-4 animate-spin rounded-full border-2 border-ink/30 border-t-ink"
-                  />
-                  {t('generating')}
-                </>
-              ) : (
-                <>🖼️ {t('turnIntoImage')}</>
-              )}
+              🖼️ {t('comingSoon')}
             </button>
             <CopyButton text={idea} />
           </div>
-
-          {imageStatus === 'error' && (
-            <p role="alert" className="mt-4 text-sm font-semibold text-red-600">
-              {imageError}
-            </p>
-          )}
-
-          {imageStatus === 'done' && imageUrl && (
-            <div className="animate-pop-in mt-5 overflow-hidden rounded-xl border-2 border-ink/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl} alt={idea} className="w-full" />
-            </div>
-          )}
         </div>
       </div>
     </section>

@@ -64,8 +64,7 @@
     "intro": "Brauchst du einen Funken für dein nächstes Panel oder deine nächste Seite? Erzeuge einen kompletten Illustrations-Prompt — Motiv, Aktion, Schauplatz, Detail und Farbpalette — für deine Zeichnerin (oder dich selbst). Oder spring direkt zu einem generierten Bild.",
     "genreLabel": "Genre für die Illustrationsidee wählen",
     "generate": "Illustrationsidee erzeugen {emoji}",
-    "generating": "Wird erzeugt…",
-    "turnIntoImage": "In Bild umwandeln"
+    "comingSoon": "Bald"
   },
   "Notebook": {
     "title": "Dein Story-Notizbuch",
@@ -91,7 +90,8 @@
     "fontHandwritten": "Handschrift",
     "fontSerif": "Serifenschrift",
     "fontMono": "Monospace",
-    "picturesTitle": "Referenzbilder"
+    "picturesTitle": "Referenzbilder",
+    "stockPhotosLink": "Brauchst du ein Bild? Adobe Stock durchsuchen ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "Sag Hallo",
-    "intro": "Fragen, Feedback oder Lust, zu erzählen, woran du arbeitest? Schick eine Nachricht — sie öffnet sich versandfertig in deiner E-Mail-App.",
+    "intro": "Fragen, Feedback oder Lust, zu erzählen, woran du arbeitest? Schick eine Nachricht, wir melden uns bei dir.",
     "name": "Name",
     "namePlaceholder": "Dein Name",
     "email": "E-Mail",
     "message": "Nachricht",
     "messagePlaceholder": "Was hast du auf dem Herzen?",
     "send": "Nachricht senden",
-    "sent": "Deine E-Mail-App wird geöffnet — danke, dass du dich meldest!",
-    "disclaimer": "Das öffnet deine Standard-E-Mail-App mit vorausgefüllter Nachricht — es wird nichts automatisch gesendet.",
-    "emailSubject": "Nachricht von {name} über Storyburst"
+    "sending": "Wird gesendet…",
+    "sent": "Nachricht gesendet — danke, dass du dich meldest!",
+    "genericError": "Etwas ist schiefgelaufen — bitte versuch es erneut."
   },
   "CookieConsent": {
     "title": "Cookie-Hinweis",
@@ -522,6 +522,7 @@
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
     "firstMonthFree": "Erster Monat gratis",
     "comingSoon": "Bald",
+    "signUpFirst": "Zuerst registrieren",
     "freeWhileBuilding": "Alles oben ist kostenlos nutzbar, während die Abrechnung gebaut wird.",
     "freeFeatures": [
       "Das vollständige Format-Quiz + Genre-Tipps für jeden Buchtyp",

@@ -64,8 +64,7 @@
     "intro": "下一格或下一页需要灵感？生成一段完整的插画提示词——主体、动作、场景、细节和配色——交给你的画师（或你自己）。也可以直接生成一张图。",
     "genreLabel": "为插画点子选择类型",
     "generate": "生成插画点子 {emoji}",
-    "generating": "生成中…",
-    "turnIntoImage": "生成为图片"
+    "comingSoon": "即将推出"
   },
   "Notebook": {
     "title": "你的故事笔记本",
@@ -91,7 +90,8 @@
     "fontHandwritten": "手写体",
     "fontSerif": "衬线体",
     "fontMono": "等宽体",
-    "picturesTitle": "参考图片"
+    "picturesTitle": "参考图片",
+    "stockPhotosLink": "需要图片？浏览 Adobe Stock ↗"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -140,16 +140,16 @@
   },
   "Contact": {
     "title": "打个招呼",
-    "intro": "有问题、反馈，或想聊聊你正在做的东西？发条消息——它会在你的邮件应用里打开，随时可以发送。",
+    "intro": "有问题、反馈，或想聊聊你正在做的东西？发条消息，我们会回复你。",
     "name": "姓名",
     "namePlaceholder": "你的名字",
     "email": "邮箱",
     "message": "消息",
     "messagePlaceholder": "你在想什么？",
     "send": "发送消息",
-    "sent": "正在打开你的邮件应用——感谢联系！",
-    "disclaimer": "这会打开你默认的邮件应用并预填好内容——不会自动发送任何东西。",
-    "emailSubject": "来自 {name} 的消息（通过 Storyburst）"
+    "sending": "发送中…",
+    "sent": "消息已发送——感谢联系！",
+    "genericError": "出了点问题——请重试。"
   },
   "CookieConsent": {
     "title": "Cookie 提示",
@@ -522,6 +522,7 @@
     "memberSubtitle": "当你认真想把书写完的时候。",
     "firstMonthFree": "首月免费",
     "comingSoon": "即将推出",
+    "signUpFirst": "先注册",
     "freeWhileBuilding": "在计费功能搭建期间，以上全部免费使用。",
     "freeFeatures": [
       "完整的格式匹配测验 + 每种图书类型的类型建议",

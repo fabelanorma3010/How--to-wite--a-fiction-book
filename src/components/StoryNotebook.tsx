@@ -189,7 +189,17 @@ export default function StoryNotebook() {
           />
 
           <div className="mt-4">
-            <p className="mb-2 text-sm font-bold text-ink/60">{t('picturesTitle')}</p>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm font-bold text-ink/60">{t('picturesTitle')}</p>
+              <a
+                href="https://stock.adobe.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+              >
+                {t('stockPhotosLink')}
+              </a>
+            </div>
             <NotebookImages userId={userId} />
           </div>
 

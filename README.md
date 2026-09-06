@@ -104,11 +104,12 @@ project deployed on Vercel once a visitor accepts the cookie banner.
 
 Three surfaces call an AI provider: the **Fiction Helper** chat
 ([`fiction-helper`](src/app/api/fiction-helper/route.ts)), the **Illustration
-Generator**'s "Turn into Image" button
-([`generate-illustration`](src/app/api/generate-illustration/route.ts)), and the
-**Writing Tools** at `/tools` — Summarize / Critique / Structure notes
-([`writing-tools`](src/app/api/writing-tools/route.ts)). All are no-ops (a 503, with
-a friendly in-UI message) until at least one key is set.
+Generator**'s image route
+([`generate-illustration`](src/app/api/generate-illustration/route.ts) — its "Turn
+into Image" button is currently disabled ("Coming soon") in the UI, but the route
+itself still works if called), and the **Writing Tools** at `/tools` — Summarize /
+Critique / Structure notes ([`writing-tools`](src/app/api/writing-tools/route.ts)).
+All are no-ops (a 503, with a friendly in-UI message) until at least one key is set.
 
 Provider selection is automatic — each route prefers **Google Gemini** when
 `GEMINI_API_KEY` is set ([`src/lib/gemini.ts`](src/lib/gemini.ts)), and otherwise
@@ -122,7 +123,8 @@ per salted-hashed IP for anonymous visitors, counted in the `ai_usage` table
 (migration `20260909120000_ai_usage.sql`). Over the cap returns a `429` with a
 "come back tomorrow / sign in for more" message. Tune the numbers in
 `aiLimits.ts`; the check fails open if Supabase isn't configured. Set an optional
-`AI_LIMIT_SALT` to control the IP-hash salt.
+`AI_LIMIT_SALT` to control the IP-hash salt. The same table/mechanism also caps
+the Contact form (see below) — not AI, but the same spam-protection shape.
 
 **Gemini (recommended — free, no billing):**
 1. Go to [aistudio.google.com](https://aistudio.google.com), click **Get API key**,
@@ -140,3 +142,49 @@ image generation (the free quota for image models is 0). To use Gemini for the
 Google Cloud account. If you'd rather not, set `OPENAI_API_KEY` instead — with
 `GEMINI_API_KEY` also set, chat uses Gemini and images fall through to OpenAI
 automatically.
+
+## Transactional email — Resend
+
+Two things send mail via [Resend](https://resend.com)
+([`src/lib/resend.ts`](src/lib/resend.ts) — a hand-rolled fetch wrapper, no SDK,
+matching `gemini.ts`): the Contact form and the welcome email. Without a key both
+return a friendly 503 instead of pretending to send anything.
+
+1. Sign up at [resend.com](https://resend.com) (free tier: 3,000 emails/month) and
+   create an **API key**.
+2. Set `RESEND_API_KEY` to that value — in `.env.local` for local dev, and in your
+   deploy platform's environment variables for production. Redeploy after adding
+   it there.
+3. By default mail is sent from Resend's sandbox address (`onboarding@resend.dev`),
+   which works immediately with no setup but always shows that address to the
+   recipient. To send from your own domain instead: verify it under **Domains** in
+   the Resend dashboard, then set `RESEND_FROM_EMAIL` to e.g.
+   `"Storyburst <hello@yourdomain.com>"`.
+
+**Contact form**: the [`/contact`](src/app/contact/page.tsx) page posts to
+[`/api/contact`](src/app/api/contact/route.ts), which emails the message to the
+address hardcoded as `TO_EMAIL` there (change it to your own), with `reply_to` set
+to the visitor so you can just hit reply.
+
+**Welcome email**: sent from [`/auth/callback`](src/app/auth/callback/route.ts)
+via [`src/lib/welcomeEmail.ts`](src/lib/welcomeEmail.ts) — but **only** at a point
+where the address is actually verified: a completed "Continue with Google"
+exchange (Google has verified it), or a clicked signup-confirmation email link
+(clicking it proves the person owns that inbox). An `isFirstSession()` check
+keeps a returning Google login from re-triggering it. The HTML template lives in
+[`src/lib/emailTemplates.ts`](src/lib/emailTemplates.ts).
+
+It deliberately does **not** fire right after a plain password `signUp()`, even
+though that's the more common signup path with this repo's recommended launch
+config (**Confirm email** off — see "Auth dashboard setup" above). With
+confirmation off, that call mints a live session for *any* syntactically valid
+email address with zero proof of ownership — so treating "has a session" as
+"owns this inbox" would let anyone sign up with someone else's address and get
+this app's own Resend account to send that stranger a branded email, repeatable
+for as many target addresses as they like. If you want password sign-ups to get
+a welcome email too, turn **Confirm email** on in the Supabase dashboard — that
+gives the flow above a real confirmation-link click to fire from.
+
+Replies go straight back to the visitor — each email's `reply_to` is set to the
+address they typed in the form. Submissions are capped per day (same mechanism as
+the AI features above) to keep the endpoint from being spammed.

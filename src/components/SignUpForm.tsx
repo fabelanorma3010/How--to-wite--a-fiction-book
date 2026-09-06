@@ -62,6 +62,9 @@ export default function SignUpForm() {
         return
       }
       if (data.session) {
+        // No welcome email here: with email confirmation off, this session
+        // exists for whatever address was typed, with no proof of ownership —
+        // see /auth/callback, which sends it only once that's actually verified.
         router.push('/')
         router.refresh()
         return
