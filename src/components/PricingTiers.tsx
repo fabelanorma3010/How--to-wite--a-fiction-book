@@ -1,15 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { PRICES } from '../data/pricing'
+import { createClient } from '../lib/supabase/client'
 
 type Cadence = keyof typeof PRICES
 
 export default function PricingTiers() {
   const t = useTranslations('PricingTiers')
   const [cadence, setCadence] = useState<Cadence>('annual')
+  // Assume signed in until proven otherwise, so a signed-in member never sees
+  // a flash of "sign up first" — the safer default is the existing
+  // Coming-soon state everyone already sees today.
+  const [signedIn, setSignedIn] = useState(true)
   const price = PRICES[cadence]
+
+  useEffect(() => {
+    const supabase = createClient()
+    if (!supabase) return
+    supabase.auth.getUser().then(({ data }) => setSignedIn(Boolean(data.user)))
+  }, [])
 
   const freeFeatures = t.raw('freeFeatures') as string[]
   const memberFeatures = t.raw('memberFeatures') as string[]
@@ -96,13 +108,22 @@ export default function PricingTiers() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            disabled
-            className="mt-8 cursor-not-allowed rounded-full bg-primary/40 px-6 py-3 text-center font-bold text-primary-content"
-          >
-            {t('comingSoon')}
-          </button>
+          {signedIn ? (
+            <button
+              type="button"
+              disabled
+              className="mt-8 cursor-not-allowed rounded-full bg-primary/40 px-6 py-3 text-center font-bold text-primary-content"
+            >
+              {t('comingSoon')}
+            </button>
+          ) : (
+            <Link
+              href="/signup"
+              className="mt-8 rounded-full bg-primary px-6 py-3 text-center font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
+            >
+              {t('signUpFirst')}
+            </Link>
+          )}
           <p className="mt-2 text-center text-xs text-ink/45">{t('freeWhileBuilding')}</p>
         </div>
       </div>
