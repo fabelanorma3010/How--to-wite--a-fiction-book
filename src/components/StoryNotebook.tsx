@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import ReadAloud from './ReadAloud'
+import NotebookExport from './NotebookExport'
 import Sticker from './Sticker'
 import { createClient } from '../lib/supabase/client'
 
@@ -96,7 +97,8 @@ export default function StoryNotebook() {
             Jot down character notes, plot twists, or a line of dialogue before it slips away.
             {userId
               ? " It's synced to your account, so it'll follow you to any device you log in on."
-              : " It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices."}
+              : " It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices."}{' '}
+            Export it to PDF or Word whenever you want to take it somewhere else.
           </p>
         </div>
 
@@ -123,6 +125,10 @@ export default function StoryNotebook() {
               <ReadAloud
                 text={text}
                 label="Read Aloud"
+                className="rounded-full border-2 border-ink/15 bg-white/70 px-4 py-2 font-bold text-ink transition-colors hover:bg-white active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+              />
+              <NotebookExport
+                text={text}
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-4 py-2 font-bold text-ink transition-colors hover:bg-white active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               />
               <button
