@@ -79,8 +79,19 @@
     "saved": "已保存 ✓",
     "saving": "保存中…",
     "readAloud": "朗读",
+    "dictate": "语音输入",
     "clear": "清空笔记本",
-    "clearConfirm": "清空笔记本里的所有内容？此操作无法撤销。"
+    "clearConfirm": "清空笔记本里的所有内容？此操作无法撤销。",
+    "fontSizeLabel": "字号",
+    "fontSizeSmall": "小",
+    "fontSizeMedium": "中",
+    "fontSizeLarge": "大",
+    "fontFamilyLabel": "字体",
+    "fontDefault": "默认",
+    "fontHandwritten": "手写体",
+    "fontSerif": "衬线体",
+    "fontMono": "等宽体",
+    "picturesTitle": "参考图片"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "导出中…",
     "retry": "重试"
   },
+  "NotebookImages": {
+    "addPictures": "添加图片",
+    "signInPrompt": "登录后即可在笔记本中添加参考图片。",
+    "remove": "移除图片",
+    "tooMany": "最多可添加 {max} 张图片。",
+    "invalidType": "请选择 PNG、JPEG 或 WebP 格式的图片。",
+    "tooLarge": "图片太大——最大 5MB。",
+    "unavailable": "上传功能暂不可用。"
+  },
   "ReadAloud": {
     "readAloud": "朗读",
+    "stop": "停止"
+  },
+  "Dictate": {
+    "dictate": "语音输入",
     "stop": "停止"
   },
   "Community": {

@@ -79,8 +79,19 @@
     "saved": "Salvo ✓",
     "saving": "Salvando…",
     "readAloud": "Ler em voz alta",
+    "dictate": "Ditar",
     "clear": "Limpar caderno",
-    "clearConfirm": "Limpar tudo no seu caderno? Isso não pode ser desfeito."
+    "clearConfirm": "Limpar tudo no seu caderno? Isso não pode ser desfeito.",
+    "fontSizeLabel": "Tamanho do texto",
+    "fontSizeSmall": "Pequeno",
+    "fontSizeMedium": "Médio",
+    "fontSizeLarge": "Grande",
+    "fontFamilyLabel": "Fonte",
+    "fontDefault": "Padrão",
+    "fontHandwritten": "Manuscrita",
+    "fontSerif": "Serifada",
+    "fontMono": "Monoespaçada",
+    "picturesTitle": "Imagens de referência"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "Exportando…",
     "retry": "Tentar de novo"
   },
+  "NotebookImages": {
+    "addPictures": "Adicionar imagens",
+    "signInPrompt": "Entre para anexar imagens de referência ao seu caderno.",
+    "remove": "Remover imagem",
+    "tooMany": "Você pode anexar até {max} imagens.",
+    "invalidType": "Escolha uma imagem PNG, JPEG ou WebP.",
+    "tooLarge": "Essa imagem é grande demais — 5MB no máximo.",
+    "unavailable": "Os envios não estão disponíveis no momento."
+  },
   "ReadAloud": {
     "readAloud": "Ler em voz alta",
+    "stop": "Parar"
+  },
+  "Dictate": {
+    "dictate": "Ditar",
     "stop": "Parar"
   },
   "Community": {

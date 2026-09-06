@@ -79,8 +79,19 @@
     "saved": "保存済み ✓",
     "saving": "保存中…",
     "readAloud": "読み上げ",
+    "dictate": "音声入力",
     "clear": "ノートを消去",
-    "clearConfirm": "ノートの内容をすべて消去しますか？元に戻せません。"
+    "clearConfirm": "ノートの内容をすべて消去しますか？元に戻せません。",
+    "fontSizeLabel": "文字サイズ",
+    "fontSizeSmall": "小",
+    "fontSizeMedium": "中",
+    "fontSizeLarge": "大",
+    "fontFamilyLabel": "フォント",
+    "fontDefault": "デフォルト",
+    "fontHandwritten": "手書き風",
+    "fontSerif": "明朝体",
+    "fontMono": "等幅",
+    "picturesTitle": "参考画像"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "書き出し中…",
     "retry": "もう一度"
   },
+  "NotebookImages": {
+    "addPictures": "画像を追加",
+    "signInPrompt": "ノートに参考画像を添付するにはログインしてください。",
+    "remove": "画像を削除",
+    "tooMany": "画像は最大{max}枚まで添付できます。",
+    "invalidType": "PNG、JPEG、WebPのいずれかの画像を選んでください。",
+    "tooLarge": "この画像は大きすぎます — 最大5MB。",
+    "unavailable": "現在アップロードはご利用いただけません。"
+  },
   "ReadAloud": {
     "readAloud": "読み上げ",
+    "stop": "停止"
+  },
+  "Dictate": {
+    "dictate": "音声入力",
     "stop": "停止"
   },
   "Community": {

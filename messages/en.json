@@ -79,8 +79,19 @@
     "saved": "Saved ✓",
     "saving": "Saving…",
     "readAloud": "Read Aloud",
+    "dictate": "Dictate",
     "clear": "Clear Notebook",
-    "clearConfirm": "Clear everything in your notebook? This can't be undone."
+    "clearConfirm": "Clear everything in your notebook? This can't be undone.",
+    "fontSizeLabel": "Text size",
+    "fontSizeSmall": "Small",
+    "fontSizeMedium": "Medium",
+    "fontSizeLarge": "Large",
+    "fontFamilyLabel": "Font",
+    "fontDefault": "Default",
+    "fontHandwritten": "Handwritten",
+    "fontSerif": "Serif",
+    "fontMono": "Monospace",
+    "picturesTitle": "Reference pictures"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "Exporting…",
     "retry": "Try again"
   },
+  "NotebookImages": {
+    "addPictures": "Add pictures",
+    "signInPrompt": "Log in to attach reference pictures to your notebook.",
+    "remove": "Remove picture",
+    "tooMany": "You can attach up to {max} pictures.",
+    "invalidType": "Please choose a PNG, JPEG, or WebP image.",
+    "tooLarge": "That image is too large — 5MB max.",
+    "unavailable": "Uploads are unavailable right now."
+  },
   "ReadAloud": {
     "readAloud": "Read Aloud",
+    "stop": "Stop"
+  },
+  "Dictate": {
+    "dictate": "Dictate",
     "stop": "Stop"
   },
   "Community": {

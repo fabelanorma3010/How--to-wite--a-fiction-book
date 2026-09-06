@@ -79,8 +79,19 @@
     "saved": "Gespeichert ✓",
     "saving": "Wird gespeichert…",
     "readAloud": "Vorlesen",
+    "dictate": "Diktieren",
     "clear": "Notizbuch leeren",
-    "clearConfirm": "Alles im Notizbuch löschen? Das lässt sich nicht rückgängig machen."
+    "clearConfirm": "Alles im Notizbuch löschen? Das lässt sich nicht rückgängig machen.",
+    "fontSizeLabel": "Textgröße",
+    "fontSizeSmall": "Klein",
+    "fontSizeMedium": "Mittel",
+    "fontSizeLarge": "Groß",
+    "fontFamilyLabel": "Schriftart",
+    "fontDefault": "Standard",
+    "fontHandwritten": "Handschrift",
+    "fontSerif": "Serifenschrift",
+    "fontMono": "Monospace",
+    "picturesTitle": "Referenzbilder"
   },
   "NotebookExport": {
     "pdf": "PDF",
@@ -90,8 +101,21 @@
     "exporting": "Wird exportiert…",
     "retry": "Erneut versuchen"
   },
+  "NotebookImages": {
+    "addPictures": "Bilder hinzufügen",
+    "signInPrompt": "Melde dich an, um deinem Notizbuch Referenzbilder hinzuzufügen.",
+    "remove": "Bild entfernen",
+    "tooMany": "Du kannst bis zu {max} Bilder hinzufügen.",
+    "invalidType": "Bitte wähle ein PNG-, JPEG- oder WebP-Bild.",
+    "tooLarge": "Dieses Bild ist zu groß — maximal 5MB.",
+    "unavailable": "Uploads sind gerade nicht verfügbar."
+  },
   "ReadAloud": {
     "readAloud": "Vorlesen",
+    "stop": "Stopp"
+  },
+  "Dictate": {
+    "dictate": "Diktieren",
     "stop": "Stopp"
   },
   "Community": {
