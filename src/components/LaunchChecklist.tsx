@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { launchChecklist } from '../data/launchChecklist'
+import { useTranslations } from 'next-intl'
+import { LAUNCH_PHASE_EMOJIS, type LaunchPhaseCopy } from '../data/launchChecklist'
 import Sticker from './Sticker'
 
 const STORAGE_KEY = 'storyburst-launch-checklist'
@@ -9,9 +10,10 @@ function itemKey(phaseIndex: number, itemIndex: number) {
   return `${phaseIndex}-${itemIndex}`
 }
 
-const totalItems = launchChecklist.reduce((sum, phase) => sum + phase.items.length, 0)
-
 export default function LaunchChecklist() {
+  const t = useTranslations('LaunchChecklist')
+  const phases = t.raw('phases') as LaunchPhaseCopy[]
+  const totalItems = phases.reduce((sum, phase) => sum + phase.items.length, 0)
   const [checked, setChecked] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
@@ -39,28 +41,25 @@ export default function LaunchChecklist() {
     <section id="launch-checklist" className="px-4 pb-16 sm:px-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Launch Week Checklist ✅</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            Once the book is formatted and ready to go, this is the tactical run of what to do in
-            the weeks around launch. Check things off as you go.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} ✅</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-ink/70">{t('intro')}</p>
           <p className="mt-4 text-sm font-bold text-ink/50">
             {doneCount === totalItems && totalItems > 0
-              ? 'Every box ticked — go celebrate, you launched a book! 🎉'
-              : `${doneCount} of ${totalItems} done`}
+              ? t('allDone')
+              : t('progress', { done: doneCount, total: totalItems })}
           </p>
         </div>
 
         <div className="relative space-y-6">
           <Sticker emoji="✅" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
-          {launchChecklist.map((phase, phaseIndex) => (
+          {phases.map((phase, phaseIndex) => (
             <div
-              key={phase.phase}
+              key={phaseIndex}
               className="rounded-3xl border-2 border-ink/10 bg-white/70 p-5 shadow-sm sm:p-6"
             >
               <div className="mb-4 flex items-baseline gap-2">
                 <span aria-hidden="true" className="text-xl">
-                  {phase.emoji}
+                  {LAUNCH_PHASE_EMOJIS[phaseIndex]}
                 </span>
                 <h3 className="text-lg font-extrabold text-ink sm:text-xl">{phase.phase}</h3>
                 <span className="text-xs font-bold uppercase tracking-wide text-ink/40">
@@ -73,7 +72,7 @@ export default function LaunchChecklist() {
                   const isDone = Boolean(checked[key])
                   const id = `launch-${key}`
                   return (
-                    <li key={item}>
+                    <li key={itemIndex}>
                       <label
                         htmlFor={id}
                         className={`flex cursor-pointer items-start gap-3 rounded-xl border-2 p-3 transition-colors ${

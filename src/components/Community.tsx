@@ -39,6 +39,7 @@ function toPost(row: PostRow, authorName: string): CommunityPost {
 
 export default function Community() {
   const t = useTranslations('Community')
+  const bt = useTranslations('BookTypes')
   const locale = useLocale()
   const [posts, setPosts] = useState<CommunityPost[]>([])
   const [status, setStatus] = useState<Status>('loading')
@@ -170,7 +171,7 @@ export default function Community() {
                       }`}
                     >
                       <span aria-hidden="true">{type.emoji}</span>
-                      {type.name}
+                      {bt(`types.${type.id}.name`)}
                     </button>
                   )
                 })}
@@ -273,7 +274,7 @@ export default function Community() {
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wide text-ink/40">
                     <span>
                       <span aria-hidden="true">{type?.emoji}</span> {post.authorName}
-                      {type ? ` · ${type.name}` : ''}
+                      {type ? ` · ${bt(`types.${type.id}.name`)}` : ''}
                     </span>
                     <span>{formatRelativeTime(post.createdAt, locale)}</span>
                   </div>

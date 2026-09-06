@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
-import { bookTypes } from '../../../data/bookTypes'
+import { bookTypes, bookTypeEmoji, type BookTypeId } from '../../../data/bookTypes'
 
 export function generateStaticParams() {
   return bookTypes.map((type) => ({ type: type.id }))
 }
 
-function findType(type: string) {
-  return bookTypes.find((t) => t.id === type)
+function isBookTypeId(value: string): value is BookTypeId {
+  return bookTypes.some((t) => t.id === value)
 }
 
 export async function generateMetadata({
@@ -19,27 +20,35 @@ export async function generateMetadata({
   params: Promise<{ type: string }>
 }): Promise<Metadata> {
   const { type } = await params
-  const active = findType(type)
-  if (!active) return { title: 'Storyburst' }
+  if (!isBookTypeId(type)) return { title: 'Storyburst' }
 
-  const title = `How to Write a ${active.name} — Storyburst`
-  const description = `${active.tagline} A free, practical guide to writing a ${active.name.toLowerCase()}: ${active.tips[0].toLowerCase()}`
+  const bt = await getTranslations('BookTypes')
+  const wg = await getTranslations('WriteGuide')
+  const name = bt(`types.${type}.name`)
+  const title = wg('metaTitle', { name })
+  const description = wg('metaDescription', {
+    name,
+    tagline: bt(`types.${type}.tagline`),
+  })
 
   return {
     title,
     description,
-    alternates: { canonical: `/write/${active.id}` },
-    openGraph: { title, description, url: `/write/${active.id}`, type: 'article', images: '/opengraph-image' },
+    alternates: { canonical: `/write/${type}` },
+    openGraph: { title, description, url: `/write/${type}`, type: 'article', images: '/opengraph-image' },
     twitter: { card: 'summary', title, description, images: '/opengraph-image' },
   }
 }
 
 export default async function WriteGuidePage({ params }: { params: Promise<{ type: string }> }) {
   const { type } = await params
-  const active = findType(type)
-  if (!active) notFound()
+  if (!isBookTypeId(type)) notFound()
 
-  const others = bookTypes.filter((t) => t.id !== active.id)
+  const bt = await getTranslations('BookTypes')
+  const wg = await getTranslations('WriteGuide')
+  const tips = bt.raw(`types.${type}.tips`) as string[]
+  const name = bt(`types.${type}.name`)
+  const others = bookTypes.filter((t) => t.id !== type)
 
   return (
     <div className="min-h-screen">
@@ -56,31 +65,32 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
           />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
             <span className="animate-pop-in rounded-full border-2 border-primary/40 bg-white/70 px-4 py-1.5 text-sm font-bold text-primary-content shadow-sm">
-              <span aria-hidden="true">{active.emoji}</span> Free writing guide
+              <span aria-hidden="true">{bookTypeEmoji(type)}</span> {wg('badge')}
             </span>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              How to Write a{' '}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                {active.name}
-              </span>
+              {wg.rich('heading', {
+                name,
+                highlight: (chunks) => (
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </h1>
-            <p className="max-w-xl text-lg font-semibold text-ink/70">{active.tagline}</p>
+            <p className="max-w-xl text-lg font-semibold text-ink/70">{bt(`types.${type}.tagline`)}</p>
           </div>
         </section>
 
         <section className="px-4 py-10 sm:px-6">
           <div className="mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-10">
-            <p className="text-lg leading-relaxed text-ink/80">{active.blurb}</p>
+            <p className="text-lg leading-relaxed text-ink/80">{bt(`types.${type}.blurb`)}</p>
 
             <h2 className="mt-8 text-2xl font-extrabold text-ink">
-              {active.tips.length} tips for writing a {active.name.toLowerCase()}
+              {wg('tipsHeading', { count: tips.length, name })}
             </h2>
             <ul className="mt-4 grid gap-3">
-              {active.tips.map((tip, i) => (
-                <li
-                  key={i}
-                  className="flex gap-3 rounded-2xl bg-base/80 p-4 text-ink/80"
-                >
+              {tips.map((tip, i) => (
+                <li key={i} className="flex gap-3 rounded-2xl bg-base/80 p-4 text-ink/80">
                   <span aria-hidden="true" className="font-extrabold text-accent-content/70">
                     {i + 1}.
                   </span>
@@ -94,13 +104,13 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
                 href="/#book-types"
                 className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
               >
-                Try the {active.name} tools 🎯
+                {wg('tryTools', { name })}
               </a>
               <a
                 href="/#quiz"
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
-                Not sure it's the right fit? Take the quiz
+                {wg('takeQuiz')}
               </a>
             </div>
           </div>
@@ -108,17 +118,16 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
 
         <section className="px-4 pb-16 sm:px-6">
           <div className="mx-auto max-w-3xl">
-            <h2 className="mb-4 text-center text-lg font-extrabold text-ink">
-              Writing something else?
-            </h2>
+            <h2 className="mb-4 text-center text-lg font-extrabold text-ink">{wg('somethingElse')}</h2>
             <div className="flex flex-wrap justify-center gap-3">
-              {others.map((type) => (
+              {others.map((other) => (
                 <Link
-                  key={type.id}
-                  href={`/write/${type.id}`}
+                  key={other.id}
+                  href={`/write/${other.id}`}
                   className="flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white/70 px-5 py-2.5 font-bold text-ink/80 transition-colors hover:border-primary/50 hover:text-ink"
                 >
-                  <span aria-hidden="true">{type.emoji}</span> How to write {type.name.toLowerCase()}
+                  <span aria-hidden="true">{other.emoji}</span>{' '}
+                  {wg('howToWrite', { name: bt(`types.${other.id}.name`) })}
                 </Link>
               ))}
             </div>

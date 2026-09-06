@@ -9,6 +9,15 @@ const MAX_TOKENS = 400
 const MAX_MESSAGE_LENGTH = 1000
 const MAX_HISTORY = 20
 
+// English labels for the AI system prompt — this text is instructions to the
+// model, not shown to the user, so it stays English regardless of UI locale.
+const GENRE_LABEL: Record<BookTypeId, string> = {
+  comic: 'comic book',
+  manga: 'manga',
+  cartoon: 'cartoon book',
+  childrens: "children's book",
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant'
   text: string
@@ -68,7 +77,7 @@ export async function POST(request: Request) {
 
   const activeGenre = bookTypes.find((b) => b.id === genre)
   const genreId: BookTypeId = activeGenre?.id ?? bookTypes[0].id
-  const genreName = activeGenre?.name ?? bookTypes[0].name
+  const genreName = GENRE_LABEL[genreId]
 
   // Prefer Gemini when its key is set; otherwise use Anthropic below.
   if (hasGeminiKey()) {

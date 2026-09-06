@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import Sticker from './Sticker'
 
@@ -8,24 +9,21 @@ interface BookTypesProps {
 }
 
 export default function BookTypes({ selected, onSelect }: BookTypesProps) {
+  const t = useTranslations('BookTypes')
   const active = bookTypes.find((b) => b.id === selected) ?? bookTypes[0]
+  const tips = t.raw(`types.${active.id}.tips`) as string[]
 
   return (
     <section id="book-types" className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-5xl">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            Pick Your Book Type
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            Every format has its own storytelling rules. Choose one to see tailored tips
-            — your pick also powers the generators below.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('sectionTitle')}</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-ink/70">{t('sectionIntro')}</p>
         </div>
 
         <div
           role="tablist"
-          aria-label="Book types"
+          aria-label={t('sectionTitle')}
           className="mb-6 flex flex-wrap justify-center gap-2 sm:gap-3"
         >
           {bookTypes.map((type) => {
@@ -47,7 +45,7 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
                 <span aria-hidden="true" className="text-lg sm:text-xl">
                   {type.emoji}
                 </span>
-                {type.name}
+                {t(`types.${type.id}.name`)}
               </button>
             )
           })}
@@ -63,15 +61,15 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
           <Sticker emoji="📌" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
           <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
             <h3 className="text-2xl font-extrabold text-ink">
-              <span aria-hidden="true">{active.emoji}</span> {active.name}
+              <span aria-hidden="true">{active.emoji}</span> {t(`types.${active.id}.name`)}
             </h3>
-            <p className="font-semibold text-secondary-content/80">{active.tagline}</p>
+            <p className="font-semibold text-secondary-content/80">{t(`types.${active.id}.tagline`)}</p>
           </div>
 
-          <p className="mt-4 text-ink/80">{active.blurb}</p>
+          <p className="mt-4 text-ink/80">{t(`types.${active.id}.blurb`)}</p>
 
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {active.tips.map((tip, i) => (
+            {tips.map((tip, i) => (
               <li
                 key={i}
                 className="flex gap-3 rounded-2xl bg-base/80 p-4 text-sm text-ink/80 sm:text-base"
@@ -88,7 +86,7 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
             href={`/write/${active.id}`}
             className="mt-6 inline-flex items-center gap-1.5 font-bold text-ink underline underline-offset-2"
           >
-            Read the full {active.name} writing guide →
+            {t('readGuide', { name: t(`types.${active.id}.name`) })}
           </Link>
         </div>
       </div>
