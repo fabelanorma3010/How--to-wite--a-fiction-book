@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "Quiz",
+    "bookTypes": "Types de livres",
+    "actionText": "Texte d'action",
+    "illustrations": "Illustrations",
+    "comicPanels": "Cases BD",
+    "mangaPanels": "Cases manga",
+    "notebook": "Carnet",
+    "publish": "Publier",
+    "community": "Communauté",
+    "tools": "Outils",
+    "creators": "Créateurs",
+    "about": "À propos",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "digitalLibrary": "Bibliothèque numérique",
+    "preview": "Aperçu",
+    "admin": "Admin",
+    "greeting": "Bonjour, {name}",
+    "account": "Compte",
+    "logOut": "Se déconnecter",
+    "logIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "Footer": {
+    "navLabel": "Pied de page",
+    "legalLabel": "Mentions légales",
+    "quiz": "Quiz",
+    "bookTypes": "Types de livres",
+    "tools": "Outils",
+    "creators": "Créateurs",
+    "about": "À propos",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "digitalLibrary": "Bibliothèque numérique",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "tagline": "📖 Storyburst — pensé pour les auteurs, les artistes et tous ceux qui sont entre les deux.",
+    "subtagline": "Continuez à écrire, continuez à dessiner, et faites vivre votre histoire dans le monde."
+  },
+  "Hero": {
+    "badge": "✨ Votre tremplin créatif pour la narration illustrée",
+    "headline": "Comment écrire et publier un <highlight>livre de fiction</highlight>",
+    "subheadline": "BD, manga, dessins animés et livres pour enfants : des conseils par genre, un générateur d'onomatopées pour dynamiser votre scénario, des idées d'illustration, et un chemin clair pour publier votre livre une fois terminé.",
+    "ctaQuiz": "Faire le quiz 🎯",
+    "ctaBookTypes": "Voir les types de livres",
+    "ctaPublish": "Voir les étapes de publication"
+  },
+  "LanguageTab": {
+    "label": "Langue : {name}. Changer de langue",
+    "choose": "Choisir une langue"
+  }
+}

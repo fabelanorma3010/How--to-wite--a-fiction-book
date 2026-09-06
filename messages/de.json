@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "Quiz",
+    "bookTypes": "Buchtypen",
+    "actionText": "Action-Text",
+    "illustrations": "Illustrationen",
+    "comicPanels": "Comic-Panels",
+    "mangaPanels": "Manga-Panels",
+    "notebook": "Notizbuch",
+    "publish": "Veröffentlichen",
+    "community": "Community",
+    "tools": "Werkzeuge",
+    "creators": "Kreative",
+    "about": "Über uns",
+    "pricing": "Preise",
+    "contact": "Kontakt",
+    "digitalLibrary": "Digitale Bibliothek",
+    "preview": "Vorschau",
+    "admin": "Admin",
+    "greeting": "Hallo, {name}",
+    "account": "Konto",
+    "logOut": "Abmelden",
+    "logIn": "Anmelden",
+    "signUp": "Registrieren",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen"
+  },
+  "Footer": {
+    "navLabel": "Fußzeile",
+    "legalLabel": "Rechtliches",
+    "quiz": "Quiz",
+    "bookTypes": "Buchtypen",
+    "tools": "Werkzeuge",
+    "creators": "Kreative",
+    "about": "Über uns",
+    "pricing": "Preise",
+    "contact": "Kontakt",
+    "digitalLibrary": "Digitale Bibliothek",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "tagline": "📖 Storyburst — gemacht für Autorinnen, Künstler und alle dazwischen.",
+    "subtagline": "Schreib weiter, zeichne weiter, und bring deine Geschichte in die Welt."
+  },
+  "Hero": {
+    "badge": "✨ Deine kreative Startrampe für illustriertes Erzählen",
+    "headline": "So schreibst und veröffentlichst du ein <highlight>Belletristik-Buch</highlight>",
+    "subheadline": "Comics, Manga, Cartoons und Kinderbücher — hol dir Tipps pro Genre, pepp dein Skript mit einem Action-Text-Generator auf, sammle Illustrationsideen und folge einem klaren Weg zur Veröffentlichung deines fertigen Buchs.",
+    "ctaQuiz": "Zum Quiz 🎯",
+    "ctaBookTypes": "Buchtypen ansehen",
+    "ctaPublish": "Veröffentlichungsschritte ansehen"
+  },
+  "LanguageTab": {
+    "label": "Sprache: {name}. Sprache ändern",
+    "choose": "Sprache wählen"
+  }
+}

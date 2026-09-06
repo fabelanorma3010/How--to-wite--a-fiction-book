@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Baloo_2, Nunito } from 'next/font/google'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale } from 'next-intl/server'
 import CookieConsent from '../components/CookieConsent'
+import LanguageTab from '../components/LanguageTab'
 import './globals.css'
 
 const baloo2 = Baloo_2({
@@ -31,7 +34,6 @@ const jsonLd = {
       url: siteUrl,
       name: 'Storyburst',
       description,
-      inLanguage: 'en',
     },
     {
       '@type': 'Organization',
@@ -70,17 +72,22 @@ export const viewport: Viewport = {
   themeColor: '#e879f9',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale()
+
   return (
-    <html lang="en" className={`${baloo2.variable} ${nunito.variable}`}>
+    <html lang={locale} className={`${baloo2.variable} ${nunito.variable}`}>
       <body>
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
-        <CookieConsent />
+        <NextIntlClientProvider>
+          {children}
+          <LanguageTab />
+          <CookieConsent />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

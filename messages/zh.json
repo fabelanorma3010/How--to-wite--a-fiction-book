@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "quiz": "测验",
+    "bookTypes": "图书类型",
+    "actionText": "动作拟声词",
+    "illustrations": "插画",
+    "comicPanels": "美式漫画分格",
+    "mangaPanels": "日式漫画分格",
+    "notebook": "笔记本",
+    "publish": "出版",
+    "community": "社区",
+    "tools": "工具",
+    "creators": "创作者",
+    "about": "关于",
+    "pricing": "价格",
+    "contact": "联系",
+    "digitalLibrary": "数字图书馆",
+    "preview": "预览",
+    "admin": "管理",
+    "greeting": "你好，{name}",
+    "account": "账户",
+    "logOut": "退出登录",
+    "logIn": "登录",
+    "signUp": "注册",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单"
+  },
+  "Footer": {
+    "navLabel": "页脚",
+    "legalLabel": "法律",
+    "quiz": "测验",
+    "bookTypes": "图书类型",
+    "tools": "工具",
+    "creators": "创作者",
+    "about": "关于",
+    "pricing": "价格",
+    "contact": "联系",
+    "digitalLibrary": "数字图书馆",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "tagline": "📖 Storyburst — 为作者、画师，以及介于两者之间的每个人打造。",
+    "subtagline": "继续写，继续画，把你的故事带到世界上。"
+  },
+  "Hero": {
+    "badge": "✨ 你的图文叙事创作起点",
+    "headline": "如何写作并出版一本<highlight>小说</highlight>",
+    "subheadline": "美式漫画、日式漫画、卡通和儿童读物——获取分类型的写作建议，用有趣的动作拟声词生成器为剧本增色，激发插画灵感，并沿着清晰的路径出版你完成的作品。",
+    "ctaQuiz": "开始测验 🎯",
+    "ctaBookTypes": "浏览图书类型",
+    "ctaPublish": "查看出版步骤"
+  },
+  "LanguageTab": {
+    "label": "语言：{name}。更改语言",
+    "choose": "选择语言"
+  }
+}
