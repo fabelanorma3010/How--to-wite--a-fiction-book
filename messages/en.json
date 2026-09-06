@@ -428,5 +428,148 @@
         ]
       }
     ]
+  },
+  "AboutPage": {
+    "metaTitle": "About — Storyburst",
+    "metaDescription": "The story behind Storyburst: a free toolkit built to help anyone start writing comics, manga, cartoons, and children's books, one page at a time.",
+    "badge": "✨ One wild imagination to another",
+    "heading": "About <highlight>Storyburst</highlight>",
+    "intro": "I have a wild imagination — and I have a feeling you do too. I made Storyburst so anyone can write and share a story in their own creative, wonderful way. Who knows, you might even find your best friend or your soulmate here. 😄",
+    "whyTitle": "Why I Built This",
+    "whyBody": "Storyburst started as a simple wish: give people a reason to sit down and actually start writing. Not a blank page and a deadline — a quiz to find your format, quick generators when you're stuck, a notebook that saves itself, and a clear path from first draft to a finished book. Write what your heart desires, in whatever genre speaks to you.",
+    "storyTitle": "My Story",
+    "storyBody": "Life hasn't always been easy for me. I had a rocky childhood, and a rough road since. Instead of letting that turn me into someone bitter, I turned it into storytelling — I took the sadness and the anger and reshaped them into something creative instead. That's the whole idea behind this place: whatever you're carrying, fiction can be where you put it down and make something new out of it.",
+    "godLovesYou": "God loves you.",
+    "ctaTitle": "Start Your Own Story",
+    "ctaBody": "Read, get inspired, and then go write the story only you could tell.",
+    "ctaQuiz": "Take the Quiz 🎯",
+    "ctaBookTypes": "Browse Book Types",
+    "ctaNotebook": "Open Your Notebook"
+  },
+  "ContactPage": {
+    "metaTitle": "Contact — Storyburst",
+    "metaDescription": "Get in touch with Storyburst — questions about the writing tools, feedback on the site, or just want to share what comic, manga, or story you're working on.",
+    "badge": "💌 We'd love to hear from you",
+    "heading": "Get in <highlight>Touch</highlight>",
+    "expectTitle": "⏱️ What to expect",
+    "expectBody": "This is a one-person project, so replies come straight from me — not a support team. I read every message; I just can't promise a fast turnaround.",
+    "bugTitle": "🐛 Bug or idea?",
+    "bugBody": "Either is welcome — for bugs, mention what you were doing and what you expected instead. For ideas, a sentence on why it'd help you is plenty."
+  },
+  "PricingPage": {
+    "metaTitle": "Pricing — Storyburst",
+    "metaDescription": "Every Storyburst tool — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — is free, no account required. A Membership (launching soon) adds more.",
+    "badge": "💸 Simple, honest pricing",
+    "heading": "Start for <highlight>Free</highlight>",
+    "intro": "Every tool on this site works today with no account and no cost. A Membership — launching soon — adds more AI, exports, and higher limits for people going all the way to a finished book.",
+    "faqTitle": "Questions?"
+  },
+  "ToolsPage": {
+    "metaTitle": "Writing Tools — Storyburst",
+    "metaDescription": "Free AI writing tools: summarize a long article or meeting notes, get a critique of your draft, or turn messy notes into a clear structure. Paste text or upload a file.",
+    "badge": "✨ Free AI writing tools",
+    "heading": "Writing <highlight>Tools</highlight>",
+    "intro": "Summarize, critique, and tidy up your writing — paste text or upload a file, get a result back in seconds."
+  },
+  "CreatorsPage": {
+    "metaTitle": "Creators — Storyburst",
+    "metaDescription": "Meet the writers and artists building their comics, manga, cartoons, and children's books on Storyburst.",
+    "badge": "✨ Meet the makers",
+    "heading": "Creators",
+    "intro": "Writers and artists sharing their work on Storyburst. Turn on your own public profile from your <account>account page</account>.",
+    "empty": "No public profiles yet — be the first. Add a bio or an avatar in your account and flip your profile to public."
+  },
+  "PricingTiers": {
+    "billingPeriod": "Billing period",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "save17": "· save 17%",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "monthlyNote": "then billed monthly — cancel anytime",
+    "annualNote": "then billed yearly — about 17% off",
+    "freeTitle": "Free",
+    "freeSubtitle": "Everything you need to start — no account, no card.",
+    "forever": "forever",
+    "noStrings": "No strings",
+    "freeCta": "Start writing",
+    "launchingSoon": "Launching soon",
+    "memberTitle": "Membership",
+    "memberSubtitle": "For when you're serious about finishing your book.",
+    "firstMonthFree": "First month free",
+    "comingSoon": "Coming soon",
+    "freeWhileBuilding": "Everything above is free to use while billing gets built.",
+    "freeFeatures": [
+      "The full format-matching quiz + genre tips for every book type",
+      "The 10-step publishing guide and launch-week checklist",
+      "Auto-saving story notebook",
+      "Action-text and illustration idea generators",
+      "AI Fiction Helper and Writing Tools (summarize, critique, structure) for shorter pieces",
+      "A public creator profile with up to 3 book uploads"
+    ],
+    "memberFeatures": [
+      "Everything in Free, with much higher AI limits",
+      "Writing Tools work on full chapters and papers, not just short excerpts",
+      "AI image generation included, not just idea prompts",
+      "Export your notebook or script to formatted PDF and DOCX",
+      "Notebook history — roll back to an earlier draft",
+      "Unlimited book uploads, larger files",
+      "A Member badge on your public profile",
+      "Priority email support"
+    ]
+  },
+  "PricingFaq": {
+    "items": [
+      {
+        "question": "Will the Free tier always be free?",
+        "answer": "Yes. Everything on the Free tier today — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — stays free. Membership adds extras on top; nothing you can already use will move behind a paywall."
+      },
+      {
+        "question": "Can I sign up for Membership yet?",
+        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first month is free. Everything listed under Membership is free to use in the meantime."
+      },
+      {
+        "question": "How does the free first month work?",
+        "answer": "When Membership launches, you'll get your first month free — full access, no charge. Billing only starts after that, and you can cancel any time before it does."
+      },
+      {
+        "question": "Monthly or annual?",
+        "answer": "Both, once Membership is live. Annual ($99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
+      },
+      {
+        "question": "Do I need to make an account?",
+        "answer": "Not for the tools — the quiz, generators, notebook, AI helper, and writing tools all work the moment you land on the page. A free account (email and password, or \"Continue with Google\") lets you post to the community wall, sync your notebook across devices, and set up a public creator profile."
+      },
+      {
+        "question": "What happens to my notebook if I don't have an account?",
+        "answer": "Your notebook saves itself directly in your browser as you type — no account needed. That also means it's tied to this browser on this device: clearing your browser data will clear it too, and it won't follow you to a different device. Sign in and it syncs to your account instead."
+      }
+    ]
+  },
+  "WritingTools": {
+    "tablistLabel": "Writing tools",
+    "yourText": "Your text",
+    "pasteHere": "Paste it here…",
+    "upload": "📄 Upload .txt / .md",
+    "working": "Working…",
+    "run": "Run {tool}",
+    "resultLabel": "Result",
+    "fileTooBig": "That file is over 2 MB — paste the text instead, or trim it down.",
+    "fileReadError": "Could not read that file. Use a plain .txt or .md file, or paste the text.",
+    "genericError": "Something went wrong.",
+    "tools": {
+      "summarize": {
+        "label": "Summarize",
+        "blurb": "Long article, meeting notes, or a document → a one-line overview plus the key points."
+      },
+      "critique": {
+        "label": "Critique",
+        "blurb": "A draft, essay, chapter, or paper → constructive feedback on what works and what to fix."
+      },
+      "structure": {
+        "label": "Structure notes",
+        "blurb": "Messy notes → clean headings, grouped bullets, and a separate action-items list."
+      }
+    }
   }
 }

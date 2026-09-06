@@ -428,5 +428,148 @@
         ]
       }
     ]
+  },
+  "AboutPage": {
+    "metaTitle": "Über uns — Storyburst",
+    "metaDescription": "Die Geschichte hinter Storyburst: ein kostenloses Toolkit, das jedem hilft, mit dem Schreiben von Comics, Manga, Cartoons und Kinderbüchern anzufangen — Seite für Seite.",
+    "badge": "✨ Von einer wilden Fantasie zur nächsten",
+    "heading": "Über <highlight>Storyburst</highlight>",
+    "intro": "Ich habe eine wilde Fantasie — und ich habe das Gefühl, du auch. Ich habe Storyburst gemacht, damit jeder eine Geschichte auf seine eigene kreative, wunderbare Art schreiben und teilen kann. Wer weiß, vielleicht findest du hier sogar deinen besten Freund oder deinen Seelenverwandten. 😄",
+    "whyTitle": "Warum ich das gebaut habe",
+    "whyBody": "Storyburst begann als einfacher Wunsch: Menschen einen Grund geben, sich hinzusetzen und wirklich anzufangen zu schreiben. Kein leeres Blatt und eine Deadline — ein Quiz, um dein Format zu finden, schnelle Generatoren, wenn du feststeckst, ein Notizbuch, das sich selbst speichert, und ein klarer Weg vom ersten Entwurf zum fertigen Buch. Schreib, was dein Herz begehrt, in dem Genre, das dich anspricht.",
+    "storyTitle": "Meine Geschichte",
+    "storyBody": "Das Leben war nicht immer leicht für mich. Ich hatte eine schwierige Kindheit und seither einen steinigen Weg. Statt zuzulassen, dass mich das verbittert, habe ich daraus Erzählen gemacht — ich nahm die Traurigkeit und die Wut und formte sie stattdessen zu etwas Kreativem um. Das ist die ganze Idee hinter diesem Ort: Was auch immer du mit dir trägst, Fiktion kann der Ort sein, an dem du es ablegst und etwas Neues daraus machst.",
+    "godLovesYou": "Gott liebt dich.",
+    "ctaTitle": "Beginne deine eigene Geschichte",
+    "ctaBody": "Lies, lass dich inspirieren, und dann geh und schreib die Geschichte, die nur du erzählen konntest.",
+    "ctaQuiz": "Zum Quiz 🎯",
+    "ctaBookTypes": "Buchtypen ansehen",
+    "ctaNotebook": "Notizbuch öffnen"
+  },
+  "ContactPage": {
+    "metaTitle": "Kontakt — Storyburst",
+    "metaDescription": "Kontaktiere Storyburst — Fragen zu den Schreibwerkzeugen, Feedback zur Seite, oder erzähl uns einfach, an welchem Comic, Manga oder welcher Geschichte du arbeitest.",
+    "badge": "💌 Wir hören gern von dir",
+    "heading": "Nimm <highlight>Kontakt</highlight> auf",
+    "expectTitle": "⏱️ Was dich erwartet",
+    "expectBody": "Das ist ein Ein-Personen-Projekt, die Antworten kommen also direkt von mir — nicht von einem Support-Team. Ich lese jede Nachricht; ich kann nur keine schnelle Bearbeitung versprechen.",
+    "bugTitle": "🐛 Ein Bug oder eine Idee?",
+    "bugBody": "Beides ist willkommen — bei Bugs nenn, was du gemacht hast und was du stattdessen erwartet hast. Bei Ideen reicht ein Satz dazu, warum es dir helfen würde."
+  },
+  "PricingPage": {
+    "metaTitle": "Preise — Storyburst",
+    "metaDescription": "Jedes Storyburst-Werkzeug — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer, die Schreibwerkzeuge und der Veröffentlichungsleitfaden — ist kostenlos, ohne Konto. Eine Mitgliedschaft (bald) bringt mehr.",
+    "badge": "💸 Einfache, ehrliche Preise",
+    "heading": "Kostenlos <highlight>starten</highlight>",
+    "intro": "Jedes Werkzeug auf dieser Seite funktioniert heute ohne Konto und ohne Kosten. Eine Mitgliedschaft — bald verfügbar — bringt mehr KI, Exporte und höhere Limits für alle, die den ganzen Weg bis zum fertigen Buch gehen.",
+    "faqTitle": "Fragen?"
+  },
+  "ToolsPage": {
+    "metaTitle": "Schreibwerkzeuge — Storyburst",
+    "metaDescription": "Kostenlose KI-Schreibwerkzeuge: fasse einen langen Artikel oder Meeting-Notizen zusammen, hol dir eine Kritik deines Entwurfs, oder mach aus chaotischen Notizen eine klare Struktur. Text einfügen oder Datei hochladen.",
+    "badge": "✨ Kostenlose KI-Schreibwerkzeuge",
+    "heading": "<highlight>Schreibwerkzeuge</highlight>",
+    "intro": "Zusammenfassen, kritisieren und dein Schreiben aufräumen — Text einfügen oder Datei hochladen, in Sekunden ein Ergebnis zurückbekommen."
+  },
+  "CreatorsPage": {
+    "metaTitle": "Kreative — Storyburst",
+    "metaDescription": "Lerne die Autorinnen und Künstler kennen, die auf Storyburst ihre Comics, Manga, Cartoons und Kinderbücher bauen.",
+    "badge": "✨ Lerne die Kreativen kennen",
+    "heading": "Kreative",
+    "intro": "Autorinnen und Künstler, die ihre Arbeit auf Storyburst teilen. Schalte dein eigenes öffentliches Profil in deiner <account>Kontoseite</account> ein.",
+    "empty": "Noch keine öffentlichen Profile — sei die/der Erste. Füg in deinem Konto eine Bio oder einen Avatar hinzu und stell dein Profil auf öffentlich."
+  },
+  "PricingTiers": {
+    "billingPeriod": "Abrechnungszeitraum",
+    "monthly": "Monatlich",
+    "annual": "Jährlich",
+    "save17": "· 17 % sparen",
+    "perMonth": "/Monat",
+    "perYear": "/Jahr",
+    "monthlyNote": "danach monatliche Abrechnung — jederzeit kündbar",
+    "annualNote": "danach jährliche Abrechnung — etwa 17 % günstiger",
+    "freeTitle": "Kostenlos",
+    "freeSubtitle": "Alles, was du zum Start brauchst — kein Konto, keine Karte.",
+    "forever": "für immer",
+    "noStrings": "Ohne Haken",
+    "freeCta": "Losschreiben",
+    "launchingSoon": "Bald verfügbar",
+    "memberTitle": "Mitgliedschaft",
+    "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
+    "firstMonthFree": "Erster Monat gratis",
+    "comingSoon": "Bald",
+    "freeWhileBuilding": "Alles oben ist kostenlos nutzbar, während die Abrechnung gebaut wird.",
+    "freeFeatures": [
+      "Das vollständige Format-Quiz + Genre-Tipps für jeden Buchtyp",
+      "Der 10-Schritte-Veröffentlichungsleitfaden und die Launch-Wochen-Checkliste",
+      "Selbstspeicherndes Story-Notizbuch",
+      "Generatoren für Action-Text und Illustrationsideen",
+      "KI-Fiction-Helfer und Schreibwerkzeuge (zusammenfassen, kritisieren, strukturieren) für kürzere Texte",
+      "Ein öffentliches Kreativ-Profil mit bis zu 3 hochgeladenen Büchern"
+    ],
+    "memberFeatures": [
+      "Alles aus Kostenlos, mit deutlich höheren KI-Limits",
+      "Die Schreibwerkzeuge arbeiten mit ganzen Kapiteln und Arbeiten, nicht nur kurzen Ausschnitten",
+      "KI-Bildgenerierung inklusive, nicht nur Ideen-Prompts",
+      "Exportiere dein Notizbuch oder Skript als formatiertes PDF und DOCX",
+      "Notizbuch-Verlauf — zu einem früheren Entwurf zurückspringen",
+      "Unbegrenzte Buch-Uploads, größere Dateien",
+      "Ein Mitglieds-Abzeichen auf deinem öffentlichen Profil",
+      "Bevorzugter E-Mail-Support"
+    ]
+  },
+  "PricingFaq": {
+    "items": [
+      {
+        "question": "Bleibt die kostenlose Stufe immer kostenlos?",
+        "answer": "Ja. Alles, was heute in der kostenlosen Stufe ist — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer, die Schreibwerkzeuge und der Veröffentlichungsleitfaden — bleibt kostenlos. Die Mitgliedschaft fügt Extras obendrauf; nichts, was du bereits nutzen kannst, wandert hinter eine Bezahlschranke."
+      },
+      {
+        "question": "Kann ich die Mitgliedschaft schon abschließen?",
+        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und der erste Monat ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
+      },
+      {
+        "question": "Wie funktioniert der kostenlose erste Monat?",
+        "answer": "Wenn die Mitgliedschaft startet, bekommst du deinen ersten Monat gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt erst danach, und du kannst jederzeit vorher kündigen."
+      },
+      {
+        "question": "Monatlich oder jährlich?",
+        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
+      },
+      {
+        "question": "Muss ich ein Konto anlegen?",
+        "answer": "Für die Werkzeuge nicht — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer und die Schreibwerkzeuge funktionieren, sobald du auf der Seite landest. Ein kostenloses Konto (E-Mail und Passwort, oder „Mit Google fortfahren“) lässt dich auf der Community-Wand posten, dein Notizbuch geräteübergreifend synchronisieren und ein öffentliches Kreativ-Profil einrichten."
+      },
+      {
+        "question": "Was passiert mit meinem Notizbuch, wenn ich kein Konto habe?",
+        "answer": "Dein Notizbuch speichert sich selbst, direkt in deinem Browser, während du tippst — ohne Konto. Das heißt auch: Es ist an diesen Browser auf diesem Gerät gebunden. Browserdaten löschen löscht es ebenfalls, und es folgt dir nicht auf ein anderes Gerät. Melde dich an, und es synchronisiert sich stattdessen mit deinem Konto."
+      }
+    ]
+  },
+  "WritingTools": {
+    "tablistLabel": "Schreibwerkzeuge",
+    "yourText": "Dein Text",
+    "pasteHere": "Hier einfügen…",
+    "upload": "📄 .txt / .md hochladen",
+    "working": "Arbeitet…",
+    "run": "{tool} ausführen",
+    "resultLabel": "Ergebnis",
+    "fileTooBig": "Diese Datei ist über 2 MB — füg stattdessen den Text ein, oder kürz ihn.",
+    "fileReadError": "Diese Datei konnte nicht gelesen werden. Nimm eine einfache .txt- oder .md-Datei, oder füg den Text ein.",
+    "genericError": "Etwas ist schiefgelaufen.",
+    "tools": {
+      "summarize": {
+        "label": "Zusammenfassen",
+        "blurb": "Langer Artikel, Meeting-Notizen oder ein Dokument → ein Einzeiler-Überblick plus die Kernpunkte."
+      },
+      "critique": {
+        "label": "Kritisieren",
+        "blurb": "Ein Entwurf, Essay, Kapitel oder eine Arbeit → konstruktives Feedback, was funktioniert und was zu beheben ist."
+      },
+      "structure": {
+        "label": "Notizen strukturieren",
+        "blurb": "Chaotische Notizen → saubere Überschriften, gruppierte Punkte und eine separate Aufgabenliste."
+      }
+    }
   }
 }

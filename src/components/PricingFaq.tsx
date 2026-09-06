@@ -1,41 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
-const faqs = [
-  {
-    question: 'Will the Free tier always be free?',
-    answer:
-      "Yes. Everything on the Free tier today — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — stays free. Membership adds extras on top; nothing you can already use will move behind a paywall.",
-  },
-  {
-    question: 'Can I sign up for Membership yet?',
-    answer:
-      "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first month is free. Everything listed under Membership is free to use in the meantime.",
-  },
-  {
-    question: 'How does the free first month work?',
-    answer:
-      "When Membership launches, you'll get your first month free — full access, no charge. Billing only starts after that, and you can cancel any time before it does.",
-  },
-  {
-    question: 'Monthly or annual?',
-    answer:
-      "Both, once Membership is live. Annual ($99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime.",
-  },
-  {
-    question: 'Do I need to make an account?',
-    answer:
-      'Not for the tools — the quiz, generators, notebook, AI helper, and writing tools all work the moment you land on the page. A free account (email and password, or "Continue with Google") lets you post to the community wall, sync your notebook across devices, and set up a public creator profile.',
-  },
-  {
-    question: "What happens to my notebook if I don't have an account?",
-    answer:
-      "Your notebook saves itself directly in your browser as you type — no account needed. That also means it's tied to this browser on this device: clearing your browser data will clear it too, and it won't follow you to a different device. Sign in and it syncs to your account instead.",
-  },
-]
+interface FaqEntry {
+  question: string
+  answer: string
+}
 
 export default function PricingFaq() {
+  const t = useTranslations('PricingFaq')
+  const faqs = t.raw('items') as FaqEntry[]
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -61,9 +36,7 @@ export default function PricingFaq() {
                 +
               </span>
             </button>
-            {isOpen && (
-              <p className="animate-pop-in px-5 pb-4 text-ink/70">{faq.answer}</p>
-            )}
+            {isOpen && <p className="animate-pop-in px-5 pb-4 text-ink/70">{faq.answer}</p>}
           </div>
         )
       })}

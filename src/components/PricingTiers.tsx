@@ -1,42 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-
-const freeFeatures = [
-  'The full format-matching quiz + genre tips for every book type',
-  'The 10-step publishing guide and launch-week checklist',
-  'Auto-saving story notebook',
-  'Action-text and illustration idea generators',
-  'AI Fiction Helper and Writing Tools (summarize, critique, structure) for shorter pieces',
-  'A public creator profile with up to 3 book uploads',
-]
-
-const memberFeatures = [
-  'Everything in Free, with much higher AI limits',
-  'Writing Tools work on full chapters and papers, not just short excerpts',
-  'AI image generation included, not just idea prompts',
-  'Export your notebook or script to formatted PDF and DOCX',
-  'Notebook history — roll back to an earlier draft',
-  'Unlimited book uploads, larger files',
-  'A Member badge on your public profile',
-  'Priority email support',
-]
+import { useTranslations } from 'next-intl'
 
 const PRICES = {
-  monthly: { amount: '$9.99', unit: '/month', note: 'then billed monthly — cancel anytime' },
-  annual: { amount: '$99', unit: '/year', note: 'then billed yearly — about 17% off' },
+  monthly: { amount: '$9.99', unit: 'perMonth' },
+  annual: { amount: '$99', unit: 'perYear' },
 } as const
 
 type Cadence = keyof typeof PRICES
 
 export default function PricingTiers() {
+  const t = useTranslations('PricingTiers')
   const [cadence, setCadence] = useState<Cadence>('annual')
   const price = PRICES[cadence]
+
+  const freeFeatures = t.raw('freeFeatures') as string[]
+  const memberFeatures = t.raw('memberFeatures') as string[]
 
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-8 flex justify-center">
-        <div className="inline-flex rounded-full border-2 border-ink/15 bg-white/70 p-1" role="group" aria-label="Billing period">
+        <div
+          className="inline-flex rounded-full border-2 border-ink/15 bg-white/70 p-1"
+          role="group"
+          aria-label={t('billingPeriod')}
+        >
           <button
             type="button"
             onClick={() => setCadence('monthly')}
@@ -45,7 +34,7 @@ export default function PricingTiers() {
               cadence === 'monthly' ? 'bg-primary text-primary-content shadow-sm' : 'text-ink/60 hover:text-ink'
             }`}
           >
-            Monthly
+            {t('monthly')}
           </button>
           <button
             type="button"
@@ -55,20 +44,20 @@ export default function PricingTiers() {
               cadence === 'annual' ? 'bg-primary text-primary-content shadow-sm' : 'text-ink/60 hover:text-ink'
             }`}
           >
-            Annual <span className="text-xs font-black text-accent-content">· save 17%</span>
+            {t('annual')} <span className="text-xs font-black text-accent-content">{t('save17')}</span>
           </button>
         </div>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="flex flex-col rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-extrabold text-ink">Free</h2>
-          <p className="mt-1 text-sm text-ink/60">Everything you need to start — no account, no card.</p>
+          <h2 className="text-xl font-extrabold text-ink">{t('freeTitle')}</h2>
+          <p className="mt-1 text-sm text-ink/60">{t('freeSubtitle')}</p>
           <p className="mt-4">
             <span className="text-4xl font-extrabold text-ink">$0</span>
-            <span className="ml-1 text-sm font-semibold text-ink/50">forever</span>
+            <span className="ml-1 text-sm font-semibold text-ink/50">{t('forever')}</span>
           </p>
-          <p className="mt-1 text-xs font-semibold text-ink/45">No strings</p>
+          <p className="mt-1 text-xs font-semibold text-ink/45">{t('noStrings')}</p>
           <ul className="mt-6 flex-1 space-y-3">
             {freeFeatures.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm text-ink/80">
@@ -83,24 +72,24 @@ export default function PricingTiers() {
             href="/#quiz"
             className="mt-8 rounded-full border-2 border-ink/15 bg-white px-6 py-3 text-center font-bold text-ink shadow-sm transition-transform hover:scale-105 hover:bg-base active:scale-95"
           >
-            Start writing
+            {t('freeCta')}
           </a>
         </div>
 
         <div className="relative flex flex-col rounded-3xl border-2 border-primary bg-white p-6 shadow-lg sm:scale-[1.03] sm:p-8">
           <span className="mb-3 w-fit rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-content">
-            Launching soon
+            {t('launchingSoon')}
           </span>
-          <h2 className="text-xl font-extrabold text-ink">Membership</h2>
-          <p className="mt-1 text-sm text-ink/60">For when you&apos;re serious about finishing your book.</p>
+          <h2 className="text-xl font-extrabold text-ink">{t('memberTitle')}</h2>
+          <p className="mt-1 text-sm text-ink/60">{t('memberSubtitle')}</p>
           <p className="mt-4 text-sm font-black uppercase tracking-wide text-accent-content">
-            First month free
+            {t('firstMonthFree')}
           </p>
           <p className="mt-1">
             <span className="text-4xl font-extrabold text-ink">{price.amount}</span>
-            <span className="ml-1 text-sm font-semibold text-ink/50">{price.unit}</span>
+            <span className="ml-1 text-sm font-semibold text-ink/50">{t(price.unit)}</span>
           </p>
-          <p className="mt-1 text-xs font-semibold text-ink/45">{price.note}</p>
+          <p className="mt-1 text-xs font-semibold text-ink/45">{t(`${cadence}Note`)}</p>
           <ul className="mt-6 flex-1 space-y-3">
             {memberFeatures.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm text-ink/80">
@@ -116,11 +105,9 @@ export default function PricingTiers() {
             disabled
             className="mt-8 cursor-not-allowed rounded-full bg-primary/40 px-6 py-3 text-center font-bold text-primary-content"
           >
-            Coming soon
+            {t('comingSoon')}
           </button>
-          <p className="mt-2 text-center text-xs text-ink/45">
-            Everything above is free to use while billing gets built.
-          </p>
+          <p className="mt-2 text-center text-xs text-ink/45">{t('freeWhileBuilding')}</p>
         </div>
       </div>
     </div>

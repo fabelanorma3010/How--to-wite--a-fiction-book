@@ -428,5 +428,148 @@
         ]
       }
     ]
+  },
+  "AboutPage": {
+    "metaTitle": "Acerca de — Storyburst",
+    "metaDescription": "La historia detrás de Storyburst: un conjunto de herramientas gratuito para ayudar a cualquiera a empezar a escribir cómics, manga, dibujos animados y libros infantiles, página a página.",
+    "badge": "✨ De una imaginación desbordante a otra",
+    "heading": "Acerca de <highlight>Storyburst</highlight>",
+    "intro": "Tengo una imaginación desbordante, y algo me dice que tú también. Creé Storyburst para que cualquiera pueda escribir y compartir una historia a su manera creativa y maravillosa. Quién sabe, hasta podrías encontrar aquí a tu mejor amigo o a tu alma gemela. 😄",
+    "whyTitle": "Por qué lo creé",
+    "whyBody": "Storyburst empezó con un deseo sencillo: darle a la gente una razón para sentarse y empezar a escribir de verdad. No una página en blanco y una fecha límite, sino un test para encontrar tu formato, generadores rápidos cuando te atascas, un cuaderno que se guarda solo y un camino claro del primer borrador al libro terminado. Escribe lo que tu corazón desee, en el género que te hable.",
+    "storyTitle": "Mi historia",
+    "storyBody": "La vida no siempre ha sido fácil para mí. Tuve una infancia complicada y un camino difícil desde entonces. En lugar de dejar que eso me volviera una persona amargada, lo convertí en narración: tomé la tristeza y la rabia y las transformé en algo creativo. Esa es toda la idea de este lugar: cargues lo que cargues, la ficción puede ser donde lo dejas y haces algo nuevo con ello.",
+    "godLovesYou": "Dios te ama.",
+    "ctaTitle": "Empieza tu propia historia",
+    "ctaBody": "Lee, inspírate y luego escribe la historia que solo tú podrías contar.",
+    "ctaQuiz": "Haz el test 🎯",
+    "ctaBookTypes": "Ver tipos de libro",
+    "ctaNotebook": "Abre tu cuaderno"
+  },
+  "ContactPage": {
+    "metaTitle": "Contacto — Storyburst",
+    "metaDescription": "Ponte en contacto con Storyburst: dudas sobre las herramientas de escritura, comentarios sobre el sitio, o simplemente para contarnos en qué cómic, manga o historia trabajas.",
+    "badge": "💌 Nos encantaría saber de ti",
+    "heading": "Ponte en <highlight>contacto</highlight>",
+    "expectTitle": "⏱️ Qué esperar",
+    "expectBody": "Este es un proyecto de una sola persona, así que las respuestas vienen directamente de mí, no de un equipo de soporte. Leo cada mensaje; solo que no puedo prometer una respuesta rápida.",
+    "bugTitle": "🐛 ¿Un fallo o una idea?",
+    "bugBody": "Cualquiera de las dos es bienvenida: para fallos, cuéntame qué estabas haciendo y qué esperabas en su lugar. Para ideas, una frase sobre por qué te ayudaría es más que suficiente."
+  },
+  "PricingPage": {
+    "metaTitle": "Precios — Storyburst",
+    "metaDescription": "Cada herramienta de Storyburst —el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación— es gratis, sin cuenta. La Membresía (próximamente) añade más.",
+    "badge": "💸 Precios simples y honestos",
+    "heading": "Empieza <highlight>gratis</highlight>",
+    "intro": "Cada herramienta de este sitio funciona hoy sin cuenta y sin coste. Una Membresía —que llega pronto— añade más IA, exportaciones y límites más altos para quienes van a por el libro terminado.",
+    "faqTitle": "¿Preguntas?"
+  },
+  "ToolsPage": {
+    "metaTitle": "Herramientas de escritura — Storyburst",
+    "metaDescription": "Herramientas de escritura con IA gratuitas: resume un artículo largo o notas de reunión, obtén una crítica de tu borrador, o convierte notas desordenadas en una estructura clara. Pega el texto o sube un archivo.",
+    "badge": "✨ Herramientas de escritura con IA gratuitas",
+    "heading": "Herramientas de <highlight>escritura</highlight>",
+    "intro": "Resume, critica y ordena tu escritura: pega el texto o sube un archivo y recibe un resultado en segundos."
+  },
+  "CreatorsPage": {
+    "metaTitle": "Creadores — Storyburst",
+    "metaDescription": "Conoce a los escritores y artistas que crean sus cómics, manga, dibujos animados y libros infantiles en Storyburst.",
+    "badge": "✨ Conoce a los creadores",
+    "heading": "Creadores",
+    "intro": "Escritores y artistas que comparten su trabajo en Storyburst. Activa tu propio perfil público desde tu <account>página de cuenta</account>.",
+    "empty": "Todavía no hay perfiles públicos: sé el primero. Añade una biografía o un avatar en tu cuenta y pon tu perfil en público."
+  },
+  "PricingTiers": {
+    "billingPeriod": "Periodo de facturación",
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "save17": "· ahorra 17%",
+    "perMonth": "/mes",
+    "perYear": "/año",
+    "monthlyNote": "luego se factura mensualmente — cancela cuando quieras",
+    "annualNote": "luego se factura anualmente — un 17% menos aprox.",
+    "freeTitle": "Gratis",
+    "freeSubtitle": "Todo lo que necesitas para empezar: sin cuenta, sin tarjeta.",
+    "forever": "para siempre",
+    "noStrings": "Sin condiciones",
+    "freeCta": "Empezar a escribir",
+    "launchingSoon": "Próximamente",
+    "memberTitle": "Membresía",
+    "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
+    "firstMonthFree": "Primer mes gratis",
+    "comingSoon": "Próximamente",
+    "freeWhileBuilding": "Todo lo de arriba es gratis mientras se construye la facturación.",
+    "freeFeatures": [
+      "El test completo de formato + consejos de género para cada tipo de libro",
+      "La guía de publicación de 10 pasos y la checklist de la semana de lanzamiento",
+      "Cuaderno de historias con autoguardado",
+      "Generadores de texto de acción e ideas de ilustración",
+      "Asistente de Ficción con IA y Herramientas de Escritura (resumir, criticar, estructurar) para textos más cortos",
+      "Un perfil público de creador con hasta 3 libros subidos"
+    ],
+    "memberFeatures": [
+      "Todo lo de Gratis, con límites de IA mucho más altos",
+      "Las Herramientas de Escritura funcionan con capítulos y trabajos completos, no solo fragmentos cortos",
+      "Generación de imágenes con IA incluida, no solo prompts de ideas",
+      "Exporta tu cuaderno o guion a PDF y DOCX con formato",
+      "Historial del cuaderno: vuelve a un borrador anterior",
+      "Subidas de libros ilimitadas, archivos más grandes",
+      "Una insignia de Miembro en tu perfil público",
+      "Soporte prioritario por correo"
+    ]
+  },
+  "PricingFaq": {
+    "items": [
+      {
+        "question": "¿El plan Gratis será siempre gratis?",
+        "answer": "Sí. Todo lo que hoy está en el plan Gratis —el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación— sigue siendo gratis. La Membresía añade extras por encima; nada de lo que ya puedes usar pasará detrás de un muro de pago."
+      },
+      {
+        "question": "¿Ya puedo suscribirme a la Membresía?",
+        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y el primer mes es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
+      },
+      {
+        "question": "¿Cómo funciona el primer mes gratis?",
+        "answer": "Cuando se lance la Membresía, tendrás tu primer mes gratis: acceso completo, sin cargo. La facturación solo empieza después de eso, y puedes cancelar en cualquier momento antes."
+      },
+      {
+        "question": "¿Mensual o anual?",
+        "answer": "Ambas, cuando la Membresía esté activa. La anual (99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
+      },
+      {
+        "question": "¿Necesito crear una cuenta?",
+        "answer": "Para las herramientas no: el test, los generadores, el cuaderno, el asistente de IA y las herramientas de escritura funcionan en cuanto llegas a la página. Una cuenta gratuita (correo y contraseña, o «Continuar con Google») te permite publicar en el muro de la comunidad, sincronizar tu cuaderno entre dispositivos y crear un perfil público de creador."
+      },
+      {
+        "question": "¿Qué pasa con mi cuaderno si no tengo cuenta?",
+        "answer": "Tu cuaderno se guarda solo, directamente en tu navegador, mientras escribes: no hace falta cuenta. Eso también significa que está atado a este navegador en este dispositivo: borrar los datos del navegador lo borrará también, y no te seguirá a otro dispositivo. Inicia sesión y se sincroniza con tu cuenta."
+      }
+    ]
+  },
+  "WritingTools": {
+    "tablistLabel": "Herramientas de escritura",
+    "yourText": "Tu texto",
+    "pasteHere": "Pégalo aquí…",
+    "upload": "📄 Subir .txt / .md",
+    "working": "Trabajando…",
+    "run": "Ejecutar {tool}",
+    "resultLabel": "Resultado",
+    "fileTooBig": "Ese archivo supera los 2 MB: pega el texto en su lugar, o recórtalo.",
+    "fileReadError": "No se pudo leer ese archivo. Usa un .txt o .md sencillo, o pega el texto.",
+    "genericError": "Algo salió mal.",
+    "tools": {
+      "summarize": {
+        "label": "Resumir",
+        "blurb": "Artículo largo, notas de reunión o un documento → un resumen de una línea más los puntos clave."
+      },
+      "critique": {
+        "label": "Criticar",
+        "blurb": "Un borrador, ensayo, capítulo o trabajo → comentarios constructivos sobre qué funciona y qué corregir."
+      },
+      "structure": {
+        "label": "Estructurar notas",
+        "blurb": "Notas desordenadas → títulos claros, viñetas agrupadas y una lista aparte de tareas."
+      }
+    }
   }
 }

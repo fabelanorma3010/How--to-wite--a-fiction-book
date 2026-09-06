@@ -428,5 +428,148 @@
         ]
       }
     ]
+  },
+  "AboutPage": {
+    "metaTitle": "Chi siamo — Storyburst",
+    "metaDescription": "La storia dietro Storyburst: un kit di strumenti gratuito pensato per aiutare chiunque a iniziare a scrivere fumetti, manga, cartoni e libri per bambini, una pagina alla volta.",
+    "badge": "✨ Da un'immaginazione sfrenata a un'altra",
+    "heading": "Chi siamo — <highlight>Storyburst</highlight>",
+    "intro": "Ho un'immaginazione sfrenata — e ho la sensazione che ce l'abbia anche tu. Ho creato Storyburst perché chiunque possa scrivere e condividere una storia a modo suo, creativo e meraviglioso. Chissà, potresti persino trovare qui il tuo migliore amico o la tua anima gemella. 😄",
+    "whyTitle": "Perché l'ho creato",
+    "whyBody": "Storyburst è nato da un desiderio semplice: dare alle persone un motivo per sedersi e iniziare davvero a scrivere. Non una pagina bianca e una scadenza — un quiz per trovare il tuo formato, generatori rapidi quando sei bloccato, un taccuino che si salva da solo e un percorso chiaro dalla prima stesura al libro finito. Scrivi ciò che il tuo cuore desidera, nel genere che ti parla.",
+    "storyTitle": "La mia storia",
+    "storyBody": "La vita non è sempre stata facile per me. Ho avuto un'infanzia difficile e una strada in salita da allora. Invece di lasciare che mi rendesse una persona amareggiata, l'ho trasformata in narrazione — ho preso la tristezza e la rabbia e le ho rimodellate in qualcosa di creativo. È tutta l'idea dietro questo posto: qualunque cosa ti porti dentro, la finzione può essere il luogo dove la posi e ne fai qualcosa di nuovo.",
+    "godLovesYou": "Dio ti ama.",
+    "ctaTitle": "Inizia la tua storia",
+    "ctaBody": "Leggi, lasciati ispirare e poi vai a scrivere la storia che solo tu potevi raccontare.",
+    "ctaQuiz": "Fai il quiz 🎯",
+    "ctaBookTypes": "Sfoglia i tipi di libro",
+    "ctaNotebook": "Apri il tuo taccuino"
+  },
+  "ContactPage": {
+    "metaTitle": "Contatti — Storyburst",
+    "metaDescription": "Contatta Storyburst — domande sugli strumenti di scrittura, feedback sul sito, o semplicemente per raccontarci a quale fumetto, manga o storia stai lavorando.",
+    "badge": "💌 Ci farebbe piacere sentirti",
+    "heading": "Mettiti in <highlight>contatto</highlight>",
+    "expectTitle": "⏱️ Cosa aspettarsi",
+    "expectBody": "Questo è un progetto di una persona sola, quindi le risposte arrivano direttamente da me — non da un team di supporto. Leggo ogni messaggio; solo che non posso promettere tempi rapidi.",
+    "bugTitle": "🐛 Un bug o un'idea?",
+    "bugBody": "Entrambi sono benvenuti — per i bug, indica cosa stavi facendo e cosa ti aspettavi. Per le idee, una frase sul perché ti aiuterebbe è più che sufficiente."
+  },
+  "PricingPage": {
+    "metaTitle": "Prezzi — Storyburst",
+    "metaDescription": "Ogni strumento Storyburst — il quiz, i generatori, il taccuino, l'assistente IA, gli strumenti di scrittura e la guida alla pubblicazione — è gratuito, senza account. L'Abbonamento (in arrivo) aggiunge di più.",
+    "badge": "💸 Prezzi semplici e onesti",
+    "heading": "Inizia <highlight>gratis</highlight>",
+    "intro": "Ogni strumento di questo sito funziona oggi senza account e senza costi. Un Abbonamento — in arrivo a breve — aggiunge più IA, esportazioni e limiti più alti per chi va fino al libro finito.",
+    "faqTitle": "Domande?"
+  },
+  "ToolsPage": {
+    "metaTitle": "Strumenti di scrittura — Storyburst",
+    "metaDescription": "Strumenti di scrittura IA gratuiti: riassumi un articolo lungo o degli appunti di riunione, ottieni una critica della tua bozza, o trasforma appunti disordinati in una struttura chiara. Incolla il testo o carica un file.",
+    "badge": "✨ Strumenti di scrittura IA gratuiti",
+    "heading": "Strumenti di <highlight>scrittura</highlight>",
+    "intro": "Riassumi, critica e metti in ordine la tua scrittura — incolla il testo o carica un file, ricevi un risultato in pochi secondi."
+  },
+  "CreatorsPage": {
+    "metaTitle": "Creatori — Storyburst",
+    "metaDescription": "Conosci gli scrittori e gli artisti che costruiscono i loro fumetti, manga, cartoni e libri per bambini su Storyburst.",
+    "badge": "✨ Conosci i creatori",
+    "heading": "Creatori",
+    "intro": "Scrittori e artisti che condividono il loro lavoro su Storyburst. Attiva il tuo profilo pubblico dalla tua <account>pagina account</account>.",
+    "empty": "Ancora nessun profilo pubblico — sii il primo. Aggiungi una bio o un avatar nel tuo account e imposta il profilo su pubblico."
+  },
+  "PricingTiers": {
+    "billingPeriod": "Periodo di fatturazione",
+    "monthly": "Mensile",
+    "annual": "Annuale",
+    "save17": "· risparmia 17%",
+    "perMonth": "/mese",
+    "perYear": "/anno",
+    "monthlyNote": "poi fatturato mensilmente — disdici quando vuoi",
+    "annualNote": "poi fatturato annualmente — circa il 17% in meno",
+    "freeTitle": "Gratis",
+    "freeSubtitle": "Tutto ciò che serve per iniziare — senza account, senza carta.",
+    "forever": "per sempre",
+    "noStrings": "Nessun vincolo",
+    "freeCta": "Inizia a scrivere",
+    "launchingSoon": "In arrivo",
+    "memberTitle": "Abbonamento",
+    "memberSubtitle": "Per quando fai sul serio sul finire il tuo libro.",
+    "firstMonthFree": "Primo mese gratis",
+    "comingSoon": "In arrivo",
+    "freeWhileBuilding": "Tutto quanto sopra è gratis da usare mentre si costruisce la fatturazione.",
+    "freeFeatures": [
+      "Il quiz completo per il formato + consigli di genere per ogni tipo di libro",
+      "La guida alla pubblicazione in 10 passi e la checklist della settimana di lancio",
+      "Taccuino di storie con salvataggio automatico",
+      "Generatori di testo d'azione e di idee per illustrazioni",
+      "Assistente Narrativa IA e Strumenti di scrittura (riassumere, criticare, strutturare) per testi più brevi",
+      "Un profilo pubblico da creatore con fino a 3 libri caricati"
+    ],
+    "memberFeatures": [
+      "Tutto ciò che c'è in Gratis, con limiti IA molto più alti",
+      "Gli Strumenti di scrittura funzionano su capitoli e lavori interi, non solo estratti brevi",
+      "Generazione di immagini IA inclusa, non solo prompt di idee",
+      "Esporta il tuo taccuino o copione in PDF e DOCX formattati",
+      "Cronologia del taccuino — torna a una bozza precedente",
+      "Caricamenti di libri illimitati, file più grandi",
+      "Un badge Abbonato sul tuo profilo pubblico",
+      "Supporto e-mail prioritario"
+    ]
+  },
+  "PricingFaq": {
+    "items": [
+      {
+        "question": "Il livello Gratis sarà sempre gratuito?",
+        "answer": "Sì. Tutto ciò che è nel livello Gratis oggi — il quiz, i generatori, il taccuino, l'assistente IA, gli strumenti di scrittura e la guida alla pubblicazione — resta gratuito. L'Abbonamento aggiunge extra sopra; niente di ciò che puoi già usare finirà dietro un paywall."
+      },
+      {
+        "question": "Posso già sottoscrivere l'Abbonamento?",
+        "answer": "Non ancora — la fatturazione è ancora in costruzione. Quando parte potrai fare l'upgrade dalla tua pagina account, e il primo mese è gratis. Nel frattempo, tutto ciò che è elencato sotto Abbonamento è gratis da usare."
+      },
+      {
+        "question": "Come funziona il primo mese gratis?",
+        "answer": "Al lancio dell'Abbonamento avrai il primo mese gratis — accesso completo, nessun addebito. La fatturazione parte solo dopo, e puoi disdire in qualsiasi momento prima."
+      },
+      {
+        "question": "Mensile o annuale?",
+        "answer": "Entrambi, una volta che l'Abbonamento è attivo. L'annuale (99 $/anno) risulta circa il 17% più economico rispetto a pagare 9,99 $ al mese, e potrai passare dall'uno all'altro quando vuoi."
+      },
+      {
+        "question": "Devo creare un account?",
+        "answer": "Per gli strumenti no — il quiz, i generatori, il taccuino, l'assistente IA e gli strumenti di scrittura funzionano appena arrivi sulla pagina. Un account gratuito (e-mail e password, o «Continua con Google») ti permette di pubblicare sulla bacheca della community, sincronizzare il taccuino tra i dispositivi e creare un profilo pubblico da creatore."
+      },
+      {
+        "question": "Cosa succede al mio taccuino se non ho un account?",
+        "answer": "Il tuo taccuino si salva da solo, direttamente nel tuo browser, mentre digiti — senza account. Questo significa anche che è legato a questo browser su questo dispositivo: cancellare i dati del browser lo cancellerà, e non ti seguirà su un altro dispositivo. Accedi e si sincronizza con il tuo account."
+      }
+    ]
+  },
+  "WritingTools": {
+    "tablistLabel": "Strumenti di scrittura",
+    "yourText": "Il tuo testo",
+    "pasteHere": "Incollalo qui…",
+    "upload": "📄 Carica .txt / .md",
+    "working": "In corso…",
+    "run": "Esegui {tool}",
+    "resultLabel": "Risultato",
+    "fileTooBig": "Quel file supera i 2 MB — incolla invece il testo, o accorcialo.",
+    "fileReadError": "Impossibile leggere quel file. Usa un semplice .txt o .md, o incolla il testo.",
+    "genericError": "Qualcosa è andato storto.",
+    "tools": {
+      "summarize": {
+        "label": "Riassumi",
+        "blurb": "Articolo lungo, appunti di riunione o un documento → una panoramica in una riga più i punti chiave."
+      },
+      "critique": {
+        "label": "Critica",
+        "blurb": "Una bozza, un saggio, un capitolo o un lavoro → feedback costruttivo su cosa funziona e cosa correggere."
+      },
+      "structure": {
+        "label": "Struttura gli appunti",
+        "blurb": "Appunti disordinati → titoli puliti, elenchi raggruppati e una lista di azioni a parte."
+      }
+    }
   }
 }
