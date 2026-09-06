@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import Sticker from './Sticker'
 
 const CONTACT_EMAIL = 'fabelanorma3010@gmail.com'
 
 export default function ContactForm() {
+  const t = useTranslations('Contact')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -14,7 +16,7 @@ export default function ContactForm() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const subject = `Message from ${name} via Storyburst`
+    const subject = t('emailSubject', { name })
     const body = `${message}\n\n— ${name} (${email})`
     const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
@@ -26,11 +28,8 @@ export default function ContactForm() {
     <section id="contact" className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-2xl">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Say Hello 👋</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            Questions, feedback, or want to share what you're working on? Send a message — it'll
-            open in your email app, ready to go.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 👋</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-ink/70">{t('intro')}</p>
         </div>
 
         <form
@@ -41,7 +40,7 @@ export default function ContactForm() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="contact-name" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Name
+                {t('name')}
               </label>
               <input
                 id="contact-name"
@@ -49,13 +48,13 @@ export default function ContactForm() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
+                placeholder={t('namePlaceholder')}
                 className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
             <div>
               <label htmlFor="contact-email" className="mb-1.5 block text-sm font-bold text-ink/80">
-                Email
+                {t('email')}
               </label>
               <input
                 id="contact-email"
@@ -71,7 +70,7 @@ export default function ContactForm() {
 
           <div className="mt-4">
             <label htmlFor="contact-message" className="mb-1.5 block text-sm font-bold text-ink/80">
-              Message
+              {t('message')}
             </label>
             <textarea
               id="contact-message"
@@ -79,7 +78,7 @@ export default function ContactForm() {
               rows={5}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="What's on your mind?"
+              placeholder={t('messagePlaceholder')}
               className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
             />
           </div>
@@ -89,18 +88,16 @@ export default function ContactForm() {
               type="submit"
               className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
             >
-              Send Message 💌
+              {t('send')} 💌
             </button>
             {sent && (
               <p className="font-semibold text-secondary-content/80" role="status">
-                Opening your email app — thanks for reaching out!
+                {t('sent')}
               </p>
             )}
           </div>
 
-          <p className="mt-4 text-xs text-ink/50">
-            This opens your default email app with the message pre-filled — nothing is sent automatically.
-          </p>
+          <p className="mt-4 text-xs text-ink/50">{t('disclaimer')}</p>
         </form>
       </div>
     </section>

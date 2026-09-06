@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { planPanels, sizeLabel, WIDTH_WEIGHT } from '../lib/panelLayout'
+import { useTranslations } from 'next-intl'
+import { planPanels, type PanelSize, WIDTH_WEIGHT } from '../lib/panelLayout'
 import CopyButton from './CopyButton'
 import Sticker from './Sticker'
 
@@ -7,30 +8,22 @@ export type PlannerMode = 'comic' | 'manga'
 
 interface ModeConfig {
   id: string
-  title: string
   emoji: string
   sticker: string
-  lead: string
   rtl: boolean
   /** manga = diagonal panel cuts, bleeds on the big beats, tight column gutters. */
   dynamic: boolean
-  reading: string
-  scriptNote: string
+  /** Example inputs stay in English — the parser matches English shape words. */
   examples: { label: string; text: string }[]
 }
 
 const MODES: Record<PlannerMode, ModeConfig> = {
   comic: {
     id: 'comic-planner',
-    title: 'Comic Panel Planner',
     emoji: '💥',
     sticker: '🗂️',
-    lead:
-      'Describe your page in plain words — “wide panel for the vault, tall skinny panel for the drop, then a beat panel before the punch.” Get a rough page layout back, panel by panel.',
     rtl: false,
     dynamic: false,
-    reading: 'A regular grid — even tiers, straight gutters, left to right, top to bottom.',
-    scriptNote: 'reads left to right',
     examples: [
       {
         label: 'Heist beat',
@@ -48,15 +41,10 @@ const MODES: Record<PlannerMode, ModeConfig> = {
   },
   manga: {
     id: 'manga-planner',
-    title: 'Manga Panel Planner',
     emoji: '🌸',
     sticker: '📖',
-    lead:
-      'Manga pages break the grid — slanted cuts, tight column gutters, and the big beats bleeding past the frame. Describe your page and get that layout back, read right to left.',
     rtl: true,
     dynamic: true,
-    reading: 'Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.',
-    scriptNote: 'reads right to left',
     examples: [
       {
         label: 'Impact frame',
@@ -80,23 +68,30 @@ interface PanelPlannerProps {
 
 export default function PanelPlanner({ mode }: PanelPlannerProps) {
   const cfg = MODES[mode]
+  const t = useTranslations('PanelPlanner')
+  const tm = useTranslations(mode === 'comic' ? 'PanelPlanner.comic' : 'PanelPlanner.manga')
   const [text, setText] = useState(cfg.examples[0].text)
   const plan = useMemo(() => planPanels(text), [text])
-  const flatPanels = useMemo(() => plan.tiers.flatMap((t) => t.panels), [plan])
+  const flatPanels = useMemo(() => plan.tiers.flatMap((tier) => tier.panels), [plan])
+
+  const sizeName = (size: PanelSize) => t(`size.${size}`)
 
   const script = useMemo(
     () =>
       [
-        `// ${cfg.title} — ${cfg.scriptNote}`,
+        `// ${tm('title')} — ${tm('scriptNote')}`,
         ...flatPanels.map(
           (p) =>
-            `PANEL ${p.n} — ${sizeLabel(p.size).toUpperCase()}${p.silent ? ' · no dialogue' : ''}\n${p.text}`,
+            `${t('panelWord').toUpperCase()} ${p.n} — ${sizeName(p.size).toUpperCase()}${
+              p.silent ? ` · ${t('noDialogue')}` : ''
+            }\n${p.text}`,
         ),
       ].join('\n\n'),
-    [flatPanels, cfg],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [flatPanels, mode],
   )
 
-  const totalWeight = plan.tiers.reduce((sum, t) => sum + t.height, 0)
+  const totalWeight = plan.tiers.reduce((sum, tier) => sum + tier.height, 0)
   const pageHeight = Math.min(1000, Math.max(360, Math.round(totalWeight * 82)))
   const inputId = `${cfg.id}-input`
 
@@ -106,9 +101,9 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
         <Sticker emoji={cfg.sticker} className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            {cfg.title} {cfg.emoji}
+            {tm('title')} {cfg.emoji}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">{cfg.lead}</p>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{tm('lead')}</p>
         </div>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -125,7 +120,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
         </div>
 
         <label htmlFor={inputId} className="sr-only">
-          Panel descriptions
+          {t('inputLabel')}
         </label>
         <textarea
           id={inputId}
@@ -135,19 +130,15 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
           placeholder="Wide establishing shot of the street. Two medium panels of the argument. Tall skinny panel as the door slams."
           className="mt-4 w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
         />
-        <p className="mt-2 text-sm text-ink/50">
-          One panel per line, or split them with &ldquo;then&rdquo;, commas, or full stops. Use
-          &ldquo;wide&rdquo;, &ldquo;tall / skinny&rdquo;, &ldquo;big / splash&rdquo;, or
-          &ldquo;beat / silent&rdquo; to shape each panel.
-        </p>
+        <p className="mt-2 text-sm text-ink/50">{t('help')}</p>
 
         {plan.panelCount > 0 ? (
           <>
             <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-4">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
-                Page &middot; {plan.panelCount} {plan.panelCount === 1 ? 'panel' : 'panels'}
+                {t('pageCount', { count: plan.panelCount })}
               </h3>
-              <p className="text-xs font-semibold text-ink/45">{cfg.reading}</p>
+              <p className="text-xs font-semibold text-ink/45">{tm('reading')}</p>
             </div>
             <div
               className={`mx-auto mt-3 flex w-full max-w-sm flex-col overflow-hidden rounded-xl border-2 border-ink/15 bg-white p-1.5 ${
@@ -189,8 +180,8 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                         }}
                       >
                         <span className="text-[9px] font-black uppercase tracking-wider text-ink/45">
-                          {p.n} &middot; {sizeLabel(p.size)}
-                          {bleed ? ' · bleed' : p.silent ? ' · silent' : ''}
+                          {p.n} &middot; {sizeName(p.size)}
+                          {bleed ? ` · ${t('bleed')}` : p.silent ? ` · ${t('silent')}` : ''}
                         </span>
                         <span className="mt-0.5 line-clamp-4 text-[11px] font-semibold leading-snug text-ink/80">
                           {p.text}
@@ -205,7 +196,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
             <div className="mt-6 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 sm:p-5">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
-                  Panel breakdown
+                  {t('breakdown')}
                 </h3>
                 <CopyButton text={script} />
               </div>
@@ -215,9 +206,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
             </div>
           </>
         ) : (
-          <p className="mt-8 text-center text-sm text-ink/50">
-            Type a few panels above to see the page take shape.
-          </p>
+          <p className="mt-8 text-center text-sm text-ink/50">{t('emptyHint')}</p>
         )}
       </div>
     </section>

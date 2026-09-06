@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import ReadAloud from './ReadAloud'
 import NotebookExport from './NotebookExport'
 import Sticker from './Sticker'
@@ -9,6 +10,7 @@ import { createClient } from '../lib/supabase/client'
 const STORAGE_KEY = 'storyburst-notebook'
 
 export default function StoryNotebook() {
+  const t = useTranslations('Notebook')
   const [text, setText] = useState('')
   const [saved, setSaved] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
@@ -72,7 +74,7 @@ export default function StoryNotebook() {
   }
 
   function handleClear() {
-    if (text.trim() && !window.confirm('Clear everything in your notebook? This can\'t be undone.')) {
+    if (text.trim() && !window.confirm(t('clearConfirm'))) {
       return
     }
     setText('')
@@ -90,41 +92,35 @@ export default function StoryNotebook() {
     <section id="notebook" className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-            Your Story Notebook 📓
-          </h2>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 📓</h2>
           <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            Jot down character notes, plot twists, or a line of dialogue before it slips away.
-            {userId
-              ? " It's synced to your account, so it'll follow you to any device you log in on."
-              : " It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices."}{' '}
-            Export it to PDF or Word whenever you want to take it somewhere else.
+            {t('intro')} {userId ? t('syncedNote') : t('localNote')} {t('exportNote')}
           </p>
         </div>
 
         <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
           <Sticker emoji="📓" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
           <label htmlFor="notebook-textarea" className="sr-only">
-            Story notebook
+            {t('title')}
           </label>
           <textarea
             id="notebook-textarea"
             value={text}
             onChange={(e) => handleChange(e.target.value)}
-            placeholder="Once upon a time... (your hero's secret weakness, a killer plot twist, that perfect line of dialogue — write it here before you forget!)"
+            placeholder={t('placeholder')}
             rows={10}
             className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
           />
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
             <span className="font-semibold text-ink/60">
-              {wordCount} {wordCount === 1 ? 'word' : 'words'} ·{' '}
-              {saved ? (userId ? 'Synced to your account ✓' : 'Saved ✓') : 'Saving…'}
+              {t('wordCount', { count: wordCount })} ·{' '}
+              {saved ? (userId ? t('synced') : t('saved')) : t('saving')}
             </span>
             <div className="flex flex-wrap items-center gap-3">
               <ReadAloud
                 text={text}
-                label="Read Aloud"
+                label={t('readAloud')}
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-4 py-2 font-bold text-ink transition-colors hover:bg-white active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               />
               <NotebookExport
@@ -137,7 +133,7 @@ export default function StoryNotebook() {
                 disabled={!text}
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-4 py-2 font-bold text-ink transition-colors hover:bg-white active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Clear Notebook 🗑️
+                {t('clear')} 🗑️
               </button>
             </div>
           </div>

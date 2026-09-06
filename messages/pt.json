@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "Idioma: {name}. Mudar idioma",
     "choose": "Escolha um idioma"
+  },
+  "ActionText": {
+    "title": "Gerador divertido de texto de ação",
+    "intro": "Travado em uma cena do roteiro? Gere uma frase impactante de texto de ação — com efeito sonoro incluído — ajustada ao gênero do seu livro.",
+    "genreLabel": "Escolha o gênero para o texto de ação",
+    "generate": "Gerar frase de ação {emoji}"
+  },
+  "Illustration": {
+    "title": "Gerador criativo de ideias de ilustração",
+    "intro": "Precisa de uma faísca para o próximo quadro ou página? Gere um prompt completo de ilustração — sujeito, ação, cenário, detalhe e paleta de cores — para o seu ilustrador (ou para você). Ou vá direto para uma imagem gerada.",
+    "genreLabel": "Escolha o gênero para a ideia de ilustração",
+    "generate": "Gerar ideia de ilustração {emoji}",
+    "generating": "Gerando…",
+    "turnIntoImage": "Transformar em imagem"
+  },
+  "Notebook": {
+    "title": "Seu caderno de histórias",
+    "intro": "Anote notas de personagens, reviravoltas ou uma fala antes que escapem.",
+    "syncedNote": "Está sincronizado com sua conta, então vai te acompanhar em qualquer dispositivo onde você entrar.",
+    "localNote": "É salvo neste navegador, então estará aqui na próxima vez que você vier. Entre para sincronizar entre dispositivos.",
+    "exportNote": "Exporte para PDF ou Word sempre que quiser levá-lo para outro lugar.",
+    "placeholder": "Era uma vez... (a fraqueza secreta do seu herói, uma reviravolta arrasadora, aquela fala perfeita — escreva aqui antes de esquecer!)",
+    "wordCount": "{count, plural, one {# palavra} other {# palavras}}",
+    "synced": "Sincronizado com sua conta ✓",
+    "saved": "Salvo ✓",
+    "saving": "Salvando…",
+    "readAloud": "Ler em voz alta",
+    "clear": "Limpar caderno",
+    "clearConfirm": "Limpar tudo no seu caderno? Isso não pode ser desfeito."
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "Salvar seu caderno como PDF",
+    "docxTitle": "Baixar seu caderno como documento do Word",
+    "exporting": "Exportando…",
+    "retry": "Tentar de novo"
+  },
+  "ReadAloud": {
+    "readAloud": "Ler em voz alta",
+    "stop": "Parar"
+  },
+  "Community": {
+    "title": "Comunidade Storyburst",
+    "intro": "Compartilhe uma fala, uma ideia ou algo de que você se orgulha — e veja no que outros escritores e artistas estão trabalhando agora.",
+    "postingAs": "Publicando como {name}",
+    "bookTypeLabel": "Tipo de livro para sua publicação",
+    "titleField": "Título",
+    "optional": "(opcional)",
+    "titlePlaceholder": "Dê um título ou deixe em branco",
+    "contentField": "No que você está trabalhando?",
+    "contentPlaceholder": "Compartilhe uma fala, uma reviravolta ou uma ideia de que você se orgulha...",
+    "sharing": "Compartilhando…",
+    "share": "Compartilhar com a comunidade",
+    "loginPrompt": "<login>Entre</login> ou <signup>cadastre-se</signup> para compartilhar com a comunidade.",
+    "loading": "Carregando publicações da comunidade…",
+    "loadError": "Não foi possível carregar o mural da comunidade agora.",
+    "tryAgain": "Tentar de novo",
+    "empty": "Ainda não há publicações — seja o primeiro a compartilhar! ✨",
+    "unavailable": "O mural da comunidade não está disponível agora.",
+    "couldNotPost": "Não foi possível publicar."
+  },
+  "Contact": {
+    "title": "Diga olá",
+    "intro": "Dúvidas, comentários ou quer contar no que está trabalhando? Envie uma mensagem — ela vai abrir no seu app de e-mail, pronta para enviar.",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome",
+    "email": "E-mail",
+    "message": "Mensagem",
+    "messagePlaceholder": "O que você está pensando?",
+    "send": "Enviar mensagem",
+    "sent": "Abrindo seu app de e-mail — obrigado por entrar em contato!",
+    "disclaimer": "Isso abre seu app de e-mail padrão com a mensagem já preenchida — nada é enviado automaticamente.",
+    "emailSubject": "Mensagem de {name} via Storyburst"
+  },
+  "CookieConsent": {
+    "title": "Aviso de cookies",
+    "body": "Usamos alguns cookies essenciais para manter você conectado — esses não são afetados por esta escolha. Aceitar também ativa análises sem cookies e focadas em privacidade, além de monitoramento de desempenho, para vermos como o site é usado e quão rápido ele roda. Leia nossa <privacy>Política de privacidade</privacy>.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
+  "PanelPlanner": {
+    "panelWord": "Quadro",
+    "noDialogue": "sem diálogo",
+    "silent": "mudo",
+    "bleed": "sangria",
+    "inputLabel": "Descrições dos quadros",
+    "help": "Um quadro por linha, ou separe-os com “then”, vírgulas ou pontos. Use as palavras em inglês “wide”, “tall / skinny”, “big / splash” ou “beat / silent” para dar forma a cada quadro.",
+    "pageCount": "{count, plural, one {Página · # quadro} other {Página · # quadros}}",
+    "breakdown": "Detalhamento dos quadros",
+    "emptyHint": "Escreva alguns quadros acima para ver a página tomar forma.",
+    "size": {
+      "splash": "Página inteira",
+      "wide": "Largo",
+      "big": "Grande",
+      "tall": "Alto",
+      "medium": "Médio",
+      "beat": "Pausa"
+    },
+    "comic": {
+      "title": "Planejador de quadros de HQ",
+      "lead": "Descreva sua página com palavras simples: “quadro largo para o cofre, quadro alto e estreito para a queda, depois um quadro de pausa antes do soco”. Receba um esboço da página, quadro a quadro.",
+      "reading": "Uma grade regular — fileiras uniformes, calhas retas, da esquerda para a direita, de cima para baixo.",
+      "scriptNote": "lê-se da esquerda para a direita"
+    },
+    "manga": {
+      "title": "Planejador de quadros de mangá",
+      "lead": "As páginas de mangá quebram a grade — cortes inclinados, calhas estreitas entre colunas e os momentos fortes sangrando para fora do quadro. Descreva sua página e receba esse layout, lido da direita para a esquerda.",
+      "reading": "Da direita para a esquerda, de cima para baixo. Cortes diagonais entre quadros; páginas inteiras e grandes momentos sangram a moldura.",
+      "scriptNote": "lê-se da direita para a esquerda"
+    }
   }
 }

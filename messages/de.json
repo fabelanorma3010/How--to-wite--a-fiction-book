@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "Sprache: {name}. Sprache ändern",
     "choose": "Sprache wählen"
+  },
+  "ActionText": {
+    "title": "Lustiger Action-Text-Generator",
+    "intro": "Bei einer Skript-Szene festgefahren? Erzeuge eine knackige Zeile Action-Text — Soundeffekt inklusive — abgestimmt auf das Genre deines Buchs.",
+    "genreLabel": "Genre für den Action-Text wählen",
+    "generate": "Action-Zeile erzeugen {emoji}"
+  },
+  "Illustration": {
+    "title": "Kreativer Illustrations-Ideengenerator",
+    "intro": "Brauchst du einen Funken für dein nächstes Panel oder deine nächste Seite? Erzeuge einen kompletten Illustrations-Prompt — Motiv, Aktion, Schauplatz, Detail und Farbpalette — für deine Zeichnerin (oder dich selbst). Oder spring direkt zu einem generierten Bild.",
+    "genreLabel": "Genre für die Illustrationsidee wählen",
+    "generate": "Illustrationsidee erzeugen {emoji}",
+    "generating": "Wird erzeugt…",
+    "turnIntoImage": "In Bild umwandeln"
+  },
+  "Notebook": {
+    "title": "Dein Story-Notizbuch",
+    "intro": "Halte Figurennotizen, Wendungen oder eine Dialogzeile fest, bevor sie dir entgleiten.",
+    "syncedNote": "Es ist mit deinem Konto synchronisiert und folgt dir auf jedes Gerät, auf dem du dich anmeldest.",
+    "localNote": "Es wird direkt in diesem Browser gespeichert und ist beim nächsten Besuch wieder da. Melde dich an, um es geräteübergreifend zu synchronisieren.",
+    "exportNote": "Exportiere es als PDF oder Word, wann immer du es woanders hin mitnehmen willst.",
+    "placeholder": "Es war einmal... (die geheime Schwäche deines Helden, eine umwerfende Wendung, diese perfekte Dialogzeile — schreib sie hier auf, bevor du sie vergisst!)",
+    "wordCount": "{count, plural, one {# Wort} other {# Wörter}}",
+    "synced": "Mit deinem Konto synchronisiert ✓",
+    "saved": "Gespeichert ✓",
+    "saving": "Wird gespeichert…",
+    "readAloud": "Vorlesen",
+    "clear": "Notizbuch leeren",
+    "clearConfirm": "Alles im Notizbuch löschen? Das lässt sich nicht rückgängig machen."
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "Dein Notizbuch als PDF speichern",
+    "docxTitle": "Dein Notizbuch als Word-Dokument herunterladen",
+    "exporting": "Wird exportiert…",
+    "retry": "Erneut versuchen"
+  },
+  "ReadAloud": {
+    "readAloud": "Vorlesen",
+    "stop": "Stopp"
+  },
+  "Community": {
+    "title": "Storyburst-Community",
+    "intro": "Teile eine Zeile, eine Idee oder etwas, worauf du stolz bist — und sieh, woran andere Autorinnen und Künstler gerade arbeiten.",
+    "postingAs": "Beitrag als {name}",
+    "bookTypeLabel": "Buchtyp für deinen Beitrag",
+    "titleField": "Titel",
+    "optional": "(optional)",
+    "titlePlaceholder": "Gib ihm eine Überschrift oder lass es leer",
+    "contentField": "Woran arbeitest du?",
+    "contentPlaceholder": "Teile eine Dialogzeile, eine Wendung oder eine Idee, auf die du stolz bist...",
+    "sharing": "Wird geteilt…",
+    "share": "Mit der Community teilen",
+    "loginPrompt": "<login>Melde dich an</login> oder <signup>registriere dich</signup>, um mit der Community zu teilen.",
+    "loading": "Community-Beiträge werden geladen…",
+    "loadError": "Die Community-Wand konnte gerade nicht geladen werden.",
+    "tryAgain": "Erneut versuchen",
+    "empty": "Noch keine Beiträge — sei die/der Erste! ✨",
+    "unavailable": "Die Community-Wand ist gerade nicht verfügbar.",
+    "couldNotPost": "Beitrag konnte nicht gesendet werden."
+  },
+  "Contact": {
+    "title": "Sag Hallo",
+    "intro": "Fragen, Feedback oder Lust, zu erzählen, woran du arbeitest? Schick eine Nachricht — sie öffnet sich versandfertig in deiner E-Mail-App.",
+    "name": "Name",
+    "namePlaceholder": "Dein Name",
+    "email": "E-Mail",
+    "message": "Nachricht",
+    "messagePlaceholder": "Was hast du auf dem Herzen?",
+    "send": "Nachricht senden",
+    "sent": "Deine E-Mail-App wird geöffnet — danke, dass du dich meldest!",
+    "disclaimer": "Das öffnet deine Standard-E-Mail-App mit vorausgefüllter Nachricht — es wird nichts automatisch gesendet.",
+    "emailSubject": "Nachricht von {name} über Storyburst"
+  },
+  "CookieConsent": {
+    "title": "Cookie-Hinweis",
+    "body": "Wir verwenden ein paar notwendige Cookies, um dich angemeldet zu halten — die sind von dieser Wahl nicht betroffen. Mit „Akzeptieren“ aktivierst du außerdem datenschutzfreundliche, cookiefreie Analyse und Leistungsüberwachung, damit wir sehen, wie die Seite genutzt wird und wie schnell sie läuft. Lies unsere <privacy>Datenschutzerklärung</privacy>.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
+  "PanelPlanner": {
+    "panelWord": "Panel",
+    "noDialogue": "kein Dialog",
+    "silent": "stumm",
+    "bleed": "randlos",
+    "inputLabel": "Panel-Beschreibungen",
+    "help": "Ein Panel pro Zeile, oder trenne sie mit „then“, Kommas oder Punkten. Verwende die englischen Wörter „wide“, „tall / skinny“, „big / splash“ oder „beat / silent“, um jedem Panel seine Form zu geben.",
+    "pageCount": "{count, plural, one {Seite · # Panel} other {Seite · # Panels}}",
+    "breakdown": "Panel-Aufschlüsselung",
+    "emptyHint": "Schreib oben ein paar Panels, um die Seite Gestalt annehmen zu sehen.",
+    "size": {
+      "splash": "Ganzseitig",
+      "wide": "Breit",
+      "big": "Groß",
+      "tall": "Hoch",
+      "medium": "Mittel",
+      "beat": "Pause"
+    },
+    "comic": {
+      "title": "Comic-Panel-Planer",
+      "lead": "Beschreib deine Seite mit einfachen Worten: „breites Panel für den Tresor, hohes schmales Panel für den Sturz, dann ein Pause-Panel vor dem Schlag“. Du bekommst ein grobes Seitenlayout zurück, Panel für Panel.",
+      "reading": "Ein reguläres Raster — gleichmäßige Reihen, gerade Rinnen, von links nach rechts, von oben nach unten.",
+      "scriptNote": "wird von links nach rechts gelesen"
+    },
+    "manga": {
+      "title": "Manga-Panel-Planer",
+      "lead": "Manga-Seiten sprengen das Raster — schräge Schnitte, enge Spaltenrinnen und die großen Momente, die über den Rand hinauslaufen. Beschreib deine Seite und bekomm dieses Layout zurück, von rechts nach links gelesen.",
+      "reading": "Von rechts nach links, von oben nach unten. Diagonale Schnitte zwischen Panels; ganzseitige und große Momente laufen über den Rand.",
+      "scriptNote": "wird von rechts nach links gelesen"
+    }
   }
 }

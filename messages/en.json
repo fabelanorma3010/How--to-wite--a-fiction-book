@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "Language: {name}. Change language",
     "choose": "Choose a language"
+  },
+  "ActionText": {
+    "title": "Fun Action Text Generator",
+    "intro": "Stuck on a script beat? Generate a punchy line of action text — sound effect included — tuned to your book's genre.",
+    "genreLabel": "Choose genre for action text",
+    "generate": "Generate {emoji} Action Line"
+  },
+  "Illustration": {
+    "title": "Creative Illustration Idea Generator",
+    "intro": "Need a spark for your next panel or page? Generate a full illustration prompt — subject, action, setting, detail, and color palette — for your artist (or yourself). Or skip straight to a generated image.",
+    "genreLabel": "Choose genre for illustration idea",
+    "generate": "Generate {emoji} Illustration Idea",
+    "generating": "Generating…",
+    "turnIntoImage": "Turn into Image"
+  },
+  "Notebook": {
+    "title": "Your Story Notebook",
+    "intro": "Jot down character notes, plot twists, or a line of dialogue before it slips away.",
+    "syncedNote": "It's synced to your account, so it'll follow you to any device you log in on.",
+    "localNote": "It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices.",
+    "exportNote": "Export it to PDF or Word whenever you want to take it somewhere else.",
+    "placeholder": "Once upon a time... (your hero's secret weakness, a killer plot twist, that perfect line of dialogue — write it here before you forget!)",
+    "wordCount": "{count, plural, one {# word} other {# words}}",
+    "synced": "Synced to your account ✓",
+    "saved": "Saved ✓",
+    "saving": "Saving…",
+    "readAloud": "Read Aloud",
+    "clear": "Clear Notebook",
+    "clearConfirm": "Clear everything in your notebook? This can't be undone."
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "Save your notebook as a PDF",
+    "docxTitle": "Download your notebook as a Word document",
+    "exporting": "Exporting…",
+    "retry": "Try again"
+  },
+  "ReadAloud": {
+    "readAloud": "Read Aloud",
+    "stop": "Stop"
+  },
+  "Community": {
+    "title": "Storyburst Community",
+    "intro": "Share a line, a prompt, or an idea you're proud of — and see what other writers and artists are working on right now.",
+    "postingAs": "Posting as {name}",
+    "bookTypeLabel": "Book type for your post",
+    "titleField": "Title",
+    "optional": "(optional)",
+    "titlePlaceholder": "Give it a headline, or leave blank",
+    "contentField": "What are you working on?",
+    "contentPlaceholder": "Share a line of dialogue, a plot twist, or an idea you're proud of...",
+    "sharing": "Sharing…",
+    "share": "Share with the Community",
+    "loginPrompt": "<login>Log in</login> or <signup>sign up</signup> to share with the community.",
+    "loading": "Loading community posts…",
+    "loadError": "Couldn't load the community wall right now.",
+    "tryAgain": "Try Again",
+    "empty": "No posts yet — be the first to share! ✨",
+    "unavailable": "The community wall isn't available right now.",
+    "couldNotPost": "Could not post."
+  },
+  "Contact": {
+    "title": "Say Hello",
+    "intro": "Questions, feedback, or want to share what you're working on? Send a message — it'll open in your email app, ready to go.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "message": "Message",
+    "messagePlaceholder": "What's on your mind?",
+    "send": "Send Message",
+    "sent": "Opening your email app — thanks for reaching out!",
+    "disclaimer": "This opens your default email app with the message pre-filled — nothing is sent automatically.",
+    "emailSubject": "Message from {name} via Storyburst"
+  },
+  "CookieConsent": {
+    "title": "Cookie notice",
+    "body": "We use a few essential cookies to keep you signed in — those aren't affected by this choice. Accepting also turns on privacy-focused, cookie-free analytics and performance monitoring so we can see how the site is used and how fast it runs. Read our <privacy>Privacy Policy</privacy>.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "PanelPlanner": {
+    "panelWord": "Panel",
+    "noDialogue": "no dialogue",
+    "silent": "silent",
+    "bleed": "bleed",
+    "inputLabel": "Panel descriptions",
+    "help": "One panel per line, or split them with “then”, commas, or full stops. Use the English words “wide”, “tall / skinny”, “big / splash”, or “beat / silent” to shape each panel.",
+    "pageCount": "{count, plural, one {Page · # panel} other {Page · # panels}}",
+    "breakdown": "Panel breakdown",
+    "emptyHint": "Type a few panels above to see the page take shape.",
+    "size": {
+      "splash": "Splash",
+      "wide": "Wide",
+      "big": "Big",
+      "tall": "Tall",
+      "medium": "Medium",
+      "beat": "Beat"
+    },
+    "comic": {
+      "title": "Comic Panel Planner",
+      "lead": "Describe your page in plain words — “wide panel for the vault, tall skinny panel for the drop, then a beat panel before the punch.” Get a rough page layout back, panel by panel.",
+      "reading": "A regular grid — even tiers, straight gutters, left to right, top to bottom.",
+      "scriptNote": "reads left to right"
+    },
+    "manga": {
+      "title": "Manga Panel Planner",
+      "lead": "Manga pages break the grid — slanted cuts, tight column gutters, and the big beats bleeding past the frame. Describe your page and get that layout back, read right to left.",
+      "reading": "Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.",
+      "scriptNote": "reads right to left"
+    }
   }
 }

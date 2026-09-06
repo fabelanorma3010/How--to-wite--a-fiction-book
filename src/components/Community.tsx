@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
 import { MAX_CONTENT_LENGTH, type CommunityPost } from '../lib/community'
 import { createClient } from '../lib/supabase/client'
@@ -37,6 +38,8 @@ function toPost(row: PostRow, authorName: string): CommunityPost {
 }
 
 export default function Community() {
+  const t = useTranslations('Community')
+  const locale = useLocale()
   const [posts, setPosts] = useState<CommunityPost[]>([])
   const [status, setStatus] = useState<Status>('loading')
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
@@ -102,7 +105,7 @@ export default function Community() {
     setSubmitError('')
     const supabase = createClient()
     if (!supabase) {
-      setSubmitError("The community wall isn't available right now.")
+      setSubmitError(t('unavailable'))
       setSubmitting(false)
       return
     }
@@ -125,7 +128,7 @@ export default function Community() {
       setTitle('')
       setContent('')
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Could not post.')
+      setSubmitError(error instanceof Error ? error.message : t('couldNotPost'))
     } finally {
       setSubmitting(false)
     }
@@ -135,11 +138,8 @@ export default function Community() {
     <section id="community" className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">Storyburst Community 💬</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-ink/70">
-            Share a line, a prompt, or an idea you're proud of — and see what other writers
-            and artists are working on right now.
-          </p>
+          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 💬</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-ink/70">{t('intro')}</p>
         </div>
 
         <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
@@ -148,11 +148,11 @@ export default function Community() {
           {user === undefined ? null : user ? (
             <form onSubmit={handleSubmit}>
               <p className="mb-4 text-center font-bold text-ink/70">
-                <span aria-hidden="true">👋</span> Posting as {user.name}
+                <span aria-hidden="true">👋</span> {t('postingAs', { name: user.name })}
               </p>
               <div
                 role="group"
-                aria-label="Book type for your post"
+                aria-label={t('bookTypeLabel')}
                 className="flex flex-wrap items-center justify-center gap-2"
               >
                 {bookTypes.map((type) => {
@@ -178,7 +178,7 @@ export default function Community() {
 
               <div className="mt-4">
                 <label htmlFor="community-title" className="mb-1.5 block text-sm font-bold text-ink/80">
-                  Title <span className="font-normal text-ink/40">(optional)</span>
+                  {t('titleField')} <span className="font-normal text-ink/40">{t('optional')}</span>
                 </label>
                 <input
                   id="community-title"
@@ -186,14 +186,14 @@ export default function Community() {
                   maxLength={120}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Give it a headline, or leave blank"
+                  placeholder={t('titlePlaceholder')}
                   className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
               </div>
 
               <div className="mt-4">
                 <label htmlFor="community-content" className="mb-1.5 block text-sm font-bold text-ink/80">
-                  What are you working on?
+                  {t('contentField')}
                 </label>
                 <textarea
                   id="community-content"
@@ -202,7 +202,7 @@ export default function Community() {
                   maxLength={MAX_CONTENT_LENGTH}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Share a line of dialogue, a plot twist, or an idea you're proud of..."
+                  placeholder={t('contentPlaceholder')}
                   className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
                 <p className="mt-1 text-right text-xs text-ink/40">
@@ -216,7 +216,7 @@ export default function Community() {
                   disabled={!content.trim() || submitting}
                   className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  {submitting ? 'Sharing…' : 'Share with the Community 💬'}
+                  {submitting ? t('sharing') : `${t('share')} 💬`}
                 </button>
                 {submitError && (
                   <p className="font-bold text-ink" role="alert">
@@ -227,38 +227,42 @@ export default function Community() {
             </form>
           ) : (
             <p className="text-center font-semibold text-ink/70">
-              <Link href="/login" className="font-bold text-ink underline underline-offset-2">
-                Log in
-              </Link>{' '}
-              or{' '}
-              <Link href="/signup" className="font-bold text-ink underline underline-offset-2">
-                sign up
-              </Link>{' '}
-              to share with the community.
+              {t.rich('loginPrompt', {
+                login: (chunks) => (
+                  <Link href="/login" className="font-bold text-ink underline underline-offset-2">
+                    {chunks}
+                  </Link>
+                ),
+                signup: (chunks) => (
+                  <Link href="/signup" className="font-bold text-ink underline underline-offset-2">
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </p>
           )}
         </div>
 
         <div className="mt-8 space-y-4">
           {status === 'loading' && (
-            <p className="text-center font-semibold text-ink/50">Loading community posts…</p>
+            <p className="text-center font-semibold text-ink/50">{t('loading')}</p>
           )}
 
           {status === 'error' && (
             <div className="rounded-2xl border-2 border-ink/10 bg-white/60 p-6 text-center">
-              <p className="font-semibold text-ink/60">⚠️ Couldn't load the community wall right now.</p>
+              <p className="font-semibold text-ink/60">⚠️ {t('loadError')}</p>
               <button
                 type="button"
                 onClick={loadPosts}
                 className="mt-3 rounded-full border-2 border-ink/15 bg-white/70 px-4 py-2 font-bold text-ink transition-colors hover:bg-white"
               >
-                Try Again
+                {t('tryAgain')}
               </button>
             </div>
           )}
 
           {status === 'ready' && posts.length === 0 && (
-            <p className="text-center font-semibold text-ink/50">No posts yet — be the first to share! ✨</p>
+            <p className="text-center font-semibold text-ink/50">{t('empty')}</p>
           )}
 
           {status === 'ready' &&
@@ -271,7 +275,7 @@ export default function Community() {
                       <span aria-hidden="true">{type?.emoji}</span> {post.authorName}
                       {type ? ` · ${type.name}` : ''}
                     </span>
-                    <span>{formatRelativeTime(post.createdAt)}</span>
+                    <span>{formatRelativeTime(post.createdAt, locale)}</span>
                   </div>
                   {post.title && <h3 className="mt-2 font-extrabold text-ink">{post.title}</h3>}
                   <p className="mt-2 whitespace-pre-wrap text-ink/90">{post.content}</p>
@@ -284,13 +288,14 @@ export default function Community() {
   )
 }
 
-function formatRelativeTime(iso: string) {
+function formatRelativeTime(iso: string, locale: string) {
   const seconds = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000))
-  if (seconds < 60) return 'just now'
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' })
+  if (seconds < 60) return rtf.format(-seconds, 'second')
   const minutes = Math.round(seconds / 60)
-  if (minutes < 60) return `${minutes}m ago`
+  if (minutes < 60) return rtf.format(-minutes, 'minute')
   const hours = Math.round(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
+  if (hours < 24) return rtf.format(-hours, 'hour')
   const days = Math.round(hours / 24)
-  return `${days}d ago`
+  return rtf.format(-days, 'day')
 }

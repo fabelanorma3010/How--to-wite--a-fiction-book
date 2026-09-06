@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface ReadAloudProps {
   text: string
@@ -8,7 +9,8 @@ interface ReadAloudProps {
   className?: string
 }
 
-export default function ReadAloud({ text, label = 'Read Aloud', className = '' }: ReadAloudProps) {
+export default function ReadAloud({ text, label, className = '' }: ReadAloudProps) {
+  const t = useTranslations('ReadAloud')
   const [speaking, setSpeaking] = useState(false)
   const [supported, setSupported] = useState(true)
 
@@ -51,7 +53,7 @@ export default function ReadAloud({ text, label = 'Read Aloud', className = '' }
       aria-pressed={speaking}
       className={className}
     >
-      {speaking ? '⏹️ Stop' : `🔊 ${label}`}
+      {speaking ? `⏹️ ${t('stop')}` : `🔊 ${label ?? t('readAloud')}`}
     </button>
   )
 }

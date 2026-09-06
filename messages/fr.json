@@ -52,5 +52,116 @@
   "LanguageTab": {
     "label": "Langue : {name}. Changer de langue",
     "choose": "Choisir une langue"
+  },
+  "ActionText": {
+    "title": "Générateur d'onomatopées",
+    "intro": "Bloqué sur une scène ? Générez une réplique d'action percutante — bruitage inclus — adaptée au genre de votre livre.",
+    "genreLabel": "Choisir le genre pour le texte d'action",
+    "generate": "Générer une réplique d'action {emoji}"
+  },
+  "Illustration": {
+    "title": "Générateur d'idées d'illustration",
+    "intro": "Besoin d'une étincelle pour votre prochaine case ou page ? Générez une description d'illustration complète — sujet, action, décor, détail et palette de couleurs — pour votre illustrateur (ou pour vous). Ou passez directement à une image générée.",
+    "genreLabel": "Choisir le genre pour l'idée d'illustration",
+    "generate": "Générer une idée d'illustration {emoji}",
+    "generating": "Génération…",
+    "turnIntoImage": "Transformer en image"
+  },
+  "Notebook": {
+    "title": "Votre carnet d'histoires",
+    "intro": "Notez des idées de personnages, des rebondissements ou une réplique avant qu'ils ne vous échappent.",
+    "syncedNote": "Il est synchronisé avec votre compte, il vous suivra donc sur tous les appareils où vous vous connectez.",
+    "localNote": "Il est enregistré dans ce navigateur, il sera donc là à votre prochaine visite. Connectez-vous pour le synchroniser entre appareils.",
+    "exportNote": "Exportez-le en PDF ou Word quand vous voulez l'emporter ailleurs.",
+    "placeholder": "Il était une fois... (la faiblesse secrète de votre héros, un rebondissement redoutable, cette réplique parfaite — écrivez-la ici avant de l'oublier !)",
+    "wordCount": "{count, plural, one {# mot} other {# mots}}",
+    "synced": "Synchronisé avec votre compte ✓",
+    "saved": "Enregistré ✓",
+    "saving": "Enregistrement…",
+    "readAloud": "Lire à voix haute",
+    "clear": "Effacer le carnet",
+    "clearConfirm": "Tout effacer dans votre carnet ? C'est irréversible."
+  },
+  "NotebookExport": {
+    "pdf": "PDF",
+    "word": "Word",
+    "pdfTitle": "Enregistrer votre carnet en PDF",
+    "docxTitle": "Télécharger votre carnet en document Word",
+    "exporting": "Exportation…",
+    "retry": "Réessayer"
+  },
+  "ReadAloud": {
+    "readAloud": "Lire à voix haute",
+    "stop": "Arrêter"
+  },
+  "Community": {
+    "title": "Communauté Storyburst",
+    "intro": "Partagez une réplique, une idée ou quelque chose dont vous êtes fier — et voyez ce sur quoi d'autres auteurs et artistes travaillent en ce moment.",
+    "postingAs": "Publié en tant que {name}",
+    "bookTypeLabel": "Type de livre pour votre publication",
+    "titleField": "Titre",
+    "optional": "(facultatif)",
+    "titlePlaceholder": "Donnez-lui un titre, ou laissez vide",
+    "contentField": "Sur quoi travaillez-vous ?",
+    "contentPlaceholder": "Partagez une réplique, un rebondissement ou une idée dont vous êtes fier...",
+    "sharing": "Partage…",
+    "share": "Partager avec la communauté",
+    "loginPrompt": "<login>Connectez-vous</login> ou <signup>inscrivez-vous</signup> pour partager avec la communauté.",
+    "loading": "Chargement des publications de la communauté…",
+    "loadError": "Impossible de charger le mur de la communauté pour le moment.",
+    "tryAgain": "Réessayer",
+    "empty": "Aucune publication pour l'instant — soyez le premier à partager ! ✨",
+    "unavailable": "Le mur de la communauté n'est pas disponible pour le moment.",
+    "couldNotPost": "Publication impossible."
+  },
+  "Contact": {
+    "title": "Dites bonjour",
+    "intro": "Des questions, des retours, ou envie de partager ce sur quoi vous travaillez ? Envoyez un message — il s'ouvrira dans votre appli de messagerie, prêt à partir.",
+    "name": "Nom",
+    "namePlaceholder": "Votre nom",
+    "email": "E-mail",
+    "message": "Message",
+    "messagePlaceholder": "Qu'avez-vous en tête ?",
+    "send": "Envoyer le message",
+    "sent": "Ouverture de votre appli de messagerie — merci de nous avoir écrit !",
+    "disclaimer": "Ceci ouvre votre appli de messagerie par défaut avec le message pré-rempli — rien n'est envoyé automatiquement.",
+    "emailSubject": "Message de {name} via Storyburst"
+  },
+  "CookieConsent": {
+    "title": "Avis sur les cookies",
+    "body": "Nous utilisons quelques cookies essentiels pour vous garder connecté — ceux-ci ne sont pas concernés par ce choix. Accepter active aussi une analyse d'audience sans cookie, respectueuse de la vie privée, et un suivi des performances, pour voir comment le site est utilisé et à quelle vitesse il tourne. Lisez notre <privacy>politique de confidentialité</privacy>.",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
+  "PanelPlanner": {
+    "panelWord": "Case",
+    "noDialogue": "sans dialogue",
+    "silent": "muette",
+    "bleed": "à fond perdu",
+    "inputLabel": "Descriptions des cases",
+    "help": "Une case par ligne, ou séparez-les par « then », des virgules ou des points. Utilisez les mots anglais « wide », « tall / skinny », « big / splash » ou « beat / silent » pour donner leur forme aux cases.",
+    "pageCount": "{count, plural, one {Page · # case} other {Page · # cases}}",
+    "breakdown": "Découpage des cases",
+    "emptyHint": "Écrivez quelques cases ci-dessus pour voir la page prendre forme.",
+    "size": {
+      "splash": "Pleine page",
+      "wide": "Large",
+      "big": "Grande",
+      "tall": "Haute",
+      "medium": "Moyenne",
+      "beat": "Temps mort"
+    },
+    "comic": {
+      "title": "Planificateur de cases BD",
+      "lead": "Décrivez votre page avec des mots simples : « case large pour le coffre-fort, case haute et étroite pour la chute, puis une case de respiration avant le coup ». Récupérez une ébauche de page, case par case.",
+      "reading": "Une grille régulière — bandes égales, gouttières droites, de gauche à droite, de haut en bas.",
+      "scriptNote": "se lit de gauche à droite"
+    },
+    "manga": {
+      "title": "Planificateur de cases manga",
+      "lead": "Les pages de manga cassent la grille — coupes inclinées, gouttières serrées entre les colonnes, et les temps forts qui débordent du cadre. Décrivez votre page et récupérez cette mise en page, lue de droite à gauche.",
+      "reading": "De droite à gauche, de haut en bas. Coupes diagonales entre les cases ; les pleines pages et les grands temps forts débordent du cadre.",
+      "scriptNote": "se lit de droite à gauche"
+    }
   }
 }
