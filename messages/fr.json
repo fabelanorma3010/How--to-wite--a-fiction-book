@@ -690,5 +690,38 @@
     "editProfile": "Modifier votre profil",
     "favorite": "Favori",
     "books": "Livres"
+  },
+  "PrivacyPage": {
+    "metaTitle": "Politique de confidentialité — Storyburst",
+    "metaDescription": "Ce que Storyburst collecte et comment c'est utilisé.",
+    "heading": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 5 septembre 2026",
+    "langNotice": "Cette politique est rédigée en anglais. Cette traduction est fournie à titre de commodité ; en cas de conflit, la version anglaise prévaut.",
+    "collectTitle": "Ce que nous collectons",
+    "profilesTitle": "Profils publics et livres importés",
+    "notebookTitle": "Votre carnet",
+    "cookiesTitle": "Cookies et statistiques",
+    "aiTitle": "Services d'IA tiers",
+    "dataUseTitle": "Comment vos données sont utilisées",
+    "deleteTitle": "Supprimer vos données",
+    "childrenTitle": "Vie privée des enfants",
+    "changesTitle": "Modifications de cette politique",
+    "contactTitle": "Contact"
+  },
+  "TermsPage": {
+    "metaTitle": "Conditions d'utilisation — Storyburst",
+    "metaDescription": "Les conditions d'utilisation de Storyburst.",
+    "heading": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : 24 août 2026",
+    "langNotice": "Ces conditions sont rédigées en anglais. Cette traduction est fournie à titre de commodité ; en cas de conflit, la version anglaise prévaut.",
+    "s1Title": "1. Acceptation de ces conditions",
+    "s2Title": "2. Comptes",
+    "s3Title": "3. Utilisation acceptable",
+    "s4Title": "4. Votre contenu et les outils assistés par IA",
+    "s5Title": "5. Absence de garantie",
+    "s6Title": "6. Limitation de responsabilité",
+    "s7Title": "7. Fermeture de votre compte",
+    "s8Title": "8. Modifications de ces conditions",
+    "s9Title": "9. Contact"
   }
 }

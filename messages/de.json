@@ -690,5 +690,38 @@
     "editProfile": "Dein Profil bearbeiten",
     "favorite": "Favorit",
     "books": "Bücher"
+  },
+  "PrivacyPage": {
+    "metaTitle": "Datenschutzerklärung — Storyburst",
+    "metaDescription": "Was Storyburst erhebt und wie es verwendet wird.",
+    "heading": "Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert am 5. September 2026",
+    "langNotice": "Diese Erklärung ist auf Englisch verfasst. Diese Übersetzung dient nur der Bequemlichkeit; im Konfliktfall gilt die englische Fassung.",
+    "collectTitle": "Was wir erheben",
+    "profilesTitle": "Öffentliche Profile & hochgeladene Bücher",
+    "notebookTitle": "Dein Notizbuch",
+    "cookiesTitle": "Cookies & Analyse",
+    "aiTitle": "KI-Dienste von Drittanbietern",
+    "dataUseTitle": "Wie deine Daten verwendet werden",
+    "deleteTitle": "Deine Daten löschen",
+    "childrenTitle": "Datenschutz für Kinder",
+    "changesTitle": "Änderungen an dieser Erklärung",
+    "contactTitle": "Kontakt"
+  },
+  "TermsPage": {
+    "metaTitle": "Nutzungsbedingungen — Storyburst",
+    "metaDescription": "Die Bedingungen für die Nutzung von Storyburst.",
+    "heading": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert am 24. August 2026",
+    "langNotice": "Diese Bedingungen sind auf Englisch verfasst. Diese Übersetzung dient nur der Bequemlichkeit; im Konfliktfall gilt die englische Fassung.",
+    "s1Title": "1. Annahme dieser Bedingungen",
+    "s2Title": "2. Konten",
+    "s3Title": "3. Zulässige Nutzung",
+    "s4Title": "4. Deine Inhalte & KI-gestützte Werkzeuge",
+    "s5Title": "5. Keine Gewährleistung",
+    "s6Title": "6. Haftungsbeschränkung",
+    "s7Title": "7. Beendigung deines Kontos",
+    "s8Title": "8. Änderungen dieser Bedingungen",
+    "s9Title": "9. Kontakt"
   }
 }

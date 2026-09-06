@@ -690,5 +690,38 @@
     "editProfile": "プロフィールを編集",
     "favorite": "お気に入り",
     "books": "作品"
+  },
+  "PrivacyPage": {
+    "metaTitle": "プライバシーポリシー — Storyburst",
+    "metaDescription": "Storyburst が収集する情報と、その使い方。",
+    "heading": "プライバシーポリシー",
+    "lastUpdated": "最終更新：2026年9月5日",
+    "langNotice": "このポリシーは英語で作成されています。この翻訳は便宜的なもので、内容に相違がある場合は英語版が優先します。",
+    "collectTitle": "収集する情報",
+    "profilesTitle": "公開プロフィールとアップロードした作品",
+    "notebookTitle": "あなたのノート",
+    "cookiesTitle": "Cookie とアクセス解析",
+    "aiTitle": "第三者の AI サービス",
+    "dataUseTitle": "データの利用方法",
+    "deleteTitle": "データの削除",
+    "childrenTitle": "子どものプライバシー",
+    "changesTitle": "本ポリシーの変更",
+    "contactTitle": "お問い合わせ"
+  },
+  "TermsPage": {
+    "metaTitle": "利用規約 — Storyburst",
+    "metaDescription": "Storyburst を利用するための規約。",
+    "heading": "利用規約",
+    "lastUpdated": "最終更新：2026年8月24日",
+    "langNotice": "この規約は英語で作成されています。この翻訳は便宜的なもので、内容に相違がある場合は英語版が優先します。",
+    "s1Title": "1. 本規約への同意",
+    "s2Title": "2. アカウント",
+    "s3Title": "3. 許容される利用",
+    "s4Title": "4. あなたのコンテンツと AI 支援ツール",
+    "s5Title": "5. 保証の否認",
+    "s6Title": "6. 責任の制限",
+    "s7Title": "7. アカウントの終了",
+    "s8Title": "8. 本規約の変更",
+    "s9Title": "9. お問い合わせ"
   }
 }
