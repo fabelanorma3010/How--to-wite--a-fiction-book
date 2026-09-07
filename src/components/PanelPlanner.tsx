@@ -294,13 +294,21 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
 
   return (
     <section id={cfg.id} className="px-4 py-16 sm:px-6">
-      <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
+      <div
+        className="relative mx-auto max-w-3xl rounded-3xl border-2 p-6 shadow-sm sm:p-10"
+        style={{ background: theme.pageBg, borderColor: `${theme.ink}1a` }}
+      >
         <Sticker emoji={cfg.sticker} className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
+          <h2
+            className="text-3xl font-extrabold sm:text-4xl"
+            style={{ color: theme.ink, fontFamily: theme.displayFont }}
+          >
             {tm('title')} {cfg.emoji}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">{tm('lead')}</p>
+          <p className="mx-auto mt-3 max-w-xl" style={{ color: theme.soft, fontFamily: theme.bodyFont }}>
+            {tm('lead')}
+          </p>
         </div>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
