@@ -541,13 +541,13 @@
     "forever": "per sempre",
     "noStrings": "Nessun vincolo",
     "freeCta": "Inizia a scrivere",
-    "launchingSoon": "In arrivo",
+    "memberBadge": "Ora disponibile",
     "memberTitle": "Abbonamento",
     "memberSubtitle": "Per quando fai sul serio sul finire il tuo libro.",
     "firstWeekFree": "Prima settimana gratis",
-    "comingSoon": "In arrivo",
+    "joinMembership": "Attiva l'Abbonamento",
     "signUpFirst": "Iscriviti prima",
-    "freeWhileBuilding": "Tutto quanto sopra è gratis da usare mentre si costruisce la fatturazione.",
+    "checkoutNote": "Reindirizza al pagamento sicuro tramite Whop",
     "freeFeatures": [
       "Il quiz completo per il formato + consigli di genere per ogni tipo di libro",
       "La guida alla pubblicazione in 10 passi e la checklist della settimana di lancio",
@@ -575,15 +575,15 @@
       },
       {
         "question": "Posso già sottoscrivere l'Abbonamento?",
-        "answer": "Non ancora — la fatturazione è ancora in costruzione. Quando parte potrai fare l'upgrade dalla tua pagina account, e la prima settimana è gratis. Nel frattempo, tutto ciò che è elencato sotto Abbonamento è gratis da usare."
+        "answer": "Sì — vai alla tua pagina account e tocca Attiva l'Abbonamento. Il pagamento passa da Whop, e la prima settimana è gratis."
       },
       {
         "question": "Come funziona la prima settimana gratis?",
-        "answer": "Al lancio dell'Abbonamento avrai la prima settimana gratis — accesso completo, nessun addebito. La fatturazione parte dopo — 9,99 $ al mese o 99,99 $ all'anno, in base al piano — e puoi disdire in qualsiasi momento prima."
+        "answer": "La tua prima settimana è gratis — accesso completo, nessun addebito. La fatturazione parte dopo — 9,99 $ al mese o 99,99 $ all'anno, in base al piano — e puoi disdire in qualsiasi momento prima."
       },
       {
         "question": "Mensile o annuale?",
-        "answer": "Entrambi, una volta che l'Abbonamento è attivo. L'annuale (99,99 $/anno) risulta circa il 17% più economico rispetto a pagare 9,99 $ al mese, e potrai passare dall'uno all'altro quando vuoi."
+        "answer": "Entrambi — scegli al momento del pagamento. L'annuale (99,99 $/anno) risulta circa il 17% più economico rispetto a pagare 9,99 $ al mese."
       },
       {
         "question": "Devo creare un account?",

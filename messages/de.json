@@ -541,13 +541,13 @@
     "forever": "für immer",
     "noStrings": "Ohne Haken",
     "freeCta": "Losschreiben",
-    "launchingSoon": "Bald verfügbar",
+    "memberBadge": "Jetzt verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
     "firstWeekFree": "Erste Woche gratis",
-    "comingSoon": "Bald",
+    "joinMembership": "Mitgliedschaft abschließen",
     "signUpFirst": "Zuerst registrieren",
-    "freeWhileBuilding": "Alles oben ist kostenlos nutzbar, während die Abrechnung gebaut wird.",
+    "checkoutNote": "Leitet zur sicheren Kasse bei Whop weiter",
     "freeFeatures": [
       "Das vollständige Format-Quiz + Genre-Tipps für jeden Buchtyp",
       "Der 10-Schritte-Veröffentlichungsleitfaden und die Launch-Wochen-Checkliste",
@@ -575,15 +575,15 @@
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",
-        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und die erste Woche ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
+        "answer": "Ja — geh zu deiner Kontoseite und klicke auf „Mitgliedschaft abschließen“. Die Kasse läuft über Whop, und deine erste Woche ist gratis."
       },
       {
         "question": "Wie funktioniert die kostenlose erste Woche?",
-        "answer": "Wenn die Mitgliedschaft startet, bekommst du deine erste Woche gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
+        "answer": "Deine erste Woche ist gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
       },
       {
         "question": "Monatlich oder jährlich?",
-        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99,99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
+        "answer": "Beides — du wählst an der Kasse. Jährlich (99,99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich."
       },
       {
         "question": "Muss ich ein Konto anlegen?",

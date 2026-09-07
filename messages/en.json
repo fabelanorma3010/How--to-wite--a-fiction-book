@@ -541,13 +541,13 @@
     "forever": "forever",
     "noStrings": "No strings",
     "freeCta": "Start writing",
-    "launchingSoon": "Launching soon",
+    "memberBadge": "Now available",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
     "firstWeekFree": "First week free",
-    "comingSoon": "Coming soon",
+    "joinMembership": "Join Membership",
     "signUpFirst": "Sign up first",
-    "freeWhileBuilding": "Everything above is free to use while billing gets built.",
+    "checkoutNote": "Redirects to secure checkout via Whop",
     "freeFeatures": [
       "The full format-matching quiz + genre tips for every book type",
       "The 10-step publishing guide and launch-week checklist",
@@ -575,15 +575,15 @@
       },
       {
         "question": "Can I sign up for Membership yet?",
-        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first week is free. Everything listed under Membership is free to use in the meantime."
+        "answer": "Yes — head to your account page and hit Join Membership. Checkout runs through Whop, and your first week is free."
       },
       {
         "question": "How does the free first week work?",
-        "answer": "When Membership launches, you'll get your first week free — full access, no charge. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
+        "answer": "You get your first week free — full access, no charge. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
       },
       {
         "question": "Monthly or annual?",
-        "answer": "Both, once Membership is live. Annual ($99.99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
+        "answer": "Both — pick whichever at checkout. Annual ($99.99/year) works out to about 17% cheaper than paying $9.99 monthly."
       },
       {
         "question": "Do I need to make an account?",

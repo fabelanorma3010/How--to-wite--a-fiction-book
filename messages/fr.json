@@ -541,13 +541,13 @@
     "forever": "pour toujours",
     "noStrings": "Sans contrepartie",
     "freeCta": "Commencer à écrire",
-    "launchingSoon": "Bientôt disponible",
+    "memberBadge": "Disponible maintenant",
     "memberTitle": "Abonnement",
     "memberSubtitle": "Pour quand vous êtes sérieux quant à finir votre livre.",
     "firstWeekFree": "Première semaine gratuite",
-    "comingSoon": "Bientôt",
+    "joinMembership": "Rejoindre l'abonnement",
     "signUpFirst": "Inscrivez-vous d'abord",
-    "freeWhileBuilding": "Tout ce qui précède est gratuit pendant que la facturation se construit.",
+    "checkoutNote": "Redirige vers le paiement sécurisé via Whop",
     "freeFeatures": [
       "Le quiz complet de choix de format + des conseils de genre pour chaque type de livre",
       "Le guide de publication en 10 étapes et la checklist de la semaine de lancement",
@@ -575,15 +575,15 @@
       },
       {
         "question": "Puis-je déjà souscrire à l'abonnement ?",
-        "answer": "Pas tout à fait — la facturation est encore en construction. Une fois lancée, vous pourrez passer à l'abonnement depuis votre page de compte, et la première semaine est gratuite. En attendant, tout ce qui figure sous Abonnement est gratuit à l'usage."
+        "answer": "Oui — rendez-vous sur votre page de compte et cliquez sur Rejoindre l'abonnement. Le paiement passe par Whop, et votre première semaine est gratuite."
       },
       {
         "question": "Comment fonctionne la première semaine gratuite ?",
-        "answer": "Au lancement de l'abonnement, votre première semaine sera gratuite — accès complet, sans frais. La facturation démarre après cela — 9,99 $ par mois ou 99,99 $ par an, selon votre forfait — et vous pouvez annuler à tout moment avant."
+        "answer": "Votre première semaine est gratuite — accès complet, sans frais. La facturation démarre après cela — 9,99 $ par mois ou 99,99 $ par an, selon votre forfait — et vous pouvez annuler à tout moment avant."
       },
       {
         "question": "Mensuel ou annuel ?",
-        "answer": "Les deux, une fois l'abonnement en ligne. L'annuel (99,99 $/an) revient environ 17 % moins cher que payer 9,99 $ par mois, et vous pourrez basculer entre les deux à tout moment."
+        "answer": "Les deux — vous choisissez au moment du paiement. L'annuel (99,99 $/an) revient environ 17 % moins cher que payer 9,99 $ par mois."
       },
       {
         "question": "Dois-je créer un compte ?",

@@ -541,13 +541,13 @@
     "forever": "para sempre",
     "noStrings": "Sem pegadinha",
     "freeCta": "Começar a escrever",
-    "launchingSoon": "Em breve",
+    "memberBadge": "Disponível agora",
     "memberTitle": "Assinatura",
     "memberSubtitle": "Para quando você está falando sério sobre terminar seu livro.",
     "firstWeekFree": "Primeira semana grátis",
-    "comingSoon": "Em breve",
+    "joinMembership": "Assinar Agora",
     "signUpFirst": "Cadastre-se primeiro",
-    "freeWhileBuilding": "Tudo acima é grátis para usar enquanto a cobrança é construída.",
+    "checkoutNote": "Redireciona para o checkout seguro pela Whop",
     "freeFeatures": [
       "O teste completo de formato + dicas de gênero para cada tipo de livro",
       "O guia de publicação de 10 passos e a checklist da semana de lançamento",
@@ -575,15 +575,15 @@
       },
       {
         "question": "Já posso assinar a Assinatura?",
-        "answer": "Ainda não — a cobrança ainda está sendo construída. Quando lançar, você poderá fazer o upgrade pela sua página de conta, e a primeira semana é grátis. Enquanto isso, tudo listado em Assinatura é grátis para usar."
+        "answer": "Sim — vá até sua página de conta e toque em Assinar Agora. O checkout é feito pela Whop, e sua primeira semana é grátis."
       },
       {
         "question": "Como funciona a primeira semana grátis?",
-        "answer": "Quando a Assinatura lançar, você terá a primeira semana grátis — acesso completo, sem cobrança. A cobrança começa depois disso — US$ 9,99 por mês ou US$ 99,99 por ano, dependendo do seu plano — e você pode cancelar a qualquer momento antes."
+        "answer": "Sua primeira semana é grátis — acesso completo, sem cobrança. A cobrança começa depois disso — US$ 9,99 por mês ou US$ 99,99 por ano, dependendo do seu plano — e você pode cancelar a qualquer momento antes."
       },
       {
         "question": "Mensal ou anual?",
-        "answer": "Ambos, quando a Assinatura estiver no ar. O anual (US$ 99,99/ano) sai cerca de 17% mais barato que pagar US$ 9,99 por mês, e você poderá alternar entre eles quando quiser."
+        "answer": "Ambos — você escolhe no checkout. O anual (US$ 99,99/ano) sai cerca de 17% mais barato que pagar US$ 9,99 por mês."
       },
       {
         "question": "Preciso criar uma conta?",

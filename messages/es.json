@@ -541,13 +541,13 @@
     "forever": "para siempre",
     "noStrings": "Sin condiciones",
     "freeCta": "Empezar a escribir",
-    "launchingSoon": "Próximamente",
+    "memberBadge": "Ya disponible",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
     "firstWeekFree": "Primera semana gratis",
-    "comingSoon": "Próximamente",
+    "joinMembership": "Unirme a la Membresía",
     "signUpFirst": "Regístrate primero",
-    "freeWhileBuilding": "Todo lo de arriba es gratis mientras se construye la facturación.",
+    "checkoutNote": "Te redirige al pago seguro con Whop",
     "freeFeatures": [
       "El test completo de formato + consejos de género para cada tipo de libro",
       "La guía de publicación de 10 pasos y la checklist de la semana de lanzamiento",
@@ -575,15 +575,15 @@
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",
-        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y la primera semana es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
+        "answer": "Sí — ve a tu página de cuenta y pulsa Unirme a la Membresía. El pago se procesa con Whop, y tu primera semana es gratis."
       },
       {
         "question": "¿Cómo funciona la primera semana gratis?",
-        "answer": "Cuando se lance la Membresía, tendrás tu primera semana gratis: acceso completo, sin cargo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
+        "answer": "Tu primera semana es gratis: acceso completo, sin cargo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
       },
       {
         "question": "¿Mensual o anual?",
-        "answer": "Ambas, cuando la Membresía esté activa. La anual (99,99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
+        "answer": "Ambas — eliges al pagar. La anual (99,99 $/año) sale un 17% más barata que pagar 9,99 $ al mes."
       },
       {
         "question": "¿Necesito crear una cuenta?",
