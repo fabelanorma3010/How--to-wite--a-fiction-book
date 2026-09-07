@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { PRICES } from '../data/pricing'
+import { PRICES, STARTER_PRICE } from '../data/pricing'
 import { createClient } from '../lib/supabase/client'
 
 type Cadence = keyof typeof PRICES
@@ -63,10 +63,9 @@ export default function PricingTiers() {
           <h2 className="text-xl font-extrabold text-ink">{t('freeTitle')}</h2>
           <p className="mt-1 text-sm text-ink/60">{t('freeSubtitle')}</p>
           <p className="mt-4">
-            <span className="text-4xl font-extrabold text-ink">$0</span>
-            <span className="ml-1 text-sm font-semibold text-ink/50">{t('forever')}</span>
+            <span className="text-4xl font-extrabold text-ink">{STARTER_PRICE.amount}</span>
           </p>
-          <p className="mt-1 text-xs font-semibold text-ink/45">{t('noStrings')}</p>
+          <p className="mt-1 text-xs font-semibold text-ink/45">{t('checkoutNote')}</p>
           <ul className="mt-6 flex-1 space-y-3">
             {freeFeatures.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm text-ink/80">
@@ -78,7 +77,9 @@ export default function PricingTiers() {
             ))}
           </ul>
           <a
-            href="/#quiz"
+            href={STARTER_PRICE.checkoutUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-8 rounded-full border-2 border-ink/15 bg-white px-6 py-3 text-center font-bold text-ink shadow-sm transition-transform hover:scale-105 hover:bg-page active:scale-95"
           >
             {t('freeCta')}
