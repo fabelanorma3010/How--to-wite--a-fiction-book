@@ -64,10 +64,7 @@
     "intro": "¿Necesitas una chispa para tu próxima viñeta o página? Genera una descripción completa de ilustración —sujeto, acción, escenario, detalle y paleta de color— para tu artista (o para ti). O ve directo a una imagen generada.",
     "genreLabel": "Elige el género para la idea de ilustración",
     "generate": "Generar idea de ilustración {emoji}",
-    "generateImage": "Generar imagen",
-    "generatingImage": "Generando…",
-    "signInToGenerate": "Inicia sesión para generar una imagen",
-    "imageGenericError": "No se pudo generar esa imagen. Inténtalo de nuevo en un momento."
+    "comingSoon": "Próximamente"
   },
   "Notebook": {
     "title": "Tu cuaderno de historias",
@@ -556,13 +553,13 @@
       "La guía de publicación de 10 pasos y la checklist de la semana de lanzamiento",
       "Cuaderno de historias con autoguardado",
       "Generadores de texto de acción e ideas de ilustración",
-      "Convierte cualquier idea de ilustración en una imagen real generada por IA",
       "Asistente de Ficción con IA y Herramientas de Escritura (resumir, criticar, estructurar) para textos más cortos",
       "Un perfil público de creador con hasta 3 libros subidos"
     ],
     "memberFeatures": [
       "Todo lo de Gratis, con límites de IA mucho más altos",
       "Las Herramientas de Escritura funcionan con capítulos y trabajos completos, no solo fragmentos cortos",
+      "Generación de imágenes con IA — próximamente",
       "Exporta tu cuaderno o guion a PDF y DOCX con formato",
       "Historial del cuaderno: vuelve a un borrador anterior",
       "Subidas de libros ilimitadas, archivos más grandes",

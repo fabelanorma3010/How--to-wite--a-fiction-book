@@ -64,10 +64,7 @@
     "intro": "Need a spark for your next panel or page? Generate a full illustration prompt — subject, action, setting, detail, and color palette — for your artist (or yourself). Or skip straight to a generated image.",
     "genreLabel": "Choose genre for illustration idea",
     "generate": "Generate {emoji} Illustration Idea",
-    "generateImage": "Generate image",
-    "generatingImage": "Generating…",
-    "signInToGenerate": "Log in to generate an image",
-    "imageGenericError": "Could not generate that image. Try again in a moment."
+    "comingSoon": "Coming soon"
   },
   "Notebook": {
     "title": "Your Story Notebook",
@@ -556,13 +553,13 @@
       "The 10-step publishing guide and launch-week checklist",
       "Auto-saving story notebook",
       "Action-text and illustration idea generators",
-      "Turn any illustration idea into a real AI-generated image",
       "AI Fiction Helper and Writing Tools (summarize, critique, structure) for shorter pieces",
       "A public creator profile with up to 3 book uploads"
     ],
     "memberFeatures": [
       "Everything in Free, with much higher AI limits",
       "Writing Tools work on full chapters and papers, not just short excerpts",
+      "AI image generation — coming soon",
       "Export your notebook or script to formatted PDF and DOCX",
       "Notebook history — roll back to an earlier draft",
       "Unlimited book uploads, larger files",
