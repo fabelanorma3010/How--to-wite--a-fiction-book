@@ -10,7 +10,7 @@
     "publish": "Veröffentlichen",
     "community": "Community",
     "tools": "Werkzeuge",
-    "creators": "Kreative",
+    "creators": "Illustratoren",
     "about": "Über uns",
     "pricing": "Preise",
     "contact": "Kontakt",
@@ -31,7 +31,7 @@
     "quiz": "Quiz",
     "bookTypes": "Buchtypen",
     "tools": "Werkzeuge",
-    "creators": "Kreative",
+    "creators": "Illustratoren",
     "about": "Über uns",
     "pricing": "Preise",
     "contact": "Kontakt",
@@ -566,10 +566,10 @@
     "intro": "Zusammenfassen, kritisieren und dein Schreiben aufräumen — Text einfügen oder Datei hochladen, in Sekunden ein Ergebnis zurückbekommen."
   },
   "CreatorsPage": {
-    "metaTitle": "Kreative — Storyburst",
+    "metaTitle": "Illustratoren — Storyburst",
     "metaDescription": "Lerne die Autorinnen und Künstler kennen, die auf Storyburst ihre Comics, Manga, Cartoons und Kinderbücher bauen.",
     "badge": "✨ Lerne die Kreativen kennen",
-    "heading": "Kreative",
+    "heading": "Illustratoren",
     "intro": "Autorinnen und Künstler, die ihre Arbeit auf Storyburst teilen. Schalte dein eigenes öffentliches Profil in deiner <account>Kontoseite</account> ein.",
     "empty": "Noch keine öffentlichen Profile — sei die/der Erste. Füg in deinem Konto eine Bio oder einen Avatar hinzu und stell dein Profil auf öffentlich."
   },
@@ -791,6 +791,8 @@
     "books": "Bücher",
     "follow": "Folgen",
     "following": "Gefolgt",
+    "followUnavailable": "Folgen ist gerade nicht verfügbar.",
+    "followGenericError": "Das konnte nicht aktualisiert werden — versuch es gleich noch einmal.",
     "followerCount": "{count, plural, one {# Follower} other {# Follower}}",
     "followingCount": "{count} Gefolgt"
   },

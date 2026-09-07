@@ -10,7 +10,7 @@
     "publish": "出版",
     "community": "コミュニティ",
     "tools": "ツール",
-    "creators": "クリエイター",
+    "creators": "イラストレーター",
     "about": "概要",
     "pricing": "料金",
     "contact": "お問い合わせ",
@@ -31,7 +31,7 @@
     "quiz": "診断",
     "bookTypes": "本のタイプ",
     "tools": "ツール",
-    "creators": "クリエイター",
+    "creators": "イラストレーター",
     "about": "概要",
     "pricing": "料金",
     "contact": "お問い合わせ",
@@ -566,10 +566,10 @@
     "intro": "要約、講評、整理——テキストを貼り付けるかファイルをアップロードすると、数秒で結果が返ります。"
   },
   "CreatorsPage": {
-    "metaTitle": "クリエイター — Storyburst",
+    "metaTitle": "イラストレーター — Storyburst",
     "metaDescription": "Storyburst でコミック、マンガ、カートゥーン、絵本を作っている作家やアーティストに出会おう。",
     "badge": "✨ 作り手に会う",
-    "heading": "クリエイター",
+    "heading": "イラストレーター",
     "intro": "Storyburst で作品を共有している作家やアーティスト。<account>アカウントページ</account>から自分の公開プロフィールをオンにできます。",
     "empty": "まだ公開プロフィールがありません——最初の一人になりましょう。アカウントに自己紹介やアバターを追加し、プロフィールを公開に切り替えてください。"
   },
@@ -791,6 +791,8 @@
     "books": "作品",
     "follow": "フォロー",
     "following": "フォロー中",
+    "followUnavailable": "現在フォロー機能はご利用いただけません。",
+    "followGenericError": "更新できませんでした——少し経ってからもう一度お試しください。",
     "followerCount": "フォロワー {count} 人",
     "followingCount": "フォロー中 {count} 人"
   },
