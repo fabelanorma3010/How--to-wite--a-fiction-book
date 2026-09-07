@@ -225,6 +225,7 @@
     "editingPanel": "Editing panel {n}",
     "closeEditor": "Done",
     "panelTextLabel": "Panel text",
+    "panelTextHint": "Type your own — it replaces the example idea shown in the box.",
     "panelImageLabel": "Panel art",
     "uploadImage": "Upload image",
     "speakButton": "Speak",

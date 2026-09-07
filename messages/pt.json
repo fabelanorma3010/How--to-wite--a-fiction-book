@@ -225,6 +225,7 @@
     "editingPanel": "Editando quadro {n}",
     "closeEditor": "Concluído",
     "panelTextLabel": "Texto do quadro",
+    "panelTextHint": "Digite o seu — ele substitui a ideia de exemplo mostrada na caixa.",
     "panelImageLabel": "Arte do quadro",
     "uploadImage": "Enviar imagem",
     "speakButton": "Falar",

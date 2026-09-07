@@ -86,6 +86,24 @@ describe('PanelPlanner', () => {
     )
   })
 
+  it('does not commit the generated example as real text just from opening and closing the editor', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelPlanner mode="comic" />)
+
+    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
+    const box = screen.getByLabelText<HTMLTextAreaElement>(/panel text/i)
+    expect(box.value).toBe('')
+    expect(box.placeholder.length).toBeGreaterThan(0)
+
+    await user.tab() // blur without typing anything
+    await user.click(screen.getByRole('button', { name: /done/i })) // close the editor
+
+    // Reopening should show an empty draft again, not the example re-committed as if typed.
+    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
+    expect(screen.getByLabelText<HTMLTextAreaElement>(/panel text/i).value).toBe('')
+  })
+
   it('lets a signed-out visitor generate images, but prompts them to log in to upload', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()

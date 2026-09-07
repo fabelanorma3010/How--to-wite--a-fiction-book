@@ -138,9 +138,12 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
     setPublishedBookId(null)
   }
 
-  function selectPanel(n: number, currentText: string) {
+  function selectPanel(n: number) {
     setSelectedPanel((prev) => (prev === n ? null : n))
-    setPanelTextDraft(overrides[n]?.text ?? currentText)
+    // Starts empty, not pre-filled with the generated idea — that idea shows
+    // as the textarea's placeholder instead, so writing your own replaces it
+    // rather than requiring you to select-all and delete it first.
+    setPanelTextDraft(overrides[n]?.text ?? '')
     setImageError('')
   }
 
@@ -149,7 +152,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
   }
 
   function commitPanelText() {
-    if (selectedPanel !== null) updateOverride(selectedPanel, { text: panelTextDraft })
+    // Leaving it blank keeps showing the generated idea (the panel's own
+    // display already falls back to it) rather than saving an empty override.
+    if (selectedPanel !== null && panelTextDraft.trim()) {
+      updateOverride(selectedPanel, { text: panelTextDraft })
+    }
   }
 
   function toggleStickerOnSelected(emoji: string) {
@@ -332,11 +339,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                         key={p.n}
                         role="button"
                         tabIndex={0}
-                        onClick={() => selectPanel(p.n, p.text)}
+                        onClick={() => selectPanel(p.n)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault()
-                            selectPanel(p.n, p.text)
+                            selectPanel(p.n)
                           }
                         }}
                         aria-label={t('editPanelAction', { n: p.n })}
@@ -374,7 +381,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                               {p.n} &middot; {sizeName(p.size)}
                               {bleed ? ` · ${t('bleed')}` : p.silent ? ` · ${t('silent')}` : ''}
                             </span>
-                            <span className="mt-0.5 line-clamp-3 text-[11px] font-semibold leading-snug text-ink/80">
+                            <span
+                              className={`mt-0.5 line-clamp-3 text-[11px] font-semibold leading-snug ${
+                                override?.text ? 'text-ink/80' : 'italic text-ink/40'
+                              }`}
+                            >
                               {override?.text ?? p.text}
                             </span>
                             <span className="mt-auto text-[10px] font-bold text-ink/30">{t('addImageHint')}</span>
@@ -413,12 +424,14 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                 <label htmlFor={`${cfg.id}-panel-text`} className="mb-1 block text-xs font-bold text-ink/60">
                   {t('panelTextLabel')}
                 </label>
+                <p className="mb-1.5 text-[11px] font-semibold text-ink/45">{t('panelTextHint')}</p>
                 <textarea
                   id={`${cfg.id}-panel-text`}
                   value={panelTextDraft}
                   onChange={(e) => setPanelTextDraft(e.target.value)}
                   onBlur={commitPanelText}
                   rows={2}
+                  placeholder={flatPanels.find((p) => p.n === selectedPanel)?.text ?? ''}
                   className="w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm text-ink focus:border-primary/50"
                 />
 

@@ -225,6 +225,7 @@
     "editingPanel": "पैनल {n} बदल रहे हैं",
     "closeEditor": "हो गया",
     "panelTextLabel": "पैनल टेक्स्ट",
+    "panelTextHint": "अपना खुद लिखें — यह बॉक्स में दिखाए गए उदाहरण आइडिया की जगह ले लेगा।",
     "panelImageLabel": "पैनल आर्ट",
     "uploadImage": "इमेज अपलोड करें",
     "speakButton": "बोलें",
