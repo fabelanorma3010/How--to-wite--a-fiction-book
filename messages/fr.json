@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Case",
+    "coverLabel": "Couverture",
+    "coverImageLabel": "Illustration de la couverture",
     "noDialogue": "sans dialogue",
     "silent": "muette",
     "bleed": "à fond perdu",

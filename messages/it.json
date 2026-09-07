@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Vignetta",
+    "coverLabel": "Copertina",
+    "coverImageLabel": "Illustrazione di copertina",
     "noDialogue": "senza dialogo",
     "silent": "muta",
     "bleed": "al vivo",

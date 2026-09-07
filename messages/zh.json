@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "格",
+    "coverLabel": "封面",
+    "coverImageLabel": "封面图",
     "noDialogue": "无对白",
     "silent": "静默",
     "bleed": "出血",

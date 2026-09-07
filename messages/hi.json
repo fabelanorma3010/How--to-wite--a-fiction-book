@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "पैनल",
+    "coverLabel": "कवर",
+    "coverImageLabel": "कवर आर्ट",
     "noDialogue": "कोई संवाद नहीं",
     "silent": "मौन",
     "bleed": "ब्लीड",

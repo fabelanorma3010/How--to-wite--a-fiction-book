@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Viñeta",
+    "coverLabel": "Portada",
+    "coverImageLabel": "Arte de la portada",
     "noDialogue": "sin diálogo",
     "silent": "muda",
     "bleed": "a sangre",
