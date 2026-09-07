@@ -385,6 +385,7 @@ function ChapterPanel({
   const [adding, setAdding] = useState(false)
   const [chapterTitle, setChapterTitle] = useState('')
   const [pageUrls, setPageUrls] = useState<string[]>([])
+  const [pageCaptions, setPageCaptions] = useState<string[]>([])
   const [pageViewIndex, setPageViewIndex] = useState(0)
   const [pageTurnDir, setPageTurnDir] = useState<'next' | 'prev'>('next')
   const [pageImagePrompt, setPageImagePrompt] = useState('')
@@ -414,7 +415,7 @@ function ChapterPanel({
     }
     const { data } = await supabase
       .from('book_chapters')
-      .select('id, book_id, chapter_number, title, body, pages, published_at')
+      .select('id, book_id, chapter_number, title, body, pages, page_captions, published_at')
       .eq('book_id', bookId)
       .order('chapter_number', { ascending: true })
     setChapters(
@@ -425,6 +426,7 @@ function ChapterPanel({
         title: row.title,
         body: row.body,
         pages: row.pages ?? [],
+        pageCaptions: row.page_captions ?? [],
         publishedAt: row.published_at,
       })),
     )
@@ -535,6 +537,7 @@ function ChapterPanel({
       }
       const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
       setPageUrls((prev) => [...prev, url])
+      setPageCaptions((prev) => [...prev, ''])
       setPageTurnDir('next')
       setPageViewIndex(count - 1)
     }
@@ -555,6 +558,7 @@ function ChapterPanel({
         throw new Error(data?.error || 'Could not generate that page.')
       }
       setPageUrls((prev) => [...prev, data.image])
+      setPageCaptions((prev) => [...prev, ''])
       setPageTurnDir('next')
       setPageViewIndex(pageUrls.length)
       setPageImagePrompt('')
@@ -567,7 +571,16 @@ function ChapterPanel({
 
   function removePage(index: number) {
     setPageUrls((prev) => prev.filter((_, i) => i !== index))
+    setPageCaptions((prev) => prev.filter((_, i) => i !== index))
     setPageViewIndex((prev) => Math.min(prev, Math.max(pageUrls.length - 2, 0)))
+  }
+
+  function updatePageCaption(index: number, caption: string) {
+    setPageCaptions((prev) => {
+      const next = [...prev]
+      next[index] = caption
+      return next
+    })
   }
 
   async function handleAddChapter(e: React.FormEvent) {
@@ -610,9 +623,11 @@ function ChapterPanel({
           chapter_number: nextNumber,
           title: chapterTitle.trim() || null,
           pages: pageUrls,
+          page_captions: pageCaptions,
         })
         if (insertError) throw insertError
         setPageUrls([])
+        setPageCaptions([])
         setPageViewIndex(0)
       }
 
@@ -848,39 +863,106 @@ function ChapterPanel({
                   }}
                 >
                   {pageViewIndex < pageUrls.length ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={pageUrls[pageViewIndex]}
-                        alt={`Page ${pageViewIndex + 1}`}
-                        className="h-full w-full object-contain"
-                        style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
-                      />
-                      {theme.illustTexture !== 'flat' && (
+                    theme.captionStyle === 'big' ? (
+                      <div className="flex h-full w-full flex-col">
+                        <div className="relative flex-[3] overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={pageUrls[pageViewIndex]}
+                            alt={`Page ${pageViewIndex + 1}`}
+                            className="h-full w-full object-cover"
+                          />
+                          {theme.illustTexture !== 'flat' && (
+                            <div
+                              aria-hidden="true"
+                              className="pointer-events-none absolute inset-0"
+                              style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                            />
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => removePage(pageViewIndex)}
+                            aria-label={`Remove page ${pageViewIndex + 1}`}
+                            className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs font-bold text-white hover:bg-black/80"
+                          >
+                            ×
+                          </button>
+                        </div>
                         <div
-                          aria-hidden="true"
-                          className="pointer-events-none absolute inset-0"
-                          style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                          className="flex flex-1 items-center justify-center px-3 py-2"
+                          style={{ background: theme.accentSoft, borderTop: `2px solid ${theme.ink}22` }}
+                        >
+                          <input
+                            value={pageCaptions[pageViewIndex] ?? ''}
+                            onChange={(e) => updatePageCaption(pageViewIndex, e.target.value)}
+                            placeholder={`Write what happens on page ${pageViewIndex + 1}…`}
+                            className="w-full bg-transparent text-center text-base font-bold focus:outline-none"
+                            style={{ fontFamily: theme.displayFont, color: theme.ink }}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={pageUrls[pageViewIndex]}
+                          alt={`Page ${pageViewIndex + 1}`}
+                          className="h-full w-full object-contain"
+                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
                         />
-                      )}
-                      <span
-                        className="absolute bottom-0 left-0 w-full px-2 py-1 text-xs font-bold text-white"
-                        style={{
-                          fontFamily: theme.displayFont,
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
-                        }}
-                      >
-                        Page {pageViewIndex + 1}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => removePage(pageViewIndex)}
-                        aria-label={`Remove page ${pageViewIndex + 1}`}
-                        className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs font-bold text-white hover:bg-black/80"
-                      >
-                        ×
-                      </button>
-                    </>
+                        {theme.illustTexture !== 'flat' && (
+                          <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0"
+                            style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                          />
+                        )}
+                        <span
+                          className="absolute bottom-0 left-0 w-full px-2 py-1 text-xs font-bold text-white"
+                          style={{
+                            fontFamily: theme.displayFont,
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                          }}
+                        >
+                          Page {pageViewIndex + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removePage(pageViewIndex)}
+                          aria-label={`Remove page ${pageViewIndex + 1}`}
+                          className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs font-bold text-white hover:bg-black/80"
+                        >
+                          ×
+                        </button>
+                        <div
+                          className="absolute left-3 top-3 max-w-[80%]"
+                          style={{
+                            background: '#fff',
+                            border: `2px solid ${theme.ink}`,
+                            borderRadius: theme.captionStyle === 'manga' ? '3px' : '16px',
+                            padding: '6px 10px',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+                          }}
+                        >
+                          <input
+                            value={pageCaptions[pageViewIndex] ?? ''}
+                            onChange={(e) => updatePageCaption(pageViewIndex, e.target.value)}
+                            placeholder="Add a caption…"
+                            className="w-full min-w-[9ch] bg-transparent text-xs font-bold focus:outline-none"
+                            style={{ fontFamily: theme.bodyFont, color: '#141414' }}
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="absolute -bottom-[6px] left-4 h-3 w-3 rotate-45"
+                            style={{
+                              background: '#fff',
+                              borderRight: `2px solid ${theme.ink}`,
+                              borderBottom: `2px solid ${theme.ink}`,
+                            }}
+                          />
+                        </div>
+                      </>
+                    )
                   ) : (
                     <div className="flex h-full w-full flex-col items-center justify-center gap-2.5 p-4 text-center">
                       <span className="text-2xl" style={{ color: `${theme.ink}55` }}>
@@ -990,6 +1072,7 @@ function ChapterPanel({
                 setAdding(false)
                 setError(null)
                 setPageUrls([])
+                setPageCaptions([])
                 setPageViewIndex(0)
                 setPageImagePrompt('')
                 setPageImageError('')

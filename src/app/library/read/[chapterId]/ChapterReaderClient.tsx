@@ -42,6 +42,7 @@ export default function ChapterReaderClient({
   }
 
   const pages = isManga ? [...chapter.pages].reverse() : chapter.pages
+  const captions = isManga ? [...chapter.pageCaptions].reverse() : chapter.pageCaptions
   // One extra "slide" past the real pages for the Chapter Complete / To Be
   // Continued card, so "next" walks through the whole chapter in one motion.
   const totalSlides = pages.length + 1
@@ -193,19 +194,77 @@ export default function ChapterReaderClient({
                 }}
               >
                 <div className="relative w-full overflow-hidden" style={{ borderRadius: theme.pageRadius }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={pages[pageIndex]}
-                    alt={`Page ${pageIndex + 1}`}
-                    className="max-h-[80vh] w-full object-contain"
-                    style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
-                  />
-                  {theme.illustTexture !== 'flat' && (
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0"
-                      style={textureOverlayStyle(theme.illustTexture, theme.ink)}
-                    />
+                  {theme.captionStyle === 'big' && captions[pageIndex] ? (
+                    <div className="flex flex-col">
+                      <div className="relative w-full overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={pages[pageIndex]}
+                          alt={`Page ${pageIndex + 1}`}
+                          className="max-h-[60vh] w-full object-cover"
+                        />
+                        {theme.illustTexture !== 'flat' && (
+                          <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0"
+                            style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                          />
+                        )}
+                      </div>
+                      <div
+                        className="px-6 py-5 text-center text-[20px] font-bold"
+                        style={{
+                          background: theme.accentSoft,
+                          color: theme.ink,
+                          fontFamily: theme.displayFont,
+                          borderTop: `2px solid ${theme.ink}22`,
+                        }}
+                      >
+                        {captions[pageIndex]}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={pages[pageIndex]}
+                        alt={`Page ${pageIndex + 1}`}
+                        className="max-h-[80vh] w-full object-contain"
+                        style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                      />
+                      {theme.illustTexture !== 'flat' && (
+                        <div
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0"
+                          style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                        />
+                      )}
+                      {captions[pageIndex] && (
+                        <div
+                          className="absolute left-4 top-4 max-w-[75%]"
+                          style={{
+                            background: '#fff',
+                            border: `2px solid ${theme.ink}`,
+                            borderRadius: theme.captionStyle === 'manga' ? '3px' : '18px',
+                            padding: '10px 14px',
+                            boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
+                          }}
+                        >
+                          <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
+                            {captions[pageIndex]}
+                          </p>
+                          <span
+                            aria-hidden="true"
+                            className="absolute -bottom-[7px] left-5 h-3.5 w-3.5 rotate-45"
+                            style={{
+                              background: '#fff',
+                              borderRight: `2px solid ${theme.ink}`,
+                              borderBottom: `2px solid ${theme.ink}`,
+                            }}
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

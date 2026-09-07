@@ -29,6 +29,8 @@ export interface Chapter {
   /** Prose chapters (book_type 'chapterbook') use this; image chapters use `pages`. */
   body: string | null
   pages: string[]
+  /** Optional per-page caption, parallel to `pages` by index — '' means that page has no caption. */
+  pageCaptions: string[]
   publishedAt: string
 }
 
@@ -98,7 +100,7 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
 
   const { data } = await supabase
     .from('book_chapters')
-    .select('id, book_id, chapter_number, title, body, pages, published_at')
+    .select('id, book_id, chapter_number, title, body, pages, page_captions, published_at')
     .eq('book_id', bookId)
     .order('chapter_number', { ascending: true })
 
@@ -109,6 +111,7 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
     title: row.title,
     body: row.body,
     pages: row.pages ?? [],
+    pageCaptions: row.page_captions ?? [],
     publishedAt: row.published_at,
   }))
 }
@@ -160,7 +163,7 @@ export async function getChapterById(
 
   const { data } = await supabase
     .from('book_chapters')
-    .select('id, book_id, chapter_number, title, body, pages, published_at, books(title, book_type)')
+    .select('id, book_id, chapter_number, title, body, pages, page_captions, published_at, books(title, book_type)')
     .eq('id', id)
     .maybeSingle()
   if (!data) return null
@@ -173,6 +176,7 @@ export async function getChapterById(
     title: data.title,
     body: data.body,
     pages: data.pages ?? [],
+    pageCaptions: data.page_captions ?? [],
     publishedAt: data.published_at,
     bookTitle: book?.title ?? '',
     bookType: (book?.book_type as BookFormat | null) ?? null,
