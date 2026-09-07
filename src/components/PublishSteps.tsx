@@ -64,7 +64,7 @@ export default function PublishSteps() {
                 <span
                   aria-hidden="true"
                   className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-xl font-extrabold shadow-md transition-colors sm:h-16 sm:w-16 sm:text-2xl ${
-                    isDone ? 'bg-ink text-base' : badgeColors[i % badgeColors.length]
+                    isDone ? 'bg-ink text-white' : badgeColors[i % badgeColors.length]
                   }`}
                 >
                   {isDone ? '✓' : PUBLISH_STEP_EMOJIS[i]}
