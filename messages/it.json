@@ -587,11 +587,9 @@
     "perYear": "/anno",
     "monthlyNote": "poi fatturato mensilmente — disdici quando vuoi",
     "annualNote": "poi fatturato annualmente — circa il 17% in meno",
-    "freeTitle": "Gratis",
-    "freeSubtitle": "Tutto ciò che serve per iniziare — senza account, senza carta.",
-    "forever": "per sempre",
-    "noStrings": "Nessun vincolo",
-    "freeCta": "Inizia a scrivere",
+    "freeTitle": "Starter",
+    "freeSubtitle": "Tutto ciò che serve per iniziare — solo 1 $ per cominciare.",
+    "freeCta": "Inizia — 1 $",
     "memberBadge": "Ora disponibile",
     "memberTitle": "Abbonamento",
     "memberSubtitle": "Per quando fai sul serio sul finire il tuo libro.",
@@ -608,7 +606,7 @@
       "Un profilo pubblico da creatore con fino a 3 libri caricati"
     ],
     "memberFeatures": [
-      "Tutto ciò che c'è in Gratis, con limiti IA molto più alti",
+      "Tutto ciò che c'è in Starter, con limiti IA molto più alti",
       "Gli Strumenti di scrittura funzionano su capitoli e lavori interi, non solo estratti brevi",
       "Generazione di immagini IA — in arrivo",
       "Esporta il tuo taccuino o copione in PDF e DOCX formattati",
@@ -621,8 +619,8 @@
   "PricingFaq": {
     "items": [
       {
-        "question": "Il livello Gratis sarà sempre gratuito?",
-        "answer": "Sì. Tutto ciò che è nel livello Gratis oggi — il quiz, i generatori, il taccuino, l'assistente IA, gli strumenti di scrittura e la guida alla pubblicazione — resta gratuito. L'Abbonamento aggiunge extra sopra; niente di ciò che puoi già usare finirà dietro un paywall."
+        "question": "C'è un modo economico per provarlo prima dell'Abbonamento?",
+        "answer": "Sì — il livello Starter costa 1 $ per iniziare e include il quiz, i generatori, il taccuino, l'assistente IA, gli strumenti di scrittura e la guida alla pubblicazione. Il pagamento passa da Whop, dove vedrai le condizioni esatte prima di pagare."
       },
       {
         "question": "Posso già sottoscrivere l'Abbonamento?",

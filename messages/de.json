@@ -587,11 +587,9 @@
     "perYear": "/Jahr",
     "monthlyNote": "danach monatliche Abrechnung — jederzeit kündbar",
     "annualNote": "danach jährliche Abrechnung — etwa 17 % günstiger",
-    "freeTitle": "Kostenlos",
-    "freeSubtitle": "Alles, was du zum Start brauchst — kein Konto, keine Karte.",
-    "forever": "für immer",
-    "noStrings": "Ohne Haken",
-    "freeCta": "Losschreiben",
+    "freeTitle": "Starter",
+    "freeSubtitle": "Alles, was du zum Start brauchst — für nur 1 $ loslegen.",
+    "freeCta": "Loslegen — 1 $",
     "memberBadge": "Jetzt verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
@@ -608,7 +606,7 @@
       "Ein öffentliches Kreativ-Profil mit bis zu 3 hochgeladenen Büchern"
     ],
     "memberFeatures": [
-      "Alles aus Kostenlos, mit deutlich höheren KI-Limits",
+      "Alles aus Starter, mit deutlich höheren KI-Limits",
       "Die Schreibwerkzeuge arbeiten mit ganzen Kapiteln und Arbeiten, nicht nur kurzen Ausschnitten",
       "KI-Bildgenerierung — bald",
       "Exportiere dein Notizbuch oder Skript als formatiertes PDF und DOCX",
@@ -621,8 +619,8 @@
   "PricingFaq": {
     "items": [
       {
-        "question": "Bleibt die kostenlose Stufe immer kostenlos?",
-        "answer": "Ja. Alles, was heute in der kostenlosen Stufe ist — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer, die Schreibwerkzeuge und der Veröffentlichungsleitfaden — bleibt kostenlos. Die Mitgliedschaft fügt Extras obendrauf; nichts, was du bereits nutzen kannst, wandert hinter eine Bezahlschranke."
+        "question": "Gibt es eine günstige Möglichkeit, es vor der Mitgliedschaft auszuprobieren?",
+        "answer": "Ja — die Starter-Stufe kostet 1 $ für den Einstieg und umfasst das Quiz, die Generatoren, das Notizbuch, den KI-Helfer, die Schreibwerkzeuge und den Veröffentlichungsleitfaden. Die Kasse läuft über Whop, wo du die genauen Bedingungen siehst, bevor du bezahlst."
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",

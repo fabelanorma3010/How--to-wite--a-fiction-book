@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
-import { PRICES } from '../data/pricing'
+import { PRICES, STARTER_PRICE } from '../data/pricing'
 import PricingTiers from './PricingTiers'
 
 const getUserMock = vi.fn()
@@ -47,9 +47,11 @@ describe('PricingTiers', () => {
     await waitFor(() => expect(getUserMock).toHaveBeenCalled())
   })
 
-  it('always shows the Free tier as available with no sign-in gating', () => {
+  it('links the Starter tier straight to its $1 Whop checkout with no sign-in gating', () => {
     getUserMock.mockReturnValue(new Promise(() => {}))
     renderWithIntl(<PricingTiers />)
-    expect(screen.getByRole('link', { name: /start writing/i })).toBeInTheDocument()
+    const link = screen.getByRole('link', { name: /get started/i })
+    expect(link).toHaveAttribute('href', STARTER_PRICE.checkoutUrl)
+    expect(link).toHaveAttribute('target', '_blank')
   })
 })
