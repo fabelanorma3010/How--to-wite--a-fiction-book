@@ -595,7 +595,7 @@
     "memberBadge": "Ya disponible",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
-    "firstWeekFree": "Primera semana gratis",
+    "firstWeekFree": "Primera semana por 1 $",
     "joinMembership": "Unirme a la Membresía",
     "signUpFirst": "Regístrate primero",
     "checkoutNote": "Te redirige al pago seguro con Whop",
@@ -626,11 +626,11 @@
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",
-        "answer": "Sí — ve a tu página de cuenta y pulsa Unirme a la Membresía. El pago se procesa con Whop, y tu primera semana es gratis."
+        "answer": "Sí — ve a tu página de cuenta y pulsa Unirme a la Membresía. El pago se procesa con Whop, y tu primera semana cuesta solo 1 $."
       },
       {
-        "question": "¿Cómo funciona la primera semana gratis?",
-        "answer": "Tu primera semana es gratis: acceso completo, sin cargo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
+        "question": "¿Cómo funciona la primera semana por 1 $?",
+        "answer": "Tu primera semana cuesta 1 $: acceso completo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
       },
       {
         "question": "¿Mensual o anual?",

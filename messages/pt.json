@@ -595,7 +595,7 @@
     "memberBadge": "Disponível agora",
     "memberTitle": "Assinatura",
     "memberSubtitle": "Para quando você está falando sério sobre terminar seu livro.",
-    "firstWeekFree": "Primeira semana grátis",
+    "firstWeekFree": "Primeira semana por US$ 1",
     "joinMembership": "Assinar Agora",
     "signUpFirst": "Cadastre-se primeiro",
     "checkoutNote": "Redireciona para o checkout seguro pela Whop",
@@ -626,11 +626,11 @@
       },
       {
         "question": "Já posso assinar a Assinatura?",
-        "answer": "Sim — vá até sua página de conta e toque em Assinar Agora. O checkout é feito pela Whop, e sua primeira semana é grátis."
+        "answer": "Sim — vá até sua página de conta e toque em Assinar Agora. O checkout é feito pela Whop, e sua primeira semana custa só US$ 1."
       },
       {
-        "question": "Como funciona a primeira semana grátis?",
-        "answer": "Sua primeira semana é grátis — acesso completo, sem cobrança. A cobrança começa depois disso — US$ 9,99 por mês ou US$ 99,99 por ano, dependendo do seu plano — e você pode cancelar a qualquer momento antes."
+        "question": "Como funciona a primeira semana por US$ 1?",
+        "answer": "Sua primeira semana custa US$ 1 — acesso completo. A cobrança começa depois disso — US$ 9,99 por mês ou US$ 99,99 por ano, dependendo do seu plano — e você pode cancelar a qualquer momento antes."
       },
       {
         "question": "Mensal ou anual?",

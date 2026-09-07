@@ -595,7 +595,7 @@
     "memberBadge": "Disponible maintenant",
     "memberTitle": "Abonnement",
     "memberSubtitle": "Pour quand vous êtes sérieux quant à finir votre livre.",
-    "firstWeekFree": "Première semaine gratuite",
+    "firstWeekFree": "Première semaine à 1 $",
     "joinMembership": "Rejoindre l'abonnement",
     "signUpFirst": "Inscrivez-vous d'abord",
     "checkoutNote": "Redirige vers le paiement sécurisé via Whop",
@@ -626,11 +626,11 @@
       },
       {
         "question": "Puis-je déjà souscrire à l'abonnement ?",
-        "answer": "Oui — rendez-vous sur votre page de compte et cliquez sur Rejoindre l'abonnement. Le paiement passe par Whop, et votre première semaine est gratuite."
+        "answer": "Oui — rendez-vous sur votre page de compte et cliquez sur Rejoindre l'abonnement. Le paiement passe par Whop, et votre première semaine ne coûte que 1 $."
       },
       {
-        "question": "Comment fonctionne la première semaine gratuite ?",
-        "answer": "Votre première semaine est gratuite — accès complet, sans frais. La facturation démarre après cela — 9,99 $ par mois ou 99,99 $ par an, selon votre forfait — et vous pouvez annuler à tout moment avant."
+        "question": "Comment fonctionne la première semaine à 1 $ ?",
+        "answer": "Votre première semaine coûte 1 $ — accès complet. La facturation démarre après cela — 9,99 $ par mois ou 99,99 $ par an, selon votre forfait — et vous pouvez annuler à tout moment avant."
       },
       {
         "question": "Mensuel ou annuel ?",
