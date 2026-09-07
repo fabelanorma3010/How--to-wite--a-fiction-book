@@ -746,9 +746,8 @@ function ChapterPanel({
                         return next
                       })
                     }
-                    rows={10}
                     placeholder={chapterPageIndex === 0 ? 'Once upon a time...' : `Page ${chapterPageIndex + 1}…`}
-                    className={`min-w-0 flex-1 resize-y px-4 py-3 text-[15px] leading-relaxed focus:outline-none ${
+                    className={`aspect-[3/4] min-w-0 flex-1 resize-none px-6 py-5 text-base leading-relaxed focus:outline-none ${
                       chapterPageTurnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
                     }`}
                     style={{
