@@ -57,7 +57,7 @@ export default function ActionTextGenerator({ selected, onSelect }: ActionTextGe
               className={`animate-pop-in flex flex-col gap-3 rounded-2xl border-2 p-4 sm:flex-row sm:items-center sm:justify-between ${
                 i === 0
                   ? 'border-secondary/40 bg-secondary/10'
-                  : 'border-ink/10 bg-base/70'
+                  : 'border-ink/10 bg-page/70'
               }`}
             >
               <p className={`text-lg font-bold text-ink ${i === 0 ? '' : 'opacity-70'}`}>

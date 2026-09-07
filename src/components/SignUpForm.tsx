@@ -130,7 +130,7 @@ export default function SignUpForm() {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="Ada"
-                  className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                  className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
               </div>
               <div>
@@ -145,7 +145,7 @@ export default function SignUpForm() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Quill"
-                  className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                  className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function SignUpForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
 
@@ -179,7 +179,7 @@ export default function SignUpForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('passwordPlaceholder')}
-                className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
 
@@ -196,7 +196,7 @@ export default function SignUpForm() {
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 placeholder={t('confirmPlaceholder')}
-                className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
 

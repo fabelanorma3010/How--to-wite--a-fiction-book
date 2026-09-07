@@ -67,7 +67,7 @@ export default function GoogleButton({
         type="button"
         onClick={handleClick}
         disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink/15 bg-white px-6 py-3 font-bold text-ink transition-colors hover:bg-base/60 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink/15 bg-white px-6 py-3 font-bold text-ink transition-colors hover:bg-page/60 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <GoogleGlyph />
         {loading ? t('redirecting') : (label ?? t('label'))}

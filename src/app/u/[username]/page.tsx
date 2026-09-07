@@ -48,7 +48,7 @@ const socialLinks = (profile: NonNullable<Awaited<ReturnType<typeof getPublicPro
 function BookCard({ book }: { book: Book }) {
   const card = (
     <div className="group flex flex-col overflow-hidden rounded-2xl border-2 border-ink/10 bg-white/70 transition-colors hover:border-primary/40">
-      <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden bg-base">
+      <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden bg-page">
         {book.coverUrl ? (
           <ShimmerNextImage
             src={book.coverUrl}

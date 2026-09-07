@@ -54,7 +54,7 @@ export default function FollowButton({
         aria-pressed={following}
         className={`rounded-full px-5 py-2 text-sm font-bold transition-colors disabled:opacity-50 ${
           following
-            ? 'border-2 border-ink/15 bg-white text-ink hover:bg-base'
+            ? 'border-2 border-ink/15 bg-white text-ink hover:bg-page'
             : 'bg-primary text-primary-content shadow-md transition-transform hover:scale-105'
         }`}
       >

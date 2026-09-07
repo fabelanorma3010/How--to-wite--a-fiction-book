@@ -67,7 +67,7 @@ export default function AvatarUploader({ userId, avatarUrl }: { userId: string; 
 
   return (
     <div className="flex items-center gap-4">
-      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-ink/10 bg-base">
+      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-ink/10 bg-page">
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={preview} alt="Your avatar" className="h-full w-full object-cover" />
@@ -91,7 +91,7 @@ export default function AvatarUploader({ userId, avatarUrl }: { userId: string; 
           type="button"
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
-          className="rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-base/60 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-page/60 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {uploading ? 'Uploading…' : 'Upload photo'}
         </button>

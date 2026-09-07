@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink focus:border-primary/50"
+            className="w-full rounded-xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink focus:border-primary/50"
           />
 
           <label htmlFor="admin-password" className="mb-1.5 mt-4 block text-sm font-bold text-ink/80">
@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink focus:border-primary/50"
+            className="w-full rounded-xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink focus:border-primary/50"
           />
 
           {error && (

@@ -79,7 +79,7 @@ export default function PricingTiers() {
           </ul>
           <a
             href="/#quiz"
-            className="mt-8 rounded-full border-2 border-ink/15 bg-white px-6 py-3 text-center font-bold text-ink shadow-sm transition-transform hover:scale-105 hover:bg-base active:scale-95"
+            className="mt-8 rounded-full border-2 border-ink/15 bg-white px-6 py-3 text-center font-bold text-ink shadow-sm transition-transform hover:scale-105 hover:bg-page active:scale-95"
           >
             {t('freeCta')}
           </a>

@@ -127,7 +127,7 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
             </h2>
             <ul className="mt-4 grid gap-3">
               {tips.map((tip, i) => (
-                <li key={i} className="flex gap-3 rounded-2xl bg-base/80 p-4 text-ink/80">
+                <li key={i} className="flex gap-3 rounded-2xl bg-page/80 p-4 text-ink/80">
                   <span aria-hidden="true" className="font-extrabold text-accent-content/70">
                     {i + 1}.
                   </span>

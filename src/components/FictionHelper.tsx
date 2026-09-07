@@ -81,7 +81,7 @@ export default function FictionHelper({ selected }: FictionHelperProps) {
         <div
           role="region"
           aria-label={t('title')}
-          className="animate-pop-in mb-3 flex h-[70vh] max-h-[36rem] w-[92vw] max-w-sm flex-col overflow-hidden rounded-3xl border-2 border-ink/10 bg-base shadow-xl sm:w-96"
+          className="animate-pop-in mb-3 flex h-[70vh] max-h-[36rem] w-[92vw] max-w-sm flex-col overflow-hidden rounded-3xl border-2 border-ink/10 bg-page shadow-xl sm:w-96"
         >
           <div className="flex items-center justify-between border-b-2 border-ink/10 bg-white/70 px-4 py-3">
             <h2 className="font-extrabold text-ink">{t('title')} 🤖</h2>

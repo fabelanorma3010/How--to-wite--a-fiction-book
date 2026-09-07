@@ -76,7 +76,7 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
                       key={typeId}
                       type="button"
                       onClick={() => handleAnswer(typeId)}
-                      className="flex items-center gap-3 rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-left font-semibold text-ink/80 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:text-ink hover:shadow-md active:translate-y-0 active:scale-[0.98]"
+                      className="flex items-center gap-3 rounded-2xl border-2 border-ink/15 bg-page/80 p-4 text-left font-semibold text-ink/80 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:text-ink hover:shadow-md active:translate-y-0 active:scale-[0.98]"
                     >
                       <span aria-hidden="true" className="text-xl">
                         {bookTypeEmoji(typeId)}

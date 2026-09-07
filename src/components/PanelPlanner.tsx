@@ -291,7 +291,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
           }}
           rows={4}
           placeholder="Wide establishing shot of the street. Two medium panels of the argument. Tall skinny panel as the door slams."
-          className="mt-4 w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
+          className="mt-4 w-full resize-y rounded-2xl border-2 border-ink/15 bg-page/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
         />
         <p className="mt-2 text-sm text-ink/50">{t('help')}</p>
 
@@ -349,7 +349,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                                 ? 'rounded-[2px] border-2 border-dashed border-ink/25'
                                 : 'rounded-sm border-[3px] border-dashed border-ink/25'
                         } ${diagonal && !hasImage ? 'px-3 py-2' : hasImage ? '' : 'p-2'} ${
-                          !hasImage && p.silent && !bleed ? 'bg-ink/[0.05]' : !hasImage && !bleed ? 'bg-base/40' : ''
+                          !hasImage && p.silent && !bleed ? 'bg-ink/[0.05]' : !hasImage && !bleed ? 'bg-page/40' : ''
                         } ${isSelected ? 'ring-4 ring-primary ring-offset-1' : ''}`}
                         style={{
                           flexGrow: WIDTH_WEIGHT[p.size],
@@ -443,7 +443,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                 {userId ? (
                   <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
                     <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
-                    <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base">
+                    <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
                       {t('uploadImage')}
                       <input
                         type="file"

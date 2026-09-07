@@ -10,7 +10,7 @@
   --color-secondary-content: #082f49;
   --color-accent: #fbbf24;
   --color-accent-content: #451a03;
-  --color-base: #fdf4ff;
+  --color-page: #fdf4ff;
   --color-ink: #1e1b4b;
 
   /* Newsletter palette — the digital-library reader section under /library.
@@ -78,7 +78,7 @@
   }
 
   body {
-    background-color: var(--color-base);
+    background-color: var(--color-page);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
