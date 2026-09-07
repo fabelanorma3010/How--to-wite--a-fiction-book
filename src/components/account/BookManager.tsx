@@ -35,6 +35,10 @@ export default function BookManager({ userId, books }: { userId: string; books: 
   const [description, setDescription] = useState('')
   const [bookType, setBookType] = useState('')
   const [coverFile, setCoverFile] = useState<File | null>(null)
+  const [coverGeneratedUrl, setCoverGeneratedUrl] = useState<string | null>(null)
+  const [coverPrompt, setCoverPrompt] = useState('')
+  const [coverBusy, setCoverBusy] = useState(false)
+  const [coverError, setCoverError] = useState('')
   const [bookFile, setBookFile] = useState<File | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -67,7 +71,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
     }
 
     try {
-      let coverUrl: string | null = null
+      let coverUrl: string | null = coverGeneratedUrl
       let fileUrl: string | null = null
 
       if (coverFile) {
@@ -103,6 +107,8 @@ export default function BookManager({ userId, books }: { userId: string; books: 
       setDescription('')
       setBookType('')
       setCoverFile(null)
+      setCoverGeneratedUrl(null)
+      setCoverPrompt('')
       setBookFile(null)
       setAdding(false)
       router.refresh()
@@ -110,6 +116,29 @@ export default function BookManager({ userId, books }: { userId: string; books: 
       setError(err instanceof Error ? err.message : 'Could not add that book.')
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  async function handleGenerateCover() {
+    if (!coverPrompt.trim() || coverBusy) return
+    setCoverBusy(true)
+    setCoverError('')
+    try {
+      const res = await fetch('/api/generate-illustration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: coverPrompt.trim() }),
+      })
+      const data = await res.json()
+      if (!res.ok || typeof data?.image !== 'string') {
+        throw new Error(data?.error || 'Could not generate that cover.')
+      }
+      setCoverGeneratedUrl(data.image)
+      setCoverFile(null)
+    } catch (err) {
+      setCoverError(err instanceof Error ? err.message : 'Could not generate that cover.')
+    } finally {
+      setCoverBusy(false)
     }
   }
 
@@ -197,9 +226,42 @@ export default function BookManager({ userId, books }: { userId: string; books: 
                 id="book-cover"
                 type="file"
                 accept={ACCEPTED_COVER.join(',')}
-                onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
+                onChange={(e) => {
+                  setCoverFile(e.target.files?.[0] ?? null)
+                  setCoverGeneratedUrl(null)
+                }}
                 className="w-full text-sm text-ink/70"
               />
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  type="text"
+                  value={coverPrompt}
+                  onChange={(e) => setCoverPrompt(e.target.value)}
+                  placeholder="…or describe a cover to generate"
+                  className={`${inputClass} py-1.5 text-sm`}
+                />
+                <button
+                  type="button"
+                  onClick={() => void handleGenerateCover()}
+                  disabled={coverBusy || !coverPrompt.trim()}
+                  className="shrink-0 rounded-full border-2 border-primary/40 px-3 py-1.5 text-sm font-bold text-ink transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {coverBusy ? 'Generating…' : '🖼️ Generate'}
+                </button>
+              </div>
+              {coverError && <p className="mt-1.5 text-xs font-semibold text-red-600">{coverError}</p>}
+              {coverGeneratedUrl && (
+                <div className="mt-2 flex items-center gap-2">
+                  <img src={coverGeneratedUrl} alt="Generated cover" className="h-16 w-12 rounded-md object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => setCoverGeneratedUrl(null)}
+                    className="text-xs font-bold text-ink/50 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="book-file" className={labelClass}>
@@ -227,7 +289,13 @@ export default function BookManager({ userId, books }: { userId: string; books: 
             </button>
             <button
               type="button"
-              onClick={() => setAdding(false)}
+              onClick={() => {
+                setAdding(false)
+                setCoverFile(null)
+                setCoverGeneratedUrl(null)
+                setCoverPrompt('')
+                setCoverError('')
+              }}
               className="rounded-full px-4 py-2 text-sm font-bold text-ink/60 hover:bg-ink/10"
             >
               Cancel

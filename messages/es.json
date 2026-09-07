@@ -86,7 +86,12 @@
     "intro": "¿Necesitas una chispa para tu próxima viñeta o página? Genera una descripción completa de ilustración —sujeto, acción, escenario, detalle y paleta de color— para tu artista (o para ti). O ve directo a una imagen generada.",
     "genreLabel": "Elige el género para la idea de ilustración",
     "generate": "Generar idea de ilustración {emoji}",
-    "comingSoon": "Próximamente"
+    "generateImage": "Generar imagen",
+    "generatingImage": "Generando…",
+    "upload": "Subir imagen",
+    "speakIdea": "Dicta tu idea",
+    "readIdea": "Leer idea en voz alta",
+    "imageError": "No se pudo generar esa imagen."
   },
   "Notebook": {
     "title": "Tu cuaderno de historias",

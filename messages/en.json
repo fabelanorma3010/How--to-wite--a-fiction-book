@@ -86,7 +86,12 @@
     "intro": "Need a spark for your next panel or page? Generate a full illustration prompt — subject, action, setting, detail, and color palette — for your artist (or yourself). Or skip straight to a generated image.",
     "genreLabel": "Choose genre for illustration idea",
     "generate": "Generate {emoji} Illustration Idea",
-    "comingSoon": "Coming soon"
+    "generateImage": "Generate Image",
+    "generatingImage": "Generating…",
+    "upload": "Upload Image",
+    "speakIdea": "Speak Your Idea",
+    "readIdea": "Read Idea Aloud",
+    "imageError": "Could not generate that image."
   },
   "Notebook": {
     "title": "Your Story Notebook",
