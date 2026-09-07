@@ -49,6 +49,28 @@
     "ctaBookTypes": "Voir les types de livres",
     "ctaPublish": "Voir les étapes de publication"
   },
+  "JourneySteps": {
+    "title": "Votre parcours sur Storyburst",
+    "intro": "Quatre étapes, dans l'ordre — d'une étincelle d'idée à un vrai chapitre publié.",
+    "steps": [
+      {
+        "title": "Faites le quiz",
+        "description": "Trouvez le style de votre livre en moins d'une minute."
+      },
+      {
+        "title": "Trouvez des idées",
+        "description": "Générez des onomatopées, des idées d'illustration, et esquissez vos panels."
+      },
+      {
+        "title": "Écrivez-le",
+        "description": "Rédigez votre histoire dans le carnet à enregistrement automatique."
+      },
+      {
+        "title": "Publiez pour de vrai",
+        "description": "Transformez vos chapitres en un vrai livre lisible."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Langue : {name}. Changer de langue",
     "choose": "Choisir une langue"
@@ -192,12 +214,29 @@
     "breakdown": "Découpage des cases",
     "emptyHint": "Écrivez quelques cases ci-dessus pour voir la page prendre forme.",
     "stickersLabel": "Autocollants :",
-    "stickerPick": "Choisir l'autocollant {emoji}",
-    "stickerArmedHint": "Touchez un panel pour le coller",
-    "stickerIdleHint": "Choisissez un autocollant, puis touchez un panel",
-    "stickerPlaceAction": "Mettre l'autocollant {emoji} sur le panel {n}",
-    "stickerRemoveAction": "Retirer l'autocollant du panel {n}",
-    "stickerNoneAction": "Panel {n}, aucun autocollant",
+    "tapPanelHint": "Touchez un panel pour modifier son texte et ajouter une illustration",
+    "editPanelAction": "Modifier le panel {n}",
+    "addImageHint": "+ Ajouter une image",
+    "editingPanel": "Modification du panel {n}",
+    "closeEditor": "Terminé",
+    "panelTextLabel": "Texte du panel",
+    "panelImageLabel": "Illustration du panel",
+    "uploadImage": "Importer une image",
+    "generateImagePrompt": "Décrivez une image à générer…",
+    "generateButton": "Générer",
+    "generatingButton": "Génération…",
+    "imageGenericError": "Impossible de générer cette image. Réessayez dans un instant.",
+    "imageFileError": "Les images doivent être en PNG, JPEG ou WebP, 10 Mo maximum.",
+    "signInForImages": "Connectez-vous pour ajouter une illustration à ce panel.",
+    "publishHeading": "Publier cette page",
+    "signInToPublish": "Connectez-vous pour publier ces panels comme un vrai chapitre.",
+    "loadingBooks": "Chargement de vos livres…",
+    "publishNoBooks": "Vous n'avez pas encore de livre correspondant — créez-en un sur votre page de compte d'abord.",
+    "publishedPanelsCount": "{count} panel(s) sur {total} ont une illustration",
+    "publishButton": "Publier comme nouveau chapitre",
+    "publishingButton": "Publication…",
+    "publishNeedImage": "Ajoutez l'illustration d'au moins un panel avant de publier.",
+    "publishSuccess": "Publié dans « {title} ».",
     "size": {
       "splash": "Pleine page",
       "wide": "Large",

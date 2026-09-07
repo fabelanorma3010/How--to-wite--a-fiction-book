@@ -49,6 +49,28 @@
     "ctaBookTypes": "Buchtypen ansehen",
     "ctaPublish": "Veröffentlichungsschritte ansehen"
   },
+  "JourneySteps": {
+    "title": "Dein Weg durch Storyburst",
+    "intro": "Vier Stationen, in dieser Reihenfolge — von der ersten Idee bis zum echten, veröffentlichten Kapitel.",
+    "steps": [
+      {
+        "title": "Mach das Quiz",
+        "description": "Finde in unter einer Minute den Stil deines Buchs."
+      },
+      {
+        "title": "Hol dir Ideen",
+        "description": "Erzeuge Action-Text, Illustrationsideen und skizziere deine Panels."
+      },
+      {
+        "title": "Schreib es",
+        "description": "Entwirf deine Geschichte im selbstspeichernden Notizbuch."
+      },
+      {
+        "title": "Veröffentliche das Echte",
+        "description": "Verwandle deine Kapitel in ein echtes, lesbares Buch."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Sprache: {name}. Sprache ändern",
     "choose": "Sprache wählen"
@@ -192,12 +214,29 @@
     "breakdown": "Panel-Aufschlüsselung",
     "emptyHint": "Schreib oben ein paar Panels, um die Seite Gestalt annehmen zu sehen.",
     "stickersLabel": "Sticker:",
-    "stickerPick": "{emoji}-Sticker auswählen",
-    "stickerArmedHint": "Tippe auf ein Panel, um ihn draufzukleben",
-    "stickerIdleHint": "Wähle zuerst einen Sticker, dann ein Panel",
-    "stickerPlaceAction": "{emoji}-Sticker auf Panel {n} setzen",
-    "stickerRemoveAction": "Sticker von Panel {n} entfernen",
-    "stickerNoneAction": "Panel {n}, kein Sticker",
+    "tapPanelHint": "Tippe auf ein Panel, um Text zu bearbeiten und Kunst hinzuzufügen",
+    "editPanelAction": "Panel {n} bearbeiten",
+    "addImageHint": "+ Bild hinzufügen",
+    "editingPanel": "Panel {n} bearbeiten",
+    "closeEditor": "Fertig",
+    "panelTextLabel": "Paneltext",
+    "panelImageLabel": "Panel-Kunst",
+    "uploadImage": "Bild hochladen",
+    "generateImagePrompt": "Beschreibe ein zu erzeugendes Bild…",
+    "generateButton": "Erzeugen",
+    "generatingButton": "Wird erzeugt…",
+    "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal.",
+    "imageFileError": "Bilder müssen PNG, JPEG oder WebP sein, maximal 10 MB.",
+    "signInForImages": "Melde dich an, um diesem Panel Kunst hinzuzufügen.",
+    "publishHeading": "Diese Seite veröffentlichen",
+    "signInToPublish": "Melde dich an, um diese Panels als echtes Kapitel zu veröffentlichen.",
+    "loadingBooks": "Deine Bücher werden geladen…",
+    "publishNoBooks": "Du hast noch kein passendes Buch — erstelle zuerst eins auf deiner Kontoseite.",
+    "publishedPanelsCount": "{count} von {total} Panels haben Kunst",
+    "publishButton": "Als neues Kapitel veröffentlichen",
+    "publishingButton": "Wird veröffentlicht…",
+    "publishNeedImage": "Füge mindestens ein Panel-Bild hinzu, bevor du veröffentlichst.",
+    "publishSuccess": "Veröffentlicht in „{title}“.",
     "size": {
       "splash": "Ganzseitig",
       "wide": "Breit",

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import JourneySteps from './components/JourneySteps'
 import BookQuiz from './components/BookQuiz'
 import BookTypes from './components/BookTypes'
 import ActionTextGenerator from './components/ActionTextGenerator'
@@ -26,6 +27,9 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <ScrollReveal>
+          <JourneySteps />
+        </ScrollReveal>
         <ScrollReveal>
           <BookQuiz onSelect={setSelectedType} />
         </ScrollReveal>

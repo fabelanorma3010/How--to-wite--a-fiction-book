@@ -49,6 +49,28 @@
     "ctaBookTypes": "Ver tipos de libro",
     "ctaPublish": "Ver pasos de publicación"
   },
+  "JourneySteps": {
+    "title": "Tu camino por Storyburst",
+    "intro": "Cuatro paradas, en orden — desde una chispa de idea hasta un capítulo real y publicado.",
+    "steps": [
+      {
+        "title": "Haz el test",
+        "description": "Descubre el estilo de tu libro en menos de un minuto."
+      },
+      {
+        "title": "Consigue ideas",
+        "description": "Genera texto de acción, ideas de ilustración y esboza tus paneles."
+      },
+      {
+        "title": "Escríbelo",
+        "description": "Redacta tu historia en el cuaderno con autoguardado."
+      },
+      {
+        "title": "Publica lo real",
+        "description": "Convierte tus capítulos en un libro real y legible."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Idioma: {name}. Cambiar idioma",
     "choose": "Elige un idioma"
@@ -192,12 +214,29 @@
     "breakdown": "Desglose de viñetas",
     "emptyHint": "Escribe algunas viñetas arriba para ver cómo toma forma la página.",
     "stickersLabel": "Pegatinas:",
-    "stickerPick": "Elegir la pegatina {emoji}",
-    "stickerArmedHint": "Toca un panel para pegarla",
-    "stickerIdleHint": "Elige una pegatina y luego toca un panel",
-    "stickerPlaceAction": "Poner la pegatina {emoji} en el panel {n}",
-    "stickerRemoveAction": "Quitar la pegatina del panel {n}",
-    "stickerNoneAction": "Panel {n}, sin pegatina",
+    "tapPanelHint": "Toca cualquier panel para editar su texto y añadir arte",
+    "editPanelAction": "Editar panel {n}",
+    "addImageHint": "+ Añadir imagen",
+    "editingPanel": "Editando panel {n}",
+    "closeEditor": "Listo",
+    "panelTextLabel": "Texto del panel",
+    "panelImageLabel": "Arte del panel",
+    "uploadImage": "Subir imagen",
+    "generateImagePrompt": "Describe una imagen para generar…",
+    "generateButton": "Generar",
+    "generatingButton": "Generando…",
+    "imageGenericError": "No se pudo generar esa imagen. Inténtalo de nuevo en un momento.",
+    "imageFileError": "Las imágenes deben ser PNG, JPEG o WebP, 10MB máximo.",
+    "signInForImages": "Inicia sesión para añadir arte a este panel.",
+    "publishHeading": "Publicar esta página",
+    "signInToPublish": "Inicia sesión para publicar estos paneles como un capítulo real.",
+    "loadingBooks": "Cargando tus libros…",
+    "publishNoBooks": "Todavía no tienes un libro que coincida — crea uno en tu página de cuenta primero.",
+    "publishedPanelsCount": "{count} de {total} paneles tienen arte",
+    "publishButton": "Publicar como capítulo nuevo",
+    "publishingButton": "Publicando…",
+    "publishNeedImage": "Añade el arte de al menos un panel antes de publicar.",
+    "publishSuccess": "Publicado en «{title}».",
     "size": {
       "splash": "Página completa",
       "wide": "Ancha",
