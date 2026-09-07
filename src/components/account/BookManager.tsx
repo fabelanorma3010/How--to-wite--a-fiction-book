@@ -19,7 +19,7 @@ const ACCEPTED_PAGE = ['image/png', 'image/jpeg', 'image/webp']
 const cardClass = 'rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8'
 const labelClass = 'mb-1.5 block text-sm font-bold text-ink/80'
 const inputClass =
-  'w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50'
+  'w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50'
 const buttonClass =
   'rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100'
 
@@ -167,7 +167,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
           <button
             type="button"
             onClick={() => setAdding(true)}
-            className="rounded-full border-2 border-ink/15 px-4 py-1.5 text-sm font-bold text-ink transition-colors hover:bg-base/60"
+            className="rounded-full border-2 border-ink/15 px-4 py-1.5 text-sm font-bold text-ink transition-colors hover:bg-page/60"
           >
             + Add a book
           </button>
@@ -313,7 +313,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
           {books.map((book) => (
             <li key={book.id} className="rounded-2xl border-2 border-ink/10 bg-white/60 p-3">
               <div className="flex items-center gap-3">
-                <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
+                <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-page">
                   {book.coverUrl ? (
                     <ShimmerNextImage src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
                   ) : (
@@ -610,7 +610,7 @@ function ChapterPanel({
   }
 
   return (
-    <div className="mt-2 rounded-xl bg-base/60 p-3">
+    <div className="mt-2 rounded-xl bg-page/60 p-3">
       {chapters === null && <p className="text-xs font-semibold text-ink/40">Loading chapters…</p>}
       {chapters !== null && chapters.length === 0 && !adding && (
         <p className="text-xs font-semibold text-ink/40">No chapters yet.</p>
@@ -668,7 +668,7 @@ function ChapterPanel({
                 <button
                   type="button"
                   onClick={() => void loadFromNotebook()}
-                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base"
+                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page"
                 >
                   Load from Notebook
                 </button>
@@ -699,7 +699,7 @@ function ChapterPanel({
                       {emoji}
                     </button>
                   ))}
-                  <label className="ml-1 cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base">
+                  <label className="ml-1 cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
                     Upload image
                     <input
                       type="file"
@@ -759,7 +759,7 @@ function ChapterPanel({
               )}
 
               <div className="flex flex-wrap items-center gap-1.5">
-                <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base">
+                <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
                   Upload page(s)
                   <input
                     type="file"

@@ -185,7 +185,7 @@ export default function StoryNotebook() {
             placeholder={t('placeholder')}
             rows={10}
             style={{ fontSize: FONT_SIZES[fontSize], fontFamily: FONT_FAMILIES[fontFamily] }}
-            className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
+            className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-page/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
           />
 
           <div className="mt-4">

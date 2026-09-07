@@ -68,7 +68,7 @@ export default function CookieConsent() {
               <button
                 type="button"
                 onClick={() => decide('declined')}
-                className="rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-base"
+                className="rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-page"
               >
                 {t('decline')}
               </button>

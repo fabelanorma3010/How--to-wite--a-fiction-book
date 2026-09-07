@@ -14,7 +14,7 @@ interface IllustrationGeneratorProps {
 }
 
 const actionButtonClass =
-  'flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 font-bold text-ink transition-colors hover:bg-base disabled:cursor-not-allowed disabled:opacity-60'
+  'flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 font-bold text-ink transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-60'
 
 export default function IllustrationGenerator({ selected, onSelect }: IllustrationGeneratorProps) {
   const t = useTranslations('Illustration')

@@ -98,7 +98,7 @@ export default async function CreatorsPage() {
                     href={`/u/${profile.username}`}
                     className="group flex h-full flex-col items-center gap-2 rounded-2xl border-2 border-ink/10 bg-white/70 p-4 text-center transition-colors hover:border-primary/40"
                   >
-                    <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-ink/10 bg-base">
+                    <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-ink/10 bg-page">
                       {profile.avatarUrl ? (
                         <ShimmerNextImage
                           src={profile.avatarUrl}

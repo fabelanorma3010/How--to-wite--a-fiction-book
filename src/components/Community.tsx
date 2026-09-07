@@ -279,7 +279,7 @@ export default function Community() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t('titlePlaceholder')}
-                  className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                  className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
               </div>
 
@@ -295,7 +295,7 @@ export default function Community() {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder={t('contentPlaceholder')}
-                  className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                  className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-page/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
                 />
                 <p className="mt-1 text-right text-xs text-ink/40">
                   {content.length}/{MAX_CONTENT_LENGTH}
@@ -572,7 +572,7 @@ function PostCard({
             const canDelete = user && (user.id === comment.authorId || user.id === post.authorId)
             const canReport = user && user.id !== comment.authorId
             return (
-              <div key={comment.id} className="rounded-xl bg-base/60 p-3">
+              <div key={comment.id} className="rounded-xl bg-page/60 p-3">
                 <div className="flex items-center justify-between gap-2 text-xs font-bold text-ink/50">
                   <span>
                     {comment.authorName} · {formatRelativeTime(comment.createdAt, locale)}
@@ -633,7 +633,7 @@ function PostCard({
       )}
 
       {reportOpen && (
-        <div className="mt-4 rounded-xl border-2 border-ink/10 bg-base/60 p-4">
+        <div className="mt-4 rounded-xl border-2 border-ink/10 bg-page/60 p-4">
           {reportSent ? (
             <p className="text-sm font-bold text-ink/70">{t('reportSent')}</p>
           ) : (

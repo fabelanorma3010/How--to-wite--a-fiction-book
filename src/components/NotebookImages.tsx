@@ -150,7 +150,7 @@ export default function NotebookImages({ userId }: { userId: string | null }) {
         {images.map((image) => (
           <div
             key={image.id}
-            className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-ink/10 bg-base"
+            className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-ink/10 bg-page"
           >
             {image.contentType === PDF_TYPE ? (
               <a

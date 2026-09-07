@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const admin = supabase ? await isCurrentUserAdmin(supabase, user) : false
 
   return (
-    <div className="min-h-screen bg-base text-ink">
+    <div className="min-h-screen bg-page text-ink">
       <header className="border-b-2 border-ink/10 bg-white/70 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-4">

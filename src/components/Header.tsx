@@ -80,7 +80,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b-4 border-ink/10 bg-base/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b-4 border-ink/10 bg-page/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link
           href={onHome ? '#top' : '/'}
@@ -207,7 +207,7 @@ export default function Header() {
           id="mobile-nav"
           aria-label="Mobile"
           inert={!open}
-          className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-base px-4 pb-4 pt-2"
+          className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-page px-4 pb-4 pt-2"
         >
           {onHome &&
             navLinks.map((link) => (

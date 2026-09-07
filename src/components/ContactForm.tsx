@@ -63,7 +63,7 @@ export default function ContactForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t('namePlaceholder')}
-                className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
             <div>
@@ -77,7 +77,7 @@ export default function ContactForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+                className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function ContactForm() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={t('messagePlaceholder')}
-              className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-base/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
+              className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-2.5 text-ink placeholder:text-ink/40 focus:border-primary/50"
             />
           </div>
 
