@@ -86,7 +86,11 @@
     "intro": "下一格或下一页需要灵感？生成一段完整的插画提示词——主体、动作、场景、细节和配色——交给你的画师（或你自己）。也可以直接生成一张图。",
     "genreLabel": "为插画点子选择类型",
     "generate": "生成插画点子 {emoji}",
-    "comingSoon": "即将推出"
+    "generateImage": "生成图片",
+    "generatingImage": "生成中…",
+    "upload": "上传图片",
+    "readIdea": "朗读点子",
+    "imageError": "无法生成该图片。"
   },
   "Notebook": {
     "title": "你的故事笔记本",

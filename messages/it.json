@@ -86,7 +86,11 @@
     "intro": "Ti serve una scintilla per la prossima vignetta o pagina? Genera un prompt di illustrazione completo — soggetto, azione, ambientazione, dettaglio e palette di colori — per il tuo disegnatore (o per te). Oppure passa direttamente a un'immagine generata.",
     "genreLabel": "Scegli il genere per l'idea di illustrazione",
     "generate": "Genera idea di illustrazione {emoji}",
-    "comingSoon": "In arrivo"
+    "generateImage": "Genera immagine",
+    "generatingImage": "Generazione…",
+    "upload": "Carica immagine",
+    "readIdea": "Leggi l'idea ad alta voce",
+    "imageError": "Impossibile generare quell'immagine."
   },
   "Notebook": {
     "title": "Il tuo taccuino di storie",

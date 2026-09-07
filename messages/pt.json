@@ -86,7 +86,11 @@
     "intro": "Precisa de uma faísca para o próximo quadro ou página? Gere um prompt completo de ilustração — sujeito, ação, cenário, detalhe e paleta de cores — para o seu ilustrador (ou para você). Ou vá direto para uma imagem gerada.",
     "genreLabel": "Escolha o gênero para a ideia de ilustração",
     "generate": "Gerar ideia de ilustração {emoji}",
-    "comingSoon": "Em breve"
+    "generateImage": "Gerar imagem",
+    "generatingImage": "Gerando…",
+    "upload": "Enviar imagem",
+    "readIdea": "Ler ideia em voz alta",
+    "imageError": "Não foi possível gerar essa imagem."
   },
   "Notebook": {
     "title": "Seu caderno de histórias",

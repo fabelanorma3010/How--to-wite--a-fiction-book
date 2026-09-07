@@ -86,7 +86,11 @@
     "intro": "Brauchst du einen Funken für dein nächstes Panel oder deine nächste Seite? Erzeuge einen kompletten Illustrations-Prompt — Motiv, Aktion, Schauplatz, Detail und Farbpalette — für deine Zeichnerin (oder dich selbst). Oder spring direkt zu einem generierten Bild.",
     "genreLabel": "Genre für die Illustrationsidee wählen",
     "generate": "Illustrationsidee erzeugen {emoji}",
-    "comingSoon": "Bald"
+    "generateImage": "Bild erzeugen",
+    "generatingImage": "Wird erzeugt…",
+    "upload": "Bild hochladen",
+    "readIdea": "Idee vorlesen",
+    "imageError": "Das Bild konnte nicht erzeugt werden."
   },
   "Notebook": {
     "title": "Dein Story-Notizbuch",

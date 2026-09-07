@@ -86,7 +86,11 @@
     "intro": "Besoin d'une étincelle pour votre prochaine case ou page ? Générez une description d'illustration complète — sujet, action, décor, détail et palette de couleurs — pour votre illustrateur (ou pour vous). Ou passez directement à une image générée.",
     "genreLabel": "Choisir le genre pour l'idée d'illustration",
     "generate": "Générer une idée d'illustration {emoji}",
-    "comingSoon": "Bientôt"
+    "generateImage": "Générer une image",
+    "generatingImage": "Génération…",
+    "upload": "Importer une image",
+    "readIdea": "Lire l'idée à voix haute",
+    "imageError": "Impossible de générer cette image."
   },
   "Notebook": {
     "title": "Votre carnet d'histoires",
