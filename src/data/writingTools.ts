@@ -1,1 +1,1 @@
-export const TOOL_IDS = ['summarize', 'critique', 'structure'] as const
+export const TOOL_IDS = ['summarize', 'critique', 'structure', 'grammar'] as const

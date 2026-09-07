@@ -20,6 +20,10 @@ const MODES = {
     system:
       "You are a note-organizing assistant. Take the user's rough notes and reorganize them into a clean, scannable structure without losing information: group related points under short \"## \" headings, use \"- \" bullets, and pull any tasks into a final \"## Action items\" list. Keep wording concise. Output Markdown only — no preamble or commentary.",
   },
+  grammar: {
+    system:
+      "You are a grammar and spelling correction assistant. Read the text the user provides and fix grammar, spelling, punctuation, and awkward phrasing, while preserving the author's voice, meaning, tone, and paragraph/line breaks as closely as possible — do not rewrite for style, shorten it, or change what it says. Output ONLY the corrected text, with no preamble, no explanation of what changed, and no commentary.",
+  },
 } as const
 
 type Mode = keyof typeof MODES

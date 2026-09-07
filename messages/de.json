@@ -594,6 +594,10 @@
       "structure": {
         "label": "Notizen strukturieren",
         "blurb": "Chaotische Notizen → saubere Überschriften, gruppierte Punkte und eine separate Aufgabenliste."
+      },
+      "grammar": {
+        "label": "Grammatik korrigieren",
+        "blurb": "Ein Entwurf in jedem Zustand → derselbe Text mit korrigierter Grammatik, Rechtschreibung und Zeichensetzung."
       }
     }
   },

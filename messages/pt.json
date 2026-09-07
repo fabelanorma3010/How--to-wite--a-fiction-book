@@ -594,6 +594,10 @@
       "structure": {
         "label": "Estruturar notas",
         "blurb": "Notas bagunçadas → títulos limpos, tópicos agrupados e uma lista de ações à parte."
+      },
+      "grammar": {
+        "label": "Corrigir gramática",
+        "blurb": "Um rascunho em qualquer estado → o mesmo texto com gramática, ortografia e pontuação corrigidas."
       }
     }
   },

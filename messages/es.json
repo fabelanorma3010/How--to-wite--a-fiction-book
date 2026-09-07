@@ -594,6 +594,10 @@
       "structure": {
         "label": "Estructurar notas",
         "blurb": "Notas desordenadas → títulos claros, viñetas agrupadas y una lista aparte de tareas."
+      },
+      "grammar": {
+        "label": "Corregir gramática",
+        "blurb": "Un borrador en cualquier estado → el mismo texto con la gramática, ortografía y puntuación corregidas."
       }
     }
   },

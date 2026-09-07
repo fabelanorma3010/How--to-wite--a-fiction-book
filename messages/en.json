@@ -594,6 +594,10 @@
       "structure": {
         "label": "Structure notes",
         "blurb": "Messy notes → clean headings, grouped bullets, and a separate action-items list."
+      },
+      "grammar": {
+        "label": "Grammar fix",
+        "blurb": "A draft in any state → the same text with grammar, spelling, and punctuation cleaned up."
       }
     }
   },

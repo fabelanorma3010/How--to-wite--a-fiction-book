@@ -594,6 +594,10 @@
       "structure": {
         "label": "Struttura gli appunti",
         "blurb": "Appunti disordinati → titoli puliti, elenchi raggruppati e una lista di azioni a parte."
+      },
+      "grammar": {
+        "label": "Correggi la grammatica",
+        "blurb": "Una bozza in qualsiasi stato → lo stesso testo con grammatica, ortografia e punteggiatura corrette."
       }
     }
   },

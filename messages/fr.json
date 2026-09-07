@@ -594,6 +594,10 @@
       "structure": {
         "label": "Structurer les notes",
         "blurb": "Notes en pagaille → titres propres, puces regroupées et une liste d'actions à part."
+      },
+      "grammar": {
+        "label": "Corriger la grammaire",
+        "blurb": "Un brouillon dans n'importe quel état → le même texte avec la grammaire, l'orthographe et la ponctuation corrigées."
       }
     }
   },
