@@ -11,6 +11,7 @@ type Consent = 'accepted' | 'declined'
 
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SRC ?? 'https://cloud.umami.is/script.js'
+const logRocketAppId = process.env.NEXT_PUBLIC_LOGROCKET_APP_ID
 
 function isConsent(value: string | null): value is Consent {
   return value === 'accepted' || value === 'declined'
@@ -18,8 +19,9 @@ function isConsent(value: string | null): value is Consent {
 
 // Sign-in cookies are strictly necessary and load regardless of this choice —
 // Umami and Speed Insights (both cookie-free) only run once accepted, so
-// "Decline" actually means nothing extra loads. See src/app/privacy/page.tsx,
-// "Cookies & analytics".
+// "Decline" actually means nothing extra loads. LogRocket (session replay)
+// also only runs once accepted, with input values masked so drafts and form
+// fields aren't captured. See src/app/privacy/page.tsx, "Cookies & analytics".
 export default function CookieConsent() {
   const t = useTranslations('CookieConsent')
   const [consent, setConsent] = useState<Consent | null>(null)
@@ -30,6 +32,13 @@ export default function CookieConsent() {
     if (isConsent(stored)) setConsent(stored)
     setReady(true)
   }, [])
+
+  useEffect(() => {
+    if (consent !== 'accepted' || !logRocketAppId) return
+    import('logrocket').then(({ default: LogRocket }) => {
+      LogRocket.init(logRocketAppId, { dom: { inputSanitizer: true, textSanitizer: false } })
+    })
+  }, [consent])
 
   function decide(value: Consent) {
     window.localStorage.setItem(CONSENT_KEY, value)

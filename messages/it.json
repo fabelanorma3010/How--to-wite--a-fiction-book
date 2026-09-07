@@ -136,7 +136,31 @@
     "tryAgain": "Riprova",
     "empty": "Ancora nessun post — sii il primo a condividere! ✨",
     "unavailable": "La bacheca della community non è disponibile in questo momento.",
-    "couldNotPost": "Impossibile pubblicare."
+    "couldNotPost": "Impossibile pubblicare.",
+    "likeCount": "{count, plural, one {# mi piace} other {# mi piace}}",
+    "commentCount": "{count, plural, one {# commento} other {# commenti}}",
+    "commentPlaceholder": "Scrivi una risposta…",
+    "postComment": "Rispondi",
+    "postingComment": "Pubblicazione…",
+    "deleteComment": "Elimina",
+    "deleteCommentConfirm": "Eliminare questo commento?",
+    "noComments": "Ancora nessun commento — sii il primo.",
+    "signInToComment": "Accedi per partecipare alla conversazione.",
+    "couldNotComment": "Impossibile pubblicare il commento.",
+    "report": "Segnala",
+    "reportPost": "Segnala questo post",
+    "reportComment": "Segnala questo commento",
+    "reportReasonLabel": "Perché lo stai segnalando?",
+    "reportReason_spam": "Spam",
+    "reportReason_harassment": "Molestie o abusi",
+    "reportReason_inappropriate": "Contenuto inappropriato",
+    "reportReason_other": "Altro",
+    "reportDetailPlaceholder": "Aggiungi dettagli (facoltativo)",
+    "reportSubmit": "Invia segnalazione",
+    "reportSubmitting": "Invio…",
+    "reportSent": "Grazie — daremo un'occhiata.",
+    "reportError": "Impossibile inviare la segnalazione.",
+    "cancel": "Annulla"
   },
   "Contact": {
     "title": "Salutaci",
@@ -520,7 +544,7 @@
     "launchingSoon": "In arrivo",
     "memberTitle": "Abbonamento",
     "memberSubtitle": "Per quando fai sul serio sul finire il tuo libro.",
-    "firstMonthFree": "Primo mese gratis",
+    "firstWeekFree": "Prima settimana gratis",
     "comingSoon": "In arrivo",
     "signUpFirst": "Iscriviti prima",
     "freeWhileBuilding": "Tutto quanto sopra è gratis da usare mentre si costruisce la fatturazione.",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "Tutto ciò che c'è in Gratis, con limiti IA molto più alti",
       "Gli Strumenti di scrittura funzionano su capitoli e lavori interi, non solo estratti brevi",
-      "Generazione di immagini IA inclusa, non solo prompt di idee",
+      "Generazione di immagini IA — in arrivo",
       "Esporta il tuo taccuino o copione in PDF e DOCX formattati",
       "Cronologia del taccuino — torna a una bozza precedente",
       "Caricamenti di libri illimitati, file più grandi",
@@ -551,15 +575,15 @@
       },
       {
         "question": "Posso già sottoscrivere l'Abbonamento?",
-        "answer": "Non ancora — la fatturazione è ancora in costruzione. Quando parte potrai fare l'upgrade dalla tua pagina account, e il primo mese è gratis. Nel frattempo, tutto ciò che è elencato sotto Abbonamento è gratis da usare."
+        "answer": "Non ancora — la fatturazione è ancora in costruzione. Quando parte potrai fare l'upgrade dalla tua pagina account, e la prima settimana è gratis. Nel frattempo, tutto ciò che è elencato sotto Abbonamento è gratis da usare."
       },
       {
-        "question": "Come funziona il primo mese gratis?",
-        "answer": "Al lancio dell'Abbonamento avrai il primo mese gratis — accesso completo, nessun addebito. La fatturazione parte solo dopo, e puoi disdire in qualsiasi momento prima."
+        "question": "Come funziona la prima settimana gratis?",
+        "answer": "Al lancio dell'Abbonamento avrai la prima settimana gratis — accesso completo, nessun addebito. La fatturazione parte dopo — 9,99 $ al mese o 99,99 $ all'anno, in base al piano — e puoi disdire in qualsiasi momento prima."
       },
       {
         "question": "Mensile o annuale?",
-        "answer": "Entrambi, una volta che l'Abbonamento è attivo. L'annuale (99 $/anno) risulta circa il 17% più economico rispetto a pagare 9,99 $ al mese, e potrai passare dall'uno all'altro quando vuoi."
+        "answer": "Entrambi, una volta che l'Abbonamento è attivo. L'annuale (99,99 $/anno) risulta circa il 17% più economico rispetto a pagare 9,99 $ al mese, e potrai passare dall'uno all'altro quando vuoi."
       },
       {
         "question": "Devo creare un account?",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "Struttura gli appunti",
         "blurb": "Appunti disordinati → titoli puliti, elenchi raggruppati e una lista di azioni a parte."
+      },
+      "grammar": {
+        "label": "Correggi la grammatica",
+        "blurb": "Una bozza in qualsiasi stato → lo stesso testo con grammatica, ortografia e punteggiatura corrette."
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "Membro da {date}",
     "editProfile": "Modifica il tuo profilo",
     "favorite": "Preferito",
-    "books": "Libri"
+    "books": "Libri",
+    "follow": "Segui",
+    "following": "Seguito",
+    "followerCount": "{count, plural, one {# follower} other {# follower}}",
+    "followingCount": "{count} seguiti"
   },
   "PrivacyPage": {
     "metaTitle": "Informativa sulla privacy — Storyburst",

@@ -136,7 +136,31 @@
     "tryAgain": "再試行",
     "empty": "まだ投稿がありません — 最初のシェアをどうぞ！ ✨",
     "unavailable": "現在、コミュニティウォールは利用できません。",
-    "couldNotPost": "投稿できませんでした。"
+    "couldNotPost": "投稿できませんでした。",
+    "likeCount": "いいね {count} 件",
+    "commentCount": "コメント {count} 件",
+    "commentPlaceholder": "返信を書く…",
+    "postComment": "返信",
+    "postingComment": "投稿中…",
+    "deleteComment": "削除",
+    "deleteCommentConfirm": "このコメントを削除しますか？",
+    "noComments": "まだコメントがありません——最初のコメントをどうぞ。",
+    "signInToComment": "会話に参加するにはログインしてください。",
+    "couldNotComment": "コメントを投稿できませんでした。",
+    "report": "報告",
+    "reportPost": "この投稿を報告",
+    "reportComment": "このコメントを報告",
+    "reportReasonLabel": "報告する理由は？",
+    "reportReason_spam": "スパム",
+    "reportReason_harassment": "嫌がらせ・迷惑行為",
+    "reportReason_inappropriate": "不適切なコンテンツ",
+    "reportReason_other": "その他",
+    "reportDetailPlaceholder": "詳細を追加（任意）",
+    "reportSubmit": "報告を送信",
+    "reportSubmitting": "送信中…",
+    "reportSent": "ありがとうございます——確認します。",
+    "reportError": "報告を送信できませんでした。",
+    "cancel": "キャンセル"
   },
   "Contact": {
     "title": "こんにちは",
@@ -520,7 +544,7 @@
     "launchingSoon": "近日公開",
     "memberTitle": "メンバーシップ",
     "memberSubtitle": "本を完成させることに本気になったときのために。",
-    "firstMonthFree": "初月無料",
+    "firstWeekFree": "初週無料",
     "comingSoon": "近日公開",
     "signUpFirst": "先にサインアップ",
     "freeWhileBuilding": "上記はすべて、請求機能を構築している間は無料で使えます。",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "無料のすべて、加えて大幅に高い AI 上限",
       "ライティングツールが短い抜粋だけでなく、章や論文の全体で使える",
-      "アイデアのプロンプトだけでなく、AI 画像生成も込み",
+      "AI画像生成 — 近日公開",
       "ノートや脚本を、書式付きの PDF・DOCX に書き出し",
       "ノート履歴——以前の草稿に戻せる",
       "本のアップロード無制限、より大きなファイル",
@@ -551,15 +575,15 @@
       },
       {
         "question": "もうメンバーシップに登録できますか？",
-        "answer": "まだです——請求機能をまだ構築中です。公開されたらアカウントページからアップグレードでき、初月は無料です。それまでの間、メンバーシップに記載のものはすべて無料で使えます。"
+        "answer": "まだです——請求機能をまだ構築中です。公開されたらアカウントページからアップグレードでき、初週は無料です。それまでの間、メンバーシップに記載のものはすべて無料で使えます。"
       },
       {
-        "question": "初月無料はどう機能しますか？",
-        "answer": "メンバーシップが公開されると、初月は無料になります——フルアクセス、料金なし。請求はその後にのみ始まり、始まる前ならいつでも解約できます。"
+        "question": "初週無料はどう機能しますか？",
+        "answer": "メンバーシップが公開されると、最初の1週間は無料になります——フルアクセス、料金なし。請求はその後に始まり（プランに応じて月額9.99ドルか年額99.99ドル）、始まる前ならいつでも解約できます。"
       },
       {
         "question": "月額と年額、どちら？",
-        "answer": "メンバーシップが始まれば両方あります。年額（99ドル/年）は月額9.99ドルより約17%安くなり、いつでも切り替えられます。"
+        "answer": "メンバーシップが始まれば両方あります。年額（99.99ドル/年）は月額9.99ドルより約17%安くなり、いつでも切り替えられます。"
       },
       {
         "question": "アカウントは必要ですか？",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "メモを構成",
         "blurb": "散らかったメモ → すっきりした見出し、まとめた箇条書き、別立てのアクション項目リスト。"
+      },
+      "grammar": {
+        "label": "文法チェック",
+        "blurb": "どんな状態の下書きでも → 文法・スペル・句読点を直した同じ文章に。"
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "{date} から利用",
     "editProfile": "プロフィールを編集",
     "favorite": "お気に入り",
-    "books": "作品"
+    "books": "作品",
+    "follow": "フォロー",
+    "following": "フォロー中",
+    "followerCount": "フォロワー {count} 人",
+    "followingCount": "フォロー中 {count} 人"
   },
   "PrivacyPage": {
     "metaTitle": "プライバシーポリシー — Storyburst",

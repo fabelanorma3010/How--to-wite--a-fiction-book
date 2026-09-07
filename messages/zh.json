@@ -136,7 +136,31 @@
     "tryAgain": "重试",
     "empty": "还没有帖子——来做第一个分享的人吧！ ✨",
     "unavailable": "社区墙暂时不可用。",
-    "couldNotPost": "无法发布。"
+    "couldNotPost": "无法发布。",
+    "likeCount": "{count} 个赞",
+    "commentCount": "{count} 条评论",
+    "commentPlaceholder": "写下回复…",
+    "postComment": "回复",
+    "postingComment": "发布中…",
+    "deleteComment": "删除",
+    "deleteCommentConfirm": "删除这条评论？",
+    "noComments": "还没有评论——来做第一个吧。",
+    "signInToComment": "登录后即可参与讨论。",
+    "couldNotComment": "评论发布失败。",
+    "report": "举报",
+    "reportPost": "举报这条帖子",
+    "reportComment": "举报这条评论",
+    "reportReasonLabel": "你为什么要举报这个？",
+    "reportReason_spam": "垃圾信息",
+    "reportReason_harassment": "骚扰或辱骂",
+    "reportReason_inappropriate": "不当内容",
+    "reportReason_other": "其他",
+    "reportDetailPlaceholder": "补充说明（可选）",
+    "reportSubmit": "提交举报",
+    "reportSubmitting": "提交中…",
+    "reportSent": "谢谢——我们会处理的。",
+    "reportError": "举报提交失败。",
+    "cancel": "取消"
   },
   "Contact": {
     "title": "打个招呼",
@@ -520,7 +544,7 @@
     "launchingSoon": "即将推出",
     "memberTitle": "会员",
     "memberSubtitle": "当你认真想把书写完的时候。",
-    "firstMonthFree": "首月免费",
+    "firstWeekFree": "首周免费",
     "comingSoon": "即将推出",
     "signUpFirst": "先注册",
     "freeWhileBuilding": "在计费功能搭建期间，以上全部免费使用。",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "免费的全部内容，外加高得多的 AI 额度",
       "写作工具可用于整章和整篇论文，而不只是短摘录",
-      "包含 AI 图像生成，而不只是点子提示词",
+      "AI 图像生成 — 即将推出",
       "把你的笔记本或剧本导出为带格式的 PDF 和 DOCX",
       "笔记本历史——回退到较早的草稿",
       "无限图书上传，更大的文件",
@@ -551,15 +575,15 @@
       },
       {
         "question": "我现在能订阅会员吗？",
-        "answer": "还不能——计费功能仍在搭建中。上线后，你可以在账户页面升级，首月免费。在此期间，会员下列出的一切都可免费使用。"
+        "answer": "还不能——计费功能仍在搭建中。上线后，你可以在账户页面升级，首周免费。在此期间，会员下列出的一切都可免费使用。"
       },
       {
-        "question": "免费首月是怎么运作的？",
-        "answer": "会员上线时，你的首月免费——完整访问，不收费。计费只在那之后开始，而且在开始之前你随时可以取消。"
+        "question": "免费首周是怎么运作的？",
+        "answer": "会员上线时，你的首周免费——完整访问，不收费。计费在那之后开始——根据你选择的方案，每月 9.99 美元或每年 99.99 美元——而且在开始之前你随时可以取消。"
       },
       {
         "question": "按月还是按年？",
-        "answer": "会员上线后两者都有。按年（99 美元/年）比按月付 9.99 美元便宜约 17%，而且你可以随时切换。"
+        "answer": "会员上线后两者都有。按年（99.99 美元/年）比按月付 9.99 美元便宜约 17%，而且你可以随时切换。"
       },
       {
         "question": "我需要注册账户吗？",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "整理笔记结构",
         "blurb": "杂乱的笔记 → 清爽的标题、分组的要点，以及一份单独的行动项清单。"
+      },
+      "grammar": {
+        "label": "语法修正",
+        "blurb": "任何状态的草稿 → 语法、拼写和标点都修正好的同一段文字。"
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "自 {date} 起加入",
     "editProfile": "编辑你的资料",
     "favorite": "最爱",
-    "books": "作品"
+    "books": "作品",
+    "follow": "关注",
+    "following": "已关注",
+    "followerCount": "{count} 位粉丝",
+    "followingCount": "关注 {count} 人"
   },
   "PrivacyPage": {
     "metaTitle": "隐私政策 — Storyburst",

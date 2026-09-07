@@ -41,3 +41,17 @@ export interface SubscriptionRow {
 }
 
 export type ActionResult = { ok: true } | { error: string }
+
+export interface ContentReportRow {
+  id: string
+  reason: string
+  detail: string | null
+  status: 'open' | 'resolved'
+  createdAt: string
+  reporterName: string
+  targetType: 'post' | 'comment'
+  targetId: string
+  targetAuthorName: string
+  targetTitle: string | null
+  targetBody: string
+}

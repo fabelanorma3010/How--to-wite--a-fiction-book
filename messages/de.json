@@ -136,7 +136,31 @@
     "tryAgain": "Erneut versuchen",
     "empty": "Noch keine Beiträge — sei die/der Erste! ✨",
     "unavailable": "Die Community-Wand ist gerade nicht verfügbar.",
-    "couldNotPost": "Beitrag konnte nicht gesendet werden."
+    "couldNotPost": "Beitrag konnte nicht gesendet werden.",
+    "likeCount": "{count, plural, one {# Like} other {# Likes}}",
+    "commentCount": "{count, plural, one {# Kommentar} other {# Kommentare}}",
+    "commentPlaceholder": "Antwort schreiben…",
+    "postComment": "Antworten",
+    "postingComment": "Wird gesendet…",
+    "deleteComment": "Löschen",
+    "deleteCommentConfirm": "Diesen Kommentar löschen?",
+    "noComments": "Noch keine Kommentare — sei die/der Erste.",
+    "signInToComment": "Melde dich an, um mitzureden.",
+    "couldNotComment": "Kommentar konnte nicht gesendet werden.",
+    "report": "Melden",
+    "reportPost": "Diesen Beitrag melden",
+    "reportComment": "Diesen Kommentar melden",
+    "reportReasonLabel": "Warum meldest du das?",
+    "reportReason_spam": "Spam",
+    "reportReason_harassment": "Belästigung oder Missbrauch",
+    "reportReason_inappropriate": "Unangemessener Inhalt",
+    "reportReason_other": "Anderes",
+    "reportDetailPlaceholder": "Details hinzufügen (optional)",
+    "reportSubmit": "Meldung senden",
+    "reportSubmitting": "Wird gesendet…",
+    "reportSent": "Danke — wir schauen es uns an.",
+    "reportError": "Meldung konnte nicht gesendet werden.",
+    "cancel": "Abbrechen"
   },
   "Contact": {
     "title": "Sag Hallo",
@@ -520,7 +544,7 @@
     "launchingSoon": "Bald verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
-    "firstMonthFree": "Erster Monat gratis",
+    "firstWeekFree": "Erste Woche gratis",
     "comingSoon": "Bald",
     "signUpFirst": "Zuerst registrieren",
     "freeWhileBuilding": "Alles oben ist kostenlos nutzbar, während die Abrechnung gebaut wird.",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "Alles aus Kostenlos, mit deutlich höheren KI-Limits",
       "Die Schreibwerkzeuge arbeiten mit ganzen Kapiteln und Arbeiten, nicht nur kurzen Ausschnitten",
-      "KI-Bildgenerierung inklusive, nicht nur Ideen-Prompts",
+      "KI-Bildgenerierung — bald",
       "Exportiere dein Notizbuch oder Skript als formatiertes PDF und DOCX",
       "Notizbuch-Verlauf — zu einem früheren Entwurf zurückspringen",
       "Unbegrenzte Buch-Uploads, größere Dateien",
@@ -551,15 +575,15 @@
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",
-        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und der erste Monat ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
+        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und die erste Woche ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
       },
       {
-        "question": "Wie funktioniert der kostenlose erste Monat?",
-        "answer": "Wenn die Mitgliedschaft startet, bekommst du deinen ersten Monat gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt erst danach, und du kannst jederzeit vorher kündigen."
+        "question": "Wie funktioniert die kostenlose erste Woche?",
+        "answer": "Wenn die Mitgliedschaft startet, bekommst du deine erste Woche gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
       },
       {
         "question": "Monatlich oder jährlich?",
-        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
+        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99,99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
       },
       {
         "question": "Muss ich ein Konto anlegen?",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "Notizen strukturieren",
         "blurb": "Chaotische Notizen → saubere Überschriften, gruppierte Punkte und eine separate Aufgabenliste."
+      },
+      "grammar": {
+        "label": "Grammatik korrigieren",
+        "blurb": "Ein Entwurf in jedem Zustand → derselbe Text mit korrigierter Grammatik, Rechtschreibung und Zeichensetzung."
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "Mitglied seit {date}",
     "editProfile": "Dein Profil bearbeiten",
     "favorite": "Favorit",
-    "books": "Bücher"
+    "books": "Bücher",
+    "follow": "Folgen",
+    "following": "Gefolgt",
+    "followerCount": "{count, plural, one {# Follower} other {# Follower}}",
+    "followingCount": "{count} Gefolgt"
   },
   "PrivacyPage": {
     "metaTitle": "Datenschutzerklärung — Storyburst",

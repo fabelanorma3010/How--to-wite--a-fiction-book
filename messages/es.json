@@ -136,7 +136,31 @@
     "tryAgain": "Reintentar",
     "empty": "Aún no hay publicaciones: ¡sé el primero en compartir! ✨",
     "unavailable": "El muro de la comunidad no está disponible ahora mismo.",
-    "couldNotPost": "No se pudo publicar."
+    "couldNotPost": "No se pudo publicar.",
+    "likeCount": "{count, plural, one {# me gusta} other {# me gusta}}",
+    "commentCount": "{count, plural, one {# comentario} other {# comentarios}}",
+    "commentPlaceholder": "Escribe una respuesta…",
+    "postComment": "Responder",
+    "postingComment": "Publicando…",
+    "deleteComment": "Eliminar",
+    "deleteCommentConfirm": "¿Eliminar este comentario?",
+    "noComments": "Aún no hay comentarios: sé el primero.",
+    "signInToComment": "Inicia sesión para unirte a la conversación.",
+    "couldNotComment": "No se pudo publicar el comentario.",
+    "report": "Denunciar",
+    "reportPost": "Denunciar esta publicación",
+    "reportComment": "Denunciar este comentario",
+    "reportReasonLabel": "¿Por qué lo denuncias?",
+    "reportReason_spam": "Spam",
+    "reportReason_harassment": "Acoso o abuso",
+    "reportReason_inappropriate": "Contenido inapropiado",
+    "reportReason_other": "Otro",
+    "reportDetailPlaceholder": "Añade detalles (opcional)",
+    "reportSubmit": "Enviar denuncia",
+    "reportSubmitting": "Enviando…",
+    "reportSent": "Gracias, le echaremos un vistazo.",
+    "reportError": "No se pudo enviar la denuncia.",
+    "cancel": "Cancelar"
   },
   "Contact": {
     "title": "Saluda",
@@ -520,7 +544,7 @@
     "launchingSoon": "Próximamente",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
-    "firstMonthFree": "Primer mes gratis",
+    "firstWeekFree": "Primera semana gratis",
     "comingSoon": "Próximamente",
     "signUpFirst": "Regístrate primero",
     "freeWhileBuilding": "Todo lo de arriba es gratis mientras se construye la facturación.",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "Todo lo de Gratis, con límites de IA mucho más altos",
       "Las Herramientas de Escritura funcionan con capítulos y trabajos completos, no solo fragmentos cortos",
-      "Generación de imágenes con IA incluida, no solo prompts de ideas",
+      "Generación de imágenes con IA — próximamente",
       "Exporta tu cuaderno o guion a PDF y DOCX con formato",
       "Historial del cuaderno: vuelve a un borrador anterior",
       "Subidas de libros ilimitadas, archivos más grandes",
@@ -551,15 +575,15 @@
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",
-        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y el primer mes es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
+        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y la primera semana es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
       },
       {
-        "question": "¿Cómo funciona el primer mes gratis?",
-        "answer": "Cuando se lance la Membresía, tendrás tu primer mes gratis: acceso completo, sin cargo. La facturación solo empieza después de eso, y puedes cancelar en cualquier momento antes."
+        "question": "¿Cómo funciona la primera semana gratis?",
+        "answer": "Cuando se lance la Membresía, tendrás tu primera semana gratis: acceso completo, sin cargo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
       },
       {
         "question": "¿Mensual o anual?",
-        "answer": "Ambas, cuando la Membresía esté activa. La anual (99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
+        "answer": "Ambas, cuando la Membresía esté activa. La anual (99,99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
       },
       {
         "question": "¿Necesito crear una cuenta?",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "Estructurar notas",
         "blurb": "Notas desordenadas → títulos claros, viñetas agrupadas y una lista aparte de tareas."
+      },
+      "grammar": {
+        "label": "Corregir gramática",
+        "blurb": "Un borrador en cualquier estado → el mismo texto con la gramática, ortografía y puntuación corregidas."
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "Miembro desde {date}",
     "editProfile": "Editar tu perfil",
     "favorite": "Favorito",
-    "books": "Libros"
+    "books": "Libros",
+    "follow": "Seguir",
+    "following": "Siguiendo",
+    "followerCount": "{count, plural, one {# seguidor} other {# seguidores}}",
+    "followingCount": "{count} siguiendo"
   },
   "PrivacyPage": {
     "metaTitle": "Política de privacidad — Storyburst",

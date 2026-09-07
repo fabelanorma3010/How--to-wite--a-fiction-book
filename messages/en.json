@@ -136,7 +136,31 @@
     "tryAgain": "Try Again",
     "empty": "No posts yet — be the first to share! ✨",
     "unavailable": "The community wall isn't available right now.",
-    "couldNotPost": "Could not post."
+    "couldNotPost": "Could not post.",
+    "likeCount": "{count, plural, one {# like} other {# likes}}",
+    "commentCount": "{count, plural, one {# comment} other {# comments}}",
+    "commentPlaceholder": "Write a reply…",
+    "postComment": "Reply",
+    "postingComment": "Posting…",
+    "deleteComment": "Delete",
+    "deleteCommentConfirm": "Delete this comment?",
+    "noComments": "No comments yet — be the first.",
+    "signInToComment": "Log in to join the conversation.",
+    "couldNotComment": "Could not post comment.",
+    "report": "Report",
+    "reportPost": "Report this post",
+    "reportComment": "Report this comment",
+    "reportReasonLabel": "Why are you reporting this?",
+    "reportReason_spam": "Spam",
+    "reportReason_harassment": "Harassment or abuse",
+    "reportReason_inappropriate": "Inappropriate content",
+    "reportReason_other": "Other",
+    "reportDetailPlaceholder": "Add any details (optional)",
+    "reportSubmit": "Submit report",
+    "reportSubmitting": "Submitting…",
+    "reportSent": "Thanks — we'll take a look.",
+    "reportError": "Couldn't submit the report.",
+    "cancel": "Cancel"
   },
   "Contact": {
     "title": "Say Hello",
@@ -520,7 +544,7 @@
     "launchingSoon": "Launching soon",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
-    "firstMonthFree": "First month free",
+    "firstWeekFree": "First week free",
     "comingSoon": "Coming soon",
     "signUpFirst": "Sign up first",
     "freeWhileBuilding": "Everything above is free to use while billing gets built.",
@@ -535,7 +559,7 @@
     "memberFeatures": [
       "Everything in Free, with much higher AI limits",
       "Writing Tools work on full chapters and papers, not just short excerpts",
-      "AI image generation included, not just idea prompts",
+      "AI image generation — coming soon",
       "Export your notebook or script to formatted PDF and DOCX",
       "Notebook history — roll back to an earlier draft",
       "Unlimited book uploads, larger files",
@@ -551,15 +575,15 @@
       },
       {
         "question": "Can I sign up for Membership yet?",
-        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first month is free. Everything listed under Membership is free to use in the meantime."
+        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first week is free. Everything listed under Membership is free to use in the meantime."
       },
       {
-        "question": "How does the free first month work?",
-        "answer": "When Membership launches, you'll get your first month free — full access, no charge. Billing only starts after that, and you can cancel any time before it does."
+        "question": "How does the free first week work?",
+        "answer": "When Membership launches, you'll get your first week free — full access, no charge. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
       },
       {
         "question": "Monthly or annual?",
-        "answer": "Both, once Membership is live. Annual ($99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
+        "answer": "Both, once Membership is live. Annual ($99.99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
       },
       {
         "question": "Do I need to make an account?",
@@ -594,6 +618,10 @@
       "structure": {
         "label": "Structure notes",
         "blurb": "Messy notes → clean headings, grouped bullets, and a separate action-items list."
+      },
+      "grammar": {
+        "label": "Grammar fix",
+        "blurb": "A draft in any state → the same text with grammar, spelling, and punctuation cleaned up."
       }
     }
   },
@@ -714,7 +742,11 @@
     "memberSince": "Member since {date}",
     "editProfile": "Edit your profile",
     "favorite": "Favorite",
-    "books": "Books"
+    "books": "Books",
+    "follow": "Follow",
+    "following": "Following",
+    "followerCount": "{count, plural, one {# follower} other {# followers}}",
+    "followingCount": "{count} following"
   },
   "PrivacyPage": {
     "metaTitle": "Privacy Policy — Storyburst",

@@ -15,6 +15,17 @@ const panels = [
   { emoji: '🧸', rotate: 8, top: 428, left: 972, bg: '#ede9fe', border: '#a78bfa' },
 ]
 
+// Satori (the renderer behind ImageResponse) draws text with plain font
+// glyphs and has no color-emoji font to fall back on, so raw emoji characters
+// silently render as blank glyphs in production. Twemoji SVGs served as
+// <img> tags render reliably instead.
+function twemojiUrl(emoji: string) {
+  const codepoints = Array.from(emoji)
+    .map((char) => char.codePointAt(0)?.toString(16))
+    .join('-')
+  return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${codepoints}.svg`
+}
+
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -73,7 +84,8 @@ export default function OpengraphImage() {
               transform: `rotate(${p.rotate}deg)`,
             }}
           >
-            {p.emoji}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={twemojiUrl(p.emoji)} width={72} height={72} alt="" />
           </div>
         ))}
 
@@ -89,7 +101,8 @@ export default function OpengraphImage() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 26 }}>📖</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={twemojiUrl('📖')} width={26} height={26} alt="" />
             <span style={{ display: 'flex', fontSize: 24, fontWeight: 800, color: '#1e1b4b' }}>
               Storyburst
             </span>
@@ -98,6 +111,8 @@ export default function OpengraphImage() {
           <div
             style={{
               display: 'flex',
+              alignItems: 'center',
+              gap: 8,
               marginTop: 20,
               padding: '9px 20px',
               borderRadius: 9999,
@@ -110,7 +125,9 @@ export default function OpengraphImage() {
               alignSelf: 'flex-start',
             }}
           >
-            ✨ Your creative launchpad for illustrated storytelling
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={twemojiUrl('✨')} width={19} height={19} alt="" />
+            Your creative launchpad for illustrated storytelling
           </div>
 
           <div
