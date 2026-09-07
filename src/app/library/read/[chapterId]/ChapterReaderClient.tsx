@@ -5,28 +5,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Chapter, BookFormat } from '@/lib/books'
 import { parseChapterBody } from '@/lib/parseChapterBody'
-import { getBookFormatTheme } from '@/data/bookFormatThemes'
+import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes'
 
 type ChapterData = Chapter & { bookTitle: string; bookType: BookFormat | null }
 type Sibling = { id: string; chapterNumber: number } | null
 
 const CHAPTERBOOK_THEME = getBookFormatTheme('chapterbook')
 
-function textureOverlayStyle(texture: 'dots' | 'screentone' | 'engraving' | 'flat', ink: string): React.CSSProperties {
-  if (texture === 'dots') {
-    return { backgroundImage: `radial-gradient(circle, ${ink}29 1.6px, transparent 2px)`, backgroundSize: '11px 11px' }
-  }
-  if (texture === 'screentone') {
-    return { backgroundImage: `radial-gradient(circle, ${ink}59 1.3px, transparent 1.6px)`, backgroundSize: '6px 6px' }
-  }
-  if (texture === 'engraving') {
-    return {
-      backgroundImage: `repeating-linear-gradient(100deg, ${ink}38 0 0.7px, transparent 0.7px 3px)`,
-      mixBlendMode: 'multiply',
-    }
-  }
-  return {}
-}
 
 export default function ChapterReaderClient({
   chapter,

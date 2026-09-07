@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { bookTypes, bookFormatEmoji } from '@/data/bookTypes'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
 import DictateButton from '@/components/DictateButton'
+import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes'
 import type { Book, Chapter } from '@/lib/books'
 
 const MAX_COVER_BYTES = 5 * 1024 * 1024
@@ -379,6 +380,7 @@ function ChapterPanel({
 }) {
   const isText = bookType === 'chapterbook'
   const isManga = bookType === 'manga'
+  const theme = getBookFormatTheme(bookType)
   const [chapters, setChapters] = useState<Chapter[] | null>(null)
   const [adding, setAdding] = useState(false)
   const [chapterTitle, setChapterTitle] = useState('')
@@ -683,7 +685,15 @@ function ChapterPanel({
                   onChange={(e) => setBody(e.target.value)}
                   rows={10}
                   placeholder="Once upon a time..."
-                  className="w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm leading-relaxed text-ink focus:border-primary/50"
+                  className="w-full resize-y px-4 py-3 text-[15px] leading-relaxed focus:outline-none"
+                  style={{
+                    background: theme.pageBg,
+                    color: theme.ink,
+                    fontFamily: theme.bodyFont,
+                    border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
+                    borderRadius: theme.pageRadius,
+                    boxShadow: theme.pageShadow,
+                  }}
                 />
               </div>
 
@@ -746,11 +756,41 @@ function ChapterPanel({
               </label>
 
               {pageUrls.length > 0 && (
-                <ul className="mb-2 flex flex-wrap gap-2">
+                <ul className="mb-3 flex flex-wrap gap-3">
                   {pageUrls.map((url, i) => (
-                    <li key={url + i} className="relative h-16 w-12 overflow-hidden rounded-md border-2 border-ink/15">
+                    <li
+                      key={url + i}
+                      className="relative h-28 w-20 overflow-hidden"
+                      style={{
+                        border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
+                        borderRadius: theme.pageRadius,
+                        boxShadow: theme.pageShadow,
+                        background: theme.pageBg,
+                      }}
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={url} alt={`Page ${i + 1}`} className="h-full w-full object-cover" />
+                      <img
+                        src={url}
+                        alt={`Page ${i + 1}`}
+                        className="h-full w-full object-cover"
+                        style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                      />
+                      {theme.illustTexture !== 'flat' && (
+                        <div
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0"
+                          style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                        />
+                      )}
+                      <span
+                        className="absolute bottom-0 left-0 w-full px-1.5 py-1 text-[10px] font-bold text-white"
+                        style={{
+                          fontFamily: theme.displayFont,
+                          background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                        }}
+                      >
+                        {i + 1}
+                      </span>
                       <button
                         type="button"
                         onClick={() => removePage(i)}
