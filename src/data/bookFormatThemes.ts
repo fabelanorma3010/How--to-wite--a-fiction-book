@@ -16,7 +16,7 @@ export interface BookFormatTheme {
   /** 'dots' (comic halftone) | 'screentone' (manga) | 'engraving' | 'flat' */
   illustTexture: 'dots' | 'screentone' | 'engraving' | 'flat'
   /** How the text under/around the picture is boxed. */
-  captionStyle: 'balloon' | 'manga' | 'bubble' | 'big' | 'prose'
+  captionStyle: 'balloon' | 'manga' | 'big' | 'prose'
   grayscale: boolean
 }
 
@@ -64,7 +64,7 @@ const cartoon: BookFormatTheme = {
   pageRadius: '26px',
   pageShadow: '0 10px 0 -2px #ffcd3c, 0 10px 24px rgba(43,43,43,0.25)',
   illustTexture: 'flat',
-  captionStyle: 'bubble',
+  captionStyle: 'big',
   grayscale: false,
 }
 
