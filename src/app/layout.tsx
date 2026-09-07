@@ -1,5 +1,17 @@
 import type { Metadata, Viewport } from 'next'
-import { Baloo_2, Nunito } from 'next/font/google'
+import {
+  Baloo_2,
+  Nunito,
+  Bangers,
+  Comic_Neue,
+  Dela_Gothic_One,
+  Noto_Sans_JP,
+  Fredoka,
+  Quicksand,
+  Patrick_Hand,
+  Fraunces,
+  Source_Serif_4,
+} from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import CookieConsent from '../components/CookieConsent'
@@ -20,6 +32,71 @@ const nunito = Nunito({
   variable: '--font-nunito',
   display: 'swap',
 })
+
+// One display + one body face per book format, so a book looks like its real
+// medium (a comic page, a manga volume, a storybook…) both while it's being
+// built (the account chapter editor) and while it's being read (/library).
+const bangers = Bangers({ subsets: ['latin'], weight: ['400'], variable: '--font-bangers', display: 'swap' })
+const comicNeue = Comic_Neue({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-comic-neue',
+  display: 'swap',
+})
+const delaGothic = Dela_Gothic_One({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-dela-gothic',
+  display: 'swap',
+})
+const notoJp = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-noto-jp',
+  display: 'swap',
+})
+const fredoka = Fredoka({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-fredoka',
+  display: 'swap',
+})
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-quicksand',
+  display: 'swap',
+})
+const patrickHand = Patrick_Hand({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-patrick-hand',
+  display: 'swap',
+})
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-fraunces',
+  display: 'swap',
+})
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-source-serif',
+  display: 'swap',
+})
+
+const formatFontVariables = [
+  bangers.variable,
+  comicNeue.variable,
+  delaGothic.variable,
+  notoJp.variable,
+  fredoka.variable,
+  quicksand.variable,
+  patrickHand.variable,
+  fraunces.variable,
+  sourceSerif.variable,
+].join(' ')
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.fiction-book-builder.com'
 const title = 'Storyburst — How to Write & Publish a Fiction Book'
@@ -77,7 +154,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const locale = await getLocale()
 
   return (
-    <html lang={locale} className={`${baloo2.variable} ${nunito.variable}`}>
+    <html lang={locale} className={`${baloo2.variable} ${nunito.variable} ${formatFontVariables}`}>
       <body>
         <JsonLd data={jsonLd} />
         <NextIntlClientProvider>

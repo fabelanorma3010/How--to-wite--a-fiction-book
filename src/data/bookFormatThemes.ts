@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { BookFormat } from '../lib/books'
 
 export interface BookFormatTheme {
@@ -105,4 +106,21 @@ const FALLBACK = chapterbook
 
 export function getBookFormatTheme(bookType: BookFormat | null | undefined): BookFormatTheme {
   return (bookType && THEMES[bookType]) || FALLBACK
+}
+
+/** A CSS background pattern standing in for halftone/screentone/engraving print textures. */
+export function textureOverlayStyle(texture: BookFormatTheme['illustTexture'], ink: string): CSSProperties {
+  if (texture === 'dots') {
+    return { backgroundImage: `radial-gradient(circle, ${ink}29 1.6px, transparent 2px)`, backgroundSize: '11px 11px' }
+  }
+  if (texture === 'screentone') {
+    return { backgroundImage: `radial-gradient(circle, ${ink}59 1.3px, transparent 1.6px)`, backgroundSize: '6px 6px' }
+  }
+  if (texture === 'engraving') {
+    return {
+      backgroundImage: `repeating-linear-gradient(100deg, ${ink}38 0 0.7px, transparent 0.7px 3px)`,
+      mixBlendMode: 'multiply',
+    }
+  }
+  return {}
 }
