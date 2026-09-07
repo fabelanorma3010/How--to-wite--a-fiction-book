@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { bookTypes, bookFormatEmoji } from '@/data/bookTypes'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
+import DictateButton from '@/components/DictateButton'
 import type { Book, Chapter } from '@/lib/books'
 
 const MAX_COVER_BYTES = 5 * 1024 * 1024
@@ -720,6 +721,11 @@ function ChapterPanel({
                     placeholder="Describe an image to generate…"
                     className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50"
                   />
+                  <DictateButton
+                    onResult={setImagePrompt}
+                    label="Speak"
+                    className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
+                  />
                   <button
                     type="button"
                     onClick={() => void handleGenerateImage()}
@@ -781,6 +787,11 @@ function ChapterPanel({
                   placeholder="Describe the next page to generate…"
                   disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
                   className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50 disabled:opacity-50"
+                />
+                <DictateButton
+                  onResult={setPageImagePrompt}
+                  label="Speak"
+                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
                 />
                 <button
                   type="button"
