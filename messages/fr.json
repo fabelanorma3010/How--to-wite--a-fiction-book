@@ -10,7 +10,7 @@
     "publish": "Publier",
     "community": "Communauté",
     "tools": "Outils",
-    "creators": "Créateurs",
+    "creators": "Illustrateurs",
     "about": "À propos",
     "pricing": "Tarifs",
     "contact": "Contact",
@@ -31,7 +31,7 @@
     "quiz": "Quiz",
     "bookTypes": "Types de livres",
     "tools": "Outils",
-    "creators": "Créateurs",
+    "creators": "Illustrateurs",
     "about": "À propos",
     "pricing": "Tarifs",
     "contact": "Contact",
@@ -566,10 +566,10 @@
     "intro": "Résumez, critiquez et mettez de l'ordre dans votre écriture — collez du texte ou importez un fichier, obtenez un résultat en quelques secondes."
   },
   "CreatorsPage": {
-    "metaTitle": "Créateurs — Storyburst",
+    "metaTitle": "Illustrateurs — Storyburst",
     "metaDescription": "Rencontrez les auteurs et artistes qui construisent leurs BD, manga, dessins animés et livres pour enfants sur Storyburst.",
     "badge": "✨ Rencontrez les créateurs",
-    "heading": "Créateurs",
+    "heading": "Illustrateurs",
     "intro": "Des auteurs et des artistes qui partagent leur travail sur Storyburst. Activez votre propre profil public depuis votre <account>page de compte</account>.",
     "empty": "Aucun profil public pour l'instant — soyez le premier. Ajoutez une bio ou un avatar dans votre compte et passez votre profil en public."
   },

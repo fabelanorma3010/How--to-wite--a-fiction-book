@@ -10,7 +10,7 @@
     "publish": "出版",
     "community": "社区",
     "tools": "工具",
-    "creators": "创作者",
+    "creators": "插画师",
     "about": "关于",
     "pricing": "价格",
     "contact": "联系",
@@ -31,7 +31,7 @@
     "quiz": "测验",
     "bookTypes": "图书类型",
     "tools": "工具",
-    "creators": "创作者",
+    "creators": "插画师",
     "about": "关于",
     "pricing": "价格",
     "contact": "联系",
@@ -566,10 +566,10 @@
     "intro": "概括、评点、整理你的文字——粘贴文字或上传文件，几秒内拿到结果。"
   },
   "CreatorsPage": {
-    "metaTitle": "创作者 — Storyburst",
+    "metaTitle": "插画师 — Storyburst",
     "metaDescription": "认识在 Storyburst 上创作漫画、日漫、卡通和儿童读物的作者与画师。",
     "badge": "✨ 认识创作者",
-    "heading": "创作者",
+    "heading": "插画师",
     "intro": "在 Storyburst 上分享作品的作者与画师。在你的<account>账户页面</account>开启你自己的公开资料。",
     "empty": "还没有公开资料——来做第一个。在你的账户里加一段简介或一个头像，并把资料切换为公开。"
   },
