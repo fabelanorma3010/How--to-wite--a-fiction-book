@@ -2,9 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getBookById, getBookChapters } from '@/lib/books'
 import { getPublicProfileById } from '@/lib/publicProfile'
+import { isBookSaved } from '@/lib/savedBooks'
+import { getCurrentUser } from '@/lib/user'
 import { bookFormatEmoji } from '@/data/bookTypes'
 import ReadAloud from '@/components/ReadAloud'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
+import SaveToLibraryButton from '@/components/SaveToLibraryButton'
+import DownloadBookButton from '@/components/DownloadBookButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -27,7 +31,12 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
     )
   }
 
-  const [chapters, author] = await Promise.all([getBookChapters(book.id), getPublicProfileById(book.userId)])
+  const [chapters, author, currentUser] = await Promise.all([
+    getBookChapters(book.id),
+    getPublicProfileById(book.userId),
+    getCurrentUser(),
+  ])
+  const saved = await isBookSaved(book.id, currentUser?.id ?? null)
 
   return (
     <div className="relative pb-[48px]">
@@ -112,6 +121,11 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
                     Read the full book
                   </a>
                 ) : null}
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                <SaveToLibraryButton viewerId={currentUser?.id ?? null} bookId={book.id} initialSaved={saved} />
+                <DownloadBookButton book={{ title: book.title, description: book.description }} chapters={chapters} />
               </div>
             </div>
           </div>
