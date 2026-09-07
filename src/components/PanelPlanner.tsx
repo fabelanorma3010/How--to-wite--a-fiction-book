@@ -341,7 +341,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               <p className="text-xs font-semibold text-ink/45">{tm('reading')}</p>
             </div>
 
-            <div className="mx-auto mt-3 flex w-full max-w-sm items-center gap-2" style={{ perspective: '1400px' }}>
+            <div className="mx-auto mt-3 flex w-full max-w-2xl items-center gap-3" style={{ perspective: '1400px' }}>
               <button
                 type="button"
                 onClick={goPrevPanel}
@@ -454,7 +454,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               ))}
             </div>
 
-            <div className="mx-auto mt-4 max-w-sm rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
+            <div className="mx-auto mt-4 max-w-2xl rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
               <h3 className="mb-3 text-sm font-extrabold uppercase tracking-wide text-ink/60">
                 {t('panelWord')} {currentPanel.n}
               </h3>
