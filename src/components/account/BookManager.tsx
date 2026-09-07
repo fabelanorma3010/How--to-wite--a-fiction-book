@@ -415,7 +415,7 @@ function ChapterPanel({
     }
     const { data } = await supabase
       .from('book_chapters')
-      .select('id, book_id, chapter_number, title, body, pages, page_captions, published_at')
+      .select('id, book_id, chapter_number, title, body, pages, published_at')
       .eq('book_id', bookId)
       .order('chapter_number', { ascending: true })
     setChapters(
@@ -426,7 +426,9 @@ function ChapterPanel({
         title: row.title,
         body: row.body,
         pages: row.pages ?? [],
-        pageCaptions: row.page_captions ?? [],
+        // page_captions isn't selected above yet — pending migration, see the
+        // same note in src/lib/books.ts.
+        pageCaptions: [],
         publishedAt: row.published_at,
       })),
     )
@@ -618,12 +620,13 @@ function ChapterPanel({
         setPageTexts(Array(MAX_PAGES_PER_CHAPTER).fill(''))
         setChapterPageIndex(0)
       } else {
+        // page_captions omitted here until its migration is applied — the
+        // column doesn't exist yet, and Postgres rejects unknown insert columns.
         const { error: insertError } = await supabase.from('book_chapters').insert({
           book_id: bookId,
           chapter_number: nextNumber,
           title: chapterTitle.trim() || null,
           pages: pageUrls,
-          page_captions: pageCaptions,
         })
         if (insertError) throw insertError
         setPageUrls([])
