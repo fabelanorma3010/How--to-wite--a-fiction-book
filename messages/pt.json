@@ -520,7 +520,7 @@
     "launchingSoon": "Em breve",
     "memberTitle": "Assinatura",
     "memberSubtitle": "Para quando você está falando sério sobre terminar seu livro.",
-    "firstMonthFree": "Primeiro mês grátis",
+    "firstWeekFree": "Primeira semana grátis",
     "comingSoon": "Em breve",
     "signUpFirst": "Cadastre-se primeiro",
     "freeWhileBuilding": "Tudo acima é grátis para usar enquanto a cobrança é construída.",
@@ -535,7 +535,7 @@
     "memberFeatures": [
       "Tudo do Grátis, com limites de IA muito maiores",
       "As Ferramentas de Escrita funcionam com capítulos e trabalhos inteiros, não só trechos curtos",
-      "Geração de imagens com IA incluída, não só prompts de ideias",
+      "Geração de imagens com IA — em breve",
       "Exporte seu caderno ou roteiro para PDF e DOCX formatados",
       "Histórico do caderno — volte a um rascunho anterior",
       "Envios de livros ilimitados, arquivos maiores",
@@ -551,15 +551,15 @@
       },
       {
         "question": "Já posso assinar a Assinatura?",
-        "answer": "Ainda não — a cobrança ainda está sendo construída. Quando lançar, você poderá fazer o upgrade pela sua página de conta, e o primeiro mês é grátis. Enquanto isso, tudo listado em Assinatura é grátis para usar."
+        "answer": "Ainda não — a cobrança ainda está sendo construída. Quando lançar, você poderá fazer o upgrade pela sua página de conta, e a primeira semana é grátis. Enquanto isso, tudo listado em Assinatura é grátis para usar."
       },
       {
-        "question": "Como funciona o primeiro mês grátis?",
-        "answer": "Quando a Assinatura lançar, você terá o primeiro mês grátis — acesso completo, sem cobrança. A cobrança só começa depois disso, e você pode cancelar a qualquer momento antes."
+        "question": "Como funciona a primeira semana grátis?",
+        "answer": "Quando a Assinatura lançar, você terá a primeira semana grátis — acesso completo, sem cobrança. A cobrança começa depois disso — US$ 9,99 por mês ou US$ 99,99 por ano, dependendo do seu plano — e você pode cancelar a qualquer momento antes."
       },
       {
         "question": "Mensal ou anual?",
-        "answer": "Ambos, quando a Assinatura estiver no ar. O anual (US$ 99/ano) sai cerca de 17% mais barato que pagar US$ 9,99 por mês, e você poderá alternar entre eles quando quiser."
+        "answer": "Ambos, quando a Assinatura estiver no ar. O anual (US$ 99,99/ano) sai cerca de 17% mais barato que pagar US$ 9,99 por mês, e você poderá alternar entre eles quando quiser."
       },
       {
         "question": "Preciso criar uma conta?",

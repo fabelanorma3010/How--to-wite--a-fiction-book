@@ -520,7 +520,7 @@
     "launchingSoon": "Bientôt disponible",
     "memberTitle": "Abonnement",
     "memberSubtitle": "Pour quand vous êtes sérieux quant à finir votre livre.",
-    "firstMonthFree": "Premier mois gratuit",
+    "firstWeekFree": "Première semaine gratuite",
     "comingSoon": "Bientôt",
     "signUpFirst": "Inscrivez-vous d'abord",
     "freeWhileBuilding": "Tout ce qui précède est gratuit pendant que la facturation se construit.",
@@ -535,7 +535,7 @@
     "memberFeatures": [
       "Tout ce qui est dans Gratuit, avec des limites d'IA bien plus élevées",
       "Les Outils d'écriture fonctionnent sur des chapitres et travaux complets, pas seulement de courts extraits",
-      "Génération d'images IA incluse, pas seulement des prompts d'idées",
+      "Génération d'images IA — bientôt",
       "Exportez votre carnet ou scénario en PDF et DOCX mis en forme",
       "Historique du carnet — revenez à un brouillon antérieur",
       "Imports de livres illimités, fichiers plus volumineux",
@@ -551,15 +551,15 @@
       },
       {
         "question": "Puis-je déjà souscrire à l'abonnement ?",
-        "answer": "Pas tout à fait — la facturation est encore en construction. Une fois lancée, vous pourrez passer à l'abonnement depuis votre page de compte, et le premier mois est gratuit. En attendant, tout ce qui figure sous Abonnement est gratuit à l'usage."
+        "answer": "Pas tout à fait — la facturation est encore en construction. Une fois lancée, vous pourrez passer à l'abonnement depuis votre page de compte, et la première semaine est gratuite. En attendant, tout ce qui figure sous Abonnement est gratuit à l'usage."
       },
       {
-        "question": "Comment fonctionne le premier mois gratuit ?",
-        "answer": "Au lancement de l'abonnement, votre premier mois sera gratuit — accès complet, sans frais. La facturation ne démarre qu'après, et vous pouvez annuler à tout moment avant."
+        "question": "Comment fonctionne la première semaine gratuite ?",
+        "answer": "Au lancement de l'abonnement, votre première semaine sera gratuite — accès complet, sans frais. La facturation démarre après cela — 9,99 $ par mois ou 99,99 $ par an, selon votre forfait — et vous pouvez annuler à tout moment avant."
       },
       {
         "question": "Mensuel ou annuel ?",
-        "answer": "Les deux, une fois l'abonnement en ligne. L'annuel (99 $/an) revient environ 17 % moins cher que payer 9,99 $ par mois, et vous pourrez basculer entre les deux à tout moment."
+        "answer": "Les deux, une fois l'abonnement en ligne. L'annuel (99,99 $/an) revient environ 17 % moins cher que payer 9,99 $ par mois, et vous pourrez basculer entre les deux à tout moment."
       },
       {
         "question": "Dois-je créer un compte ?",

@@ -520,7 +520,7 @@
     "launchingSoon": "Launching soon",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
-    "firstMonthFree": "First month free",
+    "firstWeekFree": "First week free",
     "comingSoon": "Coming soon",
     "signUpFirst": "Sign up first",
     "freeWhileBuilding": "Everything above is free to use while billing gets built.",
@@ -535,7 +535,7 @@
     "memberFeatures": [
       "Everything in Free, with much higher AI limits",
       "Writing Tools work on full chapters and papers, not just short excerpts",
-      "AI image generation included, not just idea prompts",
+      "AI image generation — coming soon",
       "Export your notebook or script to formatted PDF and DOCX",
       "Notebook history — roll back to an earlier draft",
       "Unlimited book uploads, larger files",
@@ -551,15 +551,15 @@
       },
       {
         "question": "Can I sign up for Membership yet?",
-        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first month is free. Everything listed under Membership is free to use in the meantime."
+        "answer": "Not quite — billing is still being built. Once it launches you'll be able to upgrade from your account page, and the first week is free. Everything listed under Membership is free to use in the meantime."
       },
       {
-        "question": "How does the free first month work?",
-        "answer": "When Membership launches, you'll get your first month free — full access, no charge. Billing only starts after that, and you can cancel any time before it does."
+        "question": "How does the free first week work?",
+        "answer": "When Membership launches, you'll get your first week free — full access, no charge. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
       },
       {
         "question": "Monthly or annual?",
-        "answer": "Both, once Membership is live. Annual ($99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
+        "answer": "Both, once Membership is live. Annual ($99.99/year) works out to about 17% cheaper than paying $9.99 monthly, and you'll be able to switch between them anytime."
       },
       {
         "question": "Do I need to make an account?",

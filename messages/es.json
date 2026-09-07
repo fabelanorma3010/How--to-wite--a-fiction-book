@@ -520,7 +520,7 @@
     "launchingSoon": "Próximamente",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
-    "firstMonthFree": "Primer mes gratis",
+    "firstWeekFree": "Primera semana gratis",
     "comingSoon": "Próximamente",
     "signUpFirst": "Regístrate primero",
     "freeWhileBuilding": "Todo lo de arriba es gratis mientras se construye la facturación.",
@@ -535,7 +535,7 @@
     "memberFeatures": [
       "Todo lo de Gratis, con límites de IA mucho más altos",
       "Las Herramientas de Escritura funcionan con capítulos y trabajos completos, no solo fragmentos cortos",
-      "Generación de imágenes con IA incluida, no solo prompts de ideas",
+      "Generación de imágenes con IA — próximamente",
       "Exporta tu cuaderno o guion a PDF y DOCX con formato",
       "Historial del cuaderno: vuelve a un borrador anterior",
       "Subidas de libros ilimitadas, archivos más grandes",
@@ -551,15 +551,15 @@
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",
-        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y el primer mes es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
+        "answer": "Todavía no: la facturación aún se está construyendo. Cuando se lance podrás mejorar desde tu página de cuenta, y la primera semana es gratis. Mientras tanto, todo lo listado en Membresía es gratis de usar."
       },
       {
-        "question": "¿Cómo funciona el primer mes gratis?",
-        "answer": "Cuando se lance la Membresía, tendrás tu primer mes gratis: acceso completo, sin cargo. La facturación solo empieza después de eso, y puedes cancelar en cualquier momento antes."
+        "question": "¿Cómo funciona la primera semana gratis?",
+        "answer": "Cuando se lance la Membresía, tendrás tu primera semana gratis: acceso completo, sin cargo. La facturación empieza después de eso —9,99 $ al mes o 99,99 $ al año, según tu plan— y puedes cancelar en cualquier momento antes."
       },
       {
         "question": "¿Mensual o anual?",
-        "answer": "Ambas, cuando la Membresía esté activa. La anual (99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
+        "answer": "Ambas, cuando la Membresía esté activa. La anual (99,99 $/año) sale un 17% más barata que pagar 9,99 $ al mes, y podrás cambiar entre ellas cuando quieras."
       },
       {
         "question": "¿Necesito crear una cuenta?",

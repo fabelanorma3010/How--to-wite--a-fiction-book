@@ -91,7 +91,7 @@ export default function PricingTiers() {
           <h2 className="text-xl font-extrabold text-ink">{t('memberTitle')}</h2>
           <p className="mt-1 text-sm text-ink/60">{t('memberSubtitle')}</p>
           <p className="mt-4 text-sm font-black uppercase tracking-wide text-accent-content">
-            {t('firstMonthFree')}
+            {t('firstWeekFree')}
           </p>
           <p className="mt-1">
             <span className="text-4xl font-extrabold text-ink">{price.amount}</span>

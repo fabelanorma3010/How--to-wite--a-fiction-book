@@ -520,7 +520,7 @@
     "launchingSoon": "Bald verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
-    "firstMonthFree": "Erster Monat gratis",
+    "firstWeekFree": "Erste Woche gratis",
     "comingSoon": "Bald",
     "signUpFirst": "Zuerst registrieren",
     "freeWhileBuilding": "Alles oben ist kostenlos nutzbar, während die Abrechnung gebaut wird.",
@@ -535,7 +535,7 @@
     "memberFeatures": [
       "Alles aus Kostenlos, mit deutlich höheren KI-Limits",
       "Die Schreibwerkzeuge arbeiten mit ganzen Kapiteln und Arbeiten, nicht nur kurzen Ausschnitten",
-      "KI-Bildgenerierung inklusive, nicht nur Ideen-Prompts",
+      "KI-Bildgenerierung — bald",
       "Exportiere dein Notizbuch oder Skript als formatiertes PDF und DOCX",
       "Notizbuch-Verlauf — zu einem früheren Entwurf zurückspringen",
       "Unbegrenzte Buch-Uploads, größere Dateien",
@@ -551,15 +551,15 @@
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",
-        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und der erste Monat ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
+        "answer": "Noch nicht ganz — die Abrechnung wird noch gebaut. Sobald sie startet, kannst du von deiner Kontoseite aus upgraden, und die erste Woche ist gratis. In der Zwischenzeit ist alles, was unter Mitgliedschaft aufgeführt ist, kostenlos nutzbar."
       },
       {
-        "question": "Wie funktioniert der kostenlose erste Monat?",
-        "answer": "Wenn die Mitgliedschaft startet, bekommst du deinen ersten Monat gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt erst danach, und du kannst jederzeit vorher kündigen."
+        "question": "Wie funktioniert die kostenlose erste Woche?",
+        "answer": "Wenn die Mitgliedschaft startet, bekommst du deine erste Woche gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
       },
       {
         "question": "Monatlich oder jährlich?",
-        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
+        "answer": "Beides, sobald die Mitgliedschaft live ist. Jährlich (99,99 $/Jahr) kommt etwa 17 % günstiger als 9,99 $ monatlich, und du kannst jederzeit zwischen beiden wechseln."
       },
       {
         "question": "Muss ich ein Konto anlegen?",
