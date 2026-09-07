@@ -227,6 +227,7 @@
     "panelTextLabel": "Texto del panel",
     "panelImageLabel": "Arte del panel",
     "uploadImage": "Subir imagen",
+    "speakButton": "Hablar",
     "generateImagePrompt": "Describe una imagen para generar…",
     "generateButton": "Generar",
     "generatingButton": "Generando…",

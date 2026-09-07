@@ -4,6 +4,7 @@ import { planPanels, type PanelSize, WIDTH_WEIGHT } from '../lib/panelLayout'
 import { createClient } from '../lib/supabase/client'
 import CopyButton from './CopyButton'
 import Sticker from './Sticker'
+import DictateButton from './DictateButton'
 
 export type PlannerMode = 'comic' | 'manga'
 
@@ -462,6 +463,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                         onChange={(e) => setImagePrompt(e.target.value)}
                         placeholder={t('generateImagePrompt')}
                         className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50"
+                      />
+                      <DictateButton
+                        onResult={setImagePrompt}
+                        label={t('speakButton')}
+                        className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
                       />
                       <button
                         type="button"

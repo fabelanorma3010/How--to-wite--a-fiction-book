@@ -227,6 +227,7 @@
     "panelTextLabel": "格子文字",
     "panelImageLabel": "格子画面",
     "uploadImage": "上传图片",
+    "speakButton": "说话",
     "generateImagePrompt": "描述要生成的图片…",
     "generateButton": "生成",
     "generatingButton": "生成中…",
