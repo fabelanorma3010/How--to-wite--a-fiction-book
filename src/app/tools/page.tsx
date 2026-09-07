@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -74,8 +75,21 @@ export default async function ToolsPage() {
           </div>
         </section>
 
-        <section className="px-4 pb-16 sm:px-6">
+        <section className="px-4 pb-8 sm:px-6">
           <WritingTools />
+        </section>
+
+        <section className="px-4 pb-16 sm:px-6">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 rounded-3xl border-2 border-primary/20 bg-primary/5 px-6 py-10 text-center">
+            <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">{t('signupCtaHeading')}</h2>
+            <p className="max-w-md font-semibold text-ink/70">{t('signupCtaBody')}</p>
+            <Link
+              href="/signup"
+              className="mt-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
+            >
+              {t('signupCtaButton')}
+            </Link>
+          </div>
         </section>
       </main>
       <Footer />

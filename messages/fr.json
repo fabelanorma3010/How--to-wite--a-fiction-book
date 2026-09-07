@@ -570,7 +570,10 @@
     "metaDescription": "Outils d'écriture IA gratuits : résumez un long article ou des notes de réunion, obtenez une critique de votre brouillon, ou transformez des notes en pagaille en une structure claire. Collez du texte ou importez un fichier.",
     "badge": "✨ Outils d'écriture IA gratuits",
     "heading": "Outils <highlight>d'écriture</highlight>",
-    "intro": "Résumez, critiquez et mettez de l'ordre dans votre écriture — collez du texte ou importez un fichier, obtenez un résultat en quelques secondes."
+    "intro": "Résumez, critiquez et mettez de l'ordre dans votre écriture — collez du texte ou importez un fichier, obtenez un résultat en quelques secondes.",
+    "signupCtaHeading": "Envie de plus d'outils comme ceux-ci ?",
+    "signupCtaBody": "Inscrivez-vous gratuitement pour sauvegarder votre travail, débloquer la boîte à outils complète et démarrer votre livre.",
+    "signupCtaButton": "S'inscrire pour plus d'outils"
   },
   "CreatorsPage": {
     "metaTitle": "Illustrateurs — Storyburst",

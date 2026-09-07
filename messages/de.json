@@ -570,7 +570,10 @@
     "metaDescription": "Kostenlose KI-Schreibwerkzeuge: fasse einen langen Artikel oder Meeting-Notizen zusammen, hol dir eine Kritik deines Entwurfs, oder mach aus chaotischen Notizen eine klare Struktur. Text einfügen oder Datei hochladen.",
     "badge": "✨ Kostenlose KI-Schreibwerkzeuge",
     "heading": "<highlight>Schreibwerkzeuge</highlight>",
-    "intro": "Zusammenfassen, kritisieren und dein Schreiben aufräumen — Text einfügen oder Datei hochladen, in Sekunden ein Ergebnis zurückbekommen."
+    "intro": "Zusammenfassen, kritisieren und dein Schreiben aufräumen — Text einfügen oder Datei hochladen, in Sekunden ein Ergebnis zurückbekommen.",
+    "signupCtaHeading": "Willst du mehr solcher Tools?",
+    "signupCtaBody": "Melde dich kostenlos an, um deine Arbeit zu speichern, das komplette Toolkit freizuschalten und dein Buch zu starten.",
+    "signupCtaButton": "Für mehr Tools anmelden"
   },
   "CreatorsPage": {
     "metaTitle": "Illustratoren — Storyburst",

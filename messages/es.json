@@ -570,7 +570,10 @@
     "metaDescription": "Herramientas de escritura con IA gratuitas: resume un artículo largo o notas de reunión, obtén una crítica de tu borrador, o convierte notas desordenadas en una estructura clara. Pega el texto o sube un archivo.",
     "badge": "✨ Herramientas de escritura con IA gratuitas",
     "heading": "Herramientas de <highlight>escritura</highlight>",
-    "intro": "Resume, critica y ordena tu escritura: pega el texto o sube un archivo y recibe un resultado en segundos."
+    "intro": "Resume, critica y ordena tu escritura: pega el texto o sube un archivo y recibe un resultado en segundos.",
+    "signupCtaHeading": "¿Quieres más herramientas como estas?",
+    "signupCtaBody": "Regístrate gratis para guardar tu trabajo, desbloquear el kit completo de herramientas y empezar tu libro.",
+    "signupCtaButton": "Regístrate para más herramientas"
   },
   "CreatorsPage": {
     "metaTitle": "Ilustradores — Storyburst",
