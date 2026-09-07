@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Pagina · # vignetta} other {Pagina · # vignette}}",
     "breakdown": "Scaletta delle vignette",
     "emptyHint": "Scrivi qualche vignetta qui sopra per vedere la pagina prendere forma.",
+    "stickersLabel": "Adesivi:",
+    "stickerPick": "Scegli l'adesivo {emoji}",
+    "stickerArmedHint": "Tocca un pannello per attaccarlo",
+    "stickerIdleHint": "Scegli un adesivo, poi tocca un pannello",
+    "stickerPlaceAction": "Metti l'adesivo {emoji} sul pannello {n}",
+    "stickerRemoveAction": "Rimuovi l'adesivo dal pannello {n}",
+    "stickerNoneAction": "Pannello {n}, nessun adesivo",
     "size": {
       "splash": "Pagina intera",
       "wide": "Larga",

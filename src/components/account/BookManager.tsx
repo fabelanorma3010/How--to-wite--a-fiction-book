@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
-import { bookTypes } from '@/data/bookTypes'
+import { bookTypes, bookFormatEmoji } from '@/data/bookTypes'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
 import type { Book, Chapter } from '@/lib/books'
 
@@ -23,7 +23,7 @@ const buttonClass =
   'rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100'
 
 function typeEmoji(bookType: Book['bookType']) {
-  return bookTypes.find((t) => t.id === bookType)?.emoji ?? '📘'
+  return bookFormatEmoji(bookType)
 }
 
 export default function BookManager({ userId, books }: { userId: string; books: Book[] }) {
@@ -184,6 +184,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
                   {bookTypeOption.emoji} {bt(`types.${bookTypeOption.id}.name`)}
                 </option>
               ))}
+              <option value="chapterbook">📗 Chapter book (prose, not panels)</option>
             </select>
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -284,7 +285,9 @@ export default function BookManager({ userId, books }: { userId: string; books: 
                   Delete
                 </button>
               </div>
-              {expandedChapters[book.id] && <ChapterPanel userId={userId} bookId={book.id} />}
+              {expandedChapters[book.id] && (
+                <ChapterPanel userId={userId} bookId={book.id} bookType={book.bookType} />
+              )}
             </li>
           ))}
         </ul>
@@ -293,14 +296,30 @@ export default function BookManager({ userId, books }: { userId: string; books: 
   )
 }
 
-function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
+const CHAPTER_STICKERS = ['💥', '⭐', '✨', '🔥', '❗', '👊', '😱', '💦']
+
+function ChapterPanel({
+  userId,
+  bookId,
+  bookType,
+}: {
+  userId: string
+  bookId: string
+  bookType: Book['bookType']
+}) {
+  const isText = bookType === 'chapterbook'
   const [chapters, setChapters] = useState<Chapter[] | null>(null)
   const [adding, setAdding] = useState(false)
   const [chapterTitle, setChapterTitle] = useState('')
   const [pageFiles, setPageFiles] = useState<File[]>([])
+  const [body, setBody] = useState('')
+  const [imagePrompt, setImagePrompt] = useState('')
+  const [imageBusy, setImageBusy] = useState(false)
+  const [imageError, setImageError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [busyId, setBusyId] = useState<string | null>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     void load()
@@ -315,7 +334,7 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
     }
     const { data } = await supabase
       .from('book_chapters')
-      .select('id, book_id, chapter_number, title, pages, published_at')
+      .select('id, book_id, chapter_number, title, body, pages, published_at')
       .eq('book_id', bookId)
       .order('chapter_number', { ascending: true })
     setChapters(
@@ -324,6 +343,7 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
         bookId: row.book_id,
         chapterNumber: row.chapter_number,
         title: row.title,
+        body: row.body,
         pages: row.pages ?? [],
         publishedAt: row.published_at,
       })),
@@ -332,17 +352,88 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
 
   const nextNumber = chapters && chapters.length > 0 ? Math.max(...chapters.map((c) => c.chapterNumber)) + 1 : 1
 
+  function insertAtCursor(snippet: string) {
+    const el = textareaRef.current
+    const start = el?.selectionStart ?? body.length
+    const end = el?.selectionEnd ?? body.length
+    setBody((prev) => prev.slice(0, start) + snippet + prev.slice(end))
+    requestAnimationFrame(() => {
+      if (!el) return
+      el.focus()
+      const pos = start + snippet.length
+      el.setSelectionRange(pos, pos)
+    })
+  }
+
+  async function loadFromNotebook() {
+    const supabase = createClient()
+    if (!supabase) return
+    const { data } = await supabase.from('notebooks').select('content').eq('user_id', userId).maybeSingle()
+    if (data?.content) setBody(data.content as string)
+  }
+
+  async function handleGenerateImage() {
+    if (!imagePrompt.trim() || imageBusy) return
+    setImageBusy(true)
+    setImageError('')
+    try {
+      const res = await fetch('/api/generate-illustration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: imagePrompt.trim() }),
+      })
+      const data = await res.json()
+      if (!res.ok || typeof data?.image !== 'string') {
+        throw new Error(data?.error || 'Could not generate that image.')
+      }
+      insertAtCursor(`\n![${imagePrompt.trim()}](${data.image})\n`)
+      setImagePrompt('')
+    } catch (err) {
+      setImageError(err instanceof Error ? err.message : 'Could not generate that image.')
+    } finally {
+      setImageBusy(false)
+    }
+  }
+
+  async function handleUploadInlineImage(file: File) {
+    setImageError('')
+    if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
+      setImageError('Images must be PNG, JPEG, or WebP, 10MB max.')
+      return
+    }
+    const supabase = createClient()
+    if (!supabase) return
+    const ext = file.name.split('.').pop() || 'jpg'
+    const path = `${userId}/chapter-${bookId}-${nextNumber}-inline-${Date.now()}.${ext}`
+    const { error: uploadError } = await supabase.storage
+      .from('books')
+      .upload(path, file, { contentType: file.type })
+    if (uploadError) {
+      setImageError(uploadError.message)
+      return
+    }
+    const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
+    insertAtCursor(`\n![](${url})\n`)
+  }
+
   async function handleAddChapter(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    if (pageFiles.length === 0) {
+
+    if (isText) {
+      if (!body.trim()) {
+        setError('Write something before publishing this chapter.')
+        return
+      }
+    } else if (pageFiles.length === 0) {
       setError('Add at least one page image.')
       return
-    }
-    for (const file of pageFiles) {
-      if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
-        setError('Pages must be PNG, JPEG, or WebP images, 10MB max each.')
-        return
+    } else {
+      for (const file of pageFiles) {
+        if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
+          setError('Pages must be PNG, JPEG, or WebP images, 10MB max each.')
+          return
+        }
       }
     }
 
@@ -354,28 +445,40 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
       return
     }
     try {
-      const pageUrls: string[] = []
-      for (let i = 0; i < pageFiles.length; i++) {
-        const file = pageFiles[i]
-        const ext = file.name.split('.').pop() || 'jpg'
-        const path = `${userId}/chapter-${bookId}-${nextNumber}-page-${i + 1}-${Date.now()}.${ext}`
-        const { error: uploadError } = await supabase.storage
-          .from('books')
-          .upload(path, file, { contentType: file.type })
-        if (uploadError) throw uploadError
-        pageUrls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
+      if (isText) {
+        const { error: insertError } = await supabase.from('book_chapters').insert({
+          book_id: bookId,
+          chapter_number: nextNumber,
+          title: chapterTitle.trim() || null,
+          body: body.trim(),
+          pages: [],
+        })
+        if (insertError) throw insertError
+        setBody('')
+      } else {
+        const pageUrls: string[] = []
+        for (let i = 0; i < pageFiles.length; i++) {
+          const file = pageFiles[i]
+          const ext = file.name.split('.').pop() || 'jpg'
+          const path = `${userId}/chapter-${bookId}-${nextNumber}-page-${i + 1}-${Date.now()}.${ext}`
+          const { error: uploadError } = await supabase.storage
+            .from('books')
+            .upload(path, file, { contentType: file.type })
+          if (uploadError) throw uploadError
+          pageUrls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
+        }
+
+        const { error: insertError } = await supabase.from('book_chapters').insert({
+          book_id: bookId,
+          chapter_number: nextNumber,
+          title: chapterTitle.trim() || null,
+          pages: pageUrls,
+        })
+        if (insertError) throw insertError
+        setPageFiles([])
       }
 
-      const { error: insertError } = await supabase.from('book_chapters').insert({
-        book_id: bookId,
-        chapter_number: nextNumber,
-        title: chapterTitle.trim() || null,
-        pages: pageUrls,
-      })
-      if (insertError) throw insertError
-
       setChapterTitle('')
-      setPageFiles([])
       setAdding(false)
       await load()
     } catch (err) {
@@ -407,7 +510,11 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
               <span className="text-ink/80">
                 Ch. {chapter.chapterNumber}
                 {chapter.title ? ` · ${chapter.title}` : ''}{' '}
-                <span className="text-xs text-ink/40">({chapter.pages.length} pages)</span>
+                <span className="text-xs text-ink/40">
+                  {chapter.body
+                    ? `(${chapter.body.trim().split(/\s+/).length} words)`
+                    : `(${chapter.pages.length} pages)`}
+                </span>
               </span>
               <button
                 type="button"
@@ -442,17 +549,91 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
               className="w-full rounded-lg border-2 border-ink/15 bg-white px-3 py-1.5 text-sm text-ink focus:border-primary/50"
             />
           </div>
-          <div>
-            <label className="mb-1 block text-xs font-bold text-ink/60">Pages, in order (PNG/JPEG/WebP)</label>
-            <input
-              type="file"
-              accept={ACCEPTED_PAGE.join(',')}
-              multiple
-              onChange={(e) => setPageFiles(Array.from(e.target.files ?? []))}
-              className="w-full text-xs text-ink/70"
-            />
-            {pageFiles.length > 0 && <p className="mt-1 text-xs text-ink/40">{pageFiles.length} page(s) selected</p>}
-          </div>
+
+          {isText ? (
+            <>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => void loadFromNotebook()}
+                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base"
+                >
+                  Load from Notebook
+                </button>
+                <span className="text-xs font-semibold text-ink/40">or write straight in below</span>
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-ink/60">Chapter text</label>
+                <textarea
+                  ref={textareaRef}
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  rows={10}
+                  placeholder="Once upon a time..."
+                  className="w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm leading-relaxed text-ink focus:border-primary/50"
+                />
+              </div>
+
+              <div className="rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
+                <p className="mb-1.5 text-xs font-bold text-ink/60">Add a sticker or an image at the cursor</p>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {CHAPTER_STICKERS.map((emoji) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => insertAtCursor(emoji)}
+                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base hover:scale-110"
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                  <label className="ml-1 cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base">
+                    Upload image
+                    <input
+                      type="file"
+                      accept={ACCEPTED_PAGE.join(',')}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) void handleUploadInlineImage(file)
+                        e.target.value = ''
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                  <input
+                    value={imagePrompt}
+                    onChange={(e) => setImagePrompt(e.target.value)}
+                    placeholder="Describe an image to generate…"
+                    className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => void handleGenerateImage()}
+                    disabled={imageBusy || !imagePrompt.trim()}
+                    className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {imageBusy ? 'Generating…' : '🖼️ Generate'}
+                  </button>
+                </div>
+                {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
+              </div>
+            </>
+          ) : (
+            <div>
+              <label className="mb-1 block text-xs font-bold text-ink/60">Pages, in order (PNG/JPEG/WebP)</label>
+              <input
+                type="file"
+                accept={ACCEPTED_PAGE.join(',')}
+                multiple
+                onChange={(e) => setPageFiles(Array.from(e.target.files ?? []))}
+                className="w-full text-xs text-ink/70"
+              />
+              {pageFiles.length > 0 && <p className="mt-1 text-xs text-ink/40">{pageFiles.length} page(s) selected</p>}
+            </div>
+          )}
+
           {error && (
             <p role="alert" className="text-xs font-semibold text-red-600">
               {error}
@@ -464,7 +645,7 @@ function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
               disabled={submitting}
               className="rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-primary-content disabled:opacity-60"
             >
-              {submitting ? 'Uploading…' : 'Add chapter'}
+              {submitting ? 'Publishing…' : 'Add chapter'}
             </button>
             <button
               type="button"

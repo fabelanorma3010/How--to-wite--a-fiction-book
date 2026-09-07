@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {पेज · # पैनल} other {पेज · # पैनल}}",
     "breakdown": "पैनल विवरण-सूची",
     "emptyHint": "ऊपर कुछ पैनल लिखें और देखें कि पेज कैसे आकार लेता है।",
+    "stickersLabel": "स्टिकर:",
+    "stickerPick": "{emoji} स्टिकर चुनें",
+    "stickerArmedHint": "चिपकाने के लिए किसी पैनल पर टैप करें",
+    "stickerIdleHint": "पहले स्टिकर चुनें, फिर पैनल पर टैप करें",
+    "stickerPlaceAction": "पैनल {n} पर {emoji} स्टिकर लगाएं",
+    "stickerRemoveAction": "पैनल {n} से स्टिकर हटाएं",
+    "stickerNoneAction": "पैनल {n}, कोई स्टिकर नहीं",
     "size": {
       "splash": "पूरा पेज",
       "wide": "चौड़ा",

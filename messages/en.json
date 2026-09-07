@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Page · # panel} other {Page · # panels}}",
     "breakdown": "Panel breakdown",
     "emptyHint": "Type a few panels above to see the page take shape.",
+    "stickersLabel": "Stickers:",
+    "stickerPick": "Pick the {emoji} sticker",
+    "stickerArmedHint": "Tap a panel to stick it on",
+    "stickerIdleHint": "Pick a sticker, then tap a panel",
+    "stickerPlaceAction": "Put a {emoji} sticker on panel {n}",
+    "stickerRemoveAction": "Remove the sticker from panel {n}",
+    "stickerNoneAction": "Panel {n}, no sticker",
     "size": {
       "splash": "Splash",
       "wide": "Wide",

@@ -8,7 +8,7 @@ import { getPublicProfile } from '../../../lib/publicProfile'
 import { getCurrentUser } from '../../../lib/user'
 import { getUserBooks, type Book } from '../../../lib/books'
 import { getFollowStats } from '../../../lib/follows'
-import { bookTypeEmoji } from '../../../data/bookTypes'
+import { bookFormatEmoji } from '../../../data/bookTypes'
 import FollowButton from '../../../components/FollowButton'
 
 export const dynamic = 'force-dynamic'
@@ -58,7 +58,7 @@ function BookCard({ book }: { book: Book }) {
             className="object-cover"
           />
         ) : (
-          <span className="text-4xl">{bookTypeEmoji(book.bookType ?? '')}</span>
+          <span className="text-4xl">{bookFormatEmoji(book.bookType)}</span>
         )}
       </div>
       <div className="p-3">
