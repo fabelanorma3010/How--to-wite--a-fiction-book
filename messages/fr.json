@@ -233,7 +233,7 @@
     "generatingButton": "Génération…",
     "imageGenericError": "Impossible de générer cette image. Réessayez dans un instant.",
     "imageFileError": "Les images doivent être en PNG, JPEG ou WebP, 10 Mo maximum.",
-    "signInForImages": "Connectez-vous pour ajouter une illustration à ce panel.",
+    "signInForUpload": "Connectez-vous pour importer votre propre image.",
     "publishHeading": "Publier cette page",
     "signInToPublish": "Connectez-vous pour publier ces panels comme un vrai chapitre.",
     "loadingBooks": "Chargement de vos livres…",

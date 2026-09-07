@@ -233,7 +233,7 @@
     "generatingButton": "बनाई जा रही है…",
     "imageGenericError": "वह इमेज नहीं बन सकी। कुछ देर में फिर कोशिश करें।",
     "imageFileError": "इमेज PNG, JPEG या WebP होनी चाहिए, अधिकतम 10MB।",
-    "signInForImages": "इस पैनल में आर्ट जोड़ने के लिए लॉग इन करें।",
+    "signInForUpload": "अपनी खुद की इमेज अपलोड करने के लिए लॉग इन करें।",
     "publishHeading": "यह पेज पब्लिश करें",
     "signInToPublish": "इन पैनलों को असली चैप्टर के रूप में पब्लिश करने के लिए लॉग इन करें।",
     "loadingBooks": "आपकी किताबें लोड हो रही हैं…",

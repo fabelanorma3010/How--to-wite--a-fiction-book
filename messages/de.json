@@ -233,7 +233,7 @@
     "generatingButton": "Wird erzeugt…",
     "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal.",
     "imageFileError": "Bilder müssen PNG, JPEG oder WebP sein, maximal 10 MB.",
-    "signInForImages": "Melde dich an, um diesem Panel Kunst hinzuzufügen.",
+    "signInForUpload": "Melde dich an, um ein eigenes Bild hochzuladen.",
     "publishHeading": "Diese Seite veröffentlichen",
     "signInToPublish": "Melde dich an, um diese Panels als echtes Kapitel zu veröffentlichen.",
     "loadingBooks": "Deine Bücher werden geladen…",

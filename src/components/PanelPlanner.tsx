@@ -441,9 +441,9 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                   ))}
                 </div>
 
-                {userId ? (
-                  <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
-                    <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
+                <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
+                  <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
+                  {userId ? (
                     <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
                       {t('uploadImage')}
                       <input
@@ -457,32 +457,32 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                         }}
                       />
                     </label>
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                      <input
-                        value={imagePrompt}
-                        onChange={(e) => setImagePrompt(e.target.value)}
-                        placeholder={t('generateImagePrompt')}
-                        className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50"
-                      />
-                      <DictateButton
-                        onResult={setImagePrompt}
-                        label={t('speakButton')}
-                        className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => void handleGenerateImage()}
-                        disabled={imageBusy || !imagePrompt.trim()}
-                        className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        {imageBusy ? t('generatingButton') : `🖼️ ${t('generateButton')}`}
-                      </button>
-                    </div>
-                    {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
+                  ) : (
+                    <p className="text-xs font-semibold text-ink/45">{t('signInForUpload')}</p>
+                  )}
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <input
+                      value={imagePrompt}
+                      onChange={(e) => setImagePrompt(e.target.value)}
+                      placeholder={t('generateImagePrompt')}
+                      className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50"
+                    />
+                    <DictateButton
+                      onResult={setImagePrompt}
+                      label={t('speakButton')}
+                      className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => void handleGenerateImage()}
+                      disabled={imageBusy || !imagePrompt.trim()}
+                      className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {imageBusy ? t('generatingButton') : `🖼️ ${t('generateButton')}`}
+                    </button>
                   </div>
-                ) : (
-                  <p className="mt-3 text-xs font-semibold text-ink/45">{t('signInForImages')}</p>
-                )}
+                  {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
+                </div>
               </div>
             )}
 

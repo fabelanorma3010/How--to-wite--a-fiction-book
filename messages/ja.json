@@ -233,7 +233,7 @@
     "generatingButton": "生成中…",
     "imageGenericError": "画像を生成できませんでした。少し経ってからもう一度お試しください。",
     "imageFileError": "画像はPNG、JPEG、WebPのいずれかで、10MBまでです。",
-    "signInForImages": "このコマに絵を追加するにはログインしてください。",
+    "signInForUpload": "自分の画像をアップロードするにはログインしてください。",
     "publishHeading": "このページを公開",
     "signInToPublish": "これらのコマを実際のチャプターとして公開するにはログインしてください。",
     "loadingBooks": "あなたの本を読み込み中…",
