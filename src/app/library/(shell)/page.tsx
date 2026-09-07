@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import ShimmerNextImage from '../../../components/ShimmerNextImage'
 import { getRecentPublicBooks } from '../../../lib/books'
-import { bookTypeEmoji } from '../../../data/bookTypes'
+import { bookFormatEmoji } from '../../../data/bookTypes'
 
 export const metadata: Metadata = { title: 'Discover' }
 export const dynamic = 'force-dynamic'
@@ -47,7 +47,7 @@ export default async function LibraryDiscoverPage() {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-8xl opacity-40">
-                  {bookTypeEmoji(hero.bookType ?? '')}
+                  {bookFormatEmoji(hero.bookType)}
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
@@ -104,7 +104,7 @@ export default async function LibraryDiscoverPage() {
                         className="object-cover"
                       />
                     ) : (
-                      <span className="text-4xl opacity-60">{bookTypeEmoji(book.bookType ?? '')}</span>
+                      <span className="text-4xl opacity-60">{bookFormatEmoji(book.bookType)}</span>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
                   </div>

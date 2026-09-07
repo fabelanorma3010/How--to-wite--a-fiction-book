@@ -1,12 +1,20 @@
 import { createClient } from './supabase/server'
 import type { BookTypeId } from '../data/bookTypes'
 
+/**
+ * comic/manga/cartoon/childrens (BookTypeId) drive the quiz and idea
+ * generators — 'chapterbook' is a publishing format only (prose chapters,
+ * not comic-style page images) and deliberately isn't part of that quiz/
+ * generator system, so it's added on here rather than in BookTypeId itself.
+ */
+export type BookFormat = BookTypeId | 'chapterbook'
+
 export interface Book {
   id: string
   userId: string
   title: string
   description: string
-  bookType: BookTypeId | null
+  bookType: BookFormat | null
   coverUrl: string | null
   fileUrl: string | null
   isFavorite: boolean
@@ -18,6 +26,8 @@ export interface Chapter {
   bookId: string
   chapterNumber: number
   title: string | null
+  /** Prose chapters (book_type 'chapterbook') use this; image chapters use `pages`. */
+  body: string | null
   pages: string[]
   publishedAt: string
 }
@@ -44,7 +54,7 @@ export async function getUserBooks(userId: string): Promise<Book[]> {
     userId,
     title: row.title,
     description: row.description ?? '',
-    bookType: (row.book_type as BookTypeId | null) ?? null,
+    bookType: (row.book_type as BookFormat | null) ?? null,
     coverUrl: row.cover_url,
     fileUrl: row.file_url,
     isFavorite: row.is_favorite,
@@ -73,7 +83,7 @@ export async function getBookById(id: string): Promise<Book | null> {
     userId: data.user_id,
     title: data.title,
     description: data.description ?? '',
-    bookType: (data.book_type as BookTypeId | null) ?? null,
+    bookType: (data.book_type as BookFormat | null) ?? null,
     coverUrl: data.cover_url,
     fileUrl: data.file_url,
     isFavorite: data.is_favorite,
@@ -88,7 +98,7 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
 
   const { data } = await supabase
     .from('book_chapters')
-    .select('id, book_id, chapter_number, title, pages, published_at')
+    .select('id, book_id, chapter_number, title, body, pages, published_at')
     .eq('book_id', bookId)
     .order('chapter_number', { ascending: true })
 
@@ -97,6 +107,7 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
     bookId: row.book_id,
     chapterNumber: row.chapter_number,
     title: row.title,
+    body: row.body,
     pages: row.pages ?? [],
     publishedAt: row.published_at,
   }))
@@ -105,7 +116,7 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
 export interface RecentBook {
   id: string
   title: string
-  bookType: BookTypeId | null
+  bookType: BookFormat | null
   coverUrl: string | null
   authorName: string
 }
@@ -134,7 +145,7 @@ export async function getRecentPublicBooks(limit = 12): Promise<RecentBook[]> {
   return rows.map((row) => ({
     id: row.id,
     title: row.title,
-    bookType: (row.book_type as BookTypeId | null) ?? null,
+    bookType: (row.book_type as BookFormat | null) ?? null,
     coverUrl: row.cover_url,
     authorName: names.get(row.user_id as string) ?? 'A writer',
   }))
@@ -143,13 +154,13 @@ export async function getRecentPublicBooks(limit = 12): Promise<RecentBook[]> {
 /** A single chapter by id, with its parent book's owner/type for the reader UI. */
 export async function getChapterById(
   id: string,
-): Promise<(Chapter & { bookTitle: string; bookType: BookTypeId | null; bookId: string }) | null> {
+): Promise<(Chapter & { bookTitle: string; bookType: BookFormat | null; bookId: string }) | null> {
   const supabase = await createClient()
   if (!supabase) return null
 
   const { data } = await supabase
     .from('book_chapters')
-    .select('id, book_id, chapter_number, title, pages, published_at, books(title, book_type)')
+    .select('id, book_id, chapter_number, title, body, pages, published_at, books(title, book_type)')
     .eq('id', id)
     .maybeSingle()
   if (!data) return null
@@ -160,9 +171,10 @@ export async function getChapterById(
     bookId: data.book_id,
     chapterNumber: data.chapter_number,
     title: data.title,
+    body: data.body,
     pages: data.pages ?? [],
     publishedAt: data.published_at,
     bookTitle: book?.title ?? '',
-    bookType: (book?.book_type as BookTypeId | null) ?? null,
+    bookType: (book?.book_type as BookFormat | null) ?? null,
   }
 }

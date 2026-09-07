@@ -22,3 +22,12 @@ export const bookTypeIds: BookTypeId[] = bookTypes.map((b) => b.id)
 export function bookTypeEmoji(id: string): string {
   return bookTypes.find((b) => b.id === id)?.emoji ?? '📘'
 }
+
+/**
+ * Like bookTypeEmoji, but also covers 'chapterbook' — a books.book_type
+ * value that isn't a BookTypeId (see src/lib/books.ts's BookFormat).
+ */
+export function bookFormatEmoji(id: string | null | undefined): string {
+  if (id === 'chapterbook') return '📗'
+  return bookTypeEmoji(id ?? '')
+}

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getBookById, getBookChapters } from '@/lib/books'
 import { getPublicProfileById } from '@/lib/publicProfile'
-import { bookTypeEmoji } from '@/data/bookTypes'
+import { bookFormatEmoji } from '@/data/bookTypes'
 import ReadAloud from '@/components/ReadAloud'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
 
@@ -46,7 +46,7 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
                     className="object-cover"
                   />
                 ) : (
-                  <span className="text-6xl">{bookTypeEmoji(book.bookType ?? '')}</span>
+                  <span className="text-6xl">{bookFormatEmoji(book.bookType)}</span>
                 )}
               </div>
             </div>
@@ -55,7 +55,7 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
               {book.bookType && (
                 <div className="mb-[8px] flex flex-wrap gap-2">
                   <span className="rounded-[0.25rem] border border-white/10 bg-noir-surface-container px-3 py-1 font-noir-mono text-[12px] uppercase tracking-wider text-noir-on-surface-variant">
-                    {bookTypeEmoji(book.bookType)} {book.bookType}
+                    {book.bookType === 'chapterbook' ? '📗 Chapter book' : `${bookFormatEmoji(book.bookType)} ${book.bookType}`}
                   </span>
                 </div>
               )}
@@ -142,7 +142,9 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
                         </span>
                       </div>
                       <span className="z-10 font-noir-mono text-[12px] text-noir-on-surface-variant">
-                        {chapter.pages.length} pages
+                        {chapter.body
+                          ? `${chapter.body.trim().split(/\s+/).length} words`
+                          : `${chapter.pages.length} pages`}
                       </span>
                     </Link>
                   ))}

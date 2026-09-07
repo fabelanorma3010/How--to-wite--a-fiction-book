@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bookTypes, bookTypeEmoji } from './bookTypes'
+import { bookTypes, bookTypeIds, bookTypeEmoji, bookFormatEmoji } from './bookTypes'
 
 describe('bookTypes', () => {
   it('has a non-empty list of book types', () => {
@@ -22,5 +22,16 @@ describe('bookTypes', () => {
 
   it('bookTypeEmoji falls back to a default for an unknown id', () => {
     expect(bookTypeEmoji('not-a-real-type' as never)).toBeTruthy()
+  })
+
+  it('bookFormatEmoji has its own emoji for chapterbook, which is not a BookTypeId', () => {
+    expect(bookTypeIds).not.toContain('chapterbook')
+    expect(bookFormatEmoji('chapterbook')).toBe('📗')
+  })
+
+  it('bookFormatEmoji otherwise defers to bookTypeEmoji', () => {
+    const first = bookTypes[0]
+    expect(bookFormatEmoji(first.id)).toBe(first.emoji)
+    expect(bookFormatEmoji(null)).toBe(bookTypeEmoji(''))
   })
 })
