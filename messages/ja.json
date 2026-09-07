@@ -791,6 +791,8 @@
     "books": "作品",
     "follow": "フォロー",
     "following": "フォロー中",
+    "followUnavailable": "現在フォロー機能はご利用いただけません。",
+    "followGenericError": "更新できませんでした——少し経ってからもう一度お試しください。",
     "followerCount": "フォロワー {count} 人",
     "followingCount": "フォロー中 {count} 人"
   },

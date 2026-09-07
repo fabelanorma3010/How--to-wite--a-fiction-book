@@ -791,6 +791,8 @@
     "books": "किताबें",
     "follow": "फ़ॉलो करें",
     "following": "फ़ॉलो किया",
+    "followUnavailable": "फ़ॉलो करना अभी उपलब्ध नहीं है।",
+    "followGenericError": "इसे अपडेट नहीं किया जा सका — कुछ देर में फिर कोशिश करें।",
     "followerCount": "{count, plural, one {# फ़ॉलोअर} other {# फ़ॉलोअर्स}}",
     "followingCount": "{count} फ़ॉलोइंग"
   },

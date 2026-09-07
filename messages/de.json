@@ -791,6 +791,8 @@
     "books": "Bücher",
     "follow": "Folgen",
     "following": "Gefolgt",
+    "followUnavailable": "Folgen ist gerade nicht verfügbar.",
+    "followGenericError": "Das konnte nicht aktualisiert werden — versuch es gleich noch einmal.",
     "followerCount": "{count, plural, one {# Follower} other {# Follower}}",
     "followingCount": "{count} Gefolgt"
   },

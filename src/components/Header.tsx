@@ -82,10 +82,13 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b-4 border-ink/10 bg-base/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#top" className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-ink sm:text-2xl">
+        <Link
+          href={onHome ? '#top' : '/'}
+          className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-ink sm:text-2xl"
+        >
           <span aria-hidden="true" className="text-2xl sm:text-3xl">📖</span>
           Storyburst
-        </a>
+        </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-x-0.5 lg:flex 2xl:gap-x-1">
           {onHome && (

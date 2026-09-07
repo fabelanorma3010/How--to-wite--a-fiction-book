@@ -791,6 +791,8 @@
     "books": "作品",
     "follow": "关注",
     "following": "已关注",
+    "followUnavailable": "关注功能目前不可用。",
+    "followGenericError": "无法更新，请稍后重试。",
     "followerCount": "{count} 位粉丝",
     "followingCount": "关注 {count} 人"
   },
