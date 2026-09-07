@@ -390,7 +390,9 @@ function ChapterPanel({
   const [pageImagePrompt, setPageImagePrompt] = useState('')
   const [pageImageBusy, setPageImageBusy] = useState(false)
   const [pageImageError, setPageImageError] = useState('')
-  const [body, setBody] = useState('')
+  const [pageTexts, setPageTexts] = useState<string[]>(() => Array(MAX_PAGES_PER_CHAPTER).fill(''))
+  const [chapterPageIndex, setChapterPageIndex] = useState(0)
+  const [chapterPageTurnDir, setChapterPageTurnDir] = useState<'next' | 'prev'>('next')
   const [imagePrompt, setImagePrompt] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
   const [imageError, setImageError] = useState('')
@@ -432,9 +434,14 @@ function ChapterPanel({
 
   function insertAtCursor(snippet: string) {
     const el = textareaRef.current
-    const start = el?.selectionStart ?? body.length
-    const end = el?.selectionEnd ?? body.length
-    setBody((prev) => prev.slice(0, start) + snippet + prev.slice(end))
+    const current = pageTexts[chapterPageIndex] ?? ''
+    const start = el?.selectionStart ?? current.length
+    const end = el?.selectionEnd ?? current.length
+    setPageTexts((prev) => {
+      const next = [...prev]
+      next[chapterPageIndex] = current.slice(0, start) + snippet + current.slice(end)
+      return next
+    })
     requestAnimationFrame(() => {
       if (!el) return
       el.focus()
@@ -447,7 +454,13 @@ function ChapterPanel({
     const supabase = createClient()
     if (!supabase) return
     const { data } = await supabase.from('notebooks').select('content').eq('user_id', userId).maybeSingle()
-    if (data?.content) setBody(data.content as string)
+    if (!data?.content) return
+    const content = data.content as string
+    setPageTexts((prev) => {
+      const next = [...prev]
+      next[chapterPageIndex] = content
+      return next
+    })
   }
 
   async function handleGenerateImage() {
@@ -560,9 +573,10 @@ function ChapterPanel({
   async function handleAddChapter(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
+    const chapterBody = pageTexts.map((p) => p.trim()).filter(Boolean).join('\n\n')
 
     if (isText) {
-      if (!body.trim()) {
+      if (!chapterBody) {
         setError('Write something before publishing this chapter.')
         return
       }
@@ -584,11 +598,12 @@ function ChapterPanel({
           book_id: bookId,
           chapter_number: nextNumber,
           title: chapterTitle.trim() || null,
-          body: body.trim(),
+          body: chapterBody,
           pages: [],
         })
         if (insertError) throw insertError
-        setBody('')
+        setPageTexts(Array(MAX_PAGES_PER_CHAPTER).fill(''))
+        setChapterPageIndex(0)
       } else {
         const { error: insertError } = await supabase.from('book_chapters').insert({
           book_id: bookId,
@@ -683,26 +698,68 @@ function ChapterPanel({
                 >
                   Load from Notebook
                 </button>
-                <span className="text-xs font-semibold text-ink/40">or write straight in below</span>
+                <span className="text-xs font-semibold text-ink/40">
+                  loads into the page you&rsquo;re on — or write straight in below
+                </span>
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-ink/60">Chapter text</label>
-                <textarea
-                  ref={textareaRef}
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                  rows={10}
-                  placeholder="Once upon a time..."
-                  className="w-full resize-y px-4 py-3 text-[15px] leading-relaxed focus:outline-none"
-                  style={{
-                    background: theme.pageBg,
-                    color: theme.ink,
-                    fontFamily: theme.bodyFont,
-                    border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
-                    borderRadius: theme.pageRadius,
-                    boxShadow: theme.pageShadow,
-                  }}
-                />
+                <label className="mb-1 block text-xs font-bold text-ink/60">
+                  Page {chapterPageIndex + 1} of {MAX_PAGES_PER_CHAPTER}
+                </label>
+                <div className="flex items-center gap-2" style={{ perspective: '1400px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setChapterPageTurnDir('prev')
+                      setChapterPageIndex((i) => Math.max(i - 1, 0))
+                    }}
+                    disabled={chapterPageIndex === 0}
+                    aria-label="Previous page"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
+                  >
+                    ‹
+                  </button>
+
+                  <textarea
+                    key={chapterPageIndex}
+                    ref={textareaRef}
+                    value={pageTexts[chapterPageIndex] ?? ''}
+                    onChange={(e) =>
+                      setPageTexts((prev) => {
+                        const next = [...prev]
+                        next[chapterPageIndex] = e.target.value
+                        return next
+                      })
+                    }
+                    rows={10}
+                    placeholder={chapterPageIndex === 0 ? 'Once upon a time...' : `Page ${chapterPageIndex + 1}…`}
+                    className={`min-w-0 flex-1 resize-y px-4 py-3 text-[15px] leading-relaxed focus:outline-none ${
+                      chapterPageTurnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
+                    }`}
+                    style={{
+                      background: theme.pageBg,
+                      color: theme.ink,
+                      fontFamily: theme.bodyFont,
+                      border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
+                      borderRadius: theme.pageRadius,
+                      boxShadow: theme.pageShadow,
+                      transformOrigin: 'left center',
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setChapterPageTurnDir('next')
+                      setChapterPageIndex((i) => Math.min(i + 1, MAX_PAGES_PER_CHAPTER - 1))
+                    }}
+                    disabled={chapterPageIndex >= MAX_PAGES_PER_CHAPTER - 1}
+                    aria-label="Next page"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
+                  >
+                    ›
+                  </button>
+                </div>
               </div>
 
               <div className="rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
