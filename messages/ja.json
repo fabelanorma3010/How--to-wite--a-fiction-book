@@ -742,7 +742,11 @@
     "memberSince": "{date} から利用",
     "editProfile": "プロフィールを編集",
     "favorite": "お気に入り",
-    "books": "作品"
+    "books": "作品",
+    "follow": "フォロー",
+    "following": "フォロー中",
+    "followerCount": "フォロワー {count} 人",
+    "followingCount": "フォロー中 {count} 人"
   },
   "PrivacyPage": {
     "metaTitle": "プライバシーポリシー — Storyburst",

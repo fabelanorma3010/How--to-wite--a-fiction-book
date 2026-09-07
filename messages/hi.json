@@ -742,7 +742,11 @@
     "memberSince": "{date} से सदस्य",
     "editProfile": "अपनी प्रोफ़ाइल संपादित करें",
     "favorite": "पसंदीदा",
-    "books": "किताबें"
+    "books": "किताबें",
+    "follow": "फ़ॉलो करें",
+    "following": "फ़ॉलो किया",
+    "followerCount": "{count, plural, one {# फ़ॉलोअर} other {# फ़ॉलोअर्स}}",
+    "followingCount": "{count} फ़ॉलोइंग"
   },
   "PrivacyPage": {
     "metaTitle": "गोपनीयता नीति — Storyburst",

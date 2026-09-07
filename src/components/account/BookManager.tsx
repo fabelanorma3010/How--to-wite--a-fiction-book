@@ -1,17 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { bookTypes } from '@/data/bookTypes'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
-import type { Book } from '@/lib/books'
+import type { Book, Chapter } from '@/lib/books'
 
 const MAX_COVER_BYTES = 5 * 1024 * 1024
 const MAX_FILE_BYTES = 50 * 1024 * 1024
+const MAX_PAGE_BYTES = 10 * 1024 * 1024
 const ACCEPTED_COVER = ['image/png', 'image/jpeg', 'image/webp']
 const ACCEPTED_FILE = ['application/pdf', 'application/epub+zip']
+const ACCEPTED_PAGE = ['image/png', 'image/jpeg', 'image/webp']
 
 const cardClass = 'rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8'
 const labelClass = 'mb-1.5 block text-sm font-bold text-ink/80'
@@ -36,6 +38,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [busyId, setBusyId] = useState<string | null>(null)
+  const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({})
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault()
@@ -238,46 +241,243 @@ export default function BookManager({ userId, books }: { userId: string; books: 
       {books.length > 0 && (
         <ul className="mt-4 space-y-2">
           {books.map((book) => (
-            <li
-              key={book.id}
-              className="flex items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white/60 p-3"
-            >
-              <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
-                {book.coverUrl ? (
-                  <ShimmerNextImage src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-lg">
-                    {typeEmoji(book.bookType)}
-                  </div>
-                )}
+            <li key={book.id} className="rounded-2xl border-2 border-ink/10 bg-white/60 p-3">
+              <div className="flex items-center gap-3">
+                <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-base">
+                  {book.coverUrl ? (
+                    <ShimmerNextImage src={book.coverUrl} alt="" fill sizes="40px" className="object-cover" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-lg">
+                      {typeEmoji(book.bookType)}
+                    </div>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-bold text-ink">{book.title}</p>
+                  {book.description && <p className="truncate text-xs text-ink/50">{book.description}</p>}
+                </div>
+                <button
+                  type="button"
+                  disabled={busyId === book.id}
+                  onClick={() => toggleFavorite(book)}
+                  title={book.isFavorite ? 'Remove as favorite' : 'Set as favorite'}
+                  aria-pressed={book.isFavorite}
+                  className={`shrink-0 text-xl transition-transform hover:scale-110 disabled:opacity-50 ${
+                    book.isFavorite ? 'text-accent' : 'text-ink/20'
+                  }`}
+                >
+                  {book.isFavorite ? '★' : '☆'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setExpandedChapters((prev) => ({ ...prev, [book.id]: !prev[book.id] }))}
+                  className="shrink-0 text-sm font-bold text-ink/50 hover:underline"
+                >
+                  Chapters
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === book.id}
+                  onClick={() => handleDelete(book.id, book.title)}
+                  className="shrink-0 text-sm font-bold text-red-600 hover:underline disabled:opacity-50"
+                >
+                  Delete
+                </button>
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-bold text-ink">{book.title}</p>
-                {book.description && <p className="truncate text-xs text-ink/50">{book.description}</p>}
-              </div>
+              {expandedChapters[book.id] && <ChapterPanel userId={userId} bookId={book.id} />}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function ChapterPanel({ userId, bookId }: { userId: string; bookId: string }) {
+  const [chapters, setChapters] = useState<Chapter[] | null>(null)
+  const [adding, setAdding] = useState(false)
+  const [chapterTitle, setChapterTitle] = useState('')
+  const [pageFiles, setPageFiles] = useState<File[]>([])
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [busyId, setBusyId] = useState<string | null>(null)
+
+  useEffect(() => {
+    void load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookId])
+
+  async function load() {
+    const supabase = createClient()
+    if (!supabase) {
+      setChapters([])
+      return
+    }
+    const { data } = await supabase
+      .from('book_chapters')
+      .select('id, book_id, chapter_number, title, pages, published_at')
+      .eq('book_id', bookId)
+      .order('chapter_number', { ascending: true })
+    setChapters(
+      (data ?? []).map((row) => ({
+        id: row.id,
+        bookId: row.book_id,
+        chapterNumber: row.chapter_number,
+        title: row.title,
+        pages: row.pages ?? [],
+        publishedAt: row.published_at,
+      })),
+    )
+  }
+
+  const nextNumber = chapters && chapters.length > 0 ? Math.max(...chapters.map((c) => c.chapterNumber)) + 1 : 1
+
+  async function handleAddChapter(e: React.FormEvent) {
+    e.preventDefault()
+    setError(null)
+    if (pageFiles.length === 0) {
+      setError('Add at least one page image.')
+      return
+    }
+    for (const file of pageFiles) {
+      if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
+        setError('Pages must be PNG, JPEG, or WebP images, 10MB max each.')
+        return
+      }
+    }
+
+    setSubmitting(true)
+    const supabase = createClient()
+    if (!supabase) {
+      setError('Uploads are unavailable right now.')
+      setSubmitting(false)
+      return
+    }
+    try {
+      const pageUrls: string[] = []
+      for (let i = 0; i < pageFiles.length; i++) {
+        const file = pageFiles[i]
+        const ext = file.name.split('.').pop() || 'jpg'
+        const path = `${userId}/chapter-${bookId}-${nextNumber}-page-${i + 1}-${Date.now()}.${ext}`
+        const { error: uploadError } = await supabase.storage
+          .from('books')
+          .upload(path, file, { contentType: file.type })
+        if (uploadError) throw uploadError
+        pageUrls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
+      }
+
+      const { error: insertError } = await supabase.from('book_chapters').insert({
+        book_id: bookId,
+        chapter_number: nextNumber,
+        title: chapterTitle.trim() || null,
+        pages: pageUrls,
+      })
+      if (insertError) throw insertError
+
+      setChapterTitle('')
+      setPageFiles([])
+      setAdding(false)
+      await load()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not add that chapter.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  async function handleDeleteChapter(id: string, number: number) {
+    if (!confirm(`Delete chapter ${number}? This can't be undone.`)) return
+    setBusyId(id)
+    const supabase = createClient()
+    await supabase?.from('book_chapters').delete().eq('id', id)
+    setBusyId(null)
+    await load()
+  }
+
+  return (
+    <div className="mt-2 rounded-xl bg-base/60 p-3">
+      {chapters === null && <p className="text-xs font-semibold text-ink/40">Loading chapters…</p>}
+      {chapters !== null && chapters.length === 0 && !adding && (
+        <p className="text-xs font-semibold text-ink/40">No chapters yet.</p>
+      )}
+      {chapters !== null && chapters.length > 0 && (
+        <ul className="space-y-1">
+          {chapters.map((chapter) => (
+            <li key={chapter.id} className="flex items-center justify-between gap-2 text-sm">
+              <span className="text-ink/80">
+                Ch. {chapter.chapterNumber}
+                {chapter.title ? ` · ${chapter.title}` : ''}{' '}
+                <span className="text-xs text-ink/40">({chapter.pages.length} pages)</span>
+              </span>
               <button
                 type="button"
-                disabled={busyId === book.id}
-                onClick={() => toggleFavorite(book)}
-                title={book.isFavorite ? 'Remove as favorite' : 'Set as favorite'}
-                aria-pressed={book.isFavorite}
-                className={`shrink-0 text-xl transition-transform hover:scale-110 disabled:opacity-50 ${
-                  book.isFavorite ? 'text-accent' : 'text-ink/20'
-                }`}
-              >
-                {book.isFavorite ? '★' : '☆'}
-              </button>
-              <button
-                type="button"
-                disabled={busyId === book.id}
-                onClick={() => handleDelete(book.id, book.title)}
-                className="shrink-0 text-sm font-bold text-red-600 hover:underline disabled:opacity-50"
+                disabled={busyId === chapter.id}
+                onClick={() => void handleDeleteChapter(chapter.id, chapter.chapterNumber)}
+                className="shrink-0 text-xs font-bold text-red-600 hover:underline disabled:opacity-50"
               >
                 Delete
               </button>
             </li>
           ))}
         </ul>
+      )}
+
+      {!adding ? (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="mt-2 text-sm font-bold text-ink/70 hover:underline"
+        >
+          + Add chapter {nextNumber}
+        </button>
+      ) : (
+        <form onSubmit={handleAddChapter} className="mt-2 space-y-2 border-t-2 border-ink/10 pt-2">
+          <div>
+            <label className="mb-1 block text-xs font-bold text-ink/60">
+              Chapter {nextNumber} title (optional)
+            </label>
+            <input
+              value={chapterTitle}
+              onChange={(e) => setChapterTitle(e.target.value)}
+              className="w-full rounded-lg border-2 border-ink/15 bg-white px-3 py-1.5 text-sm text-ink focus:border-primary/50"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-bold text-ink/60">Pages, in order (PNG/JPEG/WebP)</label>
+            <input
+              type="file"
+              accept={ACCEPTED_PAGE.join(',')}
+              multiple
+              onChange={(e) => setPageFiles(Array.from(e.target.files ?? []))}
+              className="w-full text-xs text-ink/70"
+            />
+            {pageFiles.length > 0 && <p className="mt-1 text-xs text-ink/40">{pageFiles.length} page(s) selected</p>}
+          </div>
+          {error && (
+            <p role="alert" className="text-xs font-semibold text-red-600">
+              {error}
+            </p>
+          )}
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-primary-content disabled:opacity-60"
+            >
+              {submitting ? 'Uploading…' : 'Add chapter'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAdding(false)
+                setError(null)
+              }}
+              className="rounded-full px-3 py-1.5 text-sm font-bold text-ink/60 hover:bg-ink/10"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       )}
     </div>
   )

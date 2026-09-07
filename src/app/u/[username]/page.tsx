@@ -7,7 +7,9 @@ import ShimmerNextImage from '../../../components/ShimmerNextImage'
 import { getPublicProfile } from '../../../lib/publicProfile'
 import { getCurrentUser } from '../../../lib/user'
 import { getUserBooks, type Book } from '../../../lib/books'
+import { getFollowStats } from '../../../lib/follows'
 import { bookTypeEmoji } from '../../../data/bookTypes'
+import FollowButton from '../../../components/FollowButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -83,7 +85,10 @@ export default async function PublicProfilePage({
   const [profile, currentUser] = await Promise.all([getPublicProfile(username), getCurrentUser()])
   const t = await getTranslations('ProfilePage')
   const locale = await getLocale()
-  const books = profile ? await getUserBooks(profile.id) : []
+  const [books, followStats] = await Promise.all([
+    profile ? getUserBooks(profile.id) : Promise.resolve([]),
+    profile ? getFollowStats(profile.id, currentUser?.id ?? null) : Promise.resolve(null),
+  ])
   const favorite = books.find((b) => b.isFavorite)
 
   return (
@@ -156,13 +161,30 @@ export default async function PublicProfilePage({
                 })}
               </p>
 
-              {currentUser?.id === profile.id && (
+              {followStats && (
+                <p className="text-sm font-bold text-ink/60">
+                  {t('followerCount', { count: followStats.followerCount })} ·{' '}
+                  {t('followingCount', { count: followStats.followingCount })}
+                </p>
+              )}
+
+              {currentUser?.id === profile.id ? (
                 <Link
                   href="/account"
                   className="mt-2 rounded-full bg-ink px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-ink/80"
                 >
                   {t('editProfile')}
                 </Link>
+              ) : (
+                followStats && (
+                  <div className="mt-2">
+                    <FollowButton
+                      viewerId={currentUser?.id ?? null}
+                      profileId={profile.id}
+                      initialFollowing={followStats.isFollowedByViewer}
+                    />
+                  </div>
+                )
               )}
             </div>
           )}

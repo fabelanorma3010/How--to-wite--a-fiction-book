@@ -742,7 +742,11 @@
     "memberSince": "Member since {date}",
     "editProfile": "Edit your profile",
     "favorite": "Favorite",
-    "books": "Books"
+    "books": "Books",
+    "follow": "Follow",
+    "following": "Following",
+    "followerCount": "{count, plural, one {# follower} other {# followers}}",
+    "followingCount": "{count} following"
   },
   "PrivacyPage": {
     "metaTitle": "Privacy Policy — Storyburst",

@@ -742,7 +742,11 @@
     "memberSince": "自 {date} 起加入",
     "editProfile": "编辑你的资料",
     "favorite": "最爱",
-    "books": "作品"
+    "books": "作品",
+    "follow": "关注",
+    "following": "已关注",
+    "followerCount": "{count} 位粉丝",
+    "followingCount": "关注 {count} 人"
   },
   "PrivacyPage": {
     "metaTitle": "隐私政策 — Storyburst",

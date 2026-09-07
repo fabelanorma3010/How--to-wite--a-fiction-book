@@ -742,7 +742,11 @@
     "memberSince": "Mitglied seit {date}",
     "editProfile": "Dein Profil bearbeiten",
     "favorite": "Favorit",
-    "books": "Bücher"
+    "books": "Bücher",
+    "follow": "Folgen",
+    "following": "Gefolgt",
+    "followerCount": "{count, plural, one {# Follower} other {# Follower}}",
+    "followingCount": "{count} Gefolgt"
   },
   "PrivacyPage": {
     "metaTitle": "Datenschutzerklärung — Storyburst",
