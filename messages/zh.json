@@ -233,7 +233,7 @@
     "generatingButton": "生成中…",
     "imageGenericError": "无法生成该图片，请稍后重试。",
     "imageFileError": "图片必须是 PNG、JPEG 或 WebP 格式，最大 10MB。",
-    "signInForImages": "登录后即可为这个格子添加画面。",
+    "signInForUpload": "登录后即可上传你自己的图片。",
     "publishHeading": "发布这一页",
     "signInToPublish": "登录后即可将这些格子发布为正式章节。",
     "loadingBooks": "正在加载你的书…",

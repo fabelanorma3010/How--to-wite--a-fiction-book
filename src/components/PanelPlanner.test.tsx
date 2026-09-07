@@ -86,14 +86,15 @@ describe('PanelPlanner', () => {
     )
   })
 
-  it('prompts a signed-out visitor to log in instead of showing image tools', async () => {
+  it('lets a signed-out visitor generate images, but prompts them to log in to upload', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
 
     await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
-    expect(await screen.findByText(/log in to add art/i)).toBeInTheDocument()
-    expect(screen.queryByText(/upload image/i)).not.toBeInTheDocument()
+    expect(await screen.findByText(/log in to upload/i)).toBeInTheDocument()
+    expect(screen.queryByText(/^upload image$/i)).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /generate/i })).toBeInTheDocument()
   })
 
   it('shows image tools for a signed-in visitor', async () => {

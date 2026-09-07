@@ -233,7 +233,7 @@
     "generatingButton": "Gerando…",
     "imageGenericError": "Não foi possível gerar essa imagem. Tente novamente em instantes.",
     "imageFileError": "As imagens devem ser PNG, JPEG ou WebP, 10MB no máximo.",
-    "signInForImages": "Faça login para adicionar arte a este quadro.",
+    "signInForUpload": "Faça login para enviar sua própria imagem.",
     "publishHeading": "Publicar esta página",
     "signInToPublish": "Faça login para publicar esses quadros como um capítulo real.",
     "loadingBooks": "Carregando seus livros…",
