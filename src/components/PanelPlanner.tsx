@@ -255,13 +255,13 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
         .limit(1)
       const nextNumber = existing && existing.length > 0 ? existing[0].chapter_number + 1 : 1
       const pages = illustratedPanels.map((p) => overrides[p.n]!.image!)
-      // page_captions omitted here until its migration is applied — see the
-      // matching note in BookManager.tsx's handleAddChapter.
+      const pageCaptions = illustratedPanels.map((p) => overrides[p.n]?.text ?? p.text)
       const { error: insertError } = await supabase.from('book_chapters').insert({
         book_id: selectedBookId,
         chapter_number: nextNumber,
         title: null,
         pages,
+        page_captions: pageCaptions,
       })
       if (insertError) throw insertError
       setPublishedBookId(selectedBookId)
