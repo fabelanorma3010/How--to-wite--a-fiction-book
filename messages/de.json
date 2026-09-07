@@ -49,6 +49,28 @@
     "ctaBookTypes": "Buchtypen ansehen",
     "ctaPublish": "Veröffentlichungsschritte ansehen"
   },
+  "JourneySteps": {
+    "title": "Dein Weg durch Storyburst",
+    "intro": "Vier Stationen, in dieser Reihenfolge — von der ersten Idee bis zum echten, veröffentlichten Kapitel.",
+    "steps": [
+      {
+        "title": "Mach das Quiz",
+        "description": "Finde in unter einer Minute den Stil deines Buchs."
+      },
+      {
+        "title": "Hol dir Ideen",
+        "description": "Erzeuge Action-Text, Illustrationsideen und skizziere deine Panels."
+      },
+      {
+        "title": "Schreib es",
+        "description": "Entwirf deine Geschichte im selbstspeichernden Notizbuch."
+      },
+      {
+        "title": "Veröffentliche das Echte",
+        "description": "Verwandle deine Kapitel in ein echtes, lesbares Buch."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Sprache: {name}. Sprache ändern",
     "choose": "Sprache wählen"

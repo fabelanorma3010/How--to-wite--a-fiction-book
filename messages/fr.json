@@ -49,6 +49,28 @@
     "ctaBookTypes": "Voir les types de livres",
     "ctaPublish": "Voir les étapes de publication"
   },
+  "JourneySteps": {
+    "title": "Votre parcours sur Storyburst",
+    "intro": "Quatre étapes, dans l'ordre — d'une étincelle d'idée à un vrai chapitre publié.",
+    "steps": [
+      {
+        "title": "Faites le quiz",
+        "description": "Trouvez le style de votre livre en moins d'une minute."
+      },
+      {
+        "title": "Trouvez des idées",
+        "description": "Générez des onomatopées, des idées d'illustration, et esquissez vos panels."
+      },
+      {
+        "title": "Écrivez-le",
+        "description": "Rédigez votre histoire dans le carnet à enregistrement automatique."
+      },
+      {
+        "title": "Publiez pour de vrai",
+        "description": "Transformez vos chapitres en un vrai livre lisible."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Langue : {name}. Changer de langue",
     "choose": "Choisir une langue"

@@ -49,6 +49,28 @@
     "ctaBookTypes": "Browse Book Types",
     "ctaPublish": "See Publishing Steps"
   },
+  "JourneySteps": {
+    "title": "Your path through Storyburst",
+    "intro": "Four stops, in order — from a spark of an idea to a real, published chapter.",
+    "steps": [
+      {
+        "title": "Take the Quiz",
+        "description": "Find your book's style in under a minute."
+      },
+      {
+        "title": "Get Ideas",
+        "description": "Generate action text, illustration ideas, and rough out your panels."
+      },
+      {
+        "title": "Write It",
+        "description": "Draft your story in the auto-saving Notebook."
+      },
+      {
+        "title": "Publish the Real Thing",
+        "description": "Turn your chapters into a real, readable book."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Language: {name}. Change language",
     "choose": "Choose a language"

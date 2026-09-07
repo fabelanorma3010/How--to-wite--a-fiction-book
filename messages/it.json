@@ -49,6 +49,28 @@
     "ctaBookTypes": "Sfoglia i tipi di libro",
     "ctaPublish": "Vedi i passi per pubblicare"
   },
+  "JourneySteps": {
+    "title": "Il tuo percorso su Storyburst",
+    "intro": "Quattro tappe, in ordine — da una scintilla di idea a un vero capitolo pubblicato.",
+    "steps": [
+      {
+        "title": "Fai il quiz",
+        "description": "Scopri lo stile del tuo libro in meno di un minuto."
+      },
+      {
+        "title": "Trova idee",
+        "description": "Genera testo d'azione, idee per illustrazioni e abbozza i tuoi pannelli."
+      },
+      {
+        "title": "Scrivilo",
+        "description": "Scrivi la tua storia nel taccuino con salvataggio automatico."
+      },
+      {
+        "title": "Pubblica quello vero",
+        "description": "Trasforma i tuoi capitoli in un libro vero e leggibile."
+      }
+    ]
+  },
   "LanguageTab": {
     "label": "Lingua: {name}. Cambia lingua",
     "choose": "Scegli una lingua"
