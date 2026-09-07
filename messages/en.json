@@ -570,7 +570,10 @@
     "metaDescription": "Free AI writing tools: summarize a long article or meeting notes, get a critique of your draft, or turn messy notes into a clear structure. Paste text or upload a file.",
     "badge": "✨ Free AI writing tools",
     "heading": "Writing <highlight>Tools</highlight>",
-    "intro": "Summarize, critique, and tidy up your writing — paste text or upload a file, get a result back in seconds."
+    "intro": "Summarize, critique, and tidy up your writing — paste text or upload a file, get a result back in seconds.",
+    "signupCtaHeading": "Want more tools like these?",
+    "signupCtaBody": "Sign up free to save your work, unlock the full toolkit, and start building your book.",
+    "signupCtaButton": "Sign up for more tools"
   },
   "CreatorsPage": {
     "metaTitle": "Illustrators — Storyburst",

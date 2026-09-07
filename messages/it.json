@@ -570,7 +570,10 @@
     "metaDescription": "Strumenti di scrittura IA gratuiti: riassumi un articolo lungo o degli appunti di riunione, ottieni una critica della tua bozza, o trasforma appunti disordinati in una struttura chiara. Incolla il testo o carica un file.",
     "badge": "✨ Strumenti di scrittura IA gratuiti",
     "heading": "Strumenti di <highlight>scrittura</highlight>",
-    "intro": "Riassumi, critica e metti in ordine la tua scrittura — incolla il testo o carica un file, ricevi un risultato in pochi secondi."
+    "intro": "Riassumi, critica e metti in ordine la tua scrittura — incolla il testo o carica un file, ricevi un risultato in pochi secondi.",
+    "signupCtaHeading": "Vuoi altri strumenti come questi?",
+    "signupCtaBody": "Iscriviti gratis per salvare il tuo lavoro, sbloccare il toolkit completo e iniziare il tuo libro.",
+    "signupCtaButton": "Iscriviti per altri strumenti"
   },
   "CreatorsPage": {
     "metaTitle": "Illustratori — Storyburst",

@@ -570,7 +570,10 @@
     "metaDescription": "免费的 AI 写作工具：概括一篇长文或会议记录，为你的草稿得到一份评点，或把杂乱的笔记变成清晰的结构。粘贴文字或上传文件。",
     "badge": "✨ 免费的 AI 写作工具",
     "heading": "写作<highlight>工具</highlight>",
-    "intro": "概括、评点、整理你的文字——粘贴文字或上传文件，几秒内拿到结果。"
+    "intro": "概括、评点、整理你的文字——粘贴文字或上传文件，几秒内拿到结果。",
+    "signupCtaHeading": "想要更多这样的工具吗？",
+    "signupCtaBody": "免费注册以保存你的工作、解锁完整工具包，并开始创作你的书。",
+    "signupCtaButton": "注册解锁更多工具"
   },
   "CreatorsPage": {
     "metaTitle": "插画师 — Storyburst",
