@@ -5,9 +5,28 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Chapter, BookFormat } from '@/lib/books'
 import { parseChapterBody } from '@/lib/parseChapterBody'
+import { getBookFormatTheme } from '@/data/bookFormatThemes'
 
 type ChapterData = Chapter & { bookTitle: string; bookType: BookFormat | null }
 type Sibling = { id: string; chapterNumber: number } | null
+
+const CHAPTERBOOK_THEME = getBookFormatTheme('chapterbook')
+
+function textureOverlayStyle(texture: 'dots' | 'screentone' | 'engraving' | 'flat', ink: string): React.CSSProperties {
+  if (texture === 'dots') {
+    return { backgroundImage: `radial-gradient(circle, ${ink}29 1.6px, transparent 2px)`, backgroundSize: '11px 11px' }
+  }
+  if (texture === 'screentone') {
+    return { backgroundImage: `radial-gradient(circle, ${ink}59 1.3px, transparent 1.6px)`, backgroundSize: '6px 6px' }
+  }
+  if (texture === 'engraving') {
+    return {
+      backgroundImage: `repeating-linear-gradient(100deg, ${ink}38 0 0.7px, transparent 0.7px 3px)`,
+      mixBlendMode: 'multiply',
+    }
+  }
+  return {}
+}
 
 export default function ChapterReaderClient({
   chapter,
@@ -21,8 +40,11 @@ export default function ChapterReaderClient({
   const router = useRouter()
   const [controlsVisible, setControlsVisible] = useState(true)
   const [pageIndex, setPageIndex] = useState(0)
+  const [turnDir, setTurnDir] = useState<'next' | 'prev'>('next')
   const hideTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const isText = Boolean(chapter.body)
+  const isManga = chapter.bookType === 'manga'
+  const theme = isText ? CHAPTERBOOK_THEME : getBookFormatTheme(chapter.bookType)
 
   useEffect(() => {
     hideTimeout.current = setTimeout(() => setControlsVisible(false), 3000)
@@ -34,7 +56,6 @@ export default function ChapterReaderClient({
     setControlsVisible((v) => !v)
   }
 
-  const isManga = chapter.bookType === 'manga'
   const pages = isManga ? [...chapter.pages].reverse() : chapter.pages
   // One extra "slide" past the real pages for the Chapter Complete / To Be
   // Continued card, so "next" walks through the whole chapter in one motion.
@@ -42,6 +63,9 @@ export default function ChapterReaderClient({
   const onEndCard = pageIndex >= pages.length
 
   function goNext() {
+    // Manga's page order is already reversed above, so "next" still means a
+    // higher index — but the physical page-turn sweeps the opposite way.
+    setTurnDir(isManga ? 'prev' : 'next')
     if (pageIndex < totalSlides - 1) {
       setPageIndex((i) => i + 1)
     } else if (next) {
@@ -50,6 +74,7 @@ export default function ChapterReaderClient({
   }
 
   function goPrev() {
+    setTurnDir(isManga ? 'next' : 'prev')
     if (pageIndex > 0) {
       setPageIndex((i) => i - 1)
     } else if (prev) {
@@ -124,9 +149,12 @@ export default function ChapterReaderClient({
       </header>
 
       {isText ? (
-        <main className="relative z-10 mx-auto min-h-screen w-full max-w-[680px] px-[24px] pb-[64px] pt-[104px]">
+        <main
+          className="relative z-10 mx-auto min-h-screen w-full max-w-[720px] px-[20px] pb-[64px] pt-[104px] sm:px-[32px]"
+          style={{ background: theme.pageBg, color: theme.ink }}
+        >
           {chapter.title && (
-            <h2 className="mb-8 font-noir-display text-[28px] font-extrabold text-noir-on-surface">
+            <h2 className="mb-8 text-[30px] font-semibold" style={{ fontFamily: theme.displayFont }}>
               {chapter.title}
             </h2>
           )}
@@ -137,22 +165,26 @@ export default function ChapterReaderClient({
                 key={i}
                 src={block.src}
                 alt={block.alt}
-                className="my-8 w-full rounded-[0.5rem] border border-white/10"
+                className="my-8 w-full rounded-[2px]"
+                style={{ border: `1px solid ${theme.ink}22` }}
               />
             ) : (
               <p
                 key={i}
-                className="mb-6 whitespace-pre-wrap font-noir-reading text-[18px] leading-[1.8] text-noir-on-surface"
+                className="mb-6 whitespace-pre-wrap text-[18px] leading-[1.85]"
+                style={{ fontFamily: theme.bodyFont }}
               >
                 {block.text}
               </p>
             ),
           )}
 
-          <div className="mt-[24px] border-t border-white/10 py-[48px]">{endCard}</div>
+          <div className="mt-[24px] py-[48px]" style={{ borderTop: `1px solid ${theme.ink}22` }}>
+            {endCard}
+          </div>
         </main>
       ) : (
-        <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[900px] items-center justify-center">
+        <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1000px] items-center justify-center px-[16px] py-[104px] sm:px-[32px]">
           {pages.length === 0 ? (
             <p className="py-24 text-center font-noir-mono text-[13px] text-noir-on-surface-variant">
               This chapter has no pages yet.
@@ -160,13 +192,39 @@ export default function ChapterReaderClient({
           ) : onEndCard ? (
             endCard
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={pageIndex}
-              src={pages[pageIndex]}
-              alt={`Page ${pageIndex + 1}`}
-              className="max-h-screen w-full object-contain"
-            />
+            <div className="w-full" style={{ perspective: '1800px' }}>
+              <div
+                key={pageIndex}
+                className={`relative mx-auto w-full max-w-[820px] overflow-hidden ${
+                  turnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
+                }`}
+                style={{
+                  background: theme.pageBg,
+                  border: theme.pageBorder,
+                  borderRadius: theme.pageRadius,
+                  boxShadow: theme.pageShadow,
+                  padding: '14px',
+                  transformOrigin: 'left center',
+                }}
+              >
+                <div className="relative w-full overflow-hidden" style={{ borderRadius: theme.pageRadius }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={pages[pageIndex]}
+                    alt={`Page ${pageIndex + 1}`}
+                    className="max-h-[80vh] w-full object-contain"
+                    style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                  />
+                  {theme.illustTexture !== 'flat' && (
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0"
+                      style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           )}
         </main>
       )}
