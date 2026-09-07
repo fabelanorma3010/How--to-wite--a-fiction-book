@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Seite · # Panel} other {Seite · # Panels}}",
     "breakdown": "Panel-Aufschlüsselung",
     "emptyHint": "Schreib oben ein paar Panels, um die Seite Gestalt annehmen zu sehen.",
+    "stickersLabel": "Sticker:",
+    "stickerPick": "{emoji}-Sticker auswählen",
+    "stickerArmedHint": "Tippe auf ein Panel, um ihn draufzukleben",
+    "stickerIdleHint": "Wähle zuerst einen Sticker, dann ein Panel",
+    "stickerPlaceAction": "{emoji}-Sticker auf Panel {n} setzen",
+    "stickerRemoveAction": "Sticker von Panel {n} entfernen",
+    "stickerNoneAction": "Panel {n}, kein Sticker",
     "size": {
       "splash": "Ganzseitig",
       "wide": "Breit",

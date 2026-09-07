@@ -191,6 +191,13 @@
     "pageCount": "页 · {count} 格",
     "breakdown": "分格清单",
     "emptyHint": "在上方写几格，看这一页如何成形。",
+    "stickersLabel": "贴纸：",
+    "stickerPick": "选择 {emoji} 贴纸",
+    "stickerArmedHint": "点击一个格子来贴上",
+    "stickerIdleHint": "先选一个贴纸，再点击格子",
+    "stickerPlaceAction": "把 {emoji} 贴纸贴到第 {n} 格",
+    "stickerRemoveAction": "移除第 {n} 格的贴纸",
+    "stickerNoneAction": "第 {n} 格，无贴纸",
     "size": {
       "splash": "整版",
       "wide": "宽格",

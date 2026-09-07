@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Página · # viñeta} other {Página · # viñetas}}",
     "breakdown": "Desglose de viñetas",
     "emptyHint": "Escribe algunas viñetas arriba para ver cómo toma forma la página.",
+    "stickersLabel": "Pegatinas:",
+    "stickerPick": "Elegir la pegatina {emoji}",
+    "stickerArmedHint": "Toca un panel para pegarla",
+    "stickerIdleHint": "Elige una pegatina y luego toca un panel",
+    "stickerPlaceAction": "Poner la pegatina {emoji} en el panel {n}",
+    "stickerRemoveAction": "Quitar la pegatina del panel {n}",
+    "stickerNoneAction": "Panel {n}, sin pegatina",
     "size": {
       "splash": "Página completa",
       "wide": "Ancha",

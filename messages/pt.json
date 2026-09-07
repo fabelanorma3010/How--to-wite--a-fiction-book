@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Página · # quadro} other {Página · # quadros}}",
     "breakdown": "Detalhamento dos quadros",
     "emptyHint": "Escreva alguns quadros acima para ver a página tomar forma.",
+    "stickersLabel": "Adesivos:",
+    "stickerPick": "Escolher o adesivo {emoji}",
+    "stickerArmedHint": "Toque em um quadro para colar",
+    "stickerIdleHint": "Escolha um adesivo e depois toque em um quadro",
+    "stickerPlaceAction": "Colocar o adesivo {emoji} no quadro {n}",
+    "stickerRemoveAction": "Remover o adesivo do quadro {n}",
+    "stickerNoneAction": "Quadro {n}, sem adesivo",
     "size": {
       "splash": "Página inteira",
       "wide": "Largo",

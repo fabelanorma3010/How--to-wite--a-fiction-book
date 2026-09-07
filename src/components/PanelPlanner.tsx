@@ -62,6 +62,8 @@ const MODES: Record<PlannerMode, ModeConfig> = {
   },
 }
 
+const STICKERS = ['💥', '⭐', '✨', '🔥', '❗', '👊', '😱', '💦']
+
 interface PanelPlannerProps {
   mode: PlannerMode
 }
@@ -71,8 +73,27 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
   const t = useTranslations('PanelPlanner')
   const tm = useTranslations(mode === 'comic' ? 'PanelPlanner.comic' : 'PanelPlanner.manga')
   const [text, setText] = useState(cfg.examples[0].text)
+  const [armedSticker, setArmedSticker] = useState<string | null>(null)
+  const [panelStickers, setPanelStickers] = useState<Record<number, string>>({})
   const plan = useMemo(() => planPanels(text), [text])
   const flatPanels = useMemo(() => plan.tiers.flatMap((tier) => tier.panels), [plan])
+
+  function selectExample(exampleText: string) {
+    setText(exampleText)
+    setPanelStickers({})
+  }
+
+  function handlePanelClick(n: number) {
+    setPanelStickers((prev) => {
+      const next = { ...prev }
+      if (armedSticker && prev[n] !== armedSticker) {
+        next[n] = armedSticker
+      } else {
+        delete next[n]
+      }
+      return next
+    })
+  }
 
   const sizeName = (size: PanelSize) => t(`size.${size}`)
 
@@ -111,7 +132,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
             <button
               key={ex.label}
               type="button"
-              onClick={() => setText(ex.text)}
+              onClick={() => selectExample(ex.text)}
               className="rounded-full border-2 border-ink/15 bg-white/70 px-3 py-1.5 text-sm font-bold text-ink/70 transition-colors hover:border-ink/30 hover:text-ink"
             >
               {ex.label}
@@ -140,6 +161,29 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               </h3>
               <p className="text-xs font-semibold text-ink/45">{tm('reading')}</p>
             </div>
+
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+              <span className="mr-1 text-xs font-bold text-ink/45">{t('stickersLabel')}</span>
+              {STICKERS.map((emoji) => (
+                <button
+                  key={emoji}
+                  type="button"
+                  onClick={() => setArmedSticker((prev) => (prev === emoji ? null : emoji))}
+                  aria-pressed={armedSticker === emoji}
+                  title={t('stickerPick', { emoji })}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border-2 text-lg transition-transform hover:scale-110 ${
+                    armedSticker === emoji
+                      ? 'border-primary bg-primary/20 scale-110'
+                      : 'border-ink/15 bg-white/70'
+                  }`}
+                >
+                  {emoji}
+                </button>
+              ))}
+              <span className="ml-1 text-xs font-semibold text-ink/45">
+                {armedSticker ? t('stickerArmedHint') : t('stickerIdleHint')}
+              </span>
+            </div>
             <div
               className={`mx-auto mt-3 flex w-full max-w-sm flex-col overflow-hidden rounded-xl border-2 border-ink/15 bg-white p-1.5 ${
                 cfg.dynamic ? 'gap-3' : 'gap-1.5'
@@ -158,10 +202,27 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                     const bleed =
                       cfg.dynamic && tier.panels.length === 1 && (p.size === 'splash' || p.size === 'big')
                     const diagonal = cfg.dynamic && tier.panels.length > 1
+                    const stuckSticker = panelStickers[p.n]
                     return (
                       <div
                         key={p.n}
-                        className={`flex min-w-0 flex-col overflow-hidden ${
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => handlePanelClick(p.n)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handlePanelClick(p.n)
+                          }
+                        }}
+                        aria-label={
+                          armedSticker
+                            ? t('stickerPlaceAction', { n: p.n, emoji: armedSticker })
+                            : stuckSticker
+                              ? t('stickerRemoveAction', { n: p.n })
+                              : t('stickerNoneAction', { n: p.n })
+                        }
+                        className={`relative flex min-w-0 cursor-pointer flex-col overflow-hidden ${
                           bleed
                             ? 'rounded-[2px] bg-gradient-to-br from-ink/15 to-ink/[0.03]'
                             : cfg.dynamic
@@ -186,6 +247,14 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                         <span className="mt-0.5 line-clamp-4 text-[11px] font-semibold leading-snug text-ink/80">
                           {p.text}
                         </span>
+                        {stuckSticker && (
+                          <span
+                            aria-hidden="true"
+                            className="animate-pop-in absolute right-1 top-1 flex h-6 w-6 rotate-12 items-center justify-center rounded-full border border-ink/10 bg-white text-sm shadow-md"
+                          >
+                            {stuckSticker}
+                          </span>
+                        )}
                       </div>
                     )
                   })}

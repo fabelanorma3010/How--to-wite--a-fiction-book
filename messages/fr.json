@@ -191,6 +191,13 @@
     "pageCount": "{count, plural, one {Page · # case} other {Page · # cases}}",
     "breakdown": "Découpage des cases",
     "emptyHint": "Écrivez quelques cases ci-dessus pour voir la page prendre forme.",
+    "stickersLabel": "Autocollants :",
+    "stickerPick": "Choisir l'autocollant {emoji}",
+    "stickerArmedHint": "Touchez un panel pour le coller",
+    "stickerIdleHint": "Choisissez un autocollant, puis touchez un panel",
+    "stickerPlaceAction": "Mettre l'autocollant {emoji} sur le panel {n}",
+    "stickerRemoveAction": "Retirer l'autocollant du panel {n}",
+    "stickerNoneAction": "Panel {n}, aucun autocollant",
     "size": {
       "splash": "Pleine page",
       "wide": "Large",

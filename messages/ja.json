@@ -191,6 +191,13 @@
     "pageCount": "ページ · {count} コマ",
     "breakdown": "コマの内訳",
     "emptyHint": "上にコマをいくつか書くと、ページの形が見えてきます。",
+    "stickersLabel": "ステッカー：",
+    "stickerPick": "{emoji}ステッカーを選ぶ",
+    "stickerArmedHint": "コマをタップして貼り付け",
+    "stickerIdleHint": "先にステッカーを選んで、次にコマをタップ",
+    "stickerPlaceAction": "コマ{n}に{emoji}ステッカーを貼る",
+    "stickerRemoveAction": "コマ{n}のステッカーを外す",
+    "stickerNoneAction": "コマ{n}、ステッカーなし",
     "size": {
       "splash": "見開き級",
       "wide": "ワイド",
