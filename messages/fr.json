@@ -89,6 +89,7 @@
     "generateImage": "Générer une image",
     "generatingImage": "Génération…",
     "upload": "Importer une image",
+    "speakIdea": "Dictez votre idée",
     "readIdea": "Lire l'idée à voix haute",
     "imageError": "Impossible de générer cette image."
   },

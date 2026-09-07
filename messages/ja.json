@@ -89,6 +89,7 @@
     "generateImage": "画像を生成",
     "generatingImage": "生成中…",
     "upload": "画像をアップロード",
+    "speakIdea": "アイデアを話す",
     "readIdea": "アイデアを読み上げる",
     "imageError": "その画像を生成できませんでした。"
   },

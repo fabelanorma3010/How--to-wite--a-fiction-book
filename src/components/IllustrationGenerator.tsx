@@ -5,6 +5,7 @@ import { generateIllustrationIdea } from '../data/generators'
 import GenreSwitcher from './GenreSwitcher'
 import CopyButton from './CopyButton'
 import ReadAloud from './ReadAloud'
+import DictateButton from './DictateButton'
 import Sticker from './Sticker'
 
 interface IllustrationGeneratorProps {
@@ -40,6 +41,12 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
 
   const handleGenerate = () => {
     setIdea(generateIllustrationIdea(selected))
+    setImageUrl(null)
+    setImageError('')
+  }
+
+  function handleSpeakIdea(transcript: string) {
+    setIdea(transcript)
     setImageUrl(null)
     setImageError('')
   }
@@ -112,6 +119,7 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
           {imageError && <p className="mt-2 text-sm font-semibold text-red-600">{imageError}</p>}
 
           <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
+            <DictateButton onResult={handleSpeakIdea} label={t('speakIdea')} className={actionButtonClass} />
             <ReadAloud text={idea} label={t('readIdea')} className={actionButtonClass} />
             <label className={`${actionButtonClass} cursor-pointer`}>
               📤 {t('upload')}

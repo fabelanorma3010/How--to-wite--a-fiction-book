@@ -89,6 +89,7 @@
     "generateImage": "Generate Image",
     "generatingImage": "Generating…",
     "upload": "Upload Image",
+    "speakIdea": "Speak Your Idea",
     "readIdea": "Read Idea Aloud",
     "imageError": "Could not generate that image."
   },

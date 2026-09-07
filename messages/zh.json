@@ -89,6 +89,7 @@
     "generateImage": "生成图片",
     "generatingImage": "生成中…",
     "upload": "上传图片",
+    "speakIdea": "说出你的点子",
     "readIdea": "朗读点子",
     "imageError": "无法生成该图片。"
   },
