@@ -227,6 +227,7 @@
     "panelTextLabel": "पैनल टेक्स्ट",
     "panelImageLabel": "पैनल आर्ट",
     "uploadImage": "इमेज अपलोड करें",
+    "speakButton": "बोलें",
     "generateImagePrompt": "बनाने के लिए इमेज का विवरण दें…",
     "generateButton": "बनाएं",
     "generatingButton": "बनाई जा रही है…",

@@ -227,6 +227,7 @@
     "panelTextLabel": "Texto do quadro",
     "panelImageLabel": "Arte do quadro",
     "uploadImage": "Enviar imagem",
+    "speakButton": "Falar",
     "generateImagePrompt": "Descreva uma imagem para gerar…",
     "generateButton": "Gerar",
     "generatingButton": "Gerando…",

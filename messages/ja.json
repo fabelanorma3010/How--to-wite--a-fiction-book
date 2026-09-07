@@ -227,6 +227,7 @@
     "panelTextLabel": "コマのテキスト",
     "panelImageLabel": "コマの絵",
     "uploadImage": "画像をアップロード",
+    "speakButton": "話す",
     "generateImagePrompt": "生成する画像を説明してください…",
     "generateButton": "生成",
     "generatingButton": "生成中…",

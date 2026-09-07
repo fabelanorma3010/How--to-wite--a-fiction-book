@@ -227,6 +227,7 @@
     "panelTextLabel": "Paneltext",
     "panelImageLabel": "Panel-Kunst",
     "uploadImage": "Bild hochladen",
+    "speakButton": "Sprechen",
     "generateImagePrompt": "Beschreibe ein zu erzeugendes Bild…",
     "generateButton": "Erzeugen",
     "generatingButton": "Wird erzeugt…",
