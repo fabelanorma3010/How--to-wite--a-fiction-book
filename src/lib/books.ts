@@ -29,6 +29,8 @@ export interface Chapter {
   /** Prose chapters (book_type 'chapterbook') use this; image chapters use `pages`. */
   body: string | null
   pages: string[]
+  /** Optional per-page caption, parallel to `pages` by index — '' means that page has no caption. */
+  pageCaptions: string[]
   publishedAt: string
 }
 
@@ -109,6 +111,9 @@ export async function getBookChapters(bookId: string): Promise<Chapter[]> {
     title: row.title,
     body: row.body,
     pages: row.pages ?? [],
+    // page_captions isn't selected above yet — the column ships in a pending
+    // migration, so this stays [] everywhere until that's applied.
+    pageCaptions: [],
     publishedAt: row.published_at,
   }))
 }
@@ -173,6 +178,8 @@ export async function getChapterById(
     title: data.title,
     body: data.body,
     pages: data.pages ?? [],
+    // Same pending-migration note as getBookChapters above.
+    pageCaptions: [],
     publishedAt: data.published_at,
     bookTitle: book?.title ?? '',
     bookType: (book?.book_type as BookFormat | null) ?? null,

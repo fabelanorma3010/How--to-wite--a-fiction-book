@@ -18,6 +18,7 @@ function makeChapter(overrides: Partial<ChapterData> = {}): ChapterData {
     title: null,
     body: null,
     pages: ['/a.png', '/b.png', '/c.png'],
+    pageCaptions: [],
     publishedAt: '2026-01-01',
     bookTitle: 'Test Book',
     bookType: 'comic',
@@ -74,6 +75,39 @@ describe('ChapterReaderClient image pages', () => {
     render(<ChapterReaderClient chapter={makeChapter({ pages: [] })} prev={null} next={null} />)
     expect(screen.getByText(/no pages yet/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument()
+  })
+
+  it('shows a page caption as a speech-bubble overlay for comic/manga formats', () => {
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({ pages: ['/a.png'], pageCaptions: ['The vault door creaks open.'] })}
+        prev={null}
+        next={null}
+      />,
+    )
+    expect(screen.getByText('The vault door creaks open.')).toBeInTheDocument()
+  })
+
+  it('shows a page caption as a bottom caption bar for the children’s picture-book format', () => {
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({
+          bookType: 'childrens',
+          pages: ['/a.png'],
+          pageCaptions: ['Once there was a very small dragon.'],
+        })}
+        prev={null}
+        next={null}
+      />,
+    )
+    expect(screen.getByText('Once there was a very small dragon.')).toBeInTheDocument()
+  })
+
+  it('shows no caption UI at all when a page has no caption', () => {
+    render(<ChapterReaderClient chapter={makeChapter({ pages: ['/a.png'], pageCaptions: [''] })} prev={null} next={null} />)
+    expect(screen.getByRole('img', { name: 'Page 1' })).toBeInTheDocument()
+    // The page-1 image is the only element with this alt/text — nothing extra got rendered.
+    expect(screen.queryByText(/./, { selector: 'p' })).not.toBeInTheDocument()
   })
 })
 

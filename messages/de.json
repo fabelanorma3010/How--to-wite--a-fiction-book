@@ -595,7 +595,7 @@
     "memberBadge": "Jetzt verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
-    "firstWeekFree": "Erste Woche gratis",
+    "firstWeekFree": "Erste Woche für 1 $",
     "joinMembership": "Mitgliedschaft abschließen",
     "signUpFirst": "Zuerst registrieren",
     "checkoutNote": "Leitet zur sicheren Kasse bei Whop weiter",
@@ -626,11 +626,11 @@
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",
-        "answer": "Ja — geh zu deiner Kontoseite und klicke auf „Mitgliedschaft abschließen“. Die Kasse läuft über Whop, und deine erste Woche ist gratis."
+        "answer": "Ja — geh zu deiner Kontoseite und klicke auf „Mitgliedschaft abschließen“. Die Kasse läuft über Whop, und deine erste Woche kostet nur 1 $."
       },
       {
-        "question": "Wie funktioniert die kostenlose erste Woche?",
-        "answer": "Deine erste Woche ist gratis — voller Zugang, ohne Kosten. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
+        "question": "Wie funktioniert die erste Woche für 1 $?",
+        "answer": "Deine erste Woche kostet 1 $ — voller Zugang. Die Abrechnung beginnt danach mit 9,99 $ im Monat oder 99,99 $ im Jahr, je nach deinem Plan, und du kannst jederzeit vorher kündigen."
       },
       {
         "question": "Monatlich oder jährlich?",

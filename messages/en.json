@@ -595,7 +595,7 @@
     "memberBadge": "Now available",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
-    "firstWeekFree": "First week free",
+    "firstWeekFree": "First week for $1",
     "joinMembership": "Join Membership",
     "signUpFirst": "Sign up first",
     "checkoutNote": "Redirects to secure checkout via Whop",
@@ -626,11 +626,11 @@
       },
       {
         "question": "Can I sign up for Membership yet?",
-        "answer": "Yes — head to your account page and hit Join Membership. Checkout runs through Whop, and your first week is free."
+        "answer": "Yes — head to your account page and hit Join Membership. Checkout runs through Whop, and your first week is just $1."
       },
       {
-        "question": "How does the free first week work?",
-        "answer": "You get your first week free — full access, no charge. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
+        "question": "How does the $1 first week work?",
+        "answer": "Your first week is $1 — full access. Billing starts after that — $9.99/month or $99.99/year, depending on your plan — and you can cancel any time before it does."
       },
       {
         "question": "Monthly or annual?",

@@ -255,6 +255,8 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
         .limit(1)
       const nextNumber = existing && existing.length > 0 ? existing[0].chapter_number + 1 : 1
       const pages = illustratedPanels.map((p) => overrides[p.n]!.image!)
+      // page_captions omitted here until its migration is applied — see the
+      // matching note in BookManager.tsx's handleAddChapter.
       const { error: insertError } = await supabase.from('book_chapters').insert({
         book_id: selectedBookId,
         chapter_number: nextNumber,
@@ -339,7 +341,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               <p className="text-xs font-semibold text-ink/45">{tm('reading')}</p>
             </div>
 
-            <div className="mx-auto mt-3 flex w-full max-w-sm items-center gap-2" style={{ perspective: '1400px' }}>
+            <div className="mx-auto mt-3 flex w-full max-w-2xl items-center gap-3" style={{ perspective: '1400px' }}>
               <button
                 type="button"
                 onClick={goPrevPanel}
@@ -452,7 +454,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               ))}
             </div>
 
-            <div className="mx-auto mt-4 max-w-sm rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
+            <div className="mx-auto mt-4 max-w-2xl rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
               <h3 className="mb-3 text-sm font-extrabold uppercase tracking-wide text-ink/60">
                 {t('panelWord')} {currentPanel.n}
               </h3>
