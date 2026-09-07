@@ -11,10 +11,11 @@ type Cadence = keyof typeof PRICES
 export default function PricingTiers() {
   const t = useTranslations('PricingTiers')
   const [cadence, setCadence] = useState<Cadence>('annual')
-  // Assume signed in until proven otherwise, so a signed-in member never sees
-  // a flash of "sign up first" — the safer default is the existing
-  // Coming-soon state everyone already sees today.
-  const [signedIn, setSignedIn] = useState(true)
+  // null = auth state not resolved yet. Unlike the old disabled placeholder,
+  // this button is now a live link to real checkout, so a wrong guess here
+  // could send a signed-out visitor straight to Whop before they have an
+  // account — show a disabled placeholder instead of guessing.
+  const [signedIn, setSignedIn] = useState<boolean | null>(null)
   const price = PRICES[cadence]
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function PricingTiers() {
 
         <div className="relative flex flex-col rounded-3xl border-2 border-primary bg-white p-6 shadow-lg sm:scale-[1.03] sm:p-8">
           <span className="mb-3 w-fit rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-content">
-            {t('launchingSoon')}
+            {t('memberBadge')}
           </span>
           <h2 className="text-xl font-extrabold text-ink">{t('memberTitle')}</h2>
           <p className="mt-1 text-sm text-ink/60">{t('memberSubtitle')}</p>
@@ -108,15 +109,17 @@ export default function PricingTiers() {
               </li>
             ))}
           </ul>
-          {signedIn ? (
-            <button
-              type="button"
-              disabled
-              className="mt-8 cursor-not-allowed rounded-full bg-primary/40 px-6 py-3 text-center font-bold text-primary-content"
+          {signedIn === true && (
+            <a
+              href={price.checkoutUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 rounded-full bg-primary px-6 py-3 text-center font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
             >
-              {t('comingSoon')}
-            </button>
-          ) : (
+              {t('joinMembership')}
+            </a>
+          )}
+          {signedIn === false && (
             <Link
               href="/signup"
               className="mt-8 rounded-full bg-primary px-6 py-3 text-center font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
@@ -124,7 +127,16 @@ export default function PricingTiers() {
               {t('signUpFirst')}
             </Link>
           )}
-          <p className="mt-2 text-center text-xs text-ink/45">{t('freeWhileBuilding')}</p>
+          {signedIn === null && (
+            <button
+              type="button"
+              disabled
+              className="mt-8 cursor-not-allowed rounded-full bg-primary/40 px-6 py-3 text-center font-bold text-primary-content"
+            >
+              {t('joinMembership')}
+            </button>
+          )}
+          <p className="mt-2 text-center text-xs text-ink/45">{t('checkoutNote')}</p>
         </div>
       </div>
     </div>
