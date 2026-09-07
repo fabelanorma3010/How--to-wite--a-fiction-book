@@ -11,6 +11,7 @@ import type { Book, Chapter } from '@/lib/books'
 const MAX_COVER_BYTES = 5 * 1024 * 1024
 const MAX_FILE_BYTES = 50 * 1024 * 1024
 const MAX_PAGE_BYTES = 10 * 1024 * 1024
+const MAX_PAGES_PER_CHAPTER = 30
 const ACCEPTED_COVER = ['image/png', 'image/jpeg', 'image/webp']
 const ACCEPTED_FILE = ['application/pdf', 'application/epub+zip']
 const ACCEPTED_PAGE = ['image/png', 'image/jpeg', 'image/webp']
@@ -308,10 +309,14 @@ function ChapterPanel({
   bookType: Book['bookType']
 }) {
   const isText = bookType === 'chapterbook'
+  const isManga = bookType === 'manga'
   const [chapters, setChapters] = useState<Chapter[] | null>(null)
   const [adding, setAdding] = useState(false)
   const [chapterTitle, setChapterTitle] = useState('')
-  const [pageFiles, setPageFiles] = useState<File[]>([])
+  const [pageUrls, setPageUrls] = useState<string[]>([])
+  const [pageImagePrompt, setPageImagePrompt] = useState('')
+  const [pageImageBusy, setPageImageBusy] = useState(false)
+  const [pageImageError, setPageImageError] = useState('')
   const [body, setBody] = useState('')
   const [imagePrompt, setImagePrompt] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
@@ -416,6 +421,64 @@ function ChapterPanel({
     insertAtCursor(`\n![](${url})\n`)
   }
 
+  async function handleBulkAddPages(fileList: FileList | null) {
+    if (!fileList || fileList.length === 0) return
+    setPageImageError('')
+    const supabase = createClient()
+    if (!supabase) return
+    const remaining = MAX_PAGES_PER_CHAPTER - pageUrls.length
+    const files = Array.from(fileList).slice(0, Math.max(remaining, 0))
+    if (fileList.length > files.length) {
+      setPageImageError(`A chapter can have up to ${MAX_PAGES_PER_CHAPTER} pages — only added ${files.length}.`)
+    }
+    let count = pageUrls.length
+    for (const file of files) {
+      if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
+        setPageImageError('Pages must be PNG, JPEG, or WebP images, 10MB max each.')
+        continue
+      }
+      count += 1
+      const ext = file.name.split('.').pop() || 'jpg'
+      const path = `${userId}/chapter-${bookId}-${nextNumber}-page-${count}-${Date.now()}.${ext}`
+      const { error: uploadError } = await supabase.storage
+        .from('books')
+        .upload(path, file, { contentType: file.type })
+      if (uploadError) {
+        setPageImageError(uploadError.message)
+        continue
+      }
+      const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
+      setPageUrls((prev) => [...prev, url])
+    }
+  }
+
+  async function handleGeneratePage() {
+    if (!pageImagePrompt.trim() || pageImageBusy || pageUrls.length >= MAX_PAGES_PER_CHAPTER) return
+    setPageImageBusy(true)
+    setPageImageError('')
+    try {
+      const res = await fetch('/api/generate-illustration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: pageImagePrompt.trim() }),
+      })
+      const data = await res.json()
+      if (!res.ok || typeof data?.image !== 'string') {
+        throw new Error(data?.error || 'Could not generate that page.')
+      }
+      setPageUrls((prev) => [...prev, data.image])
+      setPageImagePrompt('')
+    } catch (err) {
+      setPageImageError(err instanceof Error ? err.message : 'Could not generate that page.')
+    } finally {
+      setPageImageBusy(false)
+    }
+  }
+
+  function removePage(index: number) {
+    setPageUrls((prev) => prev.filter((_, i) => i !== index))
+  }
+
   async function handleAddChapter(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
@@ -425,16 +488,9 @@ function ChapterPanel({
         setError('Write something before publishing this chapter.')
         return
       }
-    } else if (pageFiles.length === 0) {
-      setError('Add at least one page image.')
+    } else if (pageUrls.length === 0) {
+      setError('Add at least one page — upload or generate one below.')
       return
-    } else {
-      for (const file of pageFiles) {
-        if (!ACCEPTED_PAGE.includes(file.type) || file.size > MAX_PAGE_BYTES) {
-          setError('Pages must be PNG, JPEG, or WebP images, 10MB max each.')
-          return
-        }
-      }
     }
 
     setSubmitting(true)
@@ -456,18 +512,6 @@ function ChapterPanel({
         if (insertError) throw insertError
         setBody('')
       } else {
-        const pageUrls: string[] = []
-        for (let i = 0; i < pageFiles.length; i++) {
-          const file = pageFiles[i]
-          const ext = file.name.split('.').pop() || 'jpg'
-          const path = `${userId}/chapter-${bookId}-${nextNumber}-page-${i + 1}-${Date.now()}.${ext}`
-          const { error: uploadError } = await supabase.storage
-            .from('books')
-            .upload(path, file, { contentType: file.type })
-          if (uploadError) throw uploadError
-          pageUrls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
-        }
-
         const { error: insertError } = await supabase.from('book_chapters').insert({
           book_id: bookId,
           chapter_number: nextNumber,
@@ -475,7 +519,7 @@ function ChapterPanel({
           pages: pageUrls,
         })
         if (insertError) throw insertError
-        setPageFiles([])
+        setPageUrls([])
       }
 
       setChapterTitle('')
@@ -622,15 +666,64 @@ function ChapterPanel({
             </>
           ) : (
             <div>
-              <label className="mb-1 block text-xs font-bold text-ink/60">Pages, in order (PNG/JPEG/WebP)</label>
-              <input
-                type="file"
-                accept={ACCEPTED_PAGE.join(',')}
-                multiple
-                onChange={(e) => setPageFiles(Array.from(e.target.files ?? []))}
-                className="w-full text-xs text-ink/70"
-              />
-              {pageFiles.length > 0 && <p className="mt-1 text-xs text-ink/40">{pageFiles.length} page(s) selected</p>}
+              <label className="mb-1 block text-xs font-bold text-ink/60">
+                Pages, in order ({pageUrls.length} / {MAX_PAGES_PER_CHAPTER})
+                {isManga && ' — manga reads right to left, so add pages in reading order'}
+              </label>
+
+              {pageUrls.length > 0 && (
+                <ul className="mb-2 flex flex-wrap gap-2">
+                  {pageUrls.map((url, i) => (
+                    <li key={url + i} className="relative h-16 w-12 overflow-hidden rounded-md border-2 border-ink/15">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`Page ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removePage(i)}
+                        aria-label={`Remove page ${i + 1}`}
+                        className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] font-bold text-white hover:bg-black/80"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="flex flex-wrap items-center gap-1.5">
+                <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-base">
+                  Upload page(s)
+                  <input
+                    type="file"
+                    accept={ACCEPTED_PAGE.join(',')}
+                    multiple
+                    disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                    onChange={(e) => {
+                      void handleBulkAddPages(e.target.files)
+                      e.target.value = ''
+                    }}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                <input
+                  value={pageImagePrompt}
+                  onChange={(e) => setPageImagePrompt(e.target.value)}
+                  placeholder="Describe the next page to generate…"
+                  disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                  className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50 disabled:opacity-50"
+                />
+                <button
+                  type="button"
+                  onClick={() => void handleGeneratePage()}
+                  disabled={pageImageBusy || !pageImagePrompt.trim() || pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                  className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {pageImageBusy ? 'Generating…' : '🖼️ Generate page'}
+                </button>
+              </div>
+              {pageImageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{pageImageError}</p>}
             </div>
           )}
 
@@ -652,6 +745,9 @@ function ChapterPanel({
               onClick={() => {
                 setAdding(false)
                 setError(null)
+                setPageUrls([])
+                setPageImagePrompt('')
+                setPageImageError('')
               }}
               className="rounded-full px-3 py-1.5 text-sm font-bold text-ink/60 hover:bg-ink/10"
             >

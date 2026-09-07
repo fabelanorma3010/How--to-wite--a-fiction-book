@@ -1,3 +1,5 @@
+import { escapeHtml, printHtml } from './printHtml'
+
 export type NotebookFormat = 'pdf' | 'docx'
 
 const DOC_TITLE = 'Story Notebook'
@@ -16,10 +18,6 @@ function fileDate(): string {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
-function escapeHtml(value: string): string {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
-
 /**
  * Exports the notebook's current text in the chosen format. Reads straight from
  * the in-memory value, so it works signed-in or not. No-ops on empty text.
@@ -28,20 +26,19 @@ export async function exportNotebook(text: string, format: NotebookFormat): Prom
   const body = text.replace(/\r\n/g, '\n').replace(/[ \t\n]+$/, '')
   if (!body.trim()) return
   if (format === 'pdf') {
-    printAsPdf(body)
+    await printAsPdf(body)
     return
   }
   await downloadDocx(body)
 }
 
 /**
- * Opens the browser's print dialog on a clean, formatted copy of the notebook,
- * rendered inside a hidden iframe so pop-up blockers never see it. The reader
- * picks "Save as PDF". This keeps full font and Unicode fidelity — whatever
- * script or emoji they wrote in — which a bundled PDF engine on standard fonts
- * would drop, and it adds no dependency.
+ * Prints a clean, formatted copy of the notebook so the reader can pick
+ * "Save as PDF". Keeps full font and Unicode fidelity — whatever script or
+ * emoji they wrote in — which a bundled PDF engine on standard fonts would
+ * drop, and it adds no dependency.
  */
-function printAsPdf(body: string): void {
+function printAsPdf(body: string): Promise<void> {
   const paragraphs = body
     .split(/\n{2,}/)
     .map((block) => `<p>${escapeHtml(block).replace(/\n/g, '<br>')}</p>`)
@@ -61,46 +58,7 @@ function printAsPdf(body: string): void {
 ${paragraphs}
 </body></html>`
 
-  const frame = document.createElement('iframe')
-  frame.setAttribute('aria-hidden', 'true')
-  Object.assign(frame.style, {
-    position: 'fixed',
-    right: '0',
-    bottom: '0',
-    width: '0',
-    height: '0',
-    border: '0',
-  })
-  document.body.appendChild(frame)
-
-  const win = frame.contentWindow
-  const doc = frame.contentDocument
-  if (!win || !doc) {
-    frame.remove()
-    throw new Error('Could not open the print view.')
-  }
-
-  let cleanedUp = false
-  const cleanUp = () => {
-    if (cleanedUp) return
-    cleanedUp = true
-    frame.remove()
-  }
-  const cleanUpSoon = () => window.setTimeout(cleanUp, 500)
-
-  doc.open()
-  doc.write(html)
-  doc.close()
-
-  // afterprint fires on the iframe window in most browsers and on the parent in
-  // a few — listen on both, and keep a long fallback in case neither fires.
-  win.addEventListener('afterprint', cleanUpSoon)
-  window.addEventListener('afterprint', cleanUpSoon, { once: true })
-  window.setTimeout(() => {
-    win.focus()
-    win.print()
-    window.setTimeout(cleanUp, 60_000)
-  }, 200)
+  return printHtml(html)
 }
 
 /** Builds a real .docx in the browser and triggers a download. */
