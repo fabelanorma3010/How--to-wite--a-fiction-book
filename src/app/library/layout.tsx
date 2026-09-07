@@ -25,10 +25,6 @@ export const metadata: Metadata = {
 export default function LibraryLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`${sora.variable} ${jetbrainsMono.variable} dark`}>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet"
-      />
       <div className="min-h-screen bg-noir-background font-noir-display text-noir-on-background antialiased">
         {children}
       </div>
