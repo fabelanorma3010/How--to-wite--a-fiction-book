@@ -588,8 +588,8 @@
     "monthlyNote": "danach monatliche Abrechnung — jederzeit kündbar",
     "annualNote": "danach jährliche Abrechnung — etwa 17 % günstiger",
     "freeTitle": "Starter",
-    "freeSubtitle": "Alles, was du zum Start brauchst — für nur 1 $ loslegen.",
-    "freeCta": "Loslegen — 1 $",
+    "freeSubtitle": "Alles, was du zum Start brauchst — für nur 1 $ pro Woche.",
+    "freeCta": "Loslegen — 1 $/Woche",
     "memberBadge": "Jetzt verfügbar",
     "memberTitle": "Mitgliedschaft",
     "memberSubtitle": "Für den Moment, in dem es dir ernst wird mit dem fertigen Buch.",
@@ -614,13 +614,14 @@
       "Unbegrenzte Buch-Uploads, größere Dateien",
       "Ein Mitglieds-Abzeichen auf deinem öffentlichen Profil",
       "Bevorzugter E-Mail-Support"
-    ]
+    ],
+    "perWeek": "/Woche"
   },
   "PricingFaq": {
     "items": [
       {
         "question": "Gibt es eine günstige Möglichkeit, es vor der Mitgliedschaft auszuprobieren?",
-        "answer": "Ja — die Starter-Stufe kostet 1 $ für den Einstieg und umfasst das Quiz, die Generatoren, das Notizbuch, den KI-Helfer, die Schreibwerkzeuge und den Veröffentlichungsleitfaden. Die Kasse läuft über Whop, wo du die genauen Bedingungen siehst, bevor du bezahlst."
+        "answer": "Ja — die Starter-Stufe kostet 1 $ pro Woche und umfasst das Quiz, die Generatoren, das Notizbuch, den KI-Helfer, die Schreibwerkzeuge und den Veröffentlichungsleitfaden. Die Kasse läuft über Whop, wo du die genauen Bedingungen siehst, bevor du bezahlst."
       },
       {
         "question": "Kann ich die Mitgliedschaft schon abschließen?",

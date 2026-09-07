@@ -585,11 +585,12 @@
     "save17": "· save 17%",
     "perMonth": "/month",
     "perYear": "/year",
+    "perWeek": "/week",
     "monthlyNote": "then billed monthly — cancel anytime",
     "annualNote": "then billed yearly — about 17% off",
     "freeTitle": "Starter",
-    "freeSubtitle": "Everything you need to start — just $1 to begin.",
-    "freeCta": "Get started — $1",
+    "freeSubtitle": "Everything you need to start — just $1 a week.",
+    "freeCta": "Get started — $1/week",
     "memberBadge": "Now available",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
@@ -620,7 +621,7 @@
     "items": [
       {
         "question": "Is there a cheap way to try it before Membership?",
-        "answer": "Yes — the Starter tier is $1 to get in, covering the quiz, generators, notebook, AI helper, writing tools, and publishing guide. Checkout runs through Whop, where you'll see the exact terms before you pay."
+        "answer": "Yes — the Starter tier is $1 a week, covering the quiz, generators, notebook, AI helper, writing tools, and publishing guide. Checkout runs through Whop, where you'll see the exact terms before you pay."
       },
       {
         "question": "Can I sign up for Membership yet?",

@@ -588,8 +588,8 @@
     "monthlyNote": "depois cobrado mensalmente — cancele quando quiser",
     "annualNote": "depois cobrado anualmente — cerca de 17% mais barato",
     "freeTitle": "Inicial",
-    "freeSubtitle": "Tudo o que você precisa para começar — por apenas US$ 1.",
-    "freeCta": "Começar — US$ 1",
+    "freeSubtitle": "Tudo o que você precisa para começar — por apenas US$ 1 por semana.",
+    "freeCta": "Começar — US$ 1/semana",
     "memberBadge": "Disponível agora",
     "memberTitle": "Assinatura",
     "memberSubtitle": "Para quando você está falando sério sobre terminar seu livro.",
@@ -614,13 +614,14 @@
       "Envios de livros ilimitados, arquivos maiores",
       "Um selo de Assinante no seu perfil público",
       "Suporte prioritário por e-mail"
-    ]
+    ],
+    "perWeek": "/semana"
   },
   "PricingFaq": {
     "items": [
       {
         "question": "Existe uma forma barata de experimentar antes da Assinatura?",
-        "answer": "Sim — o plano Inicial custa US$ 1 para entrar, cobrindo o teste, os geradores, o caderno, o assistente de IA, as ferramentas de escrita e o guia de publicação. O checkout é feito pela Whop, onde você verá as condições exatas antes de pagar."
+        "answer": "Sim — o plano Inicial custa US$ 1 por semana, cobrindo o teste, os geradores, o caderno, o assistente de IA, as ferramentas de escrita e o guia de publicação. O checkout é feito pela Whop, onde você verá as condições exatas antes de pagar."
       },
       {
         "question": "Já posso assinar a Assinatura?",

@@ -588,8 +588,8 @@
     "monthlyNote": "luego se factura mensualmente — cancela cuando quieras",
     "annualNote": "luego se factura anualmente — un 17% menos aprox.",
     "freeTitle": "Inicial",
-    "freeSubtitle": "Todo lo que necesitas para empezar: por solo 1 $.",
-    "freeCta": "Empezar — 1 $",
+    "freeSubtitle": "Todo lo que necesitas para empezar: por solo 1 $ a la semana.",
+    "freeCta": "Empezar — 1 $/semana",
     "memberBadge": "Ya disponible",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
@@ -614,13 +614,14 @@
       "Subidas de libros ilimitadas, archivos más grandes",
       "Una insignia de Miembro en tu perfil público",
       "Soporte prioritario por correo"
-    ]
+    ],
+    "perWeek": "/semana"
   },
   "PricingFaq": {
     "items": [
       {
         "question": "¿Hay una forma barata de probarlo antes de la Membresía?",
-        "answer": "Sí — el plan Inicial cuesta 1 $ para entrar, e incluye el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación. El pago se procesa con Whop, donde verás las condiciones exactas antes de pagar."
+        "answer": "Sí — el plan Inicial cuesta 1 $ a la semana e incluye el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación. El pago se procesa con Whop, donde verás las condiciones exactas antes de pagar."
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",
