@@ -64,7 +64,10 @@
     "intro": "Brauchst du einen Funken für dein nächstes Panel oder deine nächste Seite? Erzeuge einen kompletten Illustrations-Prompt — Motiv, Aktion, Schauplatz, Detail und Farbpalette — für deine Zeichnerin (oder dich selbst). Oder spring direkt zu einem generierten Bild.",
     "genreLabel": "Genre für die Illustrationsidee wählen",
     "generate": "Illustrationsidee erzeugen {emoji}",
-    "comingSoon": "Bald"
+    "generateImage": "Bild erzeugen",
+    "generatingImage": "Wird erzeugt…",
+    "signInToGenerate": "Melde dich an, um ein Bild zu erzeugen",
+    "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal."
   },
   "Notebook": {
     "title": "Dein Story-Notizbuch",
@@ -553,13 +556,13 @@
       "Der 10-Schritte-Veröffentlichungsleitfaden und die Launch-Wochen-Checkliste",
       "Selbstspeicherndes Story-Notizbuch",
       "Generatoren für Action-Text und Illustrationsideen",
+      "Verwandle jede Illustrationsidee in ein echtes KI-Bild",
       "KI-Fiction-Helfer und Schreibwerkzeuge (zusammenfassen, kritisieren, strukturieren) für kürzere Texte",
       "Ein öffentliches Kreativ-Profil mit bis zu 3 hochgeladenen Büchern"
     ],
     "memberFeatures": [
       "Alles aus Kostenlos, mit deutlich höheren KI-Limits",
       "Die Schreibwerkzeuge arbeiten mit ganzen Kapiteln und Arbeiten, nicht nur kurzen Ausschnitten",
-      "KI-Bildgenerierung — bald",
       "Exportiere dein Notizbuch oder Skript als formatiertes PDF und DOCX",
       "Notizbuch-Verlauf — zu einem früheren Entwurf zurückspringen",
       "Unbegrenzte Buch-Uploads, größere Dateien",

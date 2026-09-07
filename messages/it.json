@@ -64,7 +64,10 @@
     "intro": "Ti serve una scintilla per la prossima vignetta o pagina? Genera un prompt di illustrazione completo — soggetto, azione, ambientazione, dettaglio e palette di colori — per il tuo disegnatore (o per te). Oppure passa direttamente a un'immagine generata.",
     "genreLabel": "Scegli il genere per l'idea di illustrazione",
     "generate": "Genera idea di illustrazione {emoji}",
-    "comingSoon": "In arrivo"
+    "generateImage": "Genera immagine",
+    "generatingImage": "Generazione…",
+    "signInToGenerate": "Accedi per generare un'immagine",
+    "imageGenericError": "Impossibile generare quell'immagine. Riprova tra un momento."
   },
   "Notebook": {
     "title": "Il tuo taccuino di storie",
@@ -553,13 +556,13 @@
       "La guida alla pubblicazione in 10 passi e la checklist della settimana di lancio",
       "Taccuino di storie con salvataggio automatico",
       "Generatori di testo d'azione e di idee per illustrazioni",
+      "Trasforma qualsiasi idea di illustrazione in una vera immagine generata dall'IA",
       "Assistente Narrativa IA e Strumenti di scrittura (riassumere, criticare, strutturare) per testi più brevi",
       "Un profilo pubblico da creatore con fino a 3 libri caricati"
     ],
     "memberFeatures": [
       "Tutto ciò che c'è in Gratis, con limiti IA molto più alti",
       "Gli Strumenti di scrittura funzionano su capitoli e lavori interi, non solo estratti brevi",
-      "Generazione di immagini IA — in arrivo",
       "Esporta il tuo taccuino o copione in PDF e DOCX formattati",
       "Cronologia del taccuino — torna a una bozza precedente",
       "Caricamenti di libri illimitati, file più grandi",
