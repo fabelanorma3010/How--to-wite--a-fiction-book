@@ -219,11 +219,6 @@
     "breakdown": "分格清单",
     "emptyHint": "在上方写几格，看这一页如何成形。",
     "stickersLabel": "贴纸：",
-    "tapPanelHint": "点击任意格子编辑文字并添加画面",
-    "editPanelAction": "编辑第 {n} 格",
-    "addImageHint": "+ 添加图片",
-    "editingPanel": "正在编辑第 {n} 格",
-    "closeEditor": "完成",
     "panelTextLabel": "格子文字",
     "panelTextHint": "输入你自己的内容——它会替换框内显示的示例点子。",
     "panelImageLabel": "格子画面",
@@ -263,7 +258,10 @@
       "lead": "日式漫画的页面会打破网格——倾斜的切分、列间狭窄的间隔，重要的节拍冲出画框。描述你的页面，得到这种从右到左阅读的版式。",
       "reading": "从右到左、从上到下。格与格之间是斜切；整版和大节拍出血到画框边缘。",
       "scriptNote": "从右到左阅读"
-    }
+    },
+    "prevPanel": "上一格",
+    "nextPanel": "下一格",
+    "removeImage": "移除图片"
   },
   "BookTypes": {
     "sectionTitle": "选择你的图书类型",

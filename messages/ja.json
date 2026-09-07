@@ -219,11 +219,6 @@
     "breakdown": "コマの内訳",
     "emptyHint": "上にコマをいくつか書くと、ページの形が見えてきます。",
     "stickersLabel": "ステッカー：",
-    "tapPanelHint": "コマをタップしてテキストを編集し、絵を追加",
-    "editPanelAction": "コマ{n}を編集",
-    "addImageHint": "+ 画像を追加",
-    "editingPanel": "コマ{n}を編集中",
-    "closeEditor": "完了",
     "panelTextLabel": "コマのテキスト",
     "panelTextHint": "自分の言葉を入力すると、枠内に表示されている例のアイデアと置き換わります。",
     "panelImageLabel": "コマの絵",
@@ -263,7 +258,10 @@
       "lead": "マンガのページはグリッドを崩します — 斜めの断ち切り、狭い縦の溝、そして大きな見せ場は枠からはみ出す。ページを説明すると、右から左に読むそのレイアウトを返します。",
       "reading": "右から左、上から下へ。コマ間は斜めの断ち切り。見開き級や大きな見せ場は枠を裁ち落とします。",
       "scriptNote": "右から左に読む"
-    }
+    },
+    "prevPanel": "前のコマ",
+    "nextPanel": "次のコマ",
+    "removeImage": "画像を削除"
   },
   "BookTypes": {
     "sectionTitle": "本のタイプを選ぶ",

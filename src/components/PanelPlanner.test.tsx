@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
 import PanelPlanner from './PanelPlanner'
@@ -23,93 +23,104 @@ vi.mock('../lib/supabase/client', () => ({
   createClient: () => ({ auth: { getUser: getUserMock }, from: () => chainableEmptyQuery() }),
 }))
 
+// The current panel's text also always appears again, further down, inside the
+// copyable "Panel breakdown" script (which always lists every panel). Scoping
+// to the slideshow stage itself keeps assertions about what's on screen right
+// now unambiguous.
+function getStage() {
+  return screen.getByRole('button', { name: /previous panel/i }).parentElement!
+}
+
 describe('PanelPlanner', () => {
   afterEach(() => vi.clearAllMocks())
 
-  it('selecting a panel opens its editor, and a second click on it closes it', async () => {
+  it('shows the first panel by default and steps through panels with Next/Previous', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
+    const stage = getStage()
 
-    const panelOne = screen.getByRole('button', { name: /edit panel 1/i })
-    await user.click(panelOne)
-    expect(await screen.findByText(/editing panel 1/i)).toBeInTheDocument()
+    expect(within(stage).getByText(/the vault/i)).toBeInTheDocument()
+    const prev = within(stage).getByRole('button', { name: /previous panel/i })
+    const next = within(stage).getByRole('button', { name: /next panel/i })
+    expect(prev).toBeDisabled()
+    expect(next).not.toBeDisabled()
 
-    await user.click(panelOne)
-    expect(screen.queryByText(/editing panel 1/i)).not.toBeInTheDocument()
+    await user.click(next)
+    expect(within(stage).getByText(/the drop/i)).toBeInTheDocument()
+    expect(within(stage).queryByText(/the vault/i)).not.toBeInTheDocument()
+    expect(prev).not.toBeDisabled()
+
+    await user.click(prev)
+    expect(within(stage).getByText(/the vault/i)).toBeInTheDocument()
   })
 
-  it('toggles a sticker onto the selected panel from its editor, and removes it on a second click', async () => {
+  it('toggles a sticker onto the current panel from its editor, and removes it on a second click', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
-
-    const panelOne = screen.getByRole('button', { name: /edit panel 1/i })
-    await user.click(panelOne)
-    expect(panelOne).not.toHaveTextContent('💥')
 
     const stickerButton = screen.getAllByRole('button', { name: '💥' })[0]
-    await user.click(stickerButton)
-    expect(panelOne).toHaveTextContent('💥')
+    expect(screen.getAllByText('💥')).toHaveLength(1)
 
     await user.click(stickerButton)
-    expect(panelOne).not.toHaveTextContent('💥')
+    expect(stickerButton).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getAllByText('💥').length).toBeGreaterThan(1)
+
+    await user.click(stickerButton)
+    expect(stickerButton).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getAllByText('💥')).toHaveLength(1)
   })
 
-  it('clears stickers and closes the editor when switching to a different example', async () => {
+  it('clears stickers and returns to the first panel when switching to a different example', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
+    const stage = getStage()
 
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
     await user.click(screen.getAllByRole('button', { name: '⭐' })[0])
-    expect(screen.getByRole('button', { name: /edit panel 1/i })).toHaveTextContent('⭐')
+    expect(screen.getAllByText('⭐').length).toBeGreaterThan(1)
 
     await user.click(screen.getByRole('button', { name: 'Rooftop chase' }))
-    expect(screen.queryByText(/editing panel/i)).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /edit panel 1/i })).not.toHaveTextContent('⭐')
+    expect(screen.getAllByText('⭐')).toHaveLength(1)
+    expect(within(stage).getByText(/rooftops/i)).toBeInTheDocument()
   })
 
-  it("editing a panel's text in its editor updates what the panel shows", async () => {
+  it("editing a panel's text updates what the current panel shows", async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
+    const stage = getStage()
 
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
     const box = screen.getByLabelText(/panel text/i)
     await user.clear(box)
     await user.type(box, 'A brand new caption for this panel.')
     await user.tab() // blur commits the edit
 
-    expect(screen.getByRole('button', { name: /edit panel 1/i })).toHaveTextContent(
-      'A brand new caption for this panel.',
-    )
+    expect(within(stage).getByText('A brand new caption for this panel.')).toBeInTheDocument()
   })
 
-  it('does not commit the generated example as real text just from opening and closing the editor', async () => {
+  it('does not commit the generated example as real text just from viewing and navigating away', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
 
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
     const box = screen.getByLabelText<HTMLTextAreaElement>(/panel text/i)
     expect(box.value).toBe('')
     expect(box.placeholder.length).toBeGreaterThan(0)
 
     await user.tab() // blur without typing anything
-    await user.click(screen.getByRole('button', { name: /done/i })) // close the editor
+    await user.click(screen.getByRole('button', { name: /next panel/i }))
+    await user.click(screen.getByRole('button', { name: /previous panel/i }))
 
-    // Reopening should show an empty draft again, not the example re-committed as if typed.
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
+    // Back on the first panel, the draft should still be empty, not the example re-committed as if typed.
     expect(screen.getByLabelText<HTMLTextAreaElement>(/panel text/i).value).toBe('')
   })
 
   it('lets a signed-out visitor generate images, but prompts them to log in to upload', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
-    const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
 
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
     expect(await screen.findByText(/log in to upload/i)).toBeInTheDocument()
     expect(screen.queryByText(/^upload image$/i)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /generate/i })).toBeInTheDocument()
@@ -117,10 +128,8 @@ describe('PanelPlanner', () => {
 
   it('shows image tools for a signed-in visitor', async () => {
     getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
-    const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
 
-    await user.click(screen.getByRole('button', { name: /edit panel 1/i }))
     expect(await screen.findByText(/upload image/i)).toBeInTheDocument()
   })
 })

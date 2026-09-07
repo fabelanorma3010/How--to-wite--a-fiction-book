@@ -55,16 +55,6 @@ const TIER_HEIGHT: Record<PanelSize, number> = {
   beat: 1.15,
 }
 
-/** Width weight inside a tier — "tall / skinny" is narrow, "big" is broad. */
-export const WIDTH_WEIGHT: Record<PanelSize, number> = {
-  splash: 1,
-  wide: 1,
-  big: 2.2,
-  tall: 0.85,
-  medium: 1.5,
-  beat: 1.1,
-}
-
 const SIZE_PATTERNS: { size: PanelSize; re: RegExp }[] = [
   { size: 'splash', re: /\b(splash|full[-\s]?page|double[-\s]?page|full[-\s]?spread|whole[-\s]?page|two[-\s]?page|spread)\b/i },
   { size: 'tall', re: /\b(tall|skinny|narrow|vertical|slim|sliver|thin|column|portrait|strip)\b/i },

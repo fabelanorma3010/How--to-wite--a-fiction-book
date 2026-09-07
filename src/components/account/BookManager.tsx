@@ -385,6 +385,8 @@ function ChapterPanel({
   const [adding, setAdding] = useState(false)
   const [chapterTitle, setChapterTitle] = useState('')
   const [pageUrls, setPageUrls] = useState<string[]>([])
+  const [pageViewIndex, setPageViewIndex] = useState(0)
+  const [pageTurnDir, setPageTurnDir] = useState<'next' | 'prev'>('next')
   const [pageImagePrompt, setPageImagePrompt] = useState('')
   const [pageImageBusy, setPageImageBusy] = useState(false)
   const [pageImageError, setPageImageError] = useState('')
@@ -520,6 +522,8 @@ function ChapterPanel({
       }
       const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
       setPageUrls((prev) => [...prev, url])
+      setPageTurnDir('next')
+      setPageViewIndex(count - 1)
     }
   }
 
@@ -538,6 +542,8 @@ function ChapterPanel({
         throw new Error(data?.error || 'Could not generate that page.')
       }
       setPageUrls((prev) => [...prev, data.image])
+      setPageTurnDir('next')
+      setPageViewIndex(pageUrls.length)
       setPageImagePrompt('')
     } catch (err) {
       setPageImageError(err instanceof Error ? err.message : 'Could not generate that page.')
@@ -548,6 +554,7 @@ function ChapterPanel({
 
   function removePage(index: number) {
     setPageUrls((prev) => prev.filter((_, i) => i !== index))
+    setPageViewIndex((prev) => Math.min(prev, Math.max(pageUrls.length - 2, 0)))
   }
 
   async function handleAddChapter(e: React.FormEvent) {
@@ -591,6 +598,7 @@ function ChapterPanel({
         })
         if (insertError) throw insertError
         setPageUrls([])
+        setPageViewIndex(0)
       }
 
       setChapterTitle('')
@@ -755,24 +763,40 @@ function ChapterPanel({
                 {isManga && ' — manga reads right to left, so add pages in reading order'}
               </label>
 
-              {pageUrls.length > 0 && (
-                <ul className="mb-3 flex flex-wrap gap-3">
-                  {pageUrls.map((url, i) => (
-                    <li
-                      key={url + i}
-                      className="relative h-28 w-20 overflow-hidden"
-                      style={{
-                        border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
-                        borderRadius: theme.pageRadius,
-                        boxShadow: theme.pageShadow,
-                        background: theme.pageBg,
-                      }}
-                    >
+              <div className="mt-2 flex items-center gap-2" style={{ perspective: '1400px' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPageTurnDir('prev')
+                    setPageViewIndex((i) => Math.max(i - 1, 0))
+                  }}
+                  disabled={pageViewIndex === 0}
+                  aria-label="Previous page"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
+                >
+                  ‹
+                </button>
+
+                <div
+                  key={pageViewIndex}
+                  className={`relative aspect-[3/4] flex-1 overflow-hidden ${
+                    pageTurnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
+                  }`}
+                  style={{
+                    border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
+                    borderRadius: theme.pageRadius,
+                    boxShadow: theme.pageShadow,
+                    background: theme.pageBg,
+                    transformOrigin: 'left center',
+                  }}
+                >
+                  {pageViewIndex < pageUrls.length ? (
+                    <>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={url}
-                        alt={`Page ${i + 1}`}
-                        className="h-full w-full object-cover"
+                        src={pageUrls[pageViewIndex]}
+                        alt={`Page ${pageViewIndex + 1}`}
+                        className="h-full w-full object-contain"
                         style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
                       />
                       {theme.illustTexture !== 'flat' && (
@@ -783,66 +807,110 @@ function ChapterPanel({
                         />
                       )}
                       <span
-                        className="absolute bottom-0 left-0 w-full px-1.5 py-1 text-[10px] font-bold text-white"
+                        className="absolute bottom-0 left-0 w-full px-2 py-1 text-xs font-bold text-white"
                         style={{
                           fontFamily: theme.displayFont,
                           background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
                         }}
                       >
-                        {i + 1}
+                        Page {pageViewIndex + 1}
                       </span>
                       <button
                         type="button"
-                        onClick={() => removePage(i)}
-                        aria-label={`Remove page ${i + 1}`}
-                        className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] font-bold text-white hover:bg-black/80"
+                        onClick={() => removePage(pageViewIndex)}
+                        aria-label={`Remove page ${pageViewIndex + 1}`}
+                        className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs font-bold text-white hover:bg-black/80"
                       >
                         ×
                       </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                    </>
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-2.5 p-4 text-center">
+                      <span className="text-2xl" style={{ color: `${theme.ink}55` }}>
+                        +
+                      </span>
+                      <p className="text-xs font-bold" style={{ color: theme.soft, fontFamily: theme.bodyFont }}>
+                        Add page {pageUrls.length + 1}
+                      </p>
+                      <label
+                        className="cursor-pointer rounded-full border-2 px-3 py-1 text-xs font-bold"
+                        style={{ borderColor: `${theme.ink}33`, color: theme.ink }}
+                      >
+                        Upload page
+                        <input
+                          type="file"
+                          accept={ACCEPTED_PAGE.join(',')}
+                          multiple
+                          disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                          onChange={(e) => {
+                            void handleBulkAddPages(e.target.files)
+                            e.target.value = ''
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      <div className="flex w-full flex-wrap items-center justify-center gap-1.5">
+                        <input
+                          value={pageImagePrompt}
+                          onChange={(e) => setPageImagePrompt(e.target.value)}
+                          placeholder="Describe this page…"
+                          disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                          className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2 py-1.5 text-xs text-ink focus:border-primary/50 disabled:opacity-50"
+                        />
+                        <DictateButton
+                          onResult={setPageImagePrompt}
+                          label="Speak"
+                          className="rounded-full border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => void handleGeneratePage()}
+                        disabled={pageImageBusy || !pageImagePrompt.trim() || pageUrls.length >= MAX_PAGES_PER_CHAPTER}
+                        className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {pageImageBusy ? 'Generating…' : '🖼️ Generate page'}
+                      </button>
+                    </div>
+                  )}
+                </div>
 
-              <div className="flex flex-wrap items-center gap-1.5">
-                <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
-                  Upload page(s)
-                  <input
-                    type="file"
-                    accept={ACCEPTED_PAGE.join(',')}
-                    multiple
-                    disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
-                    onChange={(e) => {
-                      void handleBulkAddPages(e.target.files)
-                      e.target.value = ''
-                    }}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                <input
-                  value={pageImagePrompt}
-                  onChange={(e) => setPageImagePrompt(e.target.value)}
-                  placeholder="Describe the next page to generate…"
-                  disabled={pageUrls.length >= MAX_PAGES_PER_CHAPTER}
-                  className="min-w-0 flex-1 rounded-lg border-2 border-ink/15 bg-white px-2.5 py-1.5 text-xs text-ink focus:border-primary/50 disabled:opacity-50"
-                />
-                <DictateButton
-                  onResult={setPageImagePrompt}
-                  label="Speak"
-                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
-                />
                 <button
                   type="button"
-                  onClick={() => void handleGeneratePage()}
-                  disabled={pageImageBusy || !pageImagePrompt.trim() || pageUrls.length >= MAX_PAGES_PER_CHAPTER}
-                  className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-content disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => {
+                    setPageTurnDir('next')
+                    setPageViewIndex((i) => Math.min(i + 1, pageUrls.length))
+                  }}
+                  disabled={pageViewIndex >= pageUrls.length}
+                  aria-label="Next page"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
                 >
-                  {pageImageBusy ? 'Generating…' : '🖼️ Generate page'}
+                  ›
                 </button>
               </div>
-              {pageImageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{pageImageError}</p>}
+
+              {pageUrls.length > 0 && (
+                <div className="mt-2 flex items-center justify-center gap-1.5">
+                  {pageUrls.map((_, i) => (
+                    <span
+                      key={i}
+                      className="h-1.5 rounded-full transition-all"
+                      style={{
+                        width: i === pageViewIndex ? 18 : 6,
+                        background: i === pageViewIndex ? theme.accent : `${theme.ink}26`,
+                      }}
+                    />
+                  ))}
+                  <span
+                    className="h-1.5 w-1.5 rounded-full border"
+                    style={{
+                      borderColor: `${theme.ink}4d`,
+                      background: pageViewIndex === pageUrls.length ? theme.accent : 'transparent',
+                    }}
+                  />
+                </div>
+              )}
+              {pageImageError && <p className="mt-1.5 text-center text-xs font-semibold text-red-600">{pageImageError}</p>}
             </div>
           )}
 
@@ -865,6 +933,7 @@ function ChapterPanel({
                 setAdding(false)
                 setError(null)
                 setPageUrls([])
+                setPageViewIndex(0)
                 setPageImagePrompt('')
                 setPageImageError('')
               }}

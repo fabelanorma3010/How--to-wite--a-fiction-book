@@ -219,11 +219,6 @@
     "breakdown": "Panel breakdown",
     "emptyHint": "Type a few panels above to see the page take shape.",
     "stickersLabel": "Stickers:",
-    "tapPanelHint": "Tap any panel to edit its text and add art",
-    "editPanelAction": "Edit panel {n}",
-    "addImageHint": "+ Add image",
-    "editingPanel": "Editing panel {n}",
-    "closeEditor": "Done",
     "panelTextLabel": "Panel text",
     "panelTextHint": "Type your own — it replaces the example idea shown in the box.",
     "panelImageLabel": "Panel art",
@@ -263,7 +258,10 @@
       "lead": "Manga pages break the grid — slanted cuts, tight column gutters, and the big beats bleeding past the frame. Describe your page and get that layout back, read right to left.",
       "reading": "Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.",
       "scriptNote": "reads right to left"
-    }
+    },
+    "prevPanel": "Previous panel",
+    "nextPanel": "Next panel",
+    "removeImage": "Remove image"
   },
   "BookTypes": {
     "sectionTitle": "Pick Your Book Type",

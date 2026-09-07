@@ -219,11 +219,6 @@
     "breakdown": "Desglose de viñetas",
     "emptyHint": "Escribe algunas viñetas arriba para ver cómo toma forma la página.",
     "stickersLabel": "Pegatinas:",
-    "tapPanelHint": "Toca cualquier panel para editar su texto y añadir arte",
-    "editPanelAction": "Editar panel {n}",
-    "addImageHint": "+ Añadir imagen",
-    "editingPanel": "Editando panel {n}",
-    "closeEditor": "Listo",
     "panelTextLabel": "Texto del panel",
     "panelTextHint": "Escribe el tuyo — reemplaza la idea de ejemplo que aparece en el cuadro.",
     "panelImageLabel": "Arte del panel",
@@ -263,7 +258,10 @@
       "lead": "Las páginas de manga rompen la cuadrícula: cortes inclinados, canaletas estrechas entre columnas y los momentos clave sangrando fuera del marco. Describe tu página y recibe ese diseño, leído de derecha a izquierda.",
       "reading": "De derecha a izquierda, de arriba abajo. Cortes diagonales entre viñetas; las páginas completas y los momentos grandes sangran el marco.",
       "scriptNote": "se lee de derecha a izquierda"
-    }
+    },
+    "prevPanel": "Viñeta anterior",
+    "nextPanel": "Viñeta siguiente",
+    "removeImage": "Quitar imagen"
   },
   "BookTypes": {
     "sectionTitle": "Elige tu tipo de libro",

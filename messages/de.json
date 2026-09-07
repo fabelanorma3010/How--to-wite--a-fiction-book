@@ -219,11 +219,6 @@
     "breakdown": "Panel-Aufschlüsselung",
     "emptyHint": "Schreib oben ein paar Panels, um die Seite Gestalt annehmen zu sehen.",
     "stickersLabel": "Sticker:",
-    "tapPanelHint": "Tippe auf ein Panel, um Text zu bearbeiten und Kunst hinzuzufügen",
-    "editPanelAction": "Panel {n} bearbeiten",
-    "addImageHint": "+ Bild hinzufügen",
-    "editingPanel": "Panel {n} bearbeiten",
-    "closeEditor": "Fertig",
     "panelTextLabel": "Paneltext",
     "panelTextHint": "Schreib deinen eigenen Text — er ersetzt die Beispielidee im Feld.",
     "panelImageLabel": "Panel-Kunst",
@@ -263,7 +258,10 @@
       "lead": "Manga-Seiten sprengen das Raster — schräge Schnitte, enge Spaltenrinnen und die großen Momente, die über den Rand hinauslaufen. Beschreib deine Seite und bekomm dieses Layout zurück, von rechts nach links gelesen.",
       "reading": "Von rechts nach links, von oben nach unten. Diagonale Schnitte zwischen Panels; ganzseitige und große Momente laufen über den Rand.",
       "scriptNote": "wird von rechts nach links gelesen"
-    }
+    },
+    "prevPanel": "Vorheriges Panel",
+    "nextPanel": "Nächstes Panel",
+    "removeImage": "Bild entfernen"
   },
   "BookTypes": {
     "sectionTitle": "Wähle deinen Buchtyp",
