@@ -219,11 +219,6 @@
     "breakdown": "Scaletta delle vignette",
     "emptyHint": "Scrivi qualche vignetta qui sopra per vedere la pagina prendere forma.",
     "stickersLabel": "Adesivi:",
-    "tapPanelHint": "Tocca un pannello per modificarne il testo e aggiungere l'illustrazione",
-    "editPanelAction": "Modifica pannello {n}",
-    "addImageHint": "+ Aggiungi immagine",
-    "editingPanel": "Modifica pannello {n}",
-    "closeEditor": "Fatto",
     "panelTextLabel": "Testo del pannello",
     "panelTextHint": "Scrivi il tuo — sostituisce l'idea di esempio mostrata nel riquadro.",
     "panelImageLabel": "Illustrazione del pannello",
@@ -263,7 +258,10 @@
       "lead": "Le pagine manga rompono la griglia — tagli obliqui, canaline strette tra le colonne e i momenti forti che escono dal bordo. Descrivi la pagina e ricevi quel layout, letto da destra a sinistra.",
       "reading": "Da destra a sinistra, dall'alto in basso. Tagli diagonali tra le vignette; pagine intere e grandi momenti escono dal bordo.",
       "scriptNote": "si legge da destra a sinistra"
-    }
+    },
+    "prevPanel": "Vignetta precedente",
+    "nextPanel": "Vignetta successiva",
+    "removeImage": "Rimuovi immagine"
   },
   "BookTypes": {
     "sectionTitle": "Scegli il tuo tipo di libro",

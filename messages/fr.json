@@ -219,11 +219,6 @@
     "breakdown": "Découpage des cases",
     "emptyHint": "Écrivez quelques cases ci-dessus pour voir la page prendre forme.",
     "stickersLabel": "Autocollants :",
-    "tapPanelHint": "Touchez un panel pour modifier son texte et ajouter une illustration",
-    "editPanelAction": "Modifier le panel {n}",
-    "addImageHint": "+ Ajouter une image",
-    "editingPanel": "Modification du panel {n}",
-    "closeEditor": "Terminé",
     "panelTextLabel": "Texte du panel",
     "panelTextHint": "Écrivez le vôtre — il remplace l'exemple affiché dans la zone.",
     "panelImageLabel": "Illustration du panel",
@@ -263,7 +258,10 @@
       "lead": "Les pages de manga cassent la grille — coupes inclinées, gouttières serrées entre les colonnes, et les temps forts qui débordent du cadre. Décrivez votre page et récupérez cette mise en page, lue de droite à gauche.",
       "reading": "De droite à gauche, de haut en bas. Coupes diagonales entre les cases ; les pleines pages et les grands temps forts débordent du cadre.",
       "scriptNote": "se lit de droite à gauche"
-    }
+    },
+    "prevPanel": "Case précédente",
+    "nextPanel": "Case suivante",
+    "removeImage": "Supprimer l'image"
   },
   "BookTypes": {
     "sectionTitle": "Choisissez votre type de livre",

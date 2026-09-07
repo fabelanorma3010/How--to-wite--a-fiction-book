@@ -219,11 +219,6 @@
     "breakdown": "Detalhamento dos quadros",
     "emptyHint": "Escreva alguns quadros acima para ver a página tomar forma.",
     "stickersLabel": "Adesivos:",
-    "tapPanelHint": "Toque em um quadro para editar o texto e adicionar arte",
-    "editPanelAction": "Editar quadro {n}",
-    "addImageHint": "+ Adicionar imagem",
-    "editingPanel": "Editando quadro {n}",
-    "closeEditor": "Concluído",
     "panelTextLabel": "Texto do quadro",
     "panelTextHint": "Digite o seu — ele substitui a ideia de exemplo mostrada na caixa.",
     "panelImageLabel": "Arte do quadro",
@@ -263,7 +258,10 @@
       "lead": "As páginas de mangá quebram a grade — cortes inclinados, calhas estreitas entre colunas e os momentos fortes sangrando para fora do quadro. Descreva sua página e receba esse layout, lido da direita para a esquerda.",
       "reading": "Da direita para a esquerda, de cima para baixo. Cortes diagonais entre quadros; páginas inteiras e grandes momentos sangram a moldura.",
       "scriptNote": "lê-se da direita para a esquerda"
-    }
+    },
+    "prevPanel": "Painel anterior",
+    "nextPanel": "Próximo painel",
+    "removeImage": "Remover imagem"
   },
   "BookTypes": {
     "sectionTitle": "Escolha o seu tipo de livro",

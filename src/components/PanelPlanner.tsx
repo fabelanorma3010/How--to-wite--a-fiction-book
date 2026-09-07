@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { planPanels, type PanelSize, WIDTH_WEIGHT } from '../lib/panelLayout'
+import { planPanels, type PanelSize } from '../lib/panelLayout'
 import { createClient } from '../lib/supabase/client'
+import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatThemes'
 import CopyButton from './CopyButton'
 import Sticker from './Sticker'
 import DictateButton from './DictateButton'
@@ -68,6 +69,16 @@ const STICKERS = ['💥', '⭐', '✨', '🔥', '❗', '👊', '😱', '💦']
 const ACCEPTED_IMAGE = ['image/png', 'image/jpeg', 'image/webp']
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
 
+/** Keeps a hint of each panel's shape now that panels show one at a time instead of in a laid-out grid. */
+const ASPECT_BY_SIZE: Record<PanelSize, string> = {
+  splash: 'aspect-[4/3]',
+  wide: 'aspect-[16/9]',
+  big: 'aspect-[4/3]',
+  tall: 'aspect-[9/16]',
+  medium: 'aspect-[3/4]',
+  beat: 'aspect-square',
+}
+
 interface PanelOverride {
   text?: string
   sticker?: string
@@ -87,9 +98,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
   const cfg = MODES[mode]
   const t = useTranslations('PanelPlanner')
   const tm = useTranslations(mode === 'comic' ? 'PanelPlanner.comic' : 'PanelPlanner.manga')
+  const theme = getBookFormatTheme(mode)
   const [text, setText] = useState(cfg.examples[0].text)
   const [overrides, setOverrides] = useState<Record<number, PanelOverride>>({})
-  const [selectedPanel, setSelectedPanel] = useState<number | null>(null)
+  const [panelViewIndex, setPanelViewIndex] = useState(0)
+  const [panelTurnDir, setPanelTurnDir] = useState<'next' | 'prev'>('next')
   const [panelTextDraft, setPanelTextDraft] = useState('')
   const [imagePrompt, setImagePrompt] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
@@ -104,6 +117,11 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
 
   const plan = useMemo(() => planPanels(text), [text])
   const flatPanels = useMemo(() => plan.tiers.flatMap((tier) => tier.panels), [plan])
+  // Clamped inline (not via effect) so a panel is always on-screen the instant
+  // typing shrinks the count — no lagging frame where the view briefly points nowhere.
+  const safeIndex = Math.min(panelViewIndex, Math.max(flatPanels.length - 1, 0))
+  const currentPanel = flatPanels[safeIndex]
+  const currentOverride = currentPanel ? overrides[currentPanel.n] : undefined
 
   useEffect(() => {
     const supabase = createClient()
@@ -131,20 +149,31 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
       })
   }, [userId, mode])
 
-  function selectExample(exampleText: string) {
-    setText(exampleText)
-    setOverrides({})
-    setSelectedPanel(null)
-    setPublishedBookId(null)
-  }
-
-  function selectPanel(n: number) {
-    setSelectedPanel((prev) => (prev === n ? null : n))
+  useEffect(() => {
     // Starts empty, not pre-filled with the generated idea — that idea shows
     // as the textarea's placeholder instead, so writing your own replaces it
     // rather than requiring you to select-all and delete it first.
-    setPanelTextDraft(overrides[n]?.text ?? '')
+    setPanelTextDraft(currentPanel ? (overrides[currentPanel.n]?.text ?? '') : '')
     setImageError('')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [safeIndex])
+
+  function selectExample(exampleText: string) {
+    setText(exampleText)
+    setOverrides({})
+    setPanelTurnDir('next')
+    setPanelViewIndex(0)
+    setPublishedBookId(null)
+  }
+
+  function goPrevPanel() {
+    setPanelTurnDir('prev')
+    setPanelViewIndex(Math.max(safeIndex - 1, 0))
+  }
+
+  function goNextPanel() {
+    setPanelTurnDir('next')
+    setPanelViewIndex(Math.min(safeIndex + 1, flatPanels.length - 1))
   }
 
   function updateOverride(n: number, patch: PanelOverride) {
@@ -154,18 +183,18 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
   function commitPanelText() {
     // Leaving it blank keeps showing the generated idea (the panel's own
     // display already falls back to it) rather than saving an empty override.
-    if (selectedPanel !== null && panelTextDraft.trim()) {
-      updateOverride(selectedPanel, { text: panelTextDraft })
+    if (currentPanel && panelTextDraft.trim()) {
+      updateOverride(currentPanel.n, { text: panelTextDraft })
     }
   }
 
   function toggleStickerOnSelected(emoji: string) {
-    if (selectedPanel === null) return
-    updateOverride(selectedPanel, { sticker: overrides[selectedPanel]?.sticker === emoji ? undefined : emoji })
+    if (!currentPanel) return
+    updateOverride(currentPanel.n, { sticker: currentOverride?.sticker === emoji ? undefined : emoji })
   }
 
   async function handleGenerateImage() {
-    if (selectedPanel === null || !imagePrompt.trim() || imageBusy) return
+    if (!currentPanel || !imagePrompt.trim() || imageBusy) return
     setImageBusy(true)
     setImageError('')
     try {
@@ -178,7 +207,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
       if (!res.ok || typeof data?.image !== 'string') {
         throw new Error(data?.error || t('imageGenericError'))
       }
-      updateOverride(selectedPanel, { image: data.image })
+      updateOverride(currentPanel.n, { image: data.image })
       setImagePrompt('')
     } catch (err) {
       setImageError(err instanceof Error ? err.message : t('imageGenericError'))
@@ -188,7 +217,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
   }
 
   async function handleUploadImage(file: File) {
-    if (selectedPanel === null || !userId) return
+    if (!currentPanel || !userId) return
     setImageError('')
     if (!ACCEPTED_IMAGE.includes(file.type) || file.size > MAX_IMAGE_BYTES) {
       setImageError(t('imageFileError'))
@@ -197,7 +226,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
     const supabase = createClient()
     if (!supabase) return
     const ext = file.name.split('.').pop() || 'jpg'
-    const path = `${userId}/panel-${cfg.id}-${selectedPanel}-${Date.now()}.${ext}`
+    const path = `${userId}/panel-${cfg.id}-${currentPanel.n}-${Date.now()}.${ext}`
     const { error: uploadError } = await supabase.storage
       .from('books')
       .upload(path, file, { contentType: file.type })
@@ -206,7 +235,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
       return
     }
     const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
-    updateOverride(selectedPanel, { image: url })
+    updateOverride(currentPanel.n, { image: url })
   }
 
   const illustratedPanels = flatPanels.filter((p) => overrides[p.n]?.image)
@@ -258,8 +287,6 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
     [flatPanels, overrides, mode],
   )
 
-  const totalWeight = plan.tiers.reduce((sum, tier) => sum + tier.height, 0)
-  const pageHeight = Math.min(1000, Math.max(360, Math.round(totalWeight * 82)))
   const inputId = `${cfg.id}-input`
   const selectedBookTitle = books?.find((b) => b.id === publishedBookId)?.title
 
@@ -303,7 +330,7 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
         />
         <p className="mt-2 text-sm text-ink/50">{t('help')}</p>
 
-        {plan.panelCount > 0 ? (
+        {currentPanel ? (
           <>
             <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-4">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
@@ -311,149 +338,159 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
               </h3>
               <p className="text-xs font-semibold text-ink/45">{tm('reading')}</p>
             </div>
-            <p className="mt-2 text-center text-xs font-semibold text-ink/45">{t('tapPanelHint')}</p>
 
-            <div
-              className={`mx-auto mt-3 flex w-full max-w-sm flex-col overflow-hidden rounded-xl border-2 border-ink/15 bg-white p-1.5 ${
-                cfg.dynamic ? 'gap-3' : 'gap-1.5'
-              }`}
-              style={{ height: pageHeight }}
-            >
-              {plan.tiers.map((tier, ti) => (
-                <div
-                  key={ti}
-                  className={`flex min-h-0 ${cfg.dynamic ? 'gap-1' : 'gap-1.5'} ${
-                    cfg.rtl ? 'flex-row-reverse' : ''
-                  }`}
-                  style={{ flexGrow: tier.height, flexBasis: 0 }}
-                >
-                  {tier.panels.map((p) => {
-                    const bleed =
-                      cfg.dynamic && tier.panels.length === 1 && (p.size === 'splash' || p.size === 'big')
-                    const diagonal = cfg.dynamic && tier.panels.length > 1
-                    const override = overrides[p.n]
-                    const hasImage = Boolean(override?.image)
-                    const isSelected = selectedPanel === p.n
-                    return (
+            <div className="mx-auto mt-3 flex w-full max-w-sm items-center gap-2" style={{ perspective: '1400px' }}>
+              <button
+                type="button"
+                onClick={goPrevPanel}
+                disabled={safeIndex === 0}
+                aria-label={t('prevPanel')}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
+              >
+                ‹
+              </button>
+
+              <div
+                key={safeIndex}
+                className={`relative ${ASPECT_BY_SIZE[currentPanel.size]} flex-1 overflow-hidden ${
+                  panelTurnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
+                }`}
+                style={{
+                  border: theme.pageBorder === 'none' ? `1px solid ${theme.ink}22` : theme.pageBorder,
+                  borderRadius: theme.pageRadius,
+                  boxShadow: theme.pageShadow,
+                  background: theme.pageBg,
+                  transformOrigin: 'left center',
+                }}
+              >
+                {currentOverride?.image ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={currentOverride.image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                      style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                    />
+                    {theme.illustTexture !== 'flat' && (
                       <div
-                        key={p.n}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => selectPanel(p.n)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            selectPanel(p.n)
-                          }
-                        }}
-                        aria-label={t('editPanelAction', { n: p.n })}
-                        aria-pressed={isSelected}
-                        className={`relative flex min-w-0 cursor-pointer flex-col overflow-hidden ${
-                          hasImage
-                            ? 'border-2 border-ink'
-                            : bleed
-                              ? 'rounded-[2px] border-2 border-dashed border-ink/25 bg-gradient-to-br from-ink/10 to-ink/[0.02]'
-                              : cfg.dynamic
-                                ? 'rounded-[2px] border-2 border-dashed border-ink/25'
-                                : 'rounded-sm border-[3px] border-dashed border-ink/25'
-                        } ${diagonal && !hasImage ? 'px-3 py-2' : hasImage ? '' : 'p-2'} ${
-                          !hasImage && p.silent && !bleed ? 'bg-ink/[0.05]' : !hasImage && !bleed ? 'bg-page/40' : ''
-                        } ${isSelected ? 'ring-4 ring-primary ring-offset-1' : ''}`}
-                        style={{
-                          flexGrow: WIDTH_WEIGHT[p.size],
-                          flexBasis: 0,
-                          ...(bleed && !hasImage ? { margin: '-6px' } : null),
-                          ...(diagonal
-                            ? { clipPath: 'polygon(0% 0%, 94% 0%, 100% 100%, 6% 100%)' }
-                            : null),
-                        }}
-                      >
-                        {hasImage ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={override!.image}
-                            alt=""
-                            className="pointer-events-none h-full w-full object-cover"
-                          />
-                        ) : (
-                          <>
-                            <span className="text-[9px] font-black uppercase tracking-wider text-ink/45">
-                              {p.n} &middot; {sizeName(p.size)}
-                              {bleed ? ` · ${t('bleed')}` : p.silent ? ` · ${t('silent')}` : ''}
-                            </span>
-                            <span
-                              className={`mt-0.5 line-clamp-3 text-[11px] font-semibold leading-snug ${
-                                override?.text ? 'text-ink/80' : 'italic text-ink/40'
-                              }`}
-                            >
-                              {override?.text ?? p.text}
-                            </span>
-                            <span className="mt-auto text-[10px] font-bold text-ink/30">{t('addImageHint')}</span>
-                          </>
-                        )}
-                        {override?.sticker && (
-                          <span
-                            aria-hidden="true"
-                            className="animate-pop-in absolute right-1 top-1 flex h-6 w-6 rotate-12 items-center justify-center rounded-full border border-ink/10 bg-white text-sm shadow-md"
-                          >
-                            {override.sticker}
-                          </span>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0"
+                        style={textureOverlayStyle(theme.illustTexture, theme.ink)}
+                      />
+                    )}
+                    <span
+                      className="absolute bottom-0 left-0 w-full px-2 py-1 text-xs font-bold text-white"
+                      style={{
+                        fontFamily: theme.displayFont,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                      }}
+                    >
+                      {t('panelWord')} {currentPanel.n} · {sizeName(currentPanel.size)}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => updateOverride(currentPanel.n, { image: undefined })}
+                      aria-label={t('removeImage')}
+                      className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs font-bold text-white hover:bg-black/80"
+                    >
+                      ×
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-4 text-center">
+                    <span
+                      className="text-[10px] font-black uppercase tracking-wider"
+                      style={{ color: `${theme.ink}72` }}
+                    >
+                      {t('panelWord')} {currentPanel.n} · {sizeName(currentPanel.size)}
+                      {currentPanel.silent ? ` · ${t('silent')}` : ''}
+                    </span>
+                    <p
+                      className="line-clamp-4 text-sm font-semibold"
+                      style={{
+                        color: currentOverride?.text ? theme.ink : theme.soft,
+                        fontStyle: currentOverride?.text ? 'normal' : 'italic',
+                        fontFamily: theme.bodyFont,
+                      }}
+                    >
+                      {currentOverride?.text ?? currentPanel.text}
+                    </p>
+                  </div>
+                )}
+                {currentOverride?.sticker && (
+                  <span
+                    aria-hidden="true"
+                    className="animate-pop-in absolute left-1.5 top-1.5 flex h-7 w-7 rotate-12 items-center justify-center rounded-full border border-ink/10 bg-white text-sm shadow-md"
+                  >
+                    {currentOverride.sticker}
+                  </span>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={goNextPanel}
+                disabled={safeIndex >= flatPanels.length - 1}
+                aria-label={t('nextPanel')}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base font-bold text-ink disabled:opacity-30"
+              >
+                ›
+              </button>
+            </div>
+
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              {flatPanels.map((p, i) => (
+                <span
+                  key={p.n}
+                  className="h-1.5 rounded-full transition-all"
+                  style={{
+                    width: i === safeIndex ? 18 : 6,
+                    background: i === safeIndex ? theme.accent : `${theme.ink}26`,
+                  }}
+                />
               ))}
             </div>
 
-            {selectedPanel !== null && (
-              <div className="mt-4 rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
-                    {t('editingPanel', { n: selectedPanel })}
-                  </h3>
+            <div className="mx-auto mt-4 max-w-sm rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 sm:p-5">
+              <h3 className="mb-3 text-sm font-extrabold uppercase tracking-wide text-ink/60">
+                {t('panelWord')} {currentPanel.n}
+              </h3>
+
+              <label htmlFor={`${cfg.id}-panel-text`} className="mb-1 block text-xs font-bold text-ink/60">
+                {t('panelTextLabel')}
+              </label>
+              <p className="mb-1.5 text-[11px] font-semibold text-ink/45">{t('panelTextHint')}</p>
+              <textarea
+                id={`${cfg.id}-panel-text`}
+                value={panelTextDraft}
+                onChange={(e) => setPanelTextDraft(e.target.value)}
+                onBlur={commitPanelText}
+                rows={2}
+                placeholder={currentPanel.text}
+                className="w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm text-ink focus:border-primary/50"
+              />
+
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                <span className="mr-1 text-xs font-bold text-ink/45">{t('stickersLabel')}</span>
+                {STICKERS.map((emoji) => (
                   <button
+                    key={emoji}
                     type="button"
-                    onClick={() => setSelectedPanel(null)}
-                    className="text-xs font-bold text-ink/50 hover:text-ink"
+                    onClick={() => toggleStickerOnSelected(emoji)}
+                    aria-pressed={currentOverride?.sticker === emoji}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-base transition-transform hover:scale-110 ${
+                      currentOverride?.sticker === emoji
+                        ? 'border-primary bg-primary/20 scale-110'
+                        : 'border-ink/15 bg-white'
+                    }`}
                   >
-                    {t('closeEditor')}
+                    {emoji}
                   </button>
-                </div>
+                ))}
+              </div>
 
-                <label htmlFor={`${cfg.id}-panel-text`} className="mb-1 block text-xs font-bold text-ink/60">
-                  {t('panelTextLabel')}
-                </label>
-                <p className="mb-1.5 text-[11px] font-semibold text-ink/45">{t('panelTextHint')}</p>
-                <textarea
-                  id={`${cfg.id}-panel-text`}
-                  value={panelTextDraft}
-                  onChange={(e) => setPanelTextDraft(e.target.value)}
-                  onBlur={commitPanelText}
-                  rows={2}
-                  placeholder={flatPanels.find((p) => p.n === selectedPanel)?.text ?? ''}
-                  className="w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm text-ink focus:border-primary/50"
-                />
-
-                <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                  <span className="mr-1 text-xs font-bold text-ink/45">{t('stickersLabel')}</span>
-                  {STICKERS.map((emoji) => (
-                    <button
-                      key={emoji}
-                      type="button"
-                      onClick={() => toggleStickerOnSelected(emoji)}
-                      aria-pressed={overrides[selectedPanel]?.sticker === emoji}
-                      className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-base transition-transform hover:scale-110 ${
-                        overrides[selectedPanel]?.sticker === emoji
-                          ? 'border-primary bg-primary/20 scale-110'
-                          : 'border-ink/15 bg-white'
-                      }`}
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-
+              {!currentOverride?.image && (
                 <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
                   <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
                   {userId ? (
@@ -496,14 +533,12 @@ export default function PanelPlanner({ mode }: PanelPlannerProps) {
                   </div>
                   {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             <div className="mt-6 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 sm:p-5">
               <div className="mb-2 flex items-center justify-between gap-3">
-                <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">
-                  {t('breakdown')}
-                </h3>
+                <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">{t('breakdown')}</h3>
                 <CopyButton text={script} />
               </div>
               <pre className="max-h-64 overflow-auto whitespace-pre-wrap font-sans text-sm leading-relaxed text-ink/80">
