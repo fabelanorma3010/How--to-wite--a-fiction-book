@@ -225,6 +225,7 @@
     "editingPanel": "Modifica pannello {n}",
     "closeEditor": "Fatto",
     "panelTextLabel": "Testo del pannello",
+    "panelTextHint": "Scrivi il tuo — sostituisce l'idea di esempio mostrata nel riquadro.",
     "panelImageLabel": "Illustrazione del pannello",
     "uploadImage": "Carica immagine",
     "speakButton": "Parla",

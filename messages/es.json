@@ -225,6 +225,7 @@
     "editingPanel": "Editando panel {n}",
     "closeEditor": "Listo",
     "panelTextLabel": "Texto del panel",
+    "panelTextHint": "Escribe el tuyo — reemplaza la idea de ejemplo que aparece en el cuadro.",
     "panelImageLabel": "Arte del panel",
     "uploadImage": "Subir imagen",
     "speakButton": "Hablar",

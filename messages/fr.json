@@ -225,6 +225,7 @@
     "editingPanel": "Modification du panel {n}",
     "closeEditor": "Terminé",
     "panelTextLabel": "Texte du panel",
+    "panelTextHint": "Écrivez le vôtre — il remplace l'exemple affiché dans la zone.",
     "panelImageLabel": "Illustration du panel",
     "uploadImage": "Importer une image",
     "speakButton": "Parler",

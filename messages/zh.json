@@ -225,6 +225,7 @@
     "editingPanel": "正在编辑第 {n} 格",
     "closeEditor": "完成",
     "panelTextLabel": "格子文字",
+    "panelTextHint": "输入你自己的内容——它会替换框内显示的示例点子。",
     "panelImageLabel": "格子画面",
     "uploadImage": "上传图片",
     "speakButton": "说话",

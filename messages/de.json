@@ -225,6 +225,7 @@
     "editingPanel": "Panel {n} bearbeiten",
     "closeEditor": "Fertig",
     "panelTextLabel": "Paneltext",
+    "panelTextHint": "Schreib deinen eigenen Text — er ersetzt die Beispielidee im Feld.",
     "panelImageLabel": "Panel-Kunst",
     "uploadImage": "Bild hochladen",
     "speakButton": "Sprechen",

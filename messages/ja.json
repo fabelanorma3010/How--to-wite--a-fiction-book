@@ -225,6 +225,7 @@
     "editingPanel": "コマ{n}を編集中",
     "closeEditor": "完了",
     "panelTextLabel": "コマのテキスト",
+    "panelTextHint": "自分の言葉を入力すると、枠内に表示されている例のアイデアと置き換わります。",
     "panelImageLabel": "コマの絵",
     "uploadImage": "画像をアップロード",
     "speakButton": "話す",
