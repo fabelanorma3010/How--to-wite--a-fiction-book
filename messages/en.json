@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Panel",
+    "coverLabel": "Cover",
+    "coverImageLabel": "Cover art",
     "noDialogue": "no dialogue",
     "silent": "silent",
     "bleed": "bleed",

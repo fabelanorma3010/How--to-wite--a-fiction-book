@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "コマ",
+    "coverLabel": "表紙",
+    "coverImageLabel": "表紙の絵",
     "noDialogue": "セリフなし",
     "silent": "無音",
     "bleed": "裁ち落とし",

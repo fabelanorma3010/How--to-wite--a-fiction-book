@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Panel",
+    "coverLabel": "Titelbild",
+    "coverImageLabel": "Titelbild-Kunst",
     "noDialogue": "kein Dialog",
     "silent": "stumm",
     "bleed": "randlos",

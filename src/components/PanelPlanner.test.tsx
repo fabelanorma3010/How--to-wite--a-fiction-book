@@ -34,25 +34,29 @@ function getStage() {
 describe('PanelPlanner', () => {
   afterEach(() => vi.clearAllMocks())
 
-  it('shows the first panel by default and steps through panels with Next/Previous', async () => {
+  it('shows the first panel by default, with a cover one step back, and steps through panels with Next/Previous', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelPlanner mode="comic" />)
     const stage = getStage()
 
-    expect(within(stage).getByText(/the vault/i)).toBeInTheDocument()
+    expect(within(stage).getByPlaceholderText(/the vault/i)).toBeInTheDocument()
     const prev = within(stage).getByRole('button', { name: /previous panel/i })
     const next = within(stage).getByRole('button', { name: /next panel/i })
-    expect(prev).toBeDisabled()
+    expect(prev).not.toBeDisabled() // one step back reaches the cover slide
     expect(next).not.toBeDisabled()
 
     await user.click(next)
-    expect(within(stage).getByText(/the drop/i)).toBeInTheDocument()
-    expect(within(stage).queryByText(/the vault/i)).not.toBeInTheDocument()
-    expect(prev).not.toBeDisabled()
+    expect(within(stage).getByPlaceholderText(/the drop/i)).toBeInTheDocument()
+    expect(within(stage).queryByPlaceholderText(/the vault/i)).not.toBeInTheDocument()
 
     await user.click(prev)
-    expect(within(stage).getByText(/the vault/i)).toBeInTheDocument()
+    expect(within(stage).getByPlaceholderText(/the vault/i)).toBeInTheDocument()
+
+    await user.click(prev)
+    expect(within(stage).getByText(/cover/i)).toBeInTheDocument()
+    expect(screen.getByText(/cover art/i)).toBeInTheDocument()
+    expect(prev).toBeDisabled()
   })
 
   it('toggles a sticker onto the current panel from its editor, and removes it on a second click', async () => {
@@ -83,7 +87,7 @@ describe('PanelPlanner', () => {
 
     await user.click(screen.getByRole('button', { name: 'Rooftop chase' }))
     expect(screen.getAllByText('⭐')).toHaveLength(1)
-    expect(within(stage).getByText(/rooftops/i)).toBeInTheDocument()
+    expect(within(stage).getByPlaceholderText(/rooftops/i)).toBeInTheDocument()
   })
 
   it("editing a panel's text updates what the current panel shows", async () => {
@@ -97,7 +101,7 @@ describe('PanelPlanner', () => {
     await user.type(box, 'A brand new caption for this panel.')
     await user.tab() // blur commits the edit
 
-    expect(within(stage).getByText('A brand new caption for this panel.')).toBeInTheDocument()
+    expect(within(stage).getByDisplayValue('A brand new caption for this panel.')).toBeInTheDocument()
   })
 
   it('does not commit the generated example as real text just from viewing and navigating away', async () => {

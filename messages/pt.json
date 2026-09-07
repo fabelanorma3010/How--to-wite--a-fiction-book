@@ -210,6 +210,8 @@
   },
   "PanelPlanner": {
     "panelWord": "Quadro",
+    "coverLabel": "Capa",
+    "coverImageLabel": "Arte da capa",
     "noDialogue": "sem diálogo",
     "silent": "mudo",
     "bleed": "sangria",
