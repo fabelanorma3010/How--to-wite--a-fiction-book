@@ -64,6 +64,7 @@ export default function PricingTiers() {
           <p className="mt-1 text-sm text-ink/60">{t('freeSubtitle')}</p>
           <p className="mt-4">
             <span className="text-4xl font-extrabold text-ink">{STARTER_PRICE.amount}</span>
+            <span className="ml-1 text-sm font-semibold text-ink/50">{t(STARTER_PRICE.unit)}</span>
           </p>
           <p className="mt-1 text-xs font-semibold text-ink/45">{t('checkoutNote')}</p>
           <ul className="mt-6 flex-1 space-y-3">
