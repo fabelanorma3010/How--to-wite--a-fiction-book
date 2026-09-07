@@ -4,7 +4,14 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { bookTypes, type BookTypeId } from '../data/bookTypes'
-import { MAX_CONTENT_LENGTH, type CommunityPost } from '../lib/community'
+import {
+  MAX_CONTENT_LENGTH,
+  MAX_COMMENT_LENGTH,
+  REPORT_REASONS,
+  type CommunityPost,
+  type PostComment,
+  type ReportReason,
+} from '../lib/community'
 import { createClient } from '../lib/supabase/client'
 import Sticker from './Sticker'
 
@@ -14,6 +21,7 @@ interface AuthUser {
 }
 
 type Status = 'loading' | 'ready' | 'error'
+type LikeState = { count: number; likedByMe: boolean }
 
 const VALID_TYPES = new Set<string>(bookTypes.map((t) => t.id))
 
@@ -26,9 +34,18 @@ interface PostRow {
   user_id: string
 }
 
+interface CommentRow {
+  id: string
+  post_id: string
+  user_id: string
+  body: string
+  created_at: string
+}
+
 function toPost(row: PostRow, authorName: string): CommunityPost {
   return {
     id: row.id,
+    authorId: row.user_id,
     authorName,
     bookType: (row.category && VALID_TYPES.has(row.category) ? row.category : 'comic') as BookTypeId,
     title: row.title,
@@ -42,6 +59,9 @@ export default function Community() {
   const bt = useTranslations('BookTypes')
   const locale = useLocale()
   const [posts, setPosts] = useState<CommunityPost[]>([])
+  const [likesByPost, setLikesByPost] = useState<Record<string, LikeState>>({})
+  const [commentsByPost, setCommentsByPost] = useState<Record<string, PostComment[]>>({})
+  const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({})
   const [status, setStatus] = useState<Status>('loading')
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [bookType, setBookType] = useState<BookTypeId>('comic')
@@ -83,14 +103,64 @@ export default function Community() {
         .limit(50)
       if (error) throw error
 
-      const ids = [...new Set((rows ?? []).map((r) => r.user_id))]
+      const currentUserId = (await supabase.auth.getUser()).data.user?.id ?? null
+      const postRows = (rows ?? []) as PostRow[]
+      const postIds = postRows.map((r) => r.id)
+
+      const [likesRes, commentsRes] = await Promise.all([
+        postIds.length
+          ? supabase.from('post_likes').select('post_id, user_id').in('post_id', postIds)
+          : Promise.resolve({ data: [] as { post_id: string; user_id: string }[] }),
+        postIds.length
+          ? supabase
+              .from('post_comments')
+              .select('id, post_id, user_id, body, created_at')
+              .in('post_id', postIds)
+              .order('created_at', { ascending: true })
+          : Promise.resolve({ data: [] as CommentRow[] }),
+      ])
+
+      const likeRows = likesRes.data ?? []
+      const commentRows = (commentsRes.data ?? []) as CommentRow[]
+
+      const authorIds = new Set(postRows.map((r) => r.user_id))
+      commentRows.forEach((c) => authorIds.add(c.user_id))
       const names = new Map<string, string>()
-      if (ids.length) {
-        const { data: profiles } = await supabase.from('public_profiles').select('id, name').in('id', ids)
+      if (authorIds.size) {
+        const { data: profiles } = await supabase
+          .from('public_profiles')
+          .select('id, name')
+          .in('id', [...authorIds])
         profiles?.forEach((p) => names.set(p.id as string, (p.name as string) ?? 'A writer'))
       }
 
-      setPosts((rows ?? []).map((r) => toPost(r as PostRow, names.get(r.user_id) ?? 'A writer')))
+      const nextLikes: Record<string, LikeState> = {}
+      postIds.forEach((id) => (nextLikes[id] = { count: 0, likedByMe: false }))
+      likeRows.forEach((row) => {
+        const entry = nextLikes[row.post_id] ?? { count: 0, likedByMe: false }
+        entry.count += 1
+        if (currentUserId && row.user_id === currentUserId) entry.likedByMe = true
+        nextLikes[row.post_id] = entry
+      })
+
+      const nextComments: Record<string, PostComment[]> = {}
+      postIds.forEach((id) => (nextComments[id] = []))
+      commentRows.forEach((row) => {
+        const list = nextComments[row.post_id] ?? []
+        list.push({
+          id: row.id,
+          postId: row.post_id,
+          authorId: row.user_id,
+          authorName: names.get(row.user_id) ?? 'A writer',
+          body: row.body,
+          createdAt: row.created_at,
+        })
+        nextComments[row.post_id] = list
+      })
+
+      setPosts(postRows.map((r) => toPost(r, names.get(r.user_id) ?? 'A writer')))
+      setLikesByPost(nextLikes)
+      setCommentsByPost(nextComments)
       setStatus('ready')
     } catch {
       setStatus('error')
@@ -125,7 +195,10 @@ export default function Community() {
         .single()
       if (error) throw error
 
-      setPosts((prev) => [toPost(data as PostRow, user.name), ...prev])
+      const newPost = toPost(data as PostRow, user.name)
+      setPosts((prev) => [newPost, ...prev])
+      setLikesByPost((prev) => ({ ...prev, [newPost.id]: { count: 0, likedByMe: false } }))
+      setCommentsByPost((prev) => ({ ...prev, [newPost.id]: [] }))
       setTitle('')
       setContent('')
     } catch (error) {
@@ -133,6 +206,24 @@ export default function Community() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  function handleLikeToggled(postId: string, liked: boolean) {
+    setLikesByPost((prev) => {
+      const entry = prev[postId] ?? { count: 0, likedByMe: false }
+      return { ...prev, [postId]: { count: entry.count + (liked ? 1 : -1), likedByMe: liked } }
+    })
+  }
+
+  function handleCommentAdded(postId: string, comment: PostComment) {
+    setCommentsByPost((prev) => ({ ...prev, [postId]: [...(prev[postId] ?? []), comment] }))
+  }
+
+  function handleCommentDeleted(postId: string, commentId: string) {
+    setCommentsByPost((prev) => ({
+      ...prev,
+      [postId]: (prev[postId] ?? []).filter((c) => c.id !== commentId),
+    }))
   }
 
   return (
@@ -267,25 +358,334 @@ export default function Community() {
           )}
 
           {status === 'ready' &&
-            posts.map((post) => {
-              const type = bookTypes.find((t) => t.id === post.bookType)
-              return (
-                <div key={post.id} className="animate-pop-in rounded-2xl border-2 border-ink/10 bg-white/70 p-4 sm:p-5">
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wide text-ink/40">
-                    <span>
-                      <span aria-hidden="true">{type?.emoji}</span> {post.authorName}
-                      {type ? ` · ${bt(`types.${type.id}.name`)}` : ''}
-                    </span>
-                    <span>{formatRelativeTime(post.createdAt, locale)}</span>
-                  </div>
-                  {post.title && <h3 className="mt-2 font-extrabold text-ink">{post.title}</h3>}
-                  <p className="mt-2 whitespace-pre-wrap text-ink/90">{post.content}</p>
-                </div>
-              )
-            })}
+            posts.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                user={user}
+                locale={locale}
+                likeState={likesByPost[post.id] ?? { count: 0, likedByMe: false }}
+                comments={commentsByPost[post.id] ?? []}
+                expanded={Boolean(expandedPosts[post.id])}
+                onToggleExpanded={() => setExpandedPosts((prev) => ({ ...prev, [post.id]: !prev[post.id] }))}
+                onLikeToggled={(liked) => handleLikeToggled(post.id, liked)}
+                onCommentAdded={(comment) => handleCommentAdded(post.id, comment)}
+                onCommentDeleted={(commentId) => handleCommentDeleted(post.id, commentId)}
+              />
+            ))}
         </div>
       </div>
     </section>
+  )
+}
+
+function PostCard({
+  post,
+  user,
+  locale,
+  likeState,
+  comments,
+  expanded,
+  onToggleExpanded,
+  onLikeToggled,
+  onCommentAdded,
+  onCommentDeleted,
+}: {
+  post: CommunityPost
+  user: AuthUser | null | undefined
+  locale: string
+  likeState: LikeState
+  comments: PostComment[]
+  expanded: boolean
+  onToggleExpanded: () => void
+  onLikeToggled: (liked: boolean) => void
+  onCommentAdded: (comment: PostComment) => void
+  onCommentDeleted: (commentId: string) => void
+}) {
+  const t = useTranslations('Community')
+  const bt = useTranslations('BookTypes')
+  const type = bookTypes.find((b) => b.id === post.bookType)
+  const isOwnPost = user?.id === post.authorId
+
+  const [likeBusy, setLikeBusy] = useState(false)
+  const [commentBody, setCommentBody] = useState('')
+  const [commentSubmitting, setCommentSubmitting] = useState(false)
+  const [commentError, setCommentError] = useState('')
+
+  const [reportOpen, setReportOpen] = useState(false)
+  const [reportTargetCommentId, setReportTargetCommentId] = useState<string | null>(null)
+  const [reportReason, setReportReason] = useState<ReportReason>('spam')
+  const [reportDetail, setReportDetail] = useState('')
+  const [reportSubmitting, setReportSubmitting] = useState(false)
+  const [reportError, setReportError] = useState('')
+  const [reportSent, setReportSent] = useState(false)
+
+  async function toggleLike() {
+    if (!user || likeBusy) return
+    const supabase = createClient()
+    if (!supabase) return
+    setLikeBusy(true)
+    const nextLiked = !likeState.likedByMe
+    onLikeToggled(nextLiked)
+    try {
+      const { error } = nextLiked
+        ? await supabase.from('post_likes').insert({ post_id: post.id, user_id: user.id })
+        : await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', user.id)
+      if (error) throw error
+    } catch {
+      onLikeToggled(!nextLiked)
+    } finally {
+      setLikeBusy(false)
+    }
+  }
+
+  async function handleAddComment(e: React.FormEvent) {
+    e.preventDefault()
+    const body = commentBody.trim()
+    if (!body || !user || commentSubmitting) return
+    setCommentSubmitting(true)
+    setCommentError('')
+    const supabase = createClient()
+    if (!supabase) {
+      setCommentError(t('unavailable'))
+      setCommentSubmitting(false)
+      return
+    }
+    try {
+      const { data, error } = await supabase
+        .from('post_comments')
+        .insert({ post_id: post.id, user_id: user.id, body })
+        .select('id, post_id, user_id, body, created_at')
+        .single()
+      if (error) throw error
+      onCommentAdded({
+        id: data.id as string,
+        postId: data.post_id as string,
+        authorId: data.user_id as string,
+        authorName: user.name,
+        body: data.body as string,
+        createdAt: data.created_at as string,
+      })
+      setCommentBody('')
+    } catch (error) {
+      setCommentError(error instanceof Error ? error.message : t('couldNotComment'))
+    } finally {
+      setCommentSubmitting(false)
+    }
+  }
+
+  async function handleDeleteComment(commentId: string) {
+    if (!confirm(t('deleteCommentConfirm'))) return
+    onCommentDeleted(commentId)
+    const supabase = createClient()
+    if (!supabase) return
+    await supabase.from('post_comments').delete().eq('id', commentId)
+  }
+
+  function openReport(commentId: string | null) {
+    setReportTargetCommentId(commentId)
+    setReportReason('spam')
+    setReportDetail('')
+    setReportError('')
+    setReportSent(false)
+    setReportOpen(true)
+  }
+
+  async function handleSubmitReport(e: React.FormEvent) {
+    e.preventDefault()
+    if (!user || reportSubmitting) return
+    setReportSubmitting(true)
+    setReportError('')
+    const supabase = createClient()
+    if (!supabase) {
+      setReportError(t('reportError'))
+      setReportSubmitting(false)
+      return
+    }
+    try {
+      const { error } = await supabase.from('content_reports').insert({
+        reporter_id: user.id,
+        post_id: reportTargetCommentId ? null : post.id,
+        comment_id: reportTargetCommentId,
+        reason: reportReason,
+        detail: reportDetail.trim() || null,
+      })
+      if (error) throw error
+      setReportSent(true)
+    } catch {
+      setReportError(t('reportError'))
+    } finally {
+      setReportSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="animate-pop-in rounded-2xl border-2 border-ink/10 bg-white/70 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wide text-ink/40">
+        <span>
+          <span aria-hidden="true">{type?.emoji}</span> {post.authorName}
+          {type ? ` · ${bt(`types.${type.id}.name`)}` : ''}
+        </span>
+        <span>{formatRelativeTime(post.createdAt, locale)}</span>
+      </div>
+      {post.title && <h3 className="mt-2 font-extrabold text-ink">{post.title}</h3>}
+      <p className="mt-2 whitespace-pre-wrap text-ink/90">{post.content}</p>
+
+      <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
+        <button
+          type="button"
+          onClick={toggleLike}
+          disabled={!user || likeBusy}
+          aria-pressed={likeState.likedByMe}
+          className={`flex items-center gap-1.5 font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+            likeState.likedByMe ? 'text-primary-content' : 'text-ink/50 hover:text-ink'
+          }`}
+        >
+          <span aria-hidden="true">{likeState.likedByMe ? '❤️' : '🤍'}</span>
+          {t('likeCount', { count: likeState.count })}
+        </button>
+
+        <button
+          type="button"
+          onClick={onToggleExpanded}
+          className="flex items-center gap-1.5 font-bold text-ink/50 transition-colors hover:text-ink"
+        >
+          <span aria-hidden="true">💬</span>
+          {t('commentCount', { count: comments.length })}
+        </button>
+
+        {user && !isOwnPost && (
+          <button
+            type="button"
+            onClick={() => openReport(null)}
+            className="font-bold text-ink/40 transition-colors hover:text-ink/70"
+          >
+            {t('report')}
+          </button>
+        )}
+      </div>
+
+      {expanded && (
+        <div className="mt-4 space-y-3 border-t-2 border-ink/10 pt-3">
+          {comments.length === 0 && <p className="text-xs font-semibold text-ink/40">{t('noComments')}</p>}
+          {comments.map((comment) => {
+            const canDelete = user && (user.id === comment.authorId || user.id === post.authorId)
+            const canReport = user && user.id !== comment.authorId
+            return (
+              <div key={comment.id} className="rounded-xl bg-base/60 p-3">
+                <div className="flex items-center justify-between gap-2 text-xs font-bold text-ink/50">
+                  <span>
+                    {comment.authorName} · {formatRelativeTime(comment.createdAt, locale)}
+                  </span>
+                  <span className="flex gap-2">
+                    {canReport && (
+                      <button
+                        type="button"
+                        onClick={() => openReport(comment.id)}
+                        className="font-bold text-ink/30 hover:text-ink/60"
+                      >
+                        {t('report')}
+                      </button>
+                    )}
+                    {canDelete && (
+                      <button
+                        type="button"
+                        onClick={() => void handleDeleteComment(comment.id)}
+                        className="font-bold text-ink/30 hover:text-red-600"
+                      >
+                        {t('deleteComment')}
+                      </button>
+                    )}
+                  </span>
+                </div>
+                <p className="mt-1 whitespace-pre-wrap text-sm text-ink/90">{comment.body}</p>
+              </div>
+            )
+          })}
+
+          {user ? (
+            <form onSubmit={handleAddComment} className="flex items-start gap-2">
+              <textarea
+                rows={1}
+                maxLength={MAX_COMMENT_LENGTH}
+                value={commentBody}
+                onChange={(e) => setCommentBody(e.target.value)}
+                placeholder={t('commentPlaceholder')}
+                className="w-full resize-y rounded-xl border-2 border-ink/15 bg-white/80 px-3 py-2 text-sm text-ink placeholder:text-ink/40 focus:border-primary/50"
+              />
+              <button
+                type="submit"
+                disabled={!commentBody.trim() || commentSubmitting}
+                className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-content disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {commentSubmitting ? t('postingComment') : t('postComment')}
+              </button>
+            </form>
+          ) : (
+            <p className="text-xs font-semibold text-ink/40">{t('signInToComment')}</p>
+          )}
+          {commentError && (
+            <p role="alert" className="text-xs font-semibold text-red-600">
+              {commentError}
+            </p>
+          )}
+        </div>
+      )}
+
+      {reportOpen && (
+        <div className="mt-4 rounded-xl border-2 border-ink/10 bg-base/60 p-4">
+          {reportSent ? (
+            <p className="text-sm font-bold text-ink/70">{t('reportSent')}</p>
+          ) : (
+            <form onSubmit={handleSubmitReport}>
+              <p className="mb-2 text-sm font-extrabold text-ink">
+                {reportTargetCommentId ? t('reportComment') : t('reportPost')}
+              </p>
+              <label className="mb-1 block text-xs font-bold text-ink/60">{t('reportReasonLabel')}</label>
+              <select
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value as ReportReason)}
+                className="w-full rounded-lg border-2 border-ink/15 bg-white px-3 py-1.5 text-sm text-ink focus:border-primary/50"
+              >
+                {REPORT_REASONS.map((reason) => (
+                  <option key={reason} value={reason}>
+                    {t(`reportReason_${reason}`)}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                rows={2}
+                value={reportDetail}
+                onChange={(e) => setReportDetail(e.target.value)}
+                placeholder={t('reportDetailPlaceholder')}
+                className="mt-2 w-full resize-y rounded-lg border-2 border-ink/15 bg-white px-3 py-2 text-sm text-ink placeholder:text-ink/40 focus:border-primary/50"
+              />
+              {reportError && (
+                <p role="alert" className="mt-2 text-xs font-semibold text-red-600">
+                  {reportError}
+                </p>
+              )}
+              <div className="mt-3 flex gap-2">
+                <button
+                  type="submit"
+                  disabled={reportSubmitting}
+                  className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-content disabled:opacity-60"
+                >
+                  {reportSubmitting ? t('reportSubmitting') : t('reportSubmit')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setReportOpen(false)}
+                  className="rounded-full px-4 py-2 text-sm font-bold text-ink/60 hover:bg-ink/10"
+                >
+                  {t('cancel')}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 
