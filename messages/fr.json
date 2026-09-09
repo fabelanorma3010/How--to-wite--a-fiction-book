@@ -187,7 +187,8 @@
     "reportSubmitting": "Envoi…",
     "reportSent": "Merci — nous allons regarder ça.",
     "reportError": "Impossible d'envoyer le signalement.",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "couldNotLike": "Impossible de mettre à jour votre mention J'aime."
   },
   "Contact": {
     "title": "Dites bonjour",

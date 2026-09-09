@@ -187,7 +187,8 @@
     "reportSubmitting": "Invio…",
     "reportSent": "Grazie — daremo un'occhiata.",
     "reportError": "Impossibile inviare la segnalazione.",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "couldNotLike": "Impossibile aggiornare il tuo like."
   },
   "Contact": {
     "title": "Salutaci",

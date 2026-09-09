@@ -162,7 +162,9 @@ export default function Community() {
       setLikesByPost(nextLikes)
       setCommentsByPost(nextComments)
       setStatus('ready')
-    } catch {
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Community feed failed to load:', error)
       setStatus('error')
     }
   }
@@ -408,6 +410,7 @@ function PostCard({
   const isOwnPost = user?.id === post.authorId
 
   const [likeBusy, setLikeBusy] = useState(false)
+  const [likeError, setLikeError] = useState('')
   const [commentBody, setCommentBody] = useState('')
   const [commentSubmitting, setCommentSubmitting] = useState(false)
   const [commentError, setCommentError] = useState('')
@@ -425,6 +428,7 @@ function PostCard({
     const supabase = createClient()
     if (!supabase) return
     setLikeBusy(true)
+    setLikeError('')
     const nextLiked = !likeState.likedByMe
     onLikeToggled(nextLiked)
     try {
@@ -432,8 +436,11 @@ function PostCard({
         ? await supabase.from('post_likes').insert({ post_id: post.id, user_id: user.id })
         : await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', user.id)
       if (error) throw error
-    } catch {
+    } catch (error) {
       onLikeToggled(!nextLiked)
+      // eslint-disable-next-line no-console
+      console.error('Community like failed:', error)
+      setLikeError(error instanceof Error ? error.message : t('couldNotLike'))
     } finally {
       setLikeBusy(false)
     }
@@ -468,6 +475,8 @@ function PostCard({
       })
       setCommentBody('')
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Community comment failed:', error)
       setCommentError(error instanceof Error ? error.message : t('couldNotComment'))
     } finally {
       setCommentSubmitting(false)
@@ -512,7 +521,9 @@ function PostCard({
       })
       if (error) throw error
       setReportSent(true)
-    } catch {
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Community report failed:', error)
       setReportError(t('reportError'))
     } finally {
       setReportSubmitting(false)
@@ -562,6 +573,12 @@ function PostCard({
           >
             {t('report')}
           </button>
+        )}
+
+        {likeError && (
+          <p role="alert" className="w-full text-xs font-semibold text-red-600">
+            {likeError}
+          </p>
         )}
       </div>
 

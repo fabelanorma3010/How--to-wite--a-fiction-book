@@ -187,7 +187,8 @@
     "reportSubmitting": "Wird gesendet…",
     "reportSent": "Danke — wir schauen es uns an.",
     "reportError": "Meldung konnte nicht gesendet werden.",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "couldNotLike": "Like konnte nicht aktualisiert werden."
   },
   "Contact": {
     "title": "Sag Hallo",
