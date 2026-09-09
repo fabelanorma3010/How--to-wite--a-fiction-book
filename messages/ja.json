@@ -4,8 +4,7 @@
     "bookTypes": "本のタイプ",
     "actionText": "アクションテキスト",
     "illustrations": "イラスト",
-    "comicPanels": "コマ割り（コミック）",
-    "mangaPanels": "コマ割り（マンガ）",
+    "bookPanel": "本のコマ割り",
     "notebook": "ノート",
     "publish": "出版",
     "community": "コミュニティ",
@@ -784,7 +783,7 @@
     "s9Title": "9. お問い合わせ"
   },
   "PanelBuilder": {
-    "title": "パネルビルダー",
+    "title": "本のコマ割り",
     "lead": "ページごとにレイアウトを選び、パネルをタップして写真・吹き出し・キャプション・心の声の吹き出しを追加しましょう。",
     "style": {
       "picturebook": "絵本",

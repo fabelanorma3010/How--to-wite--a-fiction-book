@@ -4,8 +4,7 @@
     "bookTypes": "Tipos de livro",
     "actionText": "Texto de ação",
     "illustrations": "Ilustrações",
-    "comicPanels": "Quadros de HQ",
-    "mangaPanels": "Quadros de mangá",
+    "bookPanel": "Quadros do livro",
     "notebook": "Caderno",
     "publish": "Publicar",
     "community": "Comunidade",
@@ -784,7 +783,7 @@
     "s9Title": "9. Contato"
   },
   "PanelBuilder": {
-    "title": "Criador de quadros",
+    "title": "Quadros do livro",
     "lead": "Escolha um layout para cada página e depois toque em um quadro para adicionar uma imagem, um balão de fala, uma legenda ou um balão de pensamento.",
     "style": {
       "picturebook": "Livro ilustrado",

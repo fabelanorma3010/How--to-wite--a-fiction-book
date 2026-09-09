@@ -167,9 +167,9 @@ export default function PanelBuilder() {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null))
   }, [])
 
-  // The header's "Comic Panels" / "Manga Panels" tabs both land here (this is
-  // one unified tool now), pointed at these two anchors — pick the matching
-  // style so the link lands on the style the visitor actually asked for.
+  // The header's "Book Panel" tab lands on #panel-builder directly, but old
+  // links/bookmarks may still point at these two anchors — honor them by
+  // picking the matching style so they still land on the right tool.
   useEffect(() => {
     const hash = window.location.hash.slice(1)
     if (hash === 'manga-planner') setStyle('manga')

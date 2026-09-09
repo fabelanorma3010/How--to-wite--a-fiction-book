@@ -4,8 +4,7 @@
     "bookTypes": "Tipi di libro",
     "actionText": "Testo d'azione",
     "illustrations": "Illustrazioni",
-    "comicPanels": "Vignette fumetto",
-    "mangaPanels": "Vignette manga",
+    "bookPanel": "Vignette libro",
     "notebook": "Taccuino",
     "publish": "Pubblica",
     "community": "Community",
@@ -784,7 +783,7 @@
     "s9Title": "9. Contatti"
   },
   "PanelBuilder": {
-    "title": "Creatore di vignette",
+    "title": "Vignette libro",
     "lead": "Scegli un layout per ogni pagina, poi tocca una vignetta per aggiungere un'immagine, un fumetto, una didascalia o un fumetto di pensiero.",
     "style": {
       "picturebook": "Libro illustrato",
