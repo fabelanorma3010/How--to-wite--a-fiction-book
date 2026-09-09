@@ -208,63 +208,6 @@
     "accept": "Accepter",
     "decline": "Refuser"
   },
-  "PanelPlanner": {
-    "panelWord": "Case",
-    "coverLabel": "Couverture",
-    "coverImageLabel": "Illustration de la couverture",
-    "noDialogue": "sans dialogue",
-    "silent": "muette",
-    "bleed": "à fond perdu",
-    "inputLabel": "Descriptions des cases",
-    "help": "Une case par ligne, ou séparez-les par « then », des virgules ou des points. Utilisez les mots anglais « wide », « tall / skinny », « big / splash » ou « beat / silent » pour donner leur forme aux cases.",
-    "pageCount": "{count, plural, one {Page · # case} other {Page · # cases}}",
-    "breakdown": "Découpage des cases",
-    "emptyHint": "Écrivez quelques cases ci-dessus pour voir la page prendre forme.",
-    "stickersLabel": "Autocollants :",
-    "panelTextLabel": "Texte du panel",
-    "panelTextHint": "Écrivez le vôtre — il remplace l'exemple affiché dans la zone.",
-    "panelImageLabel": "Illustration du panel",
-    "uploadImage": "Importer une image",
-    "speakButton": "Parler",
-    "generateImagePrompt": "Décrivez une image à générer…",
-    "generateButton": "Générer",
-    "generatingButton": "Génération…",
-    "imageGenericError": "Impossible de générer cette image. Réessayez dans un instant.",
-    "imageFileError": "Les images doivent être en PNG, JPEG ou WebP, 10 Mo maximum.",
-    "signInForUpload": "Connectez-vous pour importer votre propre image.",
-    "publishHeading": "Publier cette page",
-    "signInToPublish": "Connectez-vous pour publier ces panels comme un vrai chapitre.",
-    "loadingBooks": "Chargement de vos livres…",
-    "publishNoBooks": "Vous n'avez pas encore de livre correspondant — créez-en un sur votre page de compte d'abord.",
-    "publishedPanelsCount": "{count} panel(s) sur {total} ont une illustration",
-    "publishButton": "Publier comme nouveau chapitre",
-    "publishingButton": "Publication…",
-    "publishNeedImage": "Ajoutez l'illustration d'au moins un panel avant de publier.",
-    "publishSuccess": "Publié dans « {title} ».",
-    "size": {
-      "splash": "Pleine page",
-      "wide": "Large",
-      "big": "Grande",
-      "tall": "Haute",
-      "medium": "Moyenne",
-      "beat": "Temps mort"
-    },
-    "comic": {
-      "title": "Planificateur de cases BD",
-      "lead": "Décrivez votre page avec des mots simples : « case large pour le coffre-fort, case haute et étroite pour la chute, puis une case de respiration avant le coup ». Récupérez une ébauche de page, case par case.",
-      "reading": "Une grille régulière — bandes égales, gouttières droites, de gauche à droite, de haut en bas.",
-      "scriptNote": "se lit de gauche à droite"
-    },
-    "manga": {
-      "title": "Planificateur de cases manga",
-      "lead": "Les pages de manga cassent la grille — coupes inclinées, gouttières serrées entre les colonnes, et les temps forts qui débordent du cadre. Décrivez votre page et récupérez cette mise en page, lue de droite à gauche.",
-      "reading": "De droite à gauche, de haut en bas. Coupes diagonales entre les cases ; les pleines pages et les grands temps forts débordent du cadre.",
-      "scriptNote": "se lit de droite à gauche"
-    },
-    "prevPanel": "Case précédente",
-    "nextPanel": "Case suivante",
-    "removeImage": "Supprimer l'image"
-  },
   "BookTypes": {
     "sectionTitle": "Choisissez votre type de livre",
     "sectionIntro": "Chaque format a ses propres règles narratives. Choisissez-en un pour voir des conseils adaptés — votre choix alimente aussi les générateurs ci-dessous.",
@@ -838,5 +781,53 @@
     "s7Title": "7. Fermeture de votre compte",
     "s8Title": "8. Modifications de ces conditions",
     "s9Title": "9. Contact"
+  },
+  "PanelBuilder": {
+    "title": "Créateur de cases",
+    "lead": "Choisissez une mise en page pour chaque page, puis touchez une case pour ajouter une image, une bulle de dialogue, une légende ou une bulle de pensée.",
+    "style": {
+      "picturebook": "Livre illustré",
+      "comic": "Bande dessinée",
+      "manga": "Manga"
+    },
+    "layoutHeading": "Mise en page des cases pour cette page",
+    "pageOf": "Page {n} sur {total}",
+    "layout": {
+      "oneBig": "1 grande case",
+      "twoStacked": "2 empilées",
+      "threeAcross": "3 côte à côte",
+      "wideTop2": "Large en haut + 2",
+      "fourSquares": "4 carrés",
+      "manga5": "Page manga (5)"
+    },
+    "prevPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "panelWord": "Case",
+    "textPlaceholder": "Écrivez ici…",
+    "tapHint": "Touchez une case pour la sélectionner, puis ajoutez-y une image ou du texte.",
+    "textType": {
+      "speech": "Dialogue",
+      "caption": "Légende",
+      "thought": "Pensée"
+    },
+    "clearPanel": "Vider la case",
+    "panelImageLabel": "Illustration du panel",
+    "uploadImage": "Importer une image",
+    "signInForUpload": "Connectez-vous pour importer votre propre image.",
+    "generateImagePrompt": "Décrivez une image à générer…",
+    "speakButton": "Parler",
+    "generatingButton": "Génération…",
+    "generateButton": "Générer",
+    "imageGenericError": "Impossible de générer cette image. Réessayez dans un instant.",
+    "imageFileError": "Les images doivent être en PNG, JPEG ou WebP, 10 Mo maximum.",
+    "loadingBooks": "Chargement de vos livres…",
+    "publishNoBooks": "Vous n'avez pas encore de livre correspondant — créez-en un sur votre page de compte d'abord.",
+    "publishButton": "Publier comme nouveau chapitre",
+    "publishingButton": "Publication…",
+    "publishNeedImage": "Ajoutez l'illustration d'au moins un panel avant de publier.",
+    "publishHeading": "Publier ce chapitre",
+    "signInToPublish": "Connectez-vous pour publier ceci comme un vrai chapitre.",
+    "publishedPanelsCount": "{count, plural, one {# case a un visuel} other {# cases ont un visuel}}",
+    "publishSuccess": "Publié dans « {title} »."
   }
 }

@@ -208,63 +208,6 @@
     "accept": "Accept",
     "decline": "Decline"
   },
-  "PanelPlanner": {
-    "panelWord": "Panel",
-    "coverLabel": "Cover",
-    "coverImageLabel": "Cover art",
-    "noDialogue": "no dialogue",
-    "silent": "silent",
-    "bleed": "bleed",
-    "inputLabel": "Panel descriptions",
-    "help": "One panel per line, or split them with “then”, commas, or full stops. Use the English words “wide”, “tall / skinny”, “big / splash”, or “beat / silent” to shape each panel.",
-    "pageCount": "{count, plural, one {Page · # panel} other {Page · # panels}}",
-    "breakdown": "Panel breakdown",
-    "emptyHint": "Type a few panels above to see the page take shape.",
-    "stickersLabel": "Stickers:",
-    "panelTextLabel": "Panel text",
-    "panelTextHint": "Type your own — it replaces the example idea shown in the box.",
-    "panelImageLabel": "Panel art",
-    "uploadImage": "Upload image",
-    "speakButton": "Speak",
-    "generateImagePrompt": "Describe an image to generate…",
-    "generateButton": "Generate",
-    "generatingButton": "Generating…",
-    "imageGenericError": "Could not generate that image. Try again in a moment.",
-    "imageFileError": "Images must be PNG, JPEG, or WebP, 10MB max.",
-    "signInForUpload": "Log in to upload your own image.",
-    "publishHeading": "Publish this page",
-    "signInToPublish": "Log in to publish these panels as a real chapter.",
-    "loadingBooks": "Loading your books…",
-    "publishNoBooks": "You don't have a matching book yet — create one on your account page first.",
-    "publishedPanelsCount": "{count} of {total} panels have art",
-    "publishButton": "Publish as new chapter",
-    "publishingButton": "Publishing…",
-    "publishNeedImage": "Add at least one panel's art before publishing.",
-    "publishSuccess": "Published to \"{title}\".",
-    "size": {
-      "splash": "Splash",
-      "wide": "Wide",
-      "big": "Big",
-      "tall": "Tall",
-      "medium": "Medium",
-      "beat": "Beat"
-    },
-    "comic": {
-      "title": "Comic Panel Planner",
-      "lead": "Describe your page in plain words — “wide panel for the vault, tall skinny panel for the drop, then a beat panel before the punch.” Get a rough page layout back, panel by panel.",
-      "reading": "A regular grid — even tiers, straight gutters, left to right, top to bottom.",
-      "scriptNote": "reads left to right"
-    },
-    "manga": {
-      "title": "Manga Panel Planner",
-      "lead": "Manga pages break the grid — slanted cuts, tight column gutters, and the big beats bleeding past the frame. Describe your page and get that layout back, read right to left.",
-      "reading": "Right to left, top to bottom. Diagonal cuts between panels; splash and big beats bleed the frame.",
-      "scriptNote": "reads right to left"
-    },
-    "prevPanel": "Previous panel",
-    "nextPanel": "Next panel",
-    "removeImage": "Remove image"
-  },
   "BookTypes": {
     "sectionTitle": "Pick Your Book Type",
     "sectionIntro": "Every format has its own storytelling rules. Choose one to see tailored tips — your pick also powers the generators below.",
@@ -838,5 +781,53 @@
     "s7Title": "7. Ending your account",
     "s8Title": "8. Changes to these terms",
     "s9Title": "9. Contact"
+  },
+  "PanelBuilder": {
+    "title": "Panel Builder",
+    "lead": "Pick a layout for each page, then tap a panel to add a picture, a speech bubble, a caption, or a thought bubble.",
+    "style": {
+      "picturebook": "Picture book",
+      "comic": "Comic book",
+      "manga": "Manga"
+    },
+    "layoutHeading": "Panel layout for this page",
+    "pageOf": "Page {n} of {total}",
+    "layout": {
+      "oneBig": "1 big panel",
+      "twoStacked": "2 stacked",
+      "threeAcross": "3 across",
+      "wideTop2": "Wide top + 2",
+      "fourSquares": "4 squares",
+      "manga5": "Manga page (5)"
+    },
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "panelWord": "Panel",
+    "textPlaceholder": "Type here…",
+    "tapHint": "Tap a panel to pick it, then add a picture or some text to that panel.",
+    "textType": {
+      "speech": "Speech",
+      "caption": "Caption",
+      "thought": "Thought"
+    },
+    "clearPanel": "Clear panel",
+    "panelImageLabel": "Panel art",
+    "uploadImage": "Upload image",
+    "signInForUpload": "Log in to upload your own image.",
+    "generateImagePrompt": "Describe an image to generate…",
+    "speakButton": "Speak",
+    "generatingButton": "Generating…",
+    "generateButton": "Generate",
+    "imageGenericError": "Could not generate that image. Try again in a moment.",
+    "imageFileError": "Images must be PNG, JPEG, or WebP, 10MB max.",
+    "loadingBooks": "Loading your books…",
+    "publishNoBooks": "You don't have a matching book yet — create one on your account page first.",
+    "publishButton": "Publish as new chapter",
+    "publishingButton": "Publishing…",
+    "publishNeedImage": "Add at least one panel's art before publishing.",
+    "publishHeading": "Publish this chapter",
+    "signInToPublish": "Log in to publish this as a real chapter.",
+    "publishedPanelsCount": "{count, plural, one {# panel has art} other {# panels have art}}",
+    "publishSuccess": "Published to \"{title}\"."
   }
 }

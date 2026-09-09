@@ -208,63 +208,6 @@
     "accept": "接受",
     "decline": "拒绝"
   },
-  "PanelPlanner": {
-    "panelWord": "格",
-    "coverLabel": "封面",
-    "coverImageLabel": "封面图",
-    "noDialogue": "无对白",
-    "silent": "静默",
-    "bleed": "出血",
-    "inputLabel": "分格描述",
-    "help": "每行一格，或用“then”、逗号、句号分隔。用英文词“wide”“tall / skinny”“big / splash”或“beat / silent”来设定每一格的形状。",
-    "pageCount": "页 · {count} 格",
-    "breakdown": "分格清单",
-    "emptyHint": "在上方写几格，看这一页如何成形。",
-    "stickersLabel": "贴纸：",
-    "panelTextLabel": "格子文字",
-    "panelTextHint": "输入你自己的内容——它会替换框内显示的示例点子。",
-    "panelImageLabel": "格子画面",
-    "uploadImage": "上传图片",
-    "speakButton": "说话",
-    "generateImagePrompt": "描述要生成的图片…",
-    "generateButton": "生成",
-    "generatingButton": "生成中…",
-    "imageGenericError": "无法生成该图片，请稍后重试。",
-    "imageFileError": "图片必须是 PNG、JPEG 或 WebP 格式，最大 10MB。",
-    "signInForUpload": "登录后即可上传你自己的图片。",
-    "publishHeading": "发布这一页",
-    "signInToPublish": "登录后即可将这些格子发布为正式章节。",
-    "loadingBooks": "正在加载你的书…",
-    "publishNoBooks": "你还没有匹配的书——请先在账户页面创建一本。",
-    "publishedPanelsCount": "{total} 格中有 {count} 格已有画面",
-    "publishButton": "发布为新章节",
-    "publishingButton": "发布中…",
-    "publishNeedImage": "发布前请至少为一个格子添加画面。",
-    "publishSuccess": "已发布到《{title}》。",
-    "size": {
-      "splash": "整版",
-      "wide": "宽格",
-      "big": "大格",
-      "tall": "竖格",
-      "medium": "中格",
-      "beat": "停顿"
-    },
-    "comic": {
-      "title": "美式漫画分格规划器",
-      "lead": "用简单的话描述你的页面：“金库用宽格，坠落用竖长的窄格，然后在出拳前放一个停顿格。”得到一张逐格的页面草图。",
-      "reading": "规整的网格——层级均匀、间隔笔直，从左到右、从上到下。",
-      "scriptNote": "从左到右阅读"
-    },
-    "manga": {
-      "title": "日式漫画分格规划器",
-      "lead": "日式漫画的页面会打破网格——倾斜的切分、列间狭窄的间隔，重要的节拍冲出画框。描述你的页面，得到这种从右到左阅读的版式。",
-      "reading": "从右到左、从上到下。格与格之间是斜切；整版和大节拍出血到画框边缘。",
-      "scriptNote": "从右到左阅读"
-    },
-    "prevPanel": "上一格",
-    "nextPanel": "下一格",
-    "removeImage": "移除图片"
-  },
   "BookTypes": {
     "sectionTitle": "选择你的图书类型",
     "sectionIntro": "每种形式都有自己的叙事规则。选一种即可看到量身定制的建议——你的选择也会驱动下方的生成器。",
@@ -838,5 +781,53 @@
     "s7Title": "7. 结束你的账户",
     "s8Title": "8. 本条款的变更",
     "s9Title": "9. 联系"
+  },
+  "PanelBuilder": {
+    "title": "分格创作工具",
+    "lead": "为每页选择一种分格布局，然后点击某一格添加图片、对话气泡、说明文字或想法气泡。",
+    "style": {
+      "picturebook": "绘本",
+      "comic": "漫画书",
+      "manga": "日漫"
+    },
+    "layoutHeading": "本页的分格布局",
+    "pageOf": "第 {n} 页，共 {total} 页",
+    "layout": {
+      "oneBig": "1 个大格",
+      "twoStacked": "2 格上下叠放",
+      "threeAcross": "3 格并排",
+      "wideTop2": "上宽格 + 下 2 格",
+      "fourSquares": "4 个方格",
+      "manga5": "日漫页面（5 格）"
+    },
+    "prevPage": "上一页",
+    "nextPage": "下一页",
+    "panelWord": "格",
+    "textPlaceholder": "在此输入…",
+    "tapHint": "点击一个格子选中它，然后添加图片或文字。",
+    "textType": {
+      "speech": "对话",
+      "caption": "说明文字",
+      "thought": "想法"
+    },
+    "clearPanel": "清空格子",
+    "panelImageLabel": "格子画面",
+    "uploadImage": "上传图片",
+    "signInForUpload": "登录后即可上传你自己的图片。",
+    "generateImagePrompt": "描述要生成的图片…",
+    "speakButton": "说话",
+    "generatingButton": "生成中…",
+    "generateButton": "生成",
+    "imageGenericError": "无法生成该图片，请稍后重试。",
+    "imageFileError": "图片必须是 PNG、JPEG 或 WebP 格式，最大 10MB。",
+    "loadingBooks": "正在加载你的书…",
+    "publishNoBooks": "你还没有匹配的书——请先在账户页面创建一本。",
+    "publishButton": "发布为新章节",
+    "publishingButton": "发布中…",
+    "publishNeedImage": "发布前请至少为一个格子添加画面。",
+    "publishHeading": "发布本章",
+    "signInToPublish": "登录后即可将其发布为正式章节。",
+    "publishedPanelsCount": "{count, plural, other {已有 # 格配图}}",
+    "publishSuccess": "已发布到\"{title}\"。"
   }
 }

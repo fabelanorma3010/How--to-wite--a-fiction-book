@@ -208,63 +208,6 @@
     "accept": "同意する",
     "decline": "拒否する"
   },
-  "PanelPlanner": {
-    "panelWord": "コマ",
-    "coverLabel": "表紙",
-    "coverImageLabel": "表紙の絵",
-    "noDialogue": "セリフなし",
-    "silent": "無音",
-    "bleed": "裁ち落とし",
-    "inputLabel": "コマの説明",
-    "help": "1行に1コマ、または「then」・カンマ・句点で区切ります。各コマの形は英単語「wide」「tall / skinny」「big / splash」「beat / silent」で指定してください。",
-    "pageCount": "ページ · {count} コマ",
-    "breakdown": "コマの内訳",
-    "emptyHint": "上にコマをいくつか書くと、ページの形が見えてきます。",
-    "stickersLabel": "ステッカー：",
-    "panelTextLabel": "コマのテキスト",
-    "panelTextHint": "自分の言葉を入力すると、枠内に表示されている例のアイデアと置き換わります。",
-    "panelImageLabel": "コマの絵",
-    "uploadImage": "画像をアップロード",
-    "speakButton": "話す",
-    "generateImagePrompt": "生成する画像を説明してください…",
-    "generateButton": "生成",
-    "generatingButton": "生成中…",
-    "imageGenericError": "画像を生成できませんでした。少し経ってからもう一度お試しください。",
-    "imageFileError": "画像はPNG、JPEG、WebPのいずれかで、10MBまでです。",
-    "signInForUpload": "自分の画像をアップロードするにはログインしてください。",
-    "publishHeading": "このページを公開",
-    "signInToPublish": "これらのコマを実際のチャプターとして公開するにはログインしてください。",
-    "loadingBooks": "あなたの本を読み込み中…",
-    "publishNoBooks": "該当する本がまだありません——先にアカウントページで作成してください。",
-    "publishedPanelsCount": "{total}コマ中{count}コマに絵があります",
-    "publishButton": "新しいチャプターとして公開",
-    "publishingButton": "公開中…",
-    "publishNeedImage": "公開する前に、少なくとも1つのコマに絵を追加してください。",
-    "publishSuccess": "「{title}」に公開しました。",
-    "size": {
-      "splash": "見開き級",
-      "wide": "ワイド",
-      "big": "大",
-      "tall": "縦長",
-      "medium": "中",
-      "beat": "間（ま）"
-    },
-    "comic": {
-      "title": "コミックのコマ割りプランナー",
-      "lead": "ページを普通の言葉で説明します。「金庫はワイドなコマ、落下は縦長の細いコマ、そしてパンチの前にセリフなしの間のコマ」。ページのラフをコマ単位で返します。",
-      "reading": "規則的なグリッド — 均等な段、まっすぐな溝、左から右、上から下へ。",
-      "scriptNote": "左から右に読む"
-    },
-    "manga": {
-      "title": "マンガのコマ割りプランナー",
-      "lead": "マンガのページはグリッドを崩します — 斜めの断ち切り、狭い縦の溝、そして大きな見せ場は枠からはみ出す。ページを説明すると、右から左に読むそのレイアウトを返します。",
-      "reading": "右から左、上から下へ。コマ間は斜めの断ち切り。見開き級や大きな見せ場は枠を裁ち落とします。",
-      "scriptNote": "右から左に読む"
-    },
-    "prevPanel": "前のコマ",
-    "nextPanel": "次のコマ",
-    "removeImage": "画像を削除"
-  },
   "BookTypes": {
     "sectionTitle": "本のタイプを選ぶ",
     "sectionIntro": "フォーマットごとに物語作りのルールがあります。1つ選ぶとそれに合わせたヒントが表示され、下のジェネレーターにも反映されます。",
@@ -838,5 +781,53 @@
     "s7Title": "7. アカウントの終了",
     "s8Title": "8. 本規約の変更",
     "s9Title": "9. お問い合わせ"
+  },
+  "PanelBuilder": {
+    "title": "パネルビルダー",
+    "lead": "ページごとにレイアウトを選び、パネルをタップして写真・吹き出し・キャプション・心の声の吹き出しを追加しましょう。",
+    "style": {
+      "picturebook": "絵本",
+      "comic": "コミック",
+      "manga": "マンガ"
+    },
+    "layoutHeading": "このページのパネルレイアウト",
+    "pageOf": "{total}ページ中{n}ページ目",
+    "layout": {
+      "oneBig": "大きいコマ1つ",
+      "twoStacked": "2段",
+      "threeAcross": "横に3つ",
+      "wideTop2": "上に横長+下に2つ",
+      "fourSquares": "4分割",
+      "manga5": "マンガページ（5コマ）"
+    },
+    "prevPage": "前のページ",
+    "nextPage": "次のページ",
+    "panelWord": "コマ",
+    "textPlaceholder": "ここに入力…",
+    "tapHint": "コマをタップして選び、写真かテキストを追加しましょう。",
+    "textType": {
+      "speech": "セリフ",
+      "caption": "キャプション",
+      "thought": "心の声"
+    },
+    "clearPanel": "コマを空にする",
+    "panelImageLabel": "コマの絵",
+    "uploadImage": "画像をアップロード",
+    "signInForUpload": "自分の画像をアップロードするにはログインしてください。",
+    "generateImagePrompt": "生成する画像を説明してください…",
+    "speakButton": "話す",
+    "generatingButton": "生成中…",
+    "generateButton": "生成",
+    "imageGenericError": "画像を生成できませんでした。少し経ってからもう一度お試しください。",
+    "imageFileError": "画像はPNG、JPEG、WebPのいずれかで、10MBまでです。",
+    "loadingBooks": "あなたの本を読み込み中…",
+    "publishNoBooks": "該当する本がまだありません——先にアカウントページで作成してください。",
+    "publishButton": "新しいチャプターとして公開",
+    "publishingButton": "公開中…",
+    "publishNeedImage": "公開する前に、少なくとも1つのコマに絵を追加してください。",
+    "publishHeading": "この章を公開",
+    "signInToPublish": "ログインするとこれを本当の章として公開できます。",
+    "publishedPanelsCount": "{count, plural, other {#コマに絵があります}}",
+    "publishSuccess": "「{title}」に公開しました。"
   }
 }

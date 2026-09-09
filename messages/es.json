@@ -208,63 +208,6 @@
     "accept": "Aceptar",
     "decline": "Rechazar"
   },
-  "PanelPlanner": {
-    "panelWord": "Viñeta",
-    "coverLabel": "Portada",
-    "coverImageLabel": "Arte de la portada",
-    "noDialogue": "sin diálogo",
-    "silent": "muda",
-    "bleed": "a sangre",
-    "inputLabel": "Descripciones de viñetas",
-    "help": "Una viñeta por línea, o sepáralas con «then», comas o puntos. Usa las palabras en inglés «wide», «tall / skinny», «big / splash» o «beat / silent» para dar forma a cada viñeta.",
-    "pageCount": "{count, plural, one {Página · # viñeta} other {Página · # viñetas}}",
-    "breakdown": "Desglose de viñetas",
-    "emptyHint": "Escribe algunas viñetas arriba para ver cómo toma forma la página.",
-    "stickersLabel": "Pegatinas:",
-    "panelTextLabel": "Texto del panel",
-    "panelTextHint": "Escribe el tuyo — reemplaza la idea de ejemplo que aparece en el cuadro.",
-    "panelImageLabel": "Arte del panel",
-    "uploadImage": "Subir imagen",
-    "speakButton": "Hablar",
-    "generateImagePrompt": "Describe una imagen para generar…",
-    "generateButton": "Generar",
-    "generatingButton": "Generando…",
-    "imageGenericError": "No se pudo generar esa imagen. Inténtalo de nuevo en un momento.",
-    "imageFileError": "Las imágenes deben ser PNG, JPEG o WebP, 10MB máximo.",
-    "signInForUpload": "Inicia sesión para subir tu propia imagen.",
-    "publishHeading": "Publicar esta página",
-    "signInToPublish": "Inicia sesión para publicar estos paneles como un capítulo real.",
-    "loadingBooks": "Cargando tus libros…",
-    "publishNoBooks": "Todavía no tienes un libro que coincida — crea uno en tu página de cuenta primero.",
-    "publishedPanelsCount": "{count} de {total} paneles tienen arte",
-    "publishButton": "Publicar como capítulo nuevo",
-    "publishingButton": "Publicando…",
-    "publishNeedImage": "Añade el arte de al menos un panel antes de publicar.",
-    "publishSuccess": "Publicado en «{title}».",
-    "size": {
-      "splash": "Página completa",
-      "wide": "Ancha",
-      "big": "Grande",
-      "tall": "Alta",
-      "medium": "Media",
-      "beat": "Pausa"
-    },
-    "comic": {
-      "title": "Planificador de viñetas de cómic",
-      "lead": "Describe tu página con palabras sencillas: «viñeta ancha para la cámara acorazada, viñeta alta y estrecha para la caída, luego una viñeta de pausa antes del golpe». Recibe un boceto de la página, viñeta a viñeta.",
-      "reading": "Una cuadrícula regular: filas parejas, canaletas rectas, de izquierda a derecha, de arriba abajo.",
-      "scriptNote": "se lee de izquierda a derecha"
-    },
-    "manga": {
-      "title": "Planificador de viñetas de manga",
-      "lead": "Las páginas de manga rompen la cuadrícula: cortes inclinados, canaletas estrechas entre columnas y los momentos clave sangrando fuera del marco. Describe tu página y recibe ese diseño, leído de derecha a izquierda.",
-      "reading": "De derecha a izquierda, de arriba abajo. Cortes diagonales entre viñetas; las páginas completas y los momentos grandes sangran el marco.",
-      "scriptNote": "se lee de derecha a izquierda"
-    },
-    "prevPanel": "Viñeta anterior",
-    "nextPanel": "Viñeta siguiente",
-    "removeImage": "Quitar imagen"
-  },
   "BookTypes": {
     "sectionTitle": "Elige tu tipo de libro",
     "sectionIntro": "Cada formato tiene sus propias reglas para contar historias. Elige uno para ver consejos a medida; tu elección también alimenta los generadores de abajo.",
@@ -838,5 +781,53 @@
     "s7Title": "7. Cierre de tu cuenta",
     "s8Title": "8. Cambios en estos términos",
     "s9Title": "9. Contacto"
+  },
+  "PanelBuilder": {
+    "title": "Creador de viñetas",
+    "lead": "Elige un diseño para cada página y luego toca una viñeta para añadir una imagen, un globo de diálogo, un pie de foto o un globo de pensamiento.",
+    "style": {
+      "picturebook": "Libro ilustrado",
+      "comic": "Cómic",
+      "manga": "Manga"
+    },
+    "layoutHeading": "Diseño de viñetas para esta página",
+    "pageOf": "Página {n} de {total}",
+    "layout": {
+      "oneBig": "1 viñeta grande",
+      "twoStacked": "2 apiladas",
+      "threeAcross": "3 en fila",
+      "wideTop2": "Ancha arriba + 2",
+      "fourSquares": "4 cuadros",
+      "manga5": "Página manga (5)"
+    },
+    "prevPage": "Página anterior",
+    "nextPage": "Página siguiente",
+    "panelWord": "Viñeta",
+    "textPlaceholder": "Escribe aquí…",
+    "tapHint": "Toca una viñeta para elegirla y añádele una imagen o texto.",
+    "textType": {
+      "speech": "Diálogo",
+      "caption": "Pie de foto",
+      "thought": "Pensamiento"
+    },
+    "clearPanel": "Vaciar viñeta",
+    "panelImageLabel": "Arte del panel",
+    "uploadImage": "Subir imagen",
+    "signInForUpload": "Inicia sesión para subir tu propia imagen.",
+    "generateImagePrompt": "Describe una imagen para generar…",
+    "speakButton": "Hablar",
+    "generatingButton": "Generando…",
+    "generateButton": "Generar",
+    "imageGenericError": "No se pudo generar esa imagen. Inténtalo de nuevo en un momento.",
+    "imageFileError": "Las imágenes deben ser PNG, JPEG o WebP, 10MB máximo.",
+    "loadingBooks": "Cargando tus libros…",
+    "publishNoBooks": "Todavía no tienes un libro que coincida — crea uno en tu página de cuenta primero.",
+    "publishButton": "Publicar como capítulo nuevo",
+    "publishingButton": "Publicando…",
+    "publishNeedImage": "Añade el arte de al menos un panel antes de publicar.",
+    "publishHeading": "Publicar este capítulo",
+    "signInToPublish": "Inicia sesión para publicar esto como un capítulo real.",
+    "publishedPanelsCount": "{count, plural, one {# viñeta tiene arte} other {# viñetas tienen arte}}",
+    "publishSuccess": "Publicado en \"{title}\"."
   }
 }

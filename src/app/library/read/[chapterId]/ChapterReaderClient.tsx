@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import type { Chapter, BookFormat } from '@/lib/books'
 import { parseChapterBody } from '@/lib/parseChapterBody'
 import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes'
+import { decodeCaptionType } from '@/lib/captionType'
 
 type ChapterData = Chapter & { bookTitle: string; bookType: BookFormat | null }
 type Sibling = { id: string; chapterNumber: number } | null
@@ -43,6 +44,12 @@ export default function ChapterReaderClient({
 
   const pages = isManga ? [...chapter.pages].reverse() : chapter.pages
   const captions = isManga ? [...chapter.pageCaptions].reverse() : chapter.pageCaptions
+  const decodedCaption = captions[pageIndex] ? decodeCaptionType(captions[pageIndex]) : null
+  // 'caption' and 'thought' are explicit choices from the Panel Builder and always render
+  // as that type; 'speech' (including every un-prefixed caption from before those existed)
+  // keeps the original per-format behavior — a bottom bar for 'big' formats, else a bubble.
+  const showBar = decodedCaption?.type === 'caption' || (decodedCaption?.type === 'speech' && theme.captionStyle === 'big')
+  const showThought = decodedCaption?.type === 'thought'
   // One extra "slide" past the real pages for the Chapter Complete / To Be
   // Continued card, so "next" walks through the whole chapter in one motion.
   const totalSlides = pages.length + 1
@@ -194,7 +201,7 @@ export default function ChapterReaderClient({
                 }}
               >
                 <div className="relative w-full overflow-hidden" style={{ borderRadius: theme.pageRadius }}>
-                  {theme.captionStyle === 'big' && captions[pageIndex] ? (
+                  {showBar ? (
                     <div className="flex flex-col">
                       <div className="relative w-full overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -220,7 +227,7 @@ export default function ChapterReaderClient({
                           borderTop: `2px solid ${theme.ink}22`,
                         }}
                       >
-                        {captions[pageIndex]}
+                        {decodedCaption?.text}
                       </div>
                     </div>
                   ) : (
@@ -239,7 +246,27 @@ export default function ChapterReaderClient({
                           style={textureOverlayStyle(theme.illustTexture, theme.ink)}
                         />
                       )}
-                      {captions[pageIndex] && (
+                      {decodedCaption && showThought && (
+                        <div
+                          className="absolute left-4 top-4 max-w-[75%]"
+                          style={{
+                            background: '#fff',
+                            border: `2px solid ${theme.ink}`,
+                            borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%',
+                            padding: '12px 16px',
+                            boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
+                          }}
+                        >
+                          <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
+                            {decodedCaption.text}
+                          </p>
+                          <span aria-hidden="true" className="absolute left-5 top-full mt-1 flex flex-col items-start gap-1">
+                            <span className="block h-3 w-3 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
+                            <span className="ml-1.5 block h-1.5 w-1.5 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
+                          </span>
+                        </div>
+                      )}
+                      {decodedCaption && !showThought && decodedCaption.text && (
                         <div
                           className="absolute left-4 top-4 max-w-[75%]"
                           style={{
@@ -251,7 +278,7 @@ export default function ChapterReaderClient({
                           }}
                         >
                           <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
-                            {captions[pageIndex]}
+                            {decodedCaption.text}
                           </p>
                           <span
                             aria-hidden="true"

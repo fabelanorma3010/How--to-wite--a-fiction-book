@@ -208,63 +208,6 @@
     "accept": "Akzeptieren",
     "decline": "Ablehnen"
   },
-  "PanelPlanner": {
-    "panelWord": "Panel",
-    "coverLabel": "Titelbild",
-    "coverImageLabel": "Titelbild-Kunst",
-    "noDialogue": "kein Dialog",
-    "silent": "stumm",
-    "bleed": "randlos",
-    "inputLabel": "Panel-Beschreibungen",
-    "help": "Ein Panel pro Zeile, oder trenne sie mit „then“, Kommas oder Punkten. Verwende die englischen Wörter „wide“, „tall / skinny“, „big / splash“ oder „beat / silent“, um jedem Panel seine Form zu geben.",
-    "pageCount": "{count, plural, one {Seite · # Panel} other {Seite · # Panels}}",
-    "breakdown": "Panel-Aufschlüsselung",
-    "emptyHint": "Schreib oben ein paar Panels, um die Seite Gestalt annehmen zu sehen.",
-    "stickersLabel": "Sticker:",
-    "panelTextLabel": "Paneltext",
-    "panelTextHint": "Schreib deinen eigenen Text — er ersetzt die Beispielidee im Feld.",
-    "panelImageLabel": "Panel-Kunst",
-    "uploadImage": "Bild hochladen",
-    "speakButton": "Sprechen",
-    "generateImagePrompt": "Beschreibe ein zu erzeugendes Bild…",
-    "generateButton": "Erzeugen",
-    "generatingButton": "Wird erzeugt…",
-    "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal.",
-    "imageFileError": "Bilder müssen PNG, JPEG oder WebP sein, maximal 10 MB.",
-    "signInForUpload": "Melde dich an, um ein eigenes Bild hochzuladen.",
-    "publishHeading": "Diese Seite veröffentlichen",
-    "signInToPublish": "Melde dich an, um diese Panels als echtes Kapitel zu veröffentlichen.",
-    "loadingBooks": "Deine Bücher werden geladen…",
-    "publishNoBooks": "Du hast noch kein passendes Buch — erstelle zuerst eins auf deiner Kontoseite.",
-    "publishedPanelsCount": "{count} von {total} Panels haben Kunst",
-    "publishButton": "Als neues Kapitel veröffentlichen",
-    "publishingButton": "Wird veröffentlicht…",
-    "publishNeedImage": "Füge mindestens ein Panel-Bild hinzu, bevor du veröffentlichst.",
-    "publishSuccess": "Veröffentlicht in „{title}“.",
-    "size": {
-      "splash": "Ganzseitig",
-      "wide": "Breit",
-      "big": "Groß",
-      "tall": "Hoch",
-      "medium": "Mittel",
-      "beat": "Pause"
-    },
-    "comic": {
-      "title": "Comic-Panel-Planer",
-      "lead": "Beschreib deine Seite mit einfachen Worten: „breites Panel für den Tresor, hohes schmales Panel für den Sturz, dann ein Pause-Panel vor dem Schlag“. Du bekommst ein grobes Seitenlayout zurück, Panel für Panel.",
-      "reading": "Ein reguläres Raster — gleichmäßige Reihen, gerade Rinnen, von links nach rechts, von oben nach unten.",
-      "scriptNote": "wird von links nach rechts gelesen"
-    },
-    "manga": {
-      "title": "Manga-Panel-Planer",
-      "lead": "Manga-Seiten sprengen das Raster — schräge Schnitte, enge Spaltenrinnen und die großen Momente, die über den Rand hinauslaufen. Beschreib deine Seite und bekomm dieses Layout zurück, von rechts nach links gelesen.",
-      "reading": "Von rechts nach links, von oben nach unten. Diagonale Schnitte zwischen Panels; ganzseitige und große Momente laufen über den Rand.",
-      "scriptNote": "wird von rechts nach links gelesen"
-    },
-    "prevPanel": "Vorheriges Panel",
-    "nextPanel": "Nächstes Panel",
-    "removeImage": "Bild entfernen"
-  },
   "BookTypes": {
     "sectionTitle": "Wähle deinen Buchtyp",
     "sectionIntro": "Jedes Format hat eigene Erzählregeln. Wähl eins für passende Tipps — deine Wahl steuert auch die Generatoren weiter unten.",
@@ -838,5 +781,53 @@
     "s7Title": "7. Beendigung deines Kontos",
     "s8Title": "8. Änderungen dieser Bedingungen",
     "s9Title": "9. Kontakt"
+  },
+  "PanelBuilder": {
+    "title": "Panel-Baukasten",
+    "lead": "Wähle für jede Seite ein Layout, dann tippe auf ein Panel, um ein Bild, eine Sprechblase, eine Bildunterschrift oder eine Gedankenblase hinzuzufügen.",
+    "style": {
+      "picturebook": "Bilderbuch",
+      "comic": "Comicbuch",
+      "manga": "Manga"
+    },
+    "layoutHeading": "Panel-Layout für diese Seite",
+    "pageOf": "Seite {n} von {total}",
+    "layout": {
+      "oneBig": "1 großes Panel",
+      "twoStacked": "2 gestapelt",
+      "threeAcross": "3 nebeneinander",
+      "wideTop2": "Breit oben + 2",
+      "fourSquares": "4 Quadrate",
+      "manga5": "Manga-Seite (5)"
+    },
+    "prevPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "panelWord": "Panel",
+    "textPlaceholder": "Hier tippen…",
+    "tapHint": "Tippe auf ein Panel, um es auszuwählen, dann füge ein Bild oder Text hinzu.",
+    "textType": {
+      "speech": "Sprechblase",
+      "caption": "Bildunterschrift",
+      "thought": "Gedanke"
+    },
+    "clearPanel": "Panel leeren",
+    "panelImageLabel": "Panel-Kunst",
+    "uploadImage": "Bild hochladen",
+    "signInForUpload": "Melde dich an, um ein eigenes Bild hochzuladen.",
+    "generateImagePrompt": "Beschreibe ein zu erzeugendes Bild…",
+    "speakButton": "Sprechen",
+    "generatingButton": "Wird erzeugt…",
+    "generateButton": "Erzeugen",
+    "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal.",
+    "imageFileError": "Bilder müssen PNG, JPEG oder WebP sein, maximal 10 MB.",
+    "loadingBooks": "Deine Bücher werden geladen…",
+    "publishNoBooks": "Du hast noch kein passendes Buch — erstelle zuerst eins auf deiner Kontoseite.",
+    "publishButton": "Als neues Kapitel veröffentlichen",
+    "publishingButton": "Wird veröffentlicht…",
+    "publishNeedImage": "Füge mindestens ein Panel-Bild hinzu, bevor du veröffentlichst.",
+    "publishHeading": "Dieses Kapitel veröffentlichen",
+    "signInToPublish": "Melde dich an, um dies als echtes Kapitel zu veröffentlichen.",
+    "publishedPanelsCount": "{count, plural, one {# Panel hat Kunst} other {# Panels haben Kunst}}",
+    "publishSuccess": "Veröffentlicht in „{title}“."
   }
 }

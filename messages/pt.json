@@ -208,63 +208,6 @@
     "accept": "Aceitar",
     "decline": "Recusar"
   },
-  "PanelPlanner": {
-    "panelWord": "Quadro",
-    "coverLabel": "Capa",
-    "coverImageLabel": "Arte da capa",
-    "noDialogue": "sem diálogo",
-    "silent": "mudo",
-    "bleed": "sangria",
-    "inputLabel": "Descrições dos quadros",
-    "help": "Um quadro por linha, ou separe-os com “then”, vírgulas ou pontos. Use as palavras em inglês “wide”, “tall / skinny”, “big / splash” ou “beat / silent” para dar forma a cada quadro.",
-    "pageCount": "{count, plural, one {Página · # quadro} other {Página · # quadros}}",
-    "breakdown": "Detalhamento dos quadros",
-    "emptyHint": "Escreva alguns quadros acima para ver a página tomar forma.",
-    "stickersLabel": "Adesivos:",
-    "panelTextLabel": "Texto do quadro",
-    "panelTextHint": "Digite o seu — ele substitui a ideia de exemplo mostrada na caixa.",
-    "panelImageLabel": "Arte do quadro",
-    "uploadImage": "Enviar imagem",
-    "speakButton": "Falar",
-    "generateImagePrompt": "Descreva uma imagem para gerar…",
-    "generateButton": "Gerar",
-    "generatingButton": "Gerando…",
-    "imageGenericError": "Não foi possível gerar essa imagem. Tente novamente em instantes.",
-    "imageFileError": "As imagens devem ser PNG, JPEG ou WebP, 10MB no máximo.",
-    "signInForUpload": "Faça login para enviar sua própria imagem.",
-    "publishHeading": "Publicar esta página",
-    "signInToPublish": "Faça login para publicar esses quadros como um capítulo real.",
-    "loadingBooks": "Carregando seus livros…",
-    "publishNoBooks": "Você ainda não tem um livro correspondente — crie um na sua página de conta primeiro.",
-    "publishedPanelsCount": "{count} de {total} quadros têm arte",
-    "publishButton": "Publicar como novo capítulo",
-    "publishingButton": "Publicando…",
-    "publishNeedImage": "Adicione a arte de pelo menos um quadro antes de publicar.",
-    "publishSuccess": "Publicado em \"{title}\".",
-    "size": {
-      "splash": "Página inteira",
-      "wide": "Largo",
-      "big": "Grande",
-      "tall": "Alto",
-      "medium": "Médio",
-      "beat": "Pausa"
-    },
-    "comic": {
-      "title": "Planejador de quadros de HQ",
-      "lead": "Descreva sua página com palavras simples: “quadro largo para o cofre, quadro alto e estreito para a queda, depois um quadro de pausa antes do soco”. Receba um esboço da página, quadro a quadro.",
-      "reading": "Uma grade regular — fileiras uniformes, calhas retas, da esquerda para a direita, de cima para baixo.",
-      "scriptNote": "lê-se da esquerda para a direita"
-    },
-    "manga": {
-      "title": "Planejador de quadros de mangá",
-      "lead": "As páginas de mangá quebram a grade — cortes inclinados, calhas estreitas entre colunas e os momentos fortes sangrando para fora do quadro. Descreva sua página e receba esse layout, lido da direita para a esquerda.",
-      "reading": "Da direita para a esquerda, de cima para baixo. Cortes diagonais entre quadros; páginas inteiras e grandes momentos sangram a moldura.",
-      "scriptNote": "lê-se da direita para a esquerda"
-    },
-    "prevPanel": "Painel anterior",
-    "nextPanel": "Próximo painel",
-    "removeImage": "Remover imagem"
-  },
   "BookTypes": {
     "sectionTitle": "Escolha o seu tipo de livro",
     "sectionIntro": "Cada formato tem as suas próprias regras narrativas. Escolha um para ver dicas sob medida — a sua escolha também alimenta os geradores abaixo.",
@@ -838,5 +781,53 @@
     "s7Title": "7. Encerramento da sua conta",
     "s8Title": "8. Alterações nestes termos",
     "s9Title": "9. Contato"
+  },
+  "PanelBuilder": {
+    "title": "Criador de quadros",
+    "lead": "Escolha um layout para cada página e depois toque em um quadro para adicionar uma imagem, um balão de fala, uma legenda ou um balão de pensamento.",
+    "style": {
+      "picturebook": "Livro ilustrado",
+      "comic": "Livro em quadrinhos",
+      "manga": "Mangá"
+    },
+    "layoutHeading": "Layout de quadros desta página",
+    "pageOf": "Página {n} de {total}",
+    "layout": {
+      "oneBig": "1 quadro grande",
+      "twoStacked": "2 empilhados",
+      "threeAcross": "3 lado a lado",
+      "wideTop2": "Largo em cima + 2",
+      "fourSquares": "4 quadrados",
+      "manga5": "Página mangá (5)"
+    },
+    "prevPage": "Página anterior",
+    "nextPage": "Próxima página",
+    "panelWord": "Quadro",
+    "textPlaceholder": "Escreva aqui…",
+    "tapHint": "Toque em um quadro para selecioná-lo e adicione uma imagem ou texto.",
+    "textType": {
+      "speech": "Fala",
+      "caption": "Legenda",
+      "thought": "Pensamento"
+    },
+    "clearPanel": "Limpar quadro",
+    "panelImageLabel": "Arte do quadro",
+    "uploadImage": "Enviar imagem",
+    "signInForUpload": "Faça login para enviar sua própria imagem.",
+    "generateImagePrompt": "Descreva uma imagem para gerar…",
+    "speakButton": "Falar",
+    "generatingButton": "Gerando…",
+    "generateButton": "Gerar",
+    "imageGenericError": "Não foi possível gerar essa imagem. Tente novamente em instantes.",
+    "imageFileError": "As imagens devem ser PNG, JPEG ou WebP, 10MB no máximo.",
+    "loadingBooks": "Carregando seus livros…",
+    "publishNoBooks": "Você ainda não tem um livro correspondente — crie um na sua página de conta primeiro.",
+    "publishButton": "Publicar como novo capítulo",
+    "publishingButton": "Publicando…",
+    "publishNeedImage": "Adicione a arte de pelo menos um quadro antes de publicar.",
+    "publishHeading": "Publicar este capítulo",
+    "signInToPublish": "Faça login para publicar isso como um capítulo de verdade.",
+    "publishedPanelsCount": "{count, plural, one {# quadro tem arte} other {# quadros têm arte}}",
+    "publishSuccess": "Publicado em \"{title}\"."
   }
 }
