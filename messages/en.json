@@ -313,7 +313,16 @@
         "cartoon": "Rubbery, bouncy, squash-and-stretch shapes",
         "childrens": "Soft, warm, simple shapes"
       }
-    ]
+    ],
+    "ageQuestion": "How old is the reader?",
+    "ageIntro": "This helps us tailor the quiz for you.",
+    "agePlaceholder": "Age",
+    "ageContinue": "Continue",
+    "ageError": "Please enter a valid age.",
+    "parentHeading": "Ask a grown-up!",
+    "parentBody": "This quiz is for readers 13 and up. If you're younger, please have a parent or guardian continue with you.",
+    "parentApprove": "A grown-up says it's okay ✓",
+    "parentChangeAge": "That's not my age"
   },
   "WriteGuide": {
     "metaTitle": "How to Write a {name} — Storyburst",

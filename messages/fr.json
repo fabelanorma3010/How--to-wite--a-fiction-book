@@ -313,7 +313,16 @@
         "cartoon": "Des formes caoutchouteuses et rebondissantes, étirées et écrasées",
         "childrens": "Des formes douces, chaleureuses et simples"
       }
-    ]
+    ],
+    "ageQuestion": "Quel âge a le lecteur ou la lectrice ?",
+    "ageIntro": "Cela nous aide à adapter le quiz pour toi.",
+    "agePlaceholder": "Âge",
+    "ageContinue": "Continuer",
+    "ageError": "Merci d'indiquer un âge valide.",
+    "parentHeading": "Demande à un adulte !",
+    "parentBody": "Ce quiz est destiné aux lecteurs de 13 ans et plus. Si tu es plus jeune, demande à un parent ou un tuteur de continuer avec toi.",
+    "parentApprove": "Un adulte dit que c'est d'accord ✓",
+    "parentChangeAge": "Ce n'est pas mon âge"
   },
   "WriteGuide": {
     "metaTitle": "Comment écrire {name} — Storyburst",

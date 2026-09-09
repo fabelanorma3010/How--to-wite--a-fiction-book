@@ -13,12 +13,35 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
   const bt = useTranslations('BookTypes')
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<BookTypeId[]>([])
+  const [age, setAge] = useState<number | null>(null)
+  const [ageInput, setAgeInput] = useState('')
+  const [ageError, setAgeError] = useState('')
+  const [parentApproved, setParentApproved] = useState(false)
 
   const questions = t.raw('questions') as QuizQuestionCopy[]
   const isFinished = step >= QUIZ_QUESTION_COUNT
   const progress = Math.round((step / QUIZ_QUESTION_COUNT) * 100)
+  const needsParentApproval = age !== null && age < 13 && !parentApproved
+  const quizStarted = age !== null && !needsParentApproval
 
   const resultId = isFinished ? getWinner(answers) : null
+
+  function handleAgeSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const parsed = Number(ageInput)
+    if (!ageInput.trim() || !Number.isFinite(parsed) || parsed <= 0 || parsed > 120) {
+      setAgeError(t('ageError'))
+      return
+    }
+    setAgeError('')
+    setAge(Math.floor(parsed))
+  }
+
+  function handleChangeAge() {
+    setAge(null)
+    setAgeInput('')
+    setParentApproved(false)
+  }
 
   function handleAnswer(typeId: BookTypeId) {
     setAnswers((prev) => [...prev, typeId])
@@ -46,7 +69,64 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
 
         <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
           <Sticker emoji="🎯" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
-          {!isFinished && current && (
+
+          {age === null && (
+            <form onSubmit={handleAgeSubmit} className="animate-slide-in text-center">
+              <label htmlFor="quiz-age" className="text-xl font-extrabold text-ink sm:text-2xl">
+                {t('ageQuestion')}
+              </label>
+              <p className="mx-auto mt-2 max-w-md text-sm text-ink/60">{t('ageIntro')}</p>
+              <div className="mx-auto mt-5 flex max-w-xs items-center gap-2">
+                <input
+                  id="quiz-age"
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  max={120}
+                  value={ageInput}
+                  onChange={(e) => setAgeInput(e.target.value)}
+                  placeholder={t('agePlaceholder')}
+                  className="w-full rounded-2xl border-2 border-ink/15 bg-page/80 px-4 py-3 text-center text-lg font-bold text-ink focus:border-primary/50"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
+                >
+                  {t('ageContinue')}
+                </button>
+              </div>
+              {ageError && (
+                <p role="alert" className="mt-2 text-sm font-semibold text-red-600">
+                  {ageError}
+                </p>
+              )}
+            </form>
+          )}
+
+          {needsParentApproval && (
+            <div className="animate-slide-in text-center">
+              <p className="text-xl font-extrabold text-ink sm:text-2xl">{t('parentHeading')}</p>
+              <p className="mx-auto mt-2 max-w-md text-sm text-ink/70">{t('parentBody')}</p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setParentApproved(true)}
+                  className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
+                >
+                  {t('parentApprove')}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleChangeAge}
+                  className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
+                >
+                  {t('parentChangeAge')}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {quizStarted && !isFinished && current && (
             <>
               <div className="mb-6">
                 <div
@@ -89,7 +169,7 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
             </>
           )}
 
-          {isFinished && resultId && (
+          {quizStarted && isFinished && resultId && (
             <div className="animate-pop-in text-center">
               <p className="font-bold uppercase tracking-wide text-secondary-content/70">
                 {t('resultLabel')}

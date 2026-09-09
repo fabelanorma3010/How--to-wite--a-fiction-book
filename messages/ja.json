@@ -313,7 +313,16 @@
         "cartoon": "ゴムのように弾む、スクワッシュ＆ストレッチの形",
         "childrens": "やわらかく温かい、シンプルな形"
       }
-    ]
+    ],
+    "ageQuestion": "読む人は何歳ですか？",
+    "ageIntro": "クイズをあなたに合わせるために使います。",
+    "agePlaceholder": "年齢",
+    "ageContinue": "続ける",
+    "ageError": "正しい年齢を入力してください。",
+    "parentHeading": "おとなに聞いてみよう！",
+    "parentBody": "このクイズは13歳以上の方向けです。それより若い場合は、保護者の方と一緒に進めてください。",
+    "parentApprove": "おとなが「いいよ」と言っています ✓",
+    "parentChangeAge": "年齢が違います"
   },
   "WriteGuide": {
     "metaTitle": "{name}の書き方 — Storyburst",
