@@ -829,5 +829,63 @@
     "signInToPublish": "Accedi per pubblicare questo come un capitolo vero.",
     "publishedPanelsCount": "{count, plural, one {# vignetta ha un'illustrazione} other {# vignette hanno un'illustrazione}}",
     "publishSuccess": "Pubblicato su \"{title}\"."
+  },
+  "KidsCorner": {
+    "metaTitle": "Angolo dei bambini — Storyburst",
+    "metaDescription": "Un inizio di storia divertente di una pagina per bambini: scegli gli adesivi, ruba parole buffe, ricevi una frase di partenza e chiedi aiuto a Sparky.",
+    "badge": "Per bambini",
+    "heading": "Crea una storia che sia tutta tua",
+    "lead": "Scegli un adesivo, prendi una parola buffa e scrivi una pagina. Tutto qui. Una pagina è già una storia vera.",
+    "stickersHeading": "1. Scegli i tuoi adesivi",
+    "stickersLead": "Tocca quelli che vuoi nella tua storia. Sono i tuoi personaggi e luoghi.",
+    "wordsHeading": "2. Ruba qualche parola divertente",
+    "wordsLead": "Infilane tre nella tua storia. Rendono le frasi più vivaci.",
+    "funWords": [
+      "sciaff",
+      "traballante",
+      "tonfo",
+      "gigantesco",
+      "sussurro",
+      "strampalato",
+      "scintillare",
+      "sfrecciare"
+    ],
+    "starterHeading": "3. Inizia con questa frase",
+    "starterAnother": "Dammene un'altra",
+    "starterLines": [
+      "Una mattina le mie scarpe hanno iniziato a parlare, e avevano un piano.",
+      "L'ultimo biscotto nel barattolo era sorvegliato da un draghetto piccolissimo.",
+      "Nessuno credeva che la pozzanghera in giardino fosse in realtà una porta.",
+      "Il mio zaino ha ruttato, ed è così che è iniziata l'avventura.",
+      "La luna ha bussato alla mia finestra per chiedere in prestito una coperta."
+    ],
+    "sparkyHeading": "4. Chiedi a Sparky, il tuo aiutante di storie",
+    "sparkyIntro": "Sparky è un robot amichevole che aiuta. Chiedigli idee, nomi, o cosa succede dopo.",
+    "sparkyWelcome": "Ciao! Sono Sparky! Raccontami della tua storia, o tocca un pulsante qui sotto e ti aiuto!",
+    "sparkyInputPlaceholder": "Chiedi qualcosa a Sparky sulla tua storia…",
+    "sparkyAsk": "Chiedi",
+    "sparkyPrompt": {
+      "character": "Dammi un personaggio buffo",
+      "next": "Cosa succede dopo?",
+      "name": "Aiutami a dare un nome al mio drago",
+      "ending": "Rendi emozionante il mio finale"
+    },
+    "drawHeading": "5. Disegna un'immagine per la tua storia",
+    "drawLead": "Racconta all'IA cosa immagini e dipingerà il disegno per te.",
+    "drawPlaceholder": "Un drago viola che mangia una ciambella…",
+    "drawButton": "Disegnalo!",
+    "drawGenerating": "Sto disegnando…",
+    "drawEmpty": "Il tuo disegno apparirà qui",
+    "drawError": "Non sono riuscito a disegnarlo. Riprova tra un momento.",
+    "drawSpeak": "Parla",
+    "tipTimerTitle": "Dieci minuti",
+    "tipTimerBody": "Imposta un timer. Scrivi finché non suona. Non fermarti a correggere.",
+    "tipTimerStart": "Avvia",
+    "tipTimerDone": "Tempo scaduto! 🎉",
+    "tipVoiceTitle": "Dillo ad alta voce",
+    "tipVoiceBody": "Non sai come si scrive? Usa il microfono nel Quaderno e parla.",
+    "tipReadTitle": "Leggila a qualcuno",
+    "tipReadBody": "Se ride o si stupisce, l'hai fatta bene.",
+    "ctaButton": "Vai a scriverla nel Quaderno →"
   }
 }

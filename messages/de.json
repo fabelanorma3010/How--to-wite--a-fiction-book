@@ -829,5 +829,63 @@
     "signInToPublish": "Melde dich an, um dies als echtes Kapitel zu veröffentlichen.",
     "publishedPanelsCount": "{count, plural, one {# Panel hat Kunst} other {# Panels haben Kunst}}",
     "publishSuccess": "Veröffentlicht in „{title}“."
+  },
+  "KidsCorner": {
+    "metaTitle": "Kinderecke — Storyburst",
+    "metaDescription": "Ein lustiger Ein-Seiten-Geschichtenstart für Kinder: Sticker wählen, freche Wörter klauen, eine Startzeile bekommen und Sparky um Hilfe bitten.",
+    "badge": "Für Kinder",
+    "heading": "Erfinde eine Geschichte, die ganz dir gehört",
+    "lead": "Wähle einen Sticker, schnapp dir ein freches Wort und schreib eine Seite. Das war's. Eine Seite ist schon eine echte Geschichte.",
+    "stickersHeading": "1. Wähle deine Sticker",
+    "stickersLead": "Tippe auf die, die du in deiner Geschichte haben willst. Sie sind deine Figuren und Orte.",
+    "wordsHeading": "2. Klau dir ein paar freche Wörter",
+    "wordsLead": "Schmuggle drei davon in deine Geschichte. Sie machen Sätze hüpfig.",
+    "funWords": [
+      "platsch",
+      "wackelig",
+      "plumps",
+      "riesengroß",
+      "flüstern",
+      "verrückt",
+      "schimmern",
+      "zischen"
+    ],
+    "starterHeading": "3. Fang mit diesem Satz an",
+    "starterAnother": "Gib mir einen anderen",
+    "starterLines": [
+      "Eines Morgens fingen meine Schuhe an zu reden, und sie hatten einen Plan.",
+      "Der letzte Keks im Glas wurde von einem sehr kleinen Drachen bewacht.",
+      "Niemand glaubte, dass die Pfütze im Garten wirklich eine Tür war.",
+      "Mein Rucksack rülpste, und so begann das Abenteuer.",
+      "Der Mond klopfte an mein Fenster und wollte sich eine Decke leihen."
+    ],
+    "sparkyHeading": "4. Frag Sparky, deinen Geschichtenhelfer",
+    "sparkyIntro": "Sparky ist ein freundlicher Roboterhelfer. Frag nach Ideen, Namen oder wie es weitergeht.",
+    "sparkyWelcome": "Hallo! Ich bin Sparky! Erzähl mir von deiner Geschichte, oder tippe unten auf einen Knopf und ich helfe dir!",
+    "sparkyInputPlaceholder": "Frag Sparky etwas zu deiner Geschichte…",
+    "sparkyAsk": "Fragen",
+    "sparkyPrompt": {
+      "character": "Gib mir eine lustige Figur",
+      "next": "Was passiert als Nächstes?",
+      "name": "Hilf mir, meinen Drachen zu benennen",
+      "ending": "Mach mein Ende spannend"
+    },
+    "drawHeading": "5. Male ein Bild zu deiner Geschichte",
+    "drawLead": "Erzähl der KI, was du dir vorstellst, und sie malt das Bild für dich.",
+    "drawPlaceholder": "Ein lila Drache isst einen Donut…",
+    "drawButton": "Malen!",
+    "drawGenerating": "Male gerade…",
+    "drawEmpty": "Dein Bild erscheint hier",
+    "drawError": "Konnte das nicht malen. Versuch es gleich nochmal.",
+    "drawSpeak": "Sprechen",
+    "tipTimerTitle": "Zehn Minuten",
+    "tipTimerBody": "Stell einen Timer. Schreib, bis er piept. Nicht anhalten zum Verbessern.",
+    "tipTimerStart": "Start",
+    "tipTimerDone": "Zeit um! 🎉",
+    "tipVoiceTitle": "Sag es laut",
+    "tipVoiceBody": "Kannst du es nicht schreiben? Nimm das Mikrofon im Notizbuch und sprich einfach.",
+    "tipReadTitle": "Lies es jemandem vor",
+    "tipReadBody": "Wenn sie lachen oder staunen, hast du es richtig gemacht.",
+    "ctaButton": "Ab ins Notizbuch schreiben →"
   }
 }

@@ -829,5 +829,63 @@
     "signInToPublish": "Connectez-vous pour publier ceci comme un vrai chapitre.",
     "publishedPanelsCount": "{count, plural, one {# case a un visuel} other {# cases ont un visuel}}",
     "publishSuccess": "Publié dans « {title} »."
+  },
+  "KidsCorner": {
+    "metaTitle": "Coin des enfants — Storyburst",
+    "metaDescription": "Un début d'histoire amusant en une page pour les enfants : choisis des autocollants, pique des mots rigolos, obtiens une phrase de départ et demande de l'aide à Sparky.",
+    "badge": "Pour les enfants",
+    "heading": "Crée une histoire qui n'appartient qu'à toi",
+    "lead": "Choisis un autocollant, attrape un mot rigolo, et écris une page. C'est tout. Une page, c'est déjà une vraie histoire.",
+    "stickersHeading": "1. Choisis tes autocollants",
+    "stickersLead": "Touche ceux que tu veux dans ton histoire. Ce sont tes personnages et tes lieux.",
+    "wordsHeading": "2. Pique quelques mots rigolos",
+    "wordsLead": "Glisses-en trois dans ton histoire. Ils rendent les phrases plus vivantes.",
+    "funWords": [
+      "floc",
+      "branlant",
+      "plouf",
+      "gigantesque",
+      "chuchoter",
+      "loufoque",
+      "scintiller",
+      "zou"
+    ],
+    "starterHeading": "3. Commence par cette phrase",
+    "starterAnother": "Donne-m'en une autre",
+    "starterLines": [
+      "Un matin, mes chaussures se sont mises à parler, et elles avaient un plan.",
+      "Le dernier biscuit du pot était gardé par un tout petit dragon.",
+      "Personne ne croyait que la flaque du jardin était en fait une porte.",
+      "Mon sac à dos a roté, et c'est comme ça que l'aventure a commencé.",
+      "La lune a frappé à ma fenêtre pour emprunter une couverture."
+    ],
+    "sparkyHeading": "4. Demande à Sparky, ton assistant d'histoires",
+    "sparkyIntro": "Sparky est un robot sympa qui aide. Demande-lui des idées, des noms, ou ce qui se passe ensuite.",
+    "sparkyWelcome": "Salut ! Je suis Sparky ! Parle-moi de ton histoire, ou touche un bouton ci-dessous et je t'aide !",
+    "sparkyInputPlaceholder": "Demande quelque chose à Sparky sur ton histoire…",
+    "sparkyAsk": "Demander",
+    "sparkyPrompt": {
+      "character": "Donne-moi un personnage rigolo",
+      "next": "Que se passe-t-il ensuite ?",
+      "name": "Aide-moi à nommer mon dragon",
+      "ending": "Rends ma fin palpitante"
+    },
+    "drawHeading": "5. Dessine une image pour ton histoire",
+    "drawLead": "Dis à l'IA ce que tu imagines et elle peindra le dessin pour toi.",
+    "drawPlaceholder": "Un dragon violet qui mange un donut…",
+    "drawButton": "Dessine-le !",
+    "drawGenerating": "Dessin en cours…",
+    "drawEmpty": "Ton dessin apparaîtra ici",
+    "drawError": "Impossible de dessiner ça. Réessaie dans un instant.",
+    "drawSpeak": "Parler",
+    "tipTimerTitle": "Dix minutes",
+    "tipTimerBody": "Mets un minuteur. Écris jusqu'au bip. Ne t'arrête pas pour corriger.",
+    "tipTimerStart": "Démarrer",
+    "tipTimerDone": "C'est l'heure ! 🎉",
+    "tipVoiceTitle": "Dis-le à voix haute",
+    "tipVoiceBody": "Tu ne sais pas l'écrire ? Utilise le micro du carnet et parle, tout simplement.",
+    "tipReadTitle": "Lis-la à quelqu'un",
+    "tipReadBody": "S'ils rient ou sont surpris, c'est réussi.",
+    "ctaButton": "Va l'écrire dans le Carnet →"
   }
 }

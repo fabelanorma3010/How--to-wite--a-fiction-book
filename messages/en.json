@@ -829,5 +829,63 @@
     "signInToPublish": "Log in to publish this as a real chapter.",
     "publishedPanelsCount": "{count, plural, one {# panel has art} other {# panels have art}}",
     "publishSuccess": "Published to \"{title}\"."
+  },
+  "KidsCorner": {
+    "metaTitle": "Kids Corner — Storyburst",
+    "metaDescription": "A fun, one-page story starter for kids: pick stickers, steal silly words, get a starter line, and ask Sparky for help.",
+    "badge": "For kids",
+    "heading": "Make a story that's all yours",
+    "lead": "Pick a sticker, grab a silly word, and write one page. That's it. One page is a real story.",
+    "stickersHeading": "1. Pick your stickers",
+    "stickersLead": "Tap the ones you want in your story. They're your characters and places.",
+    "wordsHeading": "2. Steal some fun words",
+    "wordsLead": "Sneak three of these into your story. They make sentences bouncy.",
+    "funWords": [
+      "squelch",
+      "wobbly",
+      "kerplunk",
+      "gigantic",
+      "whisper",
+      "bonkers",
+      "shimmer",
+      "zoom"
+    ],
+    "starterHeading": "3. Start with this line",
+    "starterAnother": "Give me another one",
+    "starterLines": [
+      "One morning my shoes started talking, and they had a plan.",
+      "The last cookie in the jar was guarded by a very small dragon.",
+      "Nobody believed the puddle in the garden was actually a doorway.",
+      "My backpack burped, and that is how the adventure started.",
+      "The moon knocked on my window and asked to borrow a blanket."
+    ],
+    "sparkyHeading": "4. Ask Sparky, your story helper",
+    "sparkyIntro": "Sparky is a friendly robot helper. Ask for ideas, names, or what happens next.",
+    "sparkyWelcome": "Hi! I'm Sparky! Tell me about your story, or tap a button below and I'll help!",
+    "sparkyInputPlaceholder": "Ask Sparky something about your story…",
+    "sparkyAsk": "Ask",
+    "sparkyPrompt": {
+      "character": "Give me a funny character",
+      "next": "What happens next?",
+      "name": "Help me name my dragon",
+      "ending": "Make my ending exciting"
+    },
+    "drawHeading": "5. Draw a picture for your story",
+    "drawLead": "Tell the AI what you see in your head and it will paint the picture for you.",
+    "drawPlaceholder": "A purple dragon eating a donut…",
+    "drawButton": "Draw it!",
+    "drawGenerating": "Drawing…",
+    "drawEmpty": "Your picture will appear here",
+    "drawError": "Could not draw that. Try again in a moment.",
+    "drawSpeak": "Speak",
+    "tipTimerTitle": "Ten minutes",
+    "tipTimerBody": "Set a timer. Write until it beeps. No stopping to fix things.",
+    "tipTimerStart": "Start",
+    "tipTimerDone": "Time's up! 🎉",
+    "tipVoiceTitle": "Say it out loud",
+    "tipVoiceBody": "Can't spell it? Use the microphone in the Notebook and just talk.",
+    "tipReadTitle": "Read it to someone",
+    "tipReadBody": "If they laugh or gasp, you did it right.",
+    "ctaButton": "Go write it in the Notebook →"
   }
 }
