@@ -590,12 +590,13 @@
     "save17": "· save 17%",
     "perMonth": "/month",
     "perYear": "/year",
-    "perWeek": "/week",
     "monthlyNote": "then billed monthly — cancel anytime",
     "annualNote": "then billed yearly — about 17% off",
-    "freeTitle": "Starter",
-    "freeSubtitle": "Everything you need to start — just $1 a week.",
-    "freeCta": "Get started — $1/week",
+    "freeTitle": "Free",
+    "freeSubtitle": "Everything you need to start — no account, no card.",
+    "forever": "forever",
+    "noStrings": "No strings",
+    "freeCta": "Start writing",
     "memberBadge": "Now available",
     "memberTitle": "Membership",
     "memberSubtitle": "For when you're serious about finishing your book.",
@@ -613,7 +614,7 @@
       "A public creator profile with up to 3 book uploads"
     ],
     "memberFeatures": [
-      "Everything in Starter, with much higher AI limits",
+      "Everything in Free, with much higher AI limits",
       "Writing Tools work on full chapters and papers, not just short excerpts",
       "Export your notebook or script to formatted PDF and DOCX",
       "Notebook history — roll back to an earlier draft",
@@ -625,8 +626,8 @@
   "PricingFaq": {
     "items": [
       {
-        "question": "Is there a cheap way to try it before Membership?",
-        "answer": "Yes — the Starter tier is $1 a week, covering the quiz, generators, notebook, AI helper, writing tools, and publishing guide. Checkout runs through Whop, where you'll see the exact terms before you pay."
+        "question": "Will the Free tier always be free?",
+        "answer": "Yes. Everything on the Free tier today — the quiz, generators, notebook, AI helper, writing tools, and publishing guide — stays free. Membership adds extras on top; nothing you can already use will move behind a paywall."
       },
       {
         "question": "Can I sign up for Membership yet?",

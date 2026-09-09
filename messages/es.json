@@ -592,9 +592,11 @@
     "perYear": "/año",
     "monthlyNote": "luego se factura mensualmente — cancela cuando quieras",
     "annualNote": "luego se factura anualmente — un 17% menos aprox.",
-    "freeTitle": "Inicial",
-    "freeSubtitle": "Todo lo que necesitas para empezar: por solo 1 $ a la semana.",
-    "freeCta": "Empezar — 1 $/semana",
+    "freeTitle": "Gratis",
+    "freeSubtitle": "Todo lo que necesitas para empezar: sin cuenta, sin tarjeta.",
+    "forever": "para siempre",
+    "noStrings": "Sin condiciones",
+    "freeCta": "Empezar a escribir",
     "memberBadge": "Ya disponible",
     "memberTitle": "Membresía",
     "memberSubtitle": "Para cuando vas en serio con terminar tu libro.",
@@ -612,21 +614,20 @@
       "Un perfil público de creador con hasta 3 libros subidos"
     ],
     "memberFeatures": [
-      "Todo lo de Inicial, con límites de IA mucho más altos",
+      "Todo lo de Gratis, con límites de IA mucho más altos",
       "Las Herramientas de Escritura funcionan con capítulos y trabajos completos, no solo fragmentos cortos",
       "Exporta tu cuaderno o guion a PDF y DOCX con formato",
       "Historial del cuaderno: vuelve a un borrador anterior",
       "Subidas de libros ilimitadas, archivos más grandes",
       "Una insignia de Miembro en tu perfil público",
       "Soporte prioritario por correo"
-    ],
-    "perWeek": "/semana"
+    ]
   },
   "PricingFaq": {
     "items": [
       {
-        "question": "¿Hay una forma barata de probarlo antes de la Membresía?",
-        "answer": "Sí — el plan Inicial cuesta 1 $ a la semana e incluye el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación. El pago se procesa con Whop, donde verás las condiciones exactas antes de pagar."
+        "question": "¿El plan Gratis será siempre gratis?",
+        "answer": "Sí. Todo lo que hoy está en el plan Gratis —el test, los generadores, el cuaderno, el asistente de IA, las herramientas de escritura y la guía de publicación— sigue siendo gratis. La Membresía añade extras por encima; nada de lo que ya puedes usar pasará detrás de un muro de pago."
       },
       {
         "question": "¿Ya puedo suscribirme a la Membresía?",

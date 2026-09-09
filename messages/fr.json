@@ -592,9 +592,11 @@
     "perYear": "/an",
     "monthlyNote": "puis facturé mensuellement — annulable à tout moment",
     "annualNote": "puis facturé annuellement — environ 17 % de moins",
-    "freeTitle": "Découverte",
-    "freeSubtitle": "Tout ce qu'il faut pour commencer — pour seulement 1 $ par semaine.",
-    "freeCta": "Commencer — 1 $/semaine",
+    "freeTitle": "Gratuit",
+    "freeSubtitle": "Tout ce qu'il faut pour commencer — sans compte, sans carte.",
+    "forever": "pour toujours",
+    "noStrings": "Sans contrepartie",
+    "freeCta": "Commencer à écrire",
     "memberBadge": "Disponible maintenant",
     "memberTitle": "Abonnement",
     "memberSubtitle": "Pour quand vous êtes sérieux quant à finir votre livre.",
@@ -612,21 +614,20 @@
       "Un profil public de créateur avec jusqu'à 3 livres importés"
     ],
     "memberFeatures": [
-      "Tout ce qui est dans Découverte, avec des limites d'IA bien plus élevées",
+      "Tout ce qui est dans Gratuit, avec des limites d'IA bien plus élevées",
       "Les Outils d'écriture fonctionnent sur des chapitres et travaux complets, pas seulement de courts extraits",
       "Exportez votre carnet ou scénario en PDF et DOCX mis en forme",
       "Historique du carnet — revenez à un brouillon antérieur",
       "Imports de livres illimités, fichiers plus volumineux",
       "Un badge Membre sur votre profil public",
       "Support e-mail prioritaire"
-    ],
-    "perWeek": "/semaine"
+    ]
   },
   "PricingFaq": {
     "items": [
       {
-        "question": "Existe-t-il un moyen pas cher d'essayer avant l'abonnement ?",
-        "answer": "Oui — le palier Découverte coûte 1 $ par semaine, avec le quiz, les générateurs, le carnet, l'assistant IA, les outils d'écriture et le guide de publication. Le paiement passe par Whop, où vous verrez les conditions exactes avant de payer."
+        "question": "Le palier Gratuit sera-t-il toujours gratuit ?",
+        "answer": "Oui. Tout ce qui est dans le palier Gratuit aujourd'hui — le quiz, les générateurs, le carnet, l'assistant IA, les outils d'écriture et le guide de publication — reste gratuit. L'abonnement ajoute des extras par-dessus ; rien de ce que vous pouvez déjà utiliser ne passera derrière un paywall."
       },
       {
         "question": "Puis-je déjà souscrire à l'abonnement ?",
