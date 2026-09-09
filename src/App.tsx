@@ -12,8 +12,7 @@ import PanelBuilder from './components/PanelBuilder'
 import StoryNotebook from './components/StoryNotebook'
 import PublishSteps from './components/PublishSteps'
 import LaunchChecklist from './components/LaunchChecklist'
-// Community is temporarily off the homepage — see Header.tsx's navLinks for
-// the matching nav-tab removal. Re-add both to bring it back.
+import Community from './components/Community'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import FictionHelper from './components/FictionHelper'
@@ -54,6 +53,9 @@ function App() {
         </ScrollReveal>
         <ScrollReveal>
           <LaunchChecklist />
+        </ScrollReveal>
+        <ScrollReveal>
+          <Community />
         </ScrollReveal>
         <ScrollReveal>
           <ContactForm />

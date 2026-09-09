@@ -21,8 +21,7 @@ const navLinks = [
   { href: '/#panel-builder', key: 'bookPanel' },
   { href: '/#notebook', key: 'notebook' },
   { href: '/#publish', key: 'publish' },
-  // Community tab removed while the Community section is off the homepage —
-  // see App.tsx. Re-add { href: '/#community', key: 'community' } to restore.
+  { href: '/#community', key: 'community' },
 ] as const
 
 const pageLinks = [
