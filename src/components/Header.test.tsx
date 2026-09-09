@@ -38,7 +38,7 @@ describe('Header section tabs', () => {
     renderWithIntl(<Header />)
     const primaryNav = within(screen.getByRole('navigation', { name: 'Primary' }))
     expect(primaryNav.getByRole('link', { name: 'Quiz' })).toHaveAttribute('href', '/#quiz')
-    expect(primaryNav.getByRole('link', { name: 'Community' })).toHaveAttribute('href', '/#community')
+    expect(primaryNav.getByRole('link', { name: 'Publish' })).toHaveAttribute('href', '/#publish')
   })
 
   it('still work when already on the homepage', () => {
