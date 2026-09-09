@@ -14,15 +14,15 @@ interface AuthUser {
 }
 
 const navLinks = [
-  { href: '#quiz', key: 'quiz' },
-  { href: '#book-types', key: 'bookTypes' },
-  { href: '#action-generator', key: 'actionText' },
-  { href: '#illustration-generator', key: 'illustrations' },
-  { href: '#comic-planner', key: 'comicPanels' },
-  { href: '#manga-planner', key: 'mangaPanels' },
-  { href: '#notebook', key: 'notebook' },
-  { href: '#publish', key: 'publish' },
-  { href: '#community', key: 'community' },
+  { href: '/#quiz', key: 'quiz' },
+  { href: '/#book-types', key: 'bookTypes' },
+  { href: '/#action-generator', key: 'actionText' },
+  { href: '/#illustration-generator', key: 'illustrations' },
+  { href: '/#comic-planner', key: 'comicPanels' },
+  { href: '/#manga-planner', key: 'mangaPanels' },
+  { href: '/#notebook', key: 'notebook' },
+  { href: '/#publish', key: 'publish' },
+  { href: '/#community', key: 'community' },
 ] as const
 
 const pageLinks = [
@@ -91,19 +91,17 @@ export default function Header() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-x-0.5 lg:flex 2xl:gap-x-1">
-          {onHome && (
-            <div className="hidden items-center gap-x-0.5 xl:flex 2xl:gap-x-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
-                >
-                  {t(link.key)}
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="hidden items-center gap-x-0.5 xl:flex 2xl:gap-x-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="whitespace-nowrap rounded-full px-1.5 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink 2xl:px-3"
+              >
+                {t(link.key)}
+              </Link>
+            ))}
+          </div>
           {pageLinks.map((link) => (
             <Link
               key={link.href}
@@ -209,17 +207,16 @@ export default function Header() {
           inert={!open}
           className="flex min-h-0 flex-col gap-1 overflow-hidden border-t-4 border-ink/10 bg-page px-4 pb-4 pt-2"
         >
-          {onHome &&
-            navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
-              >
-                {t(link.key)}
-              </a>
-            ))}
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-3 font-semibold text-ink/80 transition-colors hover:bg-primary/15 hover:text-ink"
+            >
+              {t(link.key)}
+            </Link>
+          ))}
           {pageLinks.map((link) => (
             <Link
               key={link.href}
