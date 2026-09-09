@@ -21,6 +21,7 @@ const navLinks = [
   { href: '/#panel-builder', key: 'bookPanel' },
   { href: '/#notebook', key: 'notebook' },
   { href: '/#publish', key: 'publish' },
+  { href: '/#community', key: 'community' },
 ] as const
 
 const pageLinks = [
