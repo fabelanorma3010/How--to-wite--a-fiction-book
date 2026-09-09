@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# quadro tem arte} other {# quadros têm arte}}",
     "publishSuccess": "Publicado em \"{title}\".",
     "convertingPdf": "Convertendo PDF…",
-    "pdfConvertError": "Não foi possível ler esse PDF. Tente outro arquivo."
+    "pdfConvertError": "Não foi possível ler esse PDF. Tente outro arquivo.",
+    "downloadButton": "Baixar PDF",
+    "downloadingButton": "Preparando…",
+    "downloadError": "Não foi possível abrir a visualização de impressão. Tente novamente em instantes.",
+    "downloadDefaultTitle": "Meus quadros do livro"
   },
   "KidsCorner": {
     "metaTitle": "Cantinho infantil — Storyburst",

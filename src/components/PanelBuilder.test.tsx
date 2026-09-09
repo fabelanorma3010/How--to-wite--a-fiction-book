@@ -35,6 +35,11 @@ vi.mock('../lib/pdfToImage', () => ({
   rasterizePdfFirstPage: (file: File) => rasterizeMock(file),
 }))
 
+const downloadBookAsPdfMock = vi.fn().mockResolvedValue(undefined)
+vi.mock('../lib/downloadBookPdf', () => ({
+  downloadBookAsPdf: (...args: unknown[]) => downloadBookAsPdfMock(...args),
+}))
+
 function getStage() {
   return screen.getByRole('button', { name: /previous page/i }).parentElement!
 }
@@ -148,6 +153,31 @@ describe('PanelBuilder', () => {
 
     await user.click(within(stage).getByText('Panel 1'))
     expect(await screen.findByText(/upload image/i)).toBeInTheDocument()
+  })
+
+  it('offers a Download button once a panel has art, and it works while signed out', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ image: 'https://example.com/generated.png' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    expect(screen.queryByRole('button', { name: /download pdf/i })).not.toBeInTheDocument()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.type(screen.getByPlaceholderText(/describe an image/i), 'a dragon')
+    await user.click(screen.getByRole('button', { name: /generate/i }))
+
+    const downloadBtn = await screen.findByRole('button', { name: /download pdf/i })
+    await user.click(downloadBtn)
+
+    await waitFor(() => expect(downloadBookAsPdfMock).toHaveBeenCalled())
+    const [book, chapters] = downloadBookAsPdfMock.mock.calls[0]
+    expect(book.title).toBe('My Book Panel')
+    expect(chapters[0].pages).toEqual(['https://example.com/generated.png'])
   })
 
   it('accepts a PDF in the panel-art file picker', async () => {

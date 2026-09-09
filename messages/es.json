@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# viñeta tiene arte} other {# viñetas tienen arte}}",
     "publishSuccess": "Publicado en \"{title}\".",
     "convertingPdf": "Convirtiendo PDF…",
-    "pdfConvertError": "No se pudo leer ese PDF. Prueba con otro archivo."
+    "pdfConvertError": "No se pudo leer ese PDF. Prueba con otro archivo.",
+    "downloadButton": "Descargar PDF",
+    "downloadingButton": "Preparando…",
+    "downloadError": "No se pudo abrir la vista de impresión. Inténtalo de nuevo en un momento.",
+    "downloadDefaultTitle": "Mis viñetas de libro"
   },
   "KidsCorner": {
     "metaTitle": "Rincón infantil — Storyburst",

@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# Panel hat Kunst} other {# Panels haben Kunst}}",
     "publishSuccess": "Veröffentlicht in „{title}“.",
     "convertingPdf": "PDF wird umgewandelt…",
-    "pdfConvertError": "Diese PDF-Datei konnte nicht gelesen werden. Versuch eine andere Datei."
+    "pdfConvertError": "Diese PDF-Datei konnte nicht gelesen werden. Versuch eine andere Datei.",
+    "downloadButton": "PDF herunterladen",
+    "downloadingButton": "Wird vorbereitet…",
+    "downloadError": "Die Druckansicht konnte nicht geöffnet werden. Versuch es gleich noch einmal.",
+    "downloadDefaultTitle": "Mein Buch-Panel"
   },
   "KidsCorner": {
     "metaTitle": "Kinderecke — Storyburst",

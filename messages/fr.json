@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# case a un visuel} other {# cases ont un visuel}}",
     "publishSuccess": "Publié dans « {title} ».",
     "convertingPdf": "Conversion du PDF…",
-    "pdfConvertError": "Impossible de lire ce PDF. Essayez un autre fichier."
+    "pdfConvertError": "Impossible de lire ce PDF. Essayez un autre fichier.",
+    "downloadButton": "Télécharger le PDF",
+    "downloadingButton": "Préparation…",
+    "downloadError": "Impossible d'ouvrir l'aperçu d'impression. Réessayez dans un instant.",
+    "downloadDefaultTitle": "Mes cases de livre"
   },
   "KidsCorner": {
     "metaTitle": "Coin des enfants — Storyburst",

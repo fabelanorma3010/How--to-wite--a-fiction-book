@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# पैनल में आर्ट है} other {# पैनल में आर्ट है}}",
     "publishSuccess": "\"{title}\" में पब्लिश हो गया।",
     "convertingPdf": "PDF बदला जा रहा है…",
-    "pdfConvertError": "वह PDF नहीं पढ़ी जा सकी। कोई दूसरी फ़ाइल आज़माएँ।"
+    "pdfConvertError": "वह PDF नहीं पढ़ी जा सकी। कोई दूसरी फ़ाइल आज़माएँ।",
+    "downloadButton": "PDF डाउनलोड करें",
+    "downloadingButton": "तैयार की जा रही है…",
+    "downloadError": "प्रिंट व्यू नहीं खुल सका। कुछ देर में फिर कोशिश करें।",
+    "downloadDefaultTitle": "मेरा पुस्तक पैनल"
   },
   "KidsCorner": {
     "metaTitle": "किड्स कॉर्नर — Storyburst",

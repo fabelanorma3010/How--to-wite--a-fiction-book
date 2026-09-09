@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, other {#コマに絵があります}}",
     "publishSuccess": "「{title}」に公開しました。",
     "convertingPdf": "PDFを変換中…",
-    "pdfConvertError": "そのPDFを読み込めませんでした。別のファイルをお試しください。"
+    "pdfConvertError": "そのPDFを読み込めませんでした。別のファイルをお試しください。",
+    "downloadButton": "PDFをダウンロード",
+    "downloadingButton": "準備中…",
+    "downloadError": "印刷プレビューを開けませんでした。少し経ってからもう一度お試しください。",
+    "downloadDefaultTitle": "わたしの本のコマ割り"
   },
   "KidsCorner": {
     "metaTitle": "キッズコーナー — Storyburst",
