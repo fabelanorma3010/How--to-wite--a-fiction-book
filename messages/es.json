@@ -100,6 +100,7 @@
     "localNote": "Se guarda en este navegador, así que estará aquí la próxima vez que vengas. Inicia sesión para sincronizarlo entre dispositivos.",
     "exportNote": "Expórtalo a PDF o Word cuando quieras llevarlo a otro sitio.",
     "placeholder": "Érase una vez... (la debilidad secreta de tu héroe, un giro de trama demoledor, esa línea de diálogo perfecta: ¡escríbelo aquí antes de olvidarlo!)",
+    "emojisLabel": "Añadir un emoji:",
     "wordCount": "{count, plural, one {# palabra} other {# palabras}}",
     "synced": "Sincronizado con tu cuenta ✓",
     "saved": "Guardado ✓",

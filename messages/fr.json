@@ -100,6 +100,7 @@
     "localNote": "Il est enregistré dans ce navigateur, il sera donc là à votre prochaine visite. Connectez-vous pour le synchroniser entre appareils.",
     "exportNote": "Exportez-le en PDF ou Word quand vous voulez l'emporter ailleurs.",
     "placeholder": "Il était une fois... (la faiblesse secrète de votre héros, un rebondissement redoutable, cette réplique parfaite — écrivez-la ici avant de l'oublier !)",
+    "emojisLabel": "Ajouter un emoji :",
     "wordCount": "{count, plural, one {# mot} other {# mots}}",
     "synced": "Synchronisé avec votre compte ✓",
     "saved": "Enregistré ✓",

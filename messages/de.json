@@ -100,6 +100,7 @@
     "localNote": "Es wird direkt in diesem Browser gespeichert und ist beim nächsten Besuch wieder da. Melde dich an, um es geräteübergreifend zu synchronisieren.",
     "exportNote": "Exportiere es als PDF oder Word, wann immer du es woanders hin mitnehmen willst.",
     "placeholder": "Es war einmal... (die geheime Schwäche deines Helden, eine umwerfende Wendung, diese perfekte Dialogzeile — schreib sie hier auf, bevor du sie vergisst!)",
+    "emojisLabel": "Emoji einfügen:",
     "wordCount": "{count, plural, one {# Wort} other {# Wörter}}",
     "synced": "Mit deinem Konto synchronisiert ✓",
     "saved": "Gespeichert ✓",

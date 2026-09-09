@@ -100,6 +100,7 @@
     "localNote": "È salvato in questo browser, quindi sarà qui alla tua prossima visita. Accedi per sincronizzarlo tra i dispositivi.",
     "exportNote": "Esportalo in PDF o Word ogni volta che vuoi portarlo altrove.",
     "placeholder": "C'era una volta... (la debolezza segreta del tuo eroe, un colpo di scena devastante, quella battuta perfetta — scrivila qui prima di dimenticarla!)",
+    "emojisLabel": "Aggiungi un emoji:",
     "wordCount": "{count, plural, one {# parola} other {# parole}}",
     "synced": "Sincronizzato con il tuo account ✓",
     "saved": "Salvato ✓",

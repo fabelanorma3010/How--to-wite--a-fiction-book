@@ -100,6 +100,7 @@
     "localNote": "It's saved right in this browser, so it'll be here next time you visit. Log in to sync it across devices.",
     "exportNote": "Export it to PDF or Word whenever you want to take it somewhere else.",
     "placeholder": "Once upon a time... (your hero's secret weakness, a killer plot twist, that perfect line of dialogue — write it here before you forget!)",
+    "emojisLabel": "Add an emoji:",
     "wordCount": "{count, plural, one {# word} other {# words}}",
     "synced": "Synced to your account ✓",
     "saved": "Saved ✓",
