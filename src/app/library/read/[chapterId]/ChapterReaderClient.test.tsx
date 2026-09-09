@@ -103,6 +103,28 @@ describe('ChapterReaderClient image pages', () => {
     expect(screen.getByText('Once there was a very small dragon.')).toBeInTheDocument()
   })
 
+  it('shows a "caption::" page as a bottom bar even on a comic (balloon) format', () => {
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({ pages: ['/a.png'], pageCaptions: ['caption::Meanwhile, across town...'] })}
+        prev={null}
+        next={null}
+      />,
+    )
+    expect(screen.getByText('Meanwhile, across town...')).toBeInTheDocument()
+  })
+
+  it('shows a "thought::" page with the thought-bubble treatment', () => {
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({ pages: ['/a.png'], pageCaptions: ['thought::I have a bad feeling about this.'] })}
+        prev={null}
+        next={null}
+      />,
+    )
+    expect(screen.getByText('I have a bad feeling about this.')).toBeInTheDocument()
+  })
+
   it('shows no caption UI at all when a page has no caption', () => {
     render(<ChapterReaderClient chapter={makeChapter({ pages: ['/a.png'], pageCaptions: [''] })} prev={null} next={null} />)
     expect(screen.getByRole('img', { name: 'Page 1' })).toBeInTheDocument()

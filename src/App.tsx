@@ -8,7 +8,7 @@ import BookQuiz from './components/BookQuiz'
 import BookTypes from './components/BookTypes'
 import ActionTextGenerator from './components/ActionTextGenerator'
 import IllustrationGenerator from './components/IllustrationGenerator'
-import PanelPlanner from './components/PanelPlanner'
+import PanelBuilder from './components/PanelBuilder'
 import StoryNotebook from './components/StoryNotebook'
 import PublishSteps from './components/PublishSteps'
 import LaunchChecklist from './components/LaunchChecklist'
@@ -43,10 +43,7 @@ function App() {
           <IllustrationGenerator selected={selectedType} onSelect={setSelectedType} />
         </ScrollReveal>
         <ScrollReveal>
-          <PanelPlanner mode="comic" />
-        </ScrollReveal>
-        <ScrollReveal>
-          <PanelPlanner mode="manga" />
+          <PanelBuilder />
         </ScrollReveal>
         <ScrollReveal>
           <StoryNotebook />
