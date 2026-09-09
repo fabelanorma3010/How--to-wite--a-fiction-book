@@ -820,7 +820,7 @@
     "generatingButton": "Generazione…",
     "generateButton": "Genera",
     "imageGenericError": "Impossibile generare quell'immagine. Riprova tra un momento.",
-    "imageFileError": "Le immagini devono essere PNG, JPEG o WebP, 10MB massimo.",
+    "imageFileError": "Le immagini devono essere PNG, JPEG, WebP o PDF, 10MB massimo.",
     "loadingBooks": "Caricamento dei tuoi libri…",
     "publishNoBooks": "Non hai ancora un libro corrispondente — creane uno prima nella tua pagina account.",
     "publishButton": "Pubblica come nuovo capitolo",
@@ -829,7 +829,9 @@
     "publishHeading": "Pubblica questo capitolo",
     "signInToPublish": "Accedi per pubblicare questo come un capitolo vero.",
     "publishedPanelsCount": "{count, plural, one {# vignetta ha un'illustrazione} other {# vignette hanno un'illustrazione}}",
-    "publishSuccess": "Pubblicato su \"{title}\"."
+    "publishSuccess": "Pubblicato su \"{title}\".",
+    "convertingPdf": "Conversione del PDF…",
+    "pdfConvertError": "Impossibile leggere quel PDF. Prova un altro file."
   },
   "KidsCorner": {
     "metaTitle": "Angolo dei bambini — Storyburst",

@@ -820,7 +820,7 @@
     "generatingButton": "生成中…",
     "generateButton": "生成",
     "imageGenericError": "画像を生成できませんでした。少し経ってからもう一度お試しください。",
-    "imageFileError": "画像はPNG、JPEG、WebPのいずれかで、10MBまでです。",
+    "imageFileError": "画像はPNG、JPEG、WebP、PDFのいずれかで、10MBまでです。",
     "loadingBooks": "あなたの本を読み込み中…",
     "publishNoBooks": "該当する本がまだありません——先にアカウントページで作成してください。",
     "publishButton": "新しいチャプターとして公開",
@@ -829,7 +829,9 @@
     "publishHeading": "この章を公開",
     "signInToPublish": "ログインするとこれを本当の章として公開できます。",
     "publishedPanelsCount": "{count, plural, other {#コマに絵があります}}",
-    "publishSuccess": "「{title}」に公開しました。"
+    "publishSuccess": "「{title}」に公開しました。",
+    "convertingPdf": "PDFを変換中…",
+    "pdfConvertError": "そのPDFを読み込めませんでした。別のファイルをお試しください。"
   },
   "KidsCorner": {
     "metaTitle": "キッズコーナー — Storyburst",

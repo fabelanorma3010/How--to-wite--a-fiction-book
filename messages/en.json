@@ -820,7 +820,7 @@
     "generatingButton": "Generating…",
     "generateButton": "Generate",
     "imageGenericError": "Could not generate that image. Try again in a moment.",
-    "imageFileError": "Images must be PNG, JPEG, or WebP, 10MB max.",
+    "imageFileError": "Images must be PNG, JPEG, WebP, or PDF, 10MB max.",
     "loadingBooks": "Loading your books…",
     "publishNoBooks": "You don't have a matching book yet — create one on your account page first.",
     "publishButton": "Publish as new chapter",
@@ -829,7 +829,9 @@
     "publishHeading": "Publish this chapter",
     "signInToPublish": "Log in to publish this as a real chapter.",
     "publishedPanelsCount": "{count, plural, one {# panel has art} other {# panels have art}}",
-    "publishSuccess": "Published to \"{title}\"."
+    "publishSuccess": "Published to \"{title}\".",
+    "convertingPdf": "Converting PDF…",
+    "pdfConvertError": "Could not read that PDF. Try a different file."
   },
   "KidsCorner": {
     "metaTitle": "Kids Corner — Storyburst",

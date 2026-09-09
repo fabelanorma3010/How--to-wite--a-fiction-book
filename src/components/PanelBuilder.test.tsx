@@ -1,10 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { screen, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
 import PanelBuilder from './PanelBuilder'
 
 const getUserMock = vi.fn()
+const uploadMock = vi.fn().mockResolvedValue({ error: null })
+const getPublicUrlMock = vi.fn().mockReturnValue({ data: { publicUrl: 'https://example.com/rasterized.png' } })
+const rasterizeMock = vi.fn()
 
 // Chainable query stub: every builder method returns itself, and awaiting
 // (or `.then`-ing) it resolves with an empty list — enough for the signed-in
@@ -21,7 +24,15 @@ function chainableEmptyQuery() {
 }
 
 vi.mock('../lib/supabase/client', () => ({
-  createClient: () => ({ auth: { getUser: getUserMock }, from: () => chainableEmptyQuery() }),
+  createClient: () => ({
+    auth: { getUser: getUserMock },
+    from: () => chainableEmptyQuery(),
+    storage: { from: () => ({ upload: uploadMock, getPublicUrl: getPublicUrlMock }) },
+  }),
+}))
+
+vi.mock('../lib/pdfToImage', () => ({
+  rasterizePdfFirstPage: (file: File) => rasterizeMock(file),
 }))
 
 function getStage() {
@@ -134,5 +145,52 @@ describe('PanelBuilder', () => {
 
     await user.click(within(stage).getByText('Panel 1'))
     expect(await screen.findByText(/upload image/i)).toBeInTheDocument()
+  })
+
+  it('accepts a PDF in the panel-art file picker', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    expect(input.accept).toContain('application/pdf')
+  })
+
+  it('rasterizes an uploaded PDF and stores the resulting image as the panel art', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const rasterizedFile = new File(['png-bytes'], 'reference.png', { type: 'image/png' })
+    rasterizeMock.mockResolvedValue(rasterizedFile)
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    const pdfFile = new File(['%PDF-1.4'], 'reference.pdf', { type: 'application/pdf' })
+    await user.upload(input, pdfFile)
+
+    await waitFor(() => expect(rasterizeMock).toHaveBeenCalledWith(pdfFile))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    const [, uploadedFile] = uploadMock.mock.calls[0]
+    expect(uploadedFile).toBe(rasterizedFile)
+    expect(await within(stage).findByAltText('')).toHaveAttribute('src', 'https://example.com/rasterized.png')
+  })
+
+  it('shows a translated error and skips upload when the PDF cannot be read', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    rasterizeMock.mockRejectedValue(new Error('broken pdf'))
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    const pdfFile = new File(['%PDF-1.4'], 'reference.pdf', { type: 'application/pdf' })
+    await user.upload(input, pdfFile)
+
+    expect(await screen.findByText(/could not read that pdf/i)).toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
   })
 })
