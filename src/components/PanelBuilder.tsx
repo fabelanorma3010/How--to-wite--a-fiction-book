@@ -167,6 +167,15 @@ export default function PanelBuilder() {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null))
   }, [])
 
+  // The header's "Comic Panels" / "Manga Panels" tabs both land here (this is
+  // one unified tool now), pointed at these two anchors — pick the matching
+  // style so the link lands on the style the visitor actually asked for.
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (hash === 'manga-planner') setStyle('manga')
+    else if (hash === 'comic-planner') setStyle('comic')
+  }, [])
+
   useEffect(() => {
     if (!userId) {
       setBooks([])
@@ -340,6 +349,8 @@ export default function PanelBuilder() {
 
   return (
     <section id="panel-builder" className="px-4 py-16 sm:px-6">
+      <span id="comic-planner" className="sr-only" aria-hidden="true" />
+      <span id="manga-planner" className="sr-only" aria-hidden="true" />
       <div
         className="relative mx-auto max-w-3xl rounded-3xl border-2 p-6 shadow-sm sm:p-10"
         style={{ background: theme.pageBg, borderColor: `${theme.ink}1a` }}

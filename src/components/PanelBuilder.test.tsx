@@ -40,7 +40,10 @@ function getStage() {
 }
 
 describe('PanelBuilder', () => {
-  afterEach(() => vi.clearAllMocks())
+  afterEach(() => {
+    vi.clearAllMocks()
+    window.location.hash = ''
+  })
 
   it('opens on Comic with the 3-across layout, showing 3 numbered panels', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
@@ -176,6 +179,22 @@ describe('PanelBuilder', () => {
     const [, uploadedFile] = uploadMock.mock.calls[0]
     expect(uploadedFile).toBe(rasterizedFile)
     expect(await within(stage).findByAltText('')).toHaveAttribute('src', 'https://example.com/rasterized.png')
+  })
+
+  it('exposes #comic-planner and #manga-planner anchors so the header tabs land here', () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const { container } = renderWithIntl(<PanelBuilder />)
+    expect(container.querySelector('#comic-planner')).toBeInTheDocument()
+    expect(container.querySelector('#manga-planner')).toBeInTheDocument()
+  })
+
+  it('pre-selects Manga when landing via the #manga-planner anchor', () => {
+    window.location.hash = '#manga-planner'
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    renderWithIntl(<PanelBuilder />)
+
+    expect(screen.getByRole('button', { name: 'Manga' })).toHaveStyle({ color: '#fff' })
+    expect(screen.getByRole('button', { name: 'Comic book' })).not.toHaveStyle({ color: '#fff' })
   })
 
   it('shows a translated error and skips upload when the PDF cannot be read', async () => {
