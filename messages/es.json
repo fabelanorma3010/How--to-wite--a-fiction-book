@@ -829,5 +829,63 @@
     "signInToPublish": "Inicia sesión para publicar esto como un capítulo real.",
     "publishedPanelsCount": "{count, plural, one {# viñeta tiene arte} other {# viñetas tienen arte}}",
     "publishSuccess": "Publicado en \"{title}\"."
+  },
+  "KidsCorner": {
+    "metaTitle": "Rincón infantil — Storyburst",
+    "metaDescription": "Un divertido inicio de historia de una página para niños: elige pegatinas, roba palabras graciosas, consigue una frase inicial y pide ayuda a Sparky.",
+    "badge": "Para niños",
+    "heading": "Crea una historia que sea solo tuya",
+    "lead": "Elige una pegatina, agarra una palabra graciosa y escribe una página. Eso es todo. Una página ya es una historia de verdad.",
+    "stickersHeading": "1. Elige tus pegatinas",
+    "stickersLead": "Toca las que quieras en tu historia. Son tus personajes y lugares.",
+    "wordsHeading": "2. Róbate algunas palabras divertidas",
+    "wordsLead": "Cuela tres de estas en tu historia. Hacen que las frases salten.",
+    "funWords": [
+      "chapoteo",
+      "tambaleante",
+      "plaf",
+      "gigantesco",
+      "susurro",
+      "chiflado",
+      "brillar",
+      "zumbido"
+    ],
+    "starterHeading": "3. Empieza con esta frase",
+    "starterAnother": "Dame otra",
+    "starterLines": [
+      "Una mañana mis zapatos empezaron a hablar, y tenían un plan.",
+      "La última galleta del frasco estaba vigilada por un dragón muy pequeño.",
+      "Nadie creía que el charco del jardín fuera en realidad una puerta.",
+      "Mi mochila eructó, y así empezó la aventura.",
+      "La luna tocó mi ventana y me pidió prestada una manta."
+    ],
+    "sparkyHeading": "4. Pregúntale a Sparky, tu ayudante de historias",
+    "sparkyIntro": "Sparky es un robot amigable que ayuda. Pídele ideas, nombres o qué pasa después.",
+    "sparkyWelcome": "¡Hola! ¡Soy Sparky! Cuéntame sobre tu historia, o toca un botón abajo y te ayudo.",
+    "sparkyInputPlaceholder": "Pregúntale algo a Sparky sobre tu historia…",
+    "sparkyAsk": "Preguntar",
+    "sparkyPrompt": {
+      "character": "Dame un personaje gracioso",
+      "next": "¿Qué pasa después?",
+      "name": "Ayúdame a nombrar a mi dragón",
+      "ending": "Haz mi final emocionante"
+    },
+    "drawHeading": "5. Dibuja una imagen para tu historia",
+    "drawLead": "Cuéntale a la IA lo que imaginas y te pintará el dibujo.",
+    "drawPlaceholder": "Un dragón morado comiendo una dona…",
+    "drawButton": "¡Dibújalo!",
+    "drawGenerating": "Dibujando…",
+    "drawEmpty": "Tu dibujo aparecerá aquí",
+    "drawError": "No pude dibujar eso. Inténtalo de nuevo en un momento.",
+    "drawSpeak": "Hablar",
+    "tipTimerTitle": "Diez minutos",
+    "tipTimerBody": "Pon un temporizador. Escribe hasta que suene. No pares a corregir.",
+    "tipTimerStart": "Empezar",
+    "tipTimerDone": "¡Se acabó el tiempo! 🎉",
+    "tipVoiceTitle": "Dilo en voz alta",
+    "tipVoiceBody": "¿No sabes escribirlo? Usa el micrófono del cuaderno y solo habla.",
+    "tipReadTitle": "Léesela a alguien",
+    "tipReadBody": "Si se ríen o se sorprenden, lo hiciste bien.",
+    "ctaButton": "Ve a escribirla en el Cuaderno →"
   }
 }
