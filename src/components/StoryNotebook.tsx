@@ -13,6 +13,8 @@ const STORAGE_KEY = 'storyburst-notebook'
 const FONT_SIZE_KEY = 'storyburst-notebook-font-size'
 const FONT_FAMILY_KEY = 'storyburst-notebook-font-family'
 
+const EMOJIS = ['✨', '💫', '❤️', '😊', '😢', '😱', '🔥', '⭐', '🌙', '☀️', '🌊', '🍃']
+
 const FONT_SIZES = { sm: '0.875rem', base: '1rem', lg: '1.25rem' } as const
 type FontSize = keyof typeof FONT_SIZES
 
@@ -40,6 +42,7 @@ export default function StoryNotebook() {
   const [fontSize, setFontSize] = useState<FontSize>('base')
   const [fontFamily, setFontFamily] = useState<FontFamily>('default')
   const saveTimeout = useRef<number | undefined>(undefined)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Always paint from this browser's copy first — instant, no network wait.
   useEffect(() => {
@@ -120,6 +123,19 @@ export default function StoryNotebook() {
     handleChange(text ? `${text} ${chunk}` : chunk)
   }
 
+  function insertAtCursor(snippet: string) {
+    const el = textareaRef.current
+    const start = el?.selectionStart ?? text.length
+    const end = el?.selectionEnd ?? text.length
+    handleChange(text.slice(0, start) + snippet + text.slice(end))
+    requestAnimationFrame(() => {
+      if (!el) return
+      el.focus()
+      const pos = start + snippet.length
+      el.setSelectionRange(pos, pos)
+    })
+  }
+
   function handleFontSizeChange(value: string) {
     if (!isFontSize(value)) return
     setFontSize(value)
@@ -180,6 +196,7 @@ export default function StoryNotebook() {
           </label>
           <textarea
             id="notebook-textarea"
+            ref={textareaRef}
             value={text}
             onChange={(e) => handleChange(e.target.value)}
             placeholder={t('placeholder')}
@@ -187,6 +204,20 @@ export default function StoryNotebook() {
             style={{ fontSize: FONT_SIZES[fontSize], fontFamily: FONT_FAMILIES[fontFamily] }}
             className="w-full resize-y rounded-2xl border-2 border-ink/15 bg-page/80 p-4 text-ink placeholder:text-ink/40 focus:border-primary/50"
           />
+
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            <span className="mr-1 text-xs font-bold text-ink/45">{t('emojisLabel')}</span>
+            {EMOJIS.map((emoji) => (
+              <button
+                key={emoji}
+                type="button"
+                onClick={() => insertAtCursor(emoji)}
+                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-base transition-transform hover:scale-110"
+              >
+                {emoji}
+              </button>
+            ))}
+          </div>
 
           <div className="mt-4">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
