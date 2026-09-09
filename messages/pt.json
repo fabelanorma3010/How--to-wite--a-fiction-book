@@ -187,7 +187,8 @@
     "reportSubmitting": "Enviando…",
     "reportSent": "Obrigado — vamos dar uma olhada.",
     "reportError": "Não foi possível enviar a denúncia.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "couldNotLike": "Não foi possível atualizar sua curtida."
   },
   "Contact": {
     "title": "Diga olá",

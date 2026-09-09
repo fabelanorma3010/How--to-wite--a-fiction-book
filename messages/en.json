@@ -187,7 +187,8 @@
     "reportSubmitting": "Submitting…",
     "reportSent": "Thanks — we'll take a look.",
     "reportError": "Couldn't submit the report.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "couldNotLike": "Could not update your like."
   },
   "Contact": {
     "title": "Say Hello",

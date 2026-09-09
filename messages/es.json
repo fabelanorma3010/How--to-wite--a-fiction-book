@@ -187,7 +187,8 @@
     "reportSubmitting": "Enviando…",
     "reportSent": "Gracias, le echaremos un vistazo.",
     "reportError": "No se pudo enviar la denuncia.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "couldNotLike": "No se pudo actualizar tu me gusta."
   },
   "Contact": {
     "title": "Saluda",

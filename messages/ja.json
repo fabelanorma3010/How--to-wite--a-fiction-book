@@ -187,7 +187,8 @@
     "reportSubmitting": "送信中…",
     "reportSent": "ありがとうございます——確認します。",
     "reportError": "報告を送信できませんでした。",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "couldNotLike": "「いいね」を更新できませんでした。"
   },
   "Contact": {
     "title": "こんにちは",

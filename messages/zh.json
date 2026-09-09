@@ -187,7 +187,8 @@
     "reportSubmitting": "提交中…",
     "reportSent": "谢谢——我们会处理的。",
     "reportError": "举报提交失败。",
-    "cancel": "取消"
+    "cancel": "取消",
+    "couldNotLike": "点赞更新失败。"
   },
   "Contact": {
     "title": "打个招呼",

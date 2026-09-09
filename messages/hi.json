@@ -187,7 +187,8 @@
     "reportSubmitting": "भेजा जा रहा है…",
     "reportSent": "धन्यवाद — हम इसे देखेंगे।",
     "reportError": "रिपोर्ट भेजी नहीं जा सकी।",
-    "cancel": "रद्द करें"
+    "cancel": "रद्द करें",
+    "couldNotLike": "लाइक अपडेट नहीं हो सकी।"
   },
   "Contact": {
     "title": "नमस्ते कहें",
