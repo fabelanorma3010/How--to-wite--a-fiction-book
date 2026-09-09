@@ -5,6 +5,7 @@ import type { BookFormat } from '../lib/books'
 import { createClient } from '../lib/supabase/client'
 import { encodeCaptionType, type CaptionType } from '../lib/captionType'
 import { rasterizePdfFirstPage } from '../lib/pdfToImage'
+import { downloadBookAsPdf } from '../lib/downloadBookPdf'
 import DictateButton from './DictateButton'
 
 type BuilderStyle = 'picturebook' | 'comic' | 'manga'
@@ -153,6 +154,8 @@ export default function PanelBuilder() {
   const [publishing, setPublishing] = useState(false)
   const [publishError, setPublishError] = useState('')
   const [publishedBookId, setPublishedBookId] = useState<string | null>(null)
+  const [downloading, setDownloading] = useState(false)
+  const [downloadError, setDownloadError] = useState('')
 
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
   const rtl = STYLE_RTL[style]
@@ -308,6 +311,17 @@ export default function PanelBuilder() {
 
   const filledPanels = pages.flatMap((page) => page.panels.filter((p) => p.image))
 
+  function flattenPages() {
+    const orderedPanels = pages.flatMap((page) => {
+      const panelCells = layoutCells(page.layout)
+      const ordered = rtl ? [...panelCells].reverse() : panelCells
+      return ordered.map((c) => page.panels[c.n - 1]).filter((p) => p.image)
+    })
+    const pagesOut = orderedPanels.map((p) => p.image!)
+    const pageCaptions = orderedPanels.map((p) => (p.text ? encodeCaptionType(p.textType ?? 'speech', p.text) : ''))
+    return { pagesOut, pageCaptions }
+  }
+
   async function handlePublish() {
     if (!selectedBookId || filledPanels.length === 0 || publishing) return
     setPublishing(true)
@@ -322,13 +336,7 @@ export default function PanelBuilder() {
         .order('chapter_number', { ascending: false })
         .limit(1)
       const nextNumber = existing && existing.length > 0 ? existing[0].chapter_number + 1 : 1
-      const orderedPanels = pages.flatMap((page) => {
-        const panelCells = layoutCells(page.layout)
-        const ordered = rtl ? [...panelCells].reverse() : panelCells
-        return ordered.map((c) => page.panels[c.n - 1]).filter((p) => p.image)
-      })
-      const pagesOut = orderedPanels.map((p) => p.image!)
-      const pageCaptions = orderedPanels.map((p) => (p.text ? encodeCaptionType(p.textType ?? 'speech', p.text) : ''))
+      const { pagesOut, pageCaptions } = flattenPages()
       const { error: insertError } = await supabase.from('book_chapters').insert({
         book_id: selectedBookId,
         chapter_number: nextNumber,
@@ -342,6 +350,35 @@ export default function PanelBuilder() {
       setPublishError(err instanceof Error ? err.message : t('imageGenericError'))
     } finally {
       setPublishing(false)
+    }
+  }
+
+  async function handleDownload() {
+    if (filledPanels.length === 0 || downloading) return
+    setDownloading(true)
+    setDownloadError('')
+    try {
+      const { pagesOut, pageCaptions } = flattenPages()
+      const title = books?.find((b) => b.id === selectedBookId)?.title || t('downloadDefaultTitle')
+      await downloadBookAsPdf(
+        { title, description: '' },
+        [
+          {
+            id: 'draft',
+            bookId: selectedBookId,
+            chapterNumber: 1,
+            title: null,
+            body: null,
+            pages: pagesOut,
+            pageCaptions,
+            publishedAt: new Date().toISOString(),
+          },
+        ],
+      )
+    } catch {
+      setDownloadError(t('downloadError'))
+    } finally {
+      setDownloading(false)
     }
   }
 
@@ -618,6 +655,20 @@ export default function PanelBuilder() {
                 {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
               </div>
             )}
+          </div>
+        )}
+
+        {filledPanels.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => void handleDownload()}
+              disabled={downloading}
+              className="flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {downloading ? t('downloadingButton') : `⬇️ ${t('downloadButton')}`}
+            </button>
+            {downloadError && <p className="text-xs font-semibold text-red-600">{downloadError}</p>}
           </div>
         )}
 

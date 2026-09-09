@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# panel has art} other {# panels have art}}",
     "publishSuccess": "Published to \"{title}\".",
     "convertingPdf": "Converting PDF…",
-    "pdfConvertError": "Could not read that PDF. Try a different file."
+    "pdfConvertError": "Could not read that PDF. Try a different file.",
+    "downloadButton": "Download PDF",
+    "downloadingButton": "Preparing…",
+    "downloadError": "Couldn't open the print view — try again in a moment.",
+    "downloadDefaultTitle": "My Book Panel"
   },
   "KidsCorner": {
     "metaTitle": "Kids Corner — Storyburst",

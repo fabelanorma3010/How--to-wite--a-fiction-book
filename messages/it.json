@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, one {# vignetta ha un'illustrazione} other {# vignette hanno un'illustrazione}}",
     "publishSuccess": "Pubblicato su \"{title}\".",
     "convertingPdf": "Conversione del PDF…",
-    "pdfConvertError": "Impossibile leggere quel PDF. Prova un altro file."
+    "pdfConvertError": "Impossibile leggere quel PDF. Prova un altro file.",
+    "downloadButton": "Scarica PDF",
+    "downloadingButton": "Preparazione…",
+    "downloadError": "Impossibile aprire l'anteprima di stampa. Riprova tra un momento.",
+    "downloadDefaultTitle": "Le mie vignette libro"
   },
   "KidsCorner": {
     "metaTitle": "Angolo dei bambini — Storyburst",

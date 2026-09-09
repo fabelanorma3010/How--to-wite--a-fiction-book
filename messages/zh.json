@@ -830,7 +830,11 @@
     "publishedPanelsCount": "{count, plural, other {已有 # 格配图}}",
     "publishSuccess": "已发布到\"{title}\"。",
     "convertingPdf": "正在转换 PDF…",
-    "pdfConvertError": "无法读取该 PDF，请尝试其他文件。"
+    "pdfConvertError": "无法读取该 PDF，请尝试其他文件。",
+    "downloadButton": "下载 PDF",
+    "downloadingButton": "准备中…",
+    "downloadError": "无法打开打印预览，请稍后重试。",
+    "downloadDefaultTitle": "我的图书分格"
   },
   "KidsCorner": {
     "metaTitle": "儿童角 — Storyburst",
