@@ -820,7 +820,7 @@
     "generatingButton": "Gerando…",
     "generateButton": "Gerar",
     "imageGenericError": "Não foi possível gerar essa imagem. Tente novamente em instantes.",
-    "imageFileError": "As imagens devem ser PNG, JPEG ou WebP, 10MB no máximo.",
+    "imageFileError": "As imagens devem ser PNG, JPEG, WebP ou PDF, 10MB no máximo.",
     "loadingBooks": "Carregando seus livros…",
     "publishNoBooks": "Você ainda não tem um livro correspondente — crie um na sua página de conta primeiro.",
     "publishButton": "Publicar como novo capítulo",
@@ -829,7 +829,9 @@
     "publishHeading": "Publicar este capítulo",
     "signInToPublish": "Faça login para publicar isso como um capítulo de verdade.",
     "publishedPanelsCount": "{count, plural, one {# quadro tem arte} other {# quadros têm arte}}",
-    "publishSuccess": "Publicado em \"{title}\"."
+    "publishSuccess": "Publicado em \"{title}\".",
+    "convertingPdf": "Convertendo PDF…",
+    "pdfConvertError": "Não foi possível ler esse PDF. Tente outro arquivo."
   },
   "KidsCorner": {
     "metaTitle": "Cantinho infantil — Storyburst",

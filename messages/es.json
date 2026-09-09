@@ -820,7 +820,7 @@
     "generatingButton": "Generando…",
     "generateButton": "Generar",
     "imageGenericError": "No se pudo generar esa imagen. Inténtalo de nuevo en un momento.",
-    "imageFileError": "Las imágenes deben ser PNG, JPEG o WebP, 10MB máximo.",
+    "imageFileError": "Las imágenes deben ser PNG, JPEG, WebP o PDF, 10MB máximo.",
     "loadingBooks": "Cargando tus libros…",
     "publishNoBooks": "Todavía no tienes un libro que coincida — crea uno en tu página de cuenta primero.",
     "publishButton": "Publicar como capítulo nuevo",
@@ -829,7 +829,9 @@
     "publishHeading": "Publicar este capítulo",
     "signInToPublish": "Inicia sesión para publicar esto como un capítulo real.",
     "publishedPanelsCount": "{count, plural, one {# viñeta tiene arte} other {# viñetas tienen arte}}",
-    "publishSuccess": "Publicado en \"{title}\"."
+    "publishSuccess": "Publicado en \"{title}\".",
+    "convertingPdf": "Convirtiendo PDF…",
+    "pdfConvertError": "No se pudo leer ese PDF. Prueba con otro archivo."
   },
   "KidsCorner": {
     "metaTitle": "Rincón infantil — Storyburst",

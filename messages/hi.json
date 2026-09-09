@@ -820,7 +820,7 @@
     "generatingButton": "बनाई जा रही है…",
     "generateButton": "बनाएं",
     "imageGenericError": "वह इमेज नहीं बन सकी। कुछ देर में फिर कोशिश करें।",
-    "imageFileError": "इमेज PNG, JPEG या WebP होनी चाहिए, अधिकतम 10MB।",
+    "imageFileError": "इमेज PNG, JPEG, WebP या PDF होनी चाहिए, अधिकतम 10MB।",
     "loadingBooks": "आपकी किताबें लोड हो रही हैं…",
     "publishNoBooks": "आपके पास अभी मेल खाती किताब नहीं है — पहले अपने खाता पेज पर एक बनाएं।",
     "publishButton": "नए चैप्टर के रूप में पब्लिश करें",
@@ -829,7 +829,9 @@
     "publishHeading": "यह चैप्टर पब्लिश करें",
     "signInToPublish": "इसे असली चैप्टर के रूप में पब्लिश करने के लिए लॉग इन करें।",
     "publishedPanelsCount": "{count, plural, one {# पैनल में आर्ट है} other {# पैनल में आर्ट है}}",
-    "publishSuccess": "\"{title}\" में पब्लिश हो गया।"
+    "publishSuccess": "\"{title}\" में पब्लिश हो गया।",
+    "convertingPdf": "PDF बदला जा रहा है…",
+    "pdfConvertError": "वह PDF नहीं पढ़ी जा सकी। कोई दूसरी फ़ाइल आज़माएँ।"
   },
   "KidsCorner": {
     "metaTitle": "किड्स कॉर्नर — Storyburst",

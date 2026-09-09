@@ -820,7 +820,7 @@
     "generatingButton": "生成中…",
     "generateButton": "生成",
     "imageGenericError": "无法生成该图片，请稍后重试。",
-    "imageFileError": "图片必须是 PNG、JPEG 或 WebP 格式，最大 10MB。",
+    "imageFileError": "图片必须是 PNG、JPEG、WebP 或 PDF 格式，最大 10MB。",
     "loadingBooks": "正在加载你的书…",
     "publishNoBooks": "你还没有匹配的书——请先在账户页面创建一本。",
     "publishButton": "发布为新章节",
@@ -829,7 +829,9 @@
     "publishHeading": "发布本章",
     "signInToPublish": "登录后即可将其发布为正式章节。",
     "publishedPanelsCount": "{count, plural, other {已有 # 格配图}}",
-    "publishSuccess": "已发布到\"{title}\"。"
+    "publishSuccess": "已发布到\"{title}\"。",
+    "convertingPdf": "正在转换 PDF…",
+    "pdfConvertError": "无法读取该 PDF，请尝试其他文件。"
   },
   "KidsCorner": {
     "metaTitle": "儿童角 — Storyburst",

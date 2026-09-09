@@ -820,7 +820,7 @@
     "generatingButton": "Génération…",
     "generateButton": "Générer",
     "imageGenericError": "Impossible de générer cette image. Réessayez dans un instant.",
-    "imageFileError": "Les images doivent être en PNG, JPEG ou WebP, 10 Mo maximum.",
+    "imageFileError": "Les images doivent être en PNG, JPEG, WebP ou PDF, 10 Mo maximum.",
     "loadingBooks": "Chargement de vos livres…",
     "publishNoBooks": "Vous n'avez pas encore de livre correspondant — créez-en un sur votre page de compte d'abord.",
     "publishButton": "Publier comme nouveau chapitre",
@@ -829,7 +829,9 @@
     "publishHeading": "Publier ce chapitre",
     "signInToPublish": "Connectez-vous pour publier ceci comme un vrai chapitre.",
     "publishedPanelsCount": "{count, plural, one {# case a un visuel} other {# cases ont un visuel}}",
-    "publishSuccess": "Publié dans « {title} »."
+    "publishSuccess": "Publié dans « {title} ».",
+    "convertingPdf": "Conversion du PDF…",
+    "pdfConvertError": "Impossible de lire ce PDF. Essayez un autre fichier."
   },
   "KidsCorner": {
     "metaTitle": "Coin des enfants — Storyburst",

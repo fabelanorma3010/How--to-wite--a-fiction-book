@@ -4,6 +4,7 @@ import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatTheme
 import type { BookFormat } from '../lib/books'
 import { createClient } from '../lib/supabase/client'
 import { encodeCaptionType, type CaptionType } from '../lib/captionType'
+import { rasterizePdfFirstPage } from '../lib/pdfToImage'
 import DictateButton from './DictateButton'
 
 type BuilderStyle = 'picturebook' | 'comic' | 'manga'
@@ -87,6 +88,8 @@ const TEXT_TYPE_ORDER: CaptionType[] = ['speech', 'caption', 'thought']
 const TEXT_TYPE_ICON: Record<CaptionType, string> = { speech: '💬', caption: '📝', thought: '💭' }
 
 const ACCEPTED_IMAGE = ['image/png', 'image/jpeg', 'image/webp']
+const PDF_TYPE = 'application/pdf'
+const ACCEPTED_UPLOAD = [...ACCEPTED_IMAGE, PDF_TYPE]
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
 const MAX_PAGES = 30
 
@@ -142,6 +145,7 @@ export default function PanelBuilder() {
   const [imagePrompt, setImagePrompt] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
   const [imageError, setImageError] = useState('')
+  const [convertingPdf, setConvertingPdf] = useState(false)
 
   const [userId, setUserId] = useState<string | null>(null)
   const [books, setBooks] = useState<PlannerBook[] | null>(null)
@@ -253,17 +257,38 @@ export default function PanelBuilder() {
   }
 
   async function handleUploadImage(file: File) {
-    if (selectedPanel === null || !userId) return
+    if (selectedPanel === null || !userId || convertingPdf) return
     setImageError('')
-    if (!ACCEPTED_IMAGE.includes(file.type) || file.size > MAX_IMAGE_BYTES) {
+    if (!ACCEPTED_UPLOAD.includes(file.type)) {
       setImageError(t('imageFileError'))
       return
     }
+
+    let uploadFile = file
+    if (file.type === PDF_TYPE) {
+      setConvertingPdf(true)
+      try {
+        uploadFile = await rasterizePdfFirstPage(file)
+      } catch {
+        setImageError(t('pdfConvertError'))
+        setConvertingPdf(false)
+        return
+      }
+      setConvertingPdf(false)
+    }
+
+    if (uploadFile.size > MAX_IMAGE_BYTES) {
+      setImageError(t('imageFileError'))
+      return
+    }
+
     const supabase = createClient()
     if (!supabase) return
-    const ext = file.name.split('.').pop() || 'jpg'
+    const ext = uploadFile.name.split('.').pop() || 'jpg'
     const path = `${userId}/builder-${style}-${pageIndex}-${selectedPanel}-${Date.now()}.${ext}`
-    const { error: uploadError } = await supabase.storage.from('books').upload(path, file, { contentType: file.type })
+    const { error: uploadError } = await supabase.storage
+      .from('books')
+      .upload(path, uploadFile, { contentType: uploadFile.type })
     if (uploadError) {
       setImageError(uploadError.message)
       return
@@ -537,11 +562,16 @@ export default function PanelBuilder() {
               <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
                 <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
                 {userId ? (
-                  <label className="cursor-pointer rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page">
-                    {t('uploadImage')}
+                  <label
+                    className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${
+                      convertingPdf ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
+                    }`}
+                  >
+                    {convertingPdf ? t('convertingPdf') : t('uploadImage')}
                     <input
                       type="file"
-                      accept={ACCEPTED_IMAGE.join(',')}
+                      accept={ACCEPTED_UPLOAD.join(',')}
+                      disabled={convertingPdf}
                       className="hidden"
                       onChange={(e) => {
                         const file = e.target.files?.[0]

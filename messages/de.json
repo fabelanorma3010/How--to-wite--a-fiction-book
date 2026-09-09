@@ -820,7 +820,7 @@
     "generatingButton": "Wird erzeugt…",
     "generateButton": "Erzeugen",
     "imageGenericError": "Das Bild konnte nicht erzeugt werden. Versuch es gleich noch einmal.",
-    "imageFileError": "Bilder müssen PNG, JPEG oder WebP sein, maximal 10 MB.",
+    "imageFileError": "Bilder müssen PNG, JPEG, WebP oder PDF sein, maximal 10 MB.",
     "loadingBooks": "Deine Bücher werden geladen…",
     "publishNoBooks": "Du hast noch kein passendes Buch — erstelle zuerst eins auf deiner Kontoseite.",
     "publishButton": "Als neues Kapitel veröffentlichen",
@@ -829,7 +829,9 @@
     "publishHeading": "Dieses Kapitel veröffentlichen",
     "signInToPublish": "Melde dich an, um dies als echtes Kapitel zu veröffentlichen.",
     "publishedPanelsCount": "{count, plural, one {# Panel hat Kunst} other {# Panels haben Kunst}}",
-    "publishSuccess": "Veröffentlicht in „{title}“."
+    "publishSuccess": "Veröffentlicht in „{title}“.",
+    "convertingPdf": "PDF wird umgewandelt…",
+    "pdfConvertError": "Diese PDF-Datei konnte nicht gelesen werden. Versuch eine andere Datei."
   },
   "KidsCorner": {
     "metaTitle": "Kinderecke — Storyburst",
