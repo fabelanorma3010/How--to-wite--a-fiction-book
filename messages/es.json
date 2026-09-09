@@ -313,7 +313,16 @@
         "cartoon": "Formas gomosas y con rebote, de estirar y encoger",
         "childrens": "Formas suaves, cálidas y sencillas"
       }
-    ]
+    ],
+    "ageQuestion": "¿Qué edad tiene quien va a leerlo?",
+    "ageIntro": "Esto nos ayuda a adaptar el cuestionario para ti.",
+    "agePlaceholder": "Edad",
+    "ageContinue": "Continuar",
+    "ageError": "Introduce una edad válida.",
+    "parentHeading": "¡Pide ayuda a un adulto!",
+    "parentBody": "Este cuestionario es para lectores de 13 años en adelante. Si eres más joven, pide a un padre, madre o tutor que continúe contigo.",
+    "parentApprove": "Un adulto dice que está bien ✓",
+    "parentChangeAge": "Esa no es mi edad"
   },
   "WriteGuide": {
     "metaTitle": "Cómo escribir {name} — Storyburst",

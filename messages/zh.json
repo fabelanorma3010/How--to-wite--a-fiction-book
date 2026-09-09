@@ -313,7 +313,16 @@
         "cartoon": "橡皮一样弹跳的、挤压与拉伸的形状",
         "childrens": "柔和、温暖、简单的形状"
       }
-    ]
+    ],
+    "ageQuestion": "阅读者多大了？",
+    "ageIntro": "这能帮助我们为你调整测验内容。",
+    "agePlaceholder": "年龄",
+    "ageContinue": "继续",
+    "ageError": "请输入有效的年龄。",
+    "parentHeading": "请一位大人来帮忙！",
+    "parentBody": "本测验适合13岁及以上的读者。如果你更小，请让家长或监护人陪同继续。",
+    "parentApprove": "大人说可以 ✓",
+    "parentChangeAge": "这不是我的年龄"
   },
   "WriteGuide": {
     "metaTitle": "如何写{name} — Storyburst",

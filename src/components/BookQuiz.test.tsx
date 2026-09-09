@@ -5,17 +5,64 @@ import { renderWithIntl } from '../test/renderWithIntl'
 import BookQuiz from './BookQuiz'
 import { QUIZ_QUESTION_COUNT } from '../data/quiz'
 
+async function enterAge(user: ReturnType<typeof userEvent.setup>, age: string) {
+  await user.type(screen.getByLabelText(/how old is the reader/i), age)
+  await user.click(screen.getByRole('button', { name: /continue/i }))
+}
+
 describe('BookQuiz', () => {
-  it('shows the first question with a progress indicator', () => {
+  it("asks for the reader's age before anything else", () => {
     renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    expect(screen.getByLabelText(/how old is the reader/i)).toBeInTheDocument()
+    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('rejects an empty or invalid age instead of proceeding', async () => {
+    const user = userEvent.setup()
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+
+    await user.click(screen.getByRole('button', { name: /continue/i }))
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('goes straight to question 1 for an age of 13 or older', async () => {
+    const user = userEvent.setup()
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+
+    await enterAge(user, '13')
     expect(screen.getByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
-    expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('requires parent approval for an age under 13, and blocks the quiz until given', async () => {
+    const user = userEvent.setup()
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+
+    await enterAge(user, '9')
+    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /grown-up says it's okay/i })).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /grown-up says it's okay/i }))
+    expect(screen.getByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
+  })
+
+  it('lets a mistaken age be corrected from the parent-approval screen', async () => {
+    const user = userEvent.setup()
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+
+    await enterAge(user, '9')
+    await user.click(screen.getByRole('button', { name: /not my age/i }))
+    expect(screen.getByLabelText(/how old is the reader/i)).toBeInTheDocument()
+
+    await enterAge(user, '30')
+    expect(screen.getByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
   })
 
   it('shows a result after answering every question, and calls onSelect when following it', async () => {
     const user = userEvent.setup()
     const onSelect = vi.fn()
     renderWithIntl(<BookQuiz onSelect={onSelect} />)
+    await enterAge(user, '25')
 
     for (let i = 0; i < QUIZ_QUESTION_COUNT; i++) {
       const fieldset = document.querySelector('fieldset')
@@ -31,9 +78,10 @@ describe('BookQuiz', () => {
     expect(onSelect).toHaveBeenCalledTimes(1)
   })
 
-  it('retaking the quiz returns to question 1', async () => {
+  it('retaking the quiz returns to question 1 without asking age again', async () => {
     const user = userEvent.setup()
     renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    await enterAge(user, '25')
 
     for (let i = 0; i < QUIZ_QUESTION_COUNT; i++) {
       const fieldset = document.querySelector('fieldset') as HTMLElement
@@ -50,6 +98,7 @@ describe('BookQuiz', () => {
   it('always picking the same option produces that book type as the result', async () => {
     const user = userEvent.setup()
     renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    await enterAge(user, '25')
 
     // The first option in each question is always the "comic" answer
     // (QUIZ_OPTION_ORDER[0]), so a straight-line comic answerer should win comic.

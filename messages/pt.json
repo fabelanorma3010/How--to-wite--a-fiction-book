@@ -313,7 +313,16 @@
         "cartoon": "Formas emborrachadas e saltitantes, de esticar e comprimir",
         "childrens": "Formas suaves, acolhedoras e simples"
       }
-    ]
+    ],
+    "ageQuestion": "Qual é a idade de quem vai ler?",
+    "ageIntro": "Isso nos ajuda a personalizar o quiz para você.",
+    "agePlaceholder": "Idade",
+    "ageContinue": "Continuar",
+    "ageError": "Digite uma idade válida.",
+    "parentHeading": "Peça ajuda a um adulto!",
+    "parentBody": "Este quiz é para leitores de 13 anos ou mais. Se você for mais novo, peça a um responsável para continuar com você.",
+    "parentApprove": "Um adulto disse que está tudo bem ✓",
+    "parentChangeAge": "Essa não é minha idade"
   },
   "WriteGuide": {
     "metaTitle": "Como escrever {name} — Storyburst",

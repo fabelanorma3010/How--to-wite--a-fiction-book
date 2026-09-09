@@ -313,7 +313,16 @@
         "cartoon": "Gummiartigen, federnden Squash-and-Stretch-Formen",
         "childrens": "Weichen, warmen, einfachen Formen"
       }
-    ]
+    ],
+    "ageQuestion": "Wie alt ist die Leserin oder der Leser?",
+    "ageIntro": "Das hilft uns, das Quiz für dich anzupassen.",
+    "agePlaceholder": "Alter",
+    "ageContinue": "Weiter",
+    "ageError": "Bitte gib ein gültiges Alter ein.",
+    "parentHeading": "Frag einen Erwachsenen!",
+    "parentBody": "Dieses Quiz ist für Leser:innen ab 13 Jahren. Wenn du jünger bist, lass es dir bitte von einem Elternteil oder einer Aufsichtsperson erlauben.",
+    "parentApprove": "Ein Erwachsener sagt, es ist okay ✓",
+    "parentChangeAge": "Das ist nicht mein Alter"
   },
   "WriteGuide": {
     "metaTitle": "Wie man {name} schreibt — Storyburst",
