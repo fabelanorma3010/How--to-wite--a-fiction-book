@@ -4,8 +4,7 @@
     "bookTypes": "图书类型",
     "actionText": "动作拟声词",
     "illustrations": "插画",
-    "comicPanels": "美式漫画分格",
-    "mangaPanels": "日式漫画分格",
+    "bookPanel": "图书分格",
     "notebook": "笔记本",
     "publish": "出版",
     "community": "社区",
@@ -784,7 +783,7 @@
     "s9Title": "9. 联系"
   },
   "PanelBuilder": {
-    "title": "分格创作工具",
+    "title": "图书分格",
     "lead": "为每页选择一种分格布局，然后点击某一格添加图片、对话气泡、说明文字或想法气泡。",
     "style": {
       "picturebook": "绘本",

@@ -4,8 +4,7 @@
     "bookTypes": "Book Types",
     "actionText": "Action Text",
     "illustrations": "Illustrations",
-    "comicPanels": "Comic Panels",
-    "mangaPanels": "Manga Panels",
+    "bookPanel": "Book Panel",
     "notebook": "Notebook",
     "publish": "Publish",
     "community": "Community",
@@ -784,7 +783,7 @@
     "s9Title": "9. Contact"
   },
   "PanelBuilder": {
-    "title": "Panel Builder",
+    "title": "Book Panel",
     "lead": "Pick a layout for each page, then tap a panel to add a picture, a speech bubble, a caption, or a thought bubble.",
     "style": {
       "picturebook": "Picture book",

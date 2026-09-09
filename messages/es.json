@@ -4,8 +4,7 @@
     "bookTypes": "Tipos de libro",
     "actionText": "Texto de acción",
     "illustrations": "Ilustraciones",
-    "comicPanels": "Viñetas cómic",
-    "mangaPanels": "Viñetas manga",
+    "bookPanel": "Viñetas de libro",
     "notebook": "Cuaderno",
     "publish": "Publicar",
     "community": "Comunidad",
@@ -784,7 +783,7 @@
     "s9Title": "9. Contacto"
   },
   "PanelBuilder": {
-    "title": "Creador de viñetas",
+    "title": "Viñetas de libro",
     "lead": "Elige un diseño para cada página y luego toca una viñeta para añadir una imagen, un globo de diálogo, un pie de foto o un globo de pensamiento.",
     "style": {
       "picturebook": "Libro ilustrado",

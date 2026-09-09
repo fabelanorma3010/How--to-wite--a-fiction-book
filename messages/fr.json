@@ -4,8 +4,7 @@
     "bookTypes": "Types de livres",
     "actionText": "Texte d'action",
     "illustrations": "Illustrations",
-    "comicPanels": "Cases BD",
-    "mangaPanels": "Cases manga",
+    "bookPanel": "Cases de livre",
     "notebook": "Carnet",
     "publish": "Publier",
     "community": "Communauté",
@@ -784,7 +783,7 @@
     "s9Title": "9. Contact"
   },
   "PanelBuilder": {
-    "title": "Créateur de cases",
+    "title": "Cases de livre",
     "lead": "Choisissez une mise en page pour chaque page, puis touchez une case pour ajouter une image, une bulle de dialogue, une légende ou une bulle de pensée.",
     "style": {
       "picturebook": "Livre illustré",

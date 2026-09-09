@@ -4,8 +4,7 @@
     "bookTypes": "Buchtypen",
     "actionText": "Action-Text",
     "illustrations": "Illustrationen",
-    "comicPanels": "Comic-Panels",
-    "mangaPanels": "Manga-Panels",
+    "bookPanel": "Buch-Panel",
     "notebook": "Notizbuch",
     "publish": "Veröffentlichen",
     "community": "Community",
@@ -784,7 +783,7 @@
     "s9Title": "9. Kontakt"
   },
   "PanelBuilder": {
-    "title": "Panel-Baukasten",
+    "title": "Buch-Panel",
     "lead": "Wähle für jede Seite ein Layout, dann tippe auf ein Panel, um ein Bild, eine Sprechblase, eine Bildunterschrift oder eine Gedankenblase hinzuzufügen.",
     "style": {
       "picturebook": "Bilderbuch",
