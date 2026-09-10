@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { bookTypeEmoji, type BookTypeId } from '../data/bookTypes'
 import { QUIZ_OPTION_ORDER, QUIZ_QUESTION_COUNT, type QuizQuestionCopy } from '../data/quiz'
@@ -6,6 +6,36 @@ import Sticker from './Sticker'
 
 interface BookQuizProps {
   onSelect: (id: BookTypeId) => void
+}
+
+const AGE_GATE_STORAGE_KEY = 'storyburst:quiz-age-gate'
+
+interface StoredAgeGate {
+  age: number
+  parentApproved: boolean
+}
+
+// Remembers the age-gate answer per browser so returning visitors go
+// straight into the quiz instead of re-answering it every visit.
+function loadStoredAgeGate(): StoredAgeGate | null {
+  try {
+    const raw = window.localStorage.getItem(AGE_GATE_STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    if (typeof parsed?.age !== 'number') return null
+    return { age: parsed.age, parentApproved: Boolean(parsed.parentApproved) }
+  } catch {
+    return null
+  }
+}
+
+function saveStoredAgeGate(next: StoredAgeGate | null) {
+  try {
+    if (next) window.localStorage.setItem(AGE_GATE_STORAGE_KEY, JSON.stringify(next))
+    else window.localStorage.removeItem(AGE_GATE_STORAGE_KEY)
+  } catch {
+    // Private browsing / storage full — the age gate just re-asks next visit.
+  }
 }
 
 export default function BookQuiz({ onSelect }: BookQuizProps) {
@@ -17,6 +47,13 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
   const [ageInput, setAgeInput] = useState('')
   const [ageError, setAgeError] = useState('')
   const [parentApproved, setParentApproved] = useState(false)
+
+  useEffect(() => {
+    const stored = loadStoredAgeGate()
+    if (!stored) return
+    setAge(stored.age)
+    setParentApproved(stored.parentApproved)
+  }, [])
 
   const questions = t.raw('questions') as QuizQuestionCopy[]
   const isFinished = step >= QUIZ_QUESTION_COUNT
@@ -34,13 +71,21 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
       return
     }
     setAgeError('')
-    setAge(Math.floor(parsed))
+    const nextAge = Math.floor(parsed)
+    setAge(nextAge)
+    saveStoredAgeGate({ age: nextAge, parentApproved: false })
   }
 
   function handleChangeAge() {
     setAge(null)
     setAgeInput('')
     setParentApproved(false)
+    saveStoredAgeGate(null)
+  }
+
+  function handleParentApprove() {
+    setParentApproved(true)
+    if (age !== null) saveStoredAgeGate({ age, parentApproved: true })
   }
 
   function handleAnswer(typeId: BookTypeId) {
@@ -110,7 +155,7 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <button
                   type="button"
-                  onClick={() => setParentApproved(true)}
+                  onClick={handleParentApprove}
                   className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
                 >
                   {t('parentApprove')}
