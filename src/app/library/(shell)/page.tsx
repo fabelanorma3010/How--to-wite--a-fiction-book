@@ -68,8 +68,8 @@ export default async function LibraryDiscoverPage({
           </div>
         )}
         <section className="mb-[48px] w-full">
-          <div className="flex gap-4 overflow-x-auto px-[16px] pb-4 hide-scrollbar md:px-[32px]">
-            <div className="group relative h-[480px] w-full shrink-0 overflow-hidden rounded-[0.75rem] border border-white/10 bg-noir-surface-container-low md:w-[85%] lg:w-[70%]">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[16px] pb-4 hide-scrollbar overscroll-x-contain md:px-[32px]">
+            <div className="group relative h-[480px] w-full shrink-0 snap-start overflow-hidden rounded-[0.75rem] border border-white/10 bg-noir-surface-container-low md:w-[85%] lg:w-[70%]">
               {hero.coverUrl ? (
                 <ShimmerNextImage
                   alt={`${hero.title} cover`}
@@ -121,12 +121,12 @@ export default async function LibraryDiscoverPage({
                 Recently Published
               </h3>
             </div>
-            <div className="flex gap-4 overflow-x-auto pb-4 pr-[16px] hide-scrollbar md:pr-[32px]">
+            <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pr-[16px] hide-scrollbar overscroll-x-contain md:pr-[32px]">
               {rest.map((book) => (
                 <Link
                   href={`/library/book/${book.id}`}
                   key={book.id}
-                  className="group flex w-40 shrink-0 flex-col gap-3 md:w-52"
+                  className="group flex w-40 shrink-0 snap-start flex-col gap-3 md:w-52"
                 >
                   <div className="relative flex aspect-[2/3] w-full items-center justify-center overflow-hidden rounded-[0.5rem] border border-white/10 bg-noir-surface-container shadow-lg shadow-black/50 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-noir-primary-fixed">
                     {book.coverUrl ? (
