@@ -844,7 +844,8 @@
     "downloadButton": "Scarica PDF",
     "downloadingButton": "Preparazione…",
     "downloadError": "Impossibile aprire l'anteprima di stampa. Riprova tra un momento.",
-    "downloadDefaultTitle": "Le mie vignette libro"
+    "downloadDefaultTitle": "Le mie vignette libro",
+    "publishViewBook": "Vedi il tuo libro →"
   },
   "KidsCorner": {
     "metaTitle": "Angolo dei bambini — Storyburst",

@@ -844,7 +844,8 @@
     "downloadButton": "PDF herunterladen",
     "downloadingButton": "Wird vorbereitet…",
     "downloadError": "Die Druckansicht konnte nicht geöffnet werden. Versuch es gleich noch einmal.",
-    "downloadDefaultTitle": "Mein Buch-Panel"
+    "downloadDefaultTitle": "Mein Buch-Panel",
+    "publishViewBook": "Buch ansehen →"
   },
   "KidsCorner": {
     "metaTitle": "Kinderecke — Storyburst",

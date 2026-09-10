@@ -844,7 +844,8 @@
     "downloadButton": "下载 PDF",
     "downloadingButton": "准备中…",
     "downloadError": "无法打开打印预览，请稍后重试。",
-    "downloadDefaultTitle": "我的图书分格"
+    "downloadDefaultTitle": "我的图书分格",
+    "publishViewBook": "查看你的书 →"
   },
   "KidsCorner": {
     "metaTitle": "儿童角 — Storyburst",

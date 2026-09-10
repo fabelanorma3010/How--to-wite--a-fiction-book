@@ -844,7 +844,8 @@
     "downloadButton": "PDFをダウンロード",
     "downloadingButton": "準備中…",
     "downloadError": "印刷プレビューを開けませんでした。少し経ってからもう一度お試しください。",
-    "downloadDefaultTitle": "わたしの本のコマ割り"
+    "downloadDefaultTitle": "わたしの本のコマ割り",
+    "publishViewBook": "本を見る →"
   },
   "KidsCorner": {
     "metaTitle": "キッズコーナー — Storyburst",

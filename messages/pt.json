@@ -844,7 +844,8 @@
     "downloadButton": "Baixar PDF",
     "downloadingButton": "Preparando…",
     "downloadError": "Não foi possível abrir a visualização de impressão. Tente novamente em instantes.",
-    "downloadDefaultTitle": "Meus quadros do livro"
+    "downloadDefaultTitle": "Meus quadros do livro",
+    "publishViewBook": "Ver seu livro →"
   },
   "KidsCorner": {
     "metaTitle": "Cantinho infantil — Storyburst",

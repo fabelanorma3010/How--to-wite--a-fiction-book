@@ -844,7 +844,8 @@
     "downloadButton": "PDF डाउनलोड करें",
     "downloadingButton": "तैयार की जा रही है…",
     "downloadError": "प्रिंट व्यू नहीं खुल सका। कुछ देर में फिर कोशिश करें।",
-    "downloadDefaultTitle": "मेरा पुस्तक पैनल"
+    "downloadDefaultTitle": "मेरा पुस्तक पैनल",
+    "publishViewBook": "अपनी किताब देखें →"
   },
   "KidsCorner": {
     "metaTitle": "किड्स कॉर्नर — Storyburst",

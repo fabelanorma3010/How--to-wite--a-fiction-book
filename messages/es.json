@@ -844,7 +844,8 @@
     "downloadButton": "Descargar PDF",
     "downloadingButton": "Preparando…",
     "downloadError": "No se pudo abrir la vista de impresión. Inténtalo de nuevo en un momento.",
-    "downloadDefaultTitle": "Mis viñetas de libro"
+    "downloadDefaultTitle": "Mis viñetas de libro",
+    "publishViewBook": "Ver tu libro →"
   },
   "KidsCorner": {
     "metaTitle": "Rincón infantil — Storyburst",

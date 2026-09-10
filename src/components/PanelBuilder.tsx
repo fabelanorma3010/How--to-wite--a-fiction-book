@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatThemes'
 import type { BookFormat } from '../lib/books'
@@ -710,7 +711,10 @@ export default function PanelBuilder() {
               {publishError && <p className="mt-2 text-xs font-semibold text-red-600">{publishError}</p>}
               {publishedBookId && (
                 <p className="mt-2 text-xs font-bold text-primary-content">
-                  {t('publishSuccess', { title: selectedBookTitle ?? '' })}
+                  {t('publishSuccess', { title: selectedBookTitle ?? '' })}{' '}
+                  <Link href={`/library/book/${publishedBookId}`} className="underline underline-offset-2">
+                    {t('publishViewBook')}
+                  </Link>
                 </p>
               )}
             </>
