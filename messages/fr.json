@@ -844,7 +844,8 @@
     "downloadButton": "Télécharger le PDF",
     "downloadingButton": "Préparation…",
     "downloadError": "Impossible d'ouvrir l'aperçu d'impression. Réessayez dans un instant.",
-    "downloadDefaultTitle": "Mes cases de livre"
+    "downloadDefaultTitle": "Mes cases de livre",
+    "publishViewBook": "Voir ton livre →"
   },
   "KidsCorner": {
     "metaTitle": "Coin des enfants — Storyburst",

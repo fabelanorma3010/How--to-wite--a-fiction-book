@@ -9,24 +9,28 @@ const uploadMock = vi.fn().mockResolvedValue({ error: null })
 const getPublicUrlMock = vi.fn().mockReturnValue({ data: { publicUrl: 'https://example.com/rasterized.png' } })
 const rasterizeMock = vi.fn()
 
-// Chainable query stub: every builder method returns itself, and awaiting
-// (or `.then`-ing) it resolves with an empty list — enough for the signed-in
-// books-fetch effect to settle without throwing.
-function chainableEmptyQuery() {
+// Chainable query stub: every builder method returns itself. Awaiting (or
+// `.then`-ing) it resolves per-table — an empty list by default, except
+// 'books' (so the signed-in books-fetch effect has something to select) and
+// 'book_chapters' inserts (so a real publish can succeed in tests).
+function chainableFor(table: string) {
   const builder: Record<string, unknown> = {}
   const self = () => builder
-  builder.select = self
-  builder.eq = self
-  builder.order = self
-  builder.limit = self
-  builder.then = (resolve: (v: { data: unknown[]; error: null }) => void) => resolve({ data: [], error: null })
+  ;['select', 'eq', 'order', 'limit'].forEach((method) => {
+    builder[method] = self
+  })
+  builder.insert = () => Promise.resolve({ error: null })
+  builder.then = (resolve: (v: { data: unknown[]; error: null }) => void) => {
+    if (table === 'books') return resolve({ data: [{ id: 'book-1', title: 'My Test Book' }], error: null })
+    return resolve({ data: [], error: null })
+  }
   return builder
 }
 
 vi.mock('../lib/supabase/client', () => ({
   createClient: () => ({
     auth: { getUser: getUserMock },
-    from: () => chainableEmptyQuery(),
+    from: (table: string) => chainableFor(table),
     storage: { from: () => ({ upload: uploadMock, getPublicUrl: getPublicUrlMock }) },
   }),
 }))
@@ -178,6 +182,29 @@ describe('PanelBuilder', () => {
     const [book, chapters] = downloadBookAsPdfMock.mock.calls[0]
     expect(book.title).toBe('My Book Panel')
     expect(chapters[0].pages).toEqual(['https://example.com/generated.png'])
+  })
+
+  it('shows a link to the book after a successful publish', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ image: 'https://example.com/generated.png' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.type(screen.getByPlaceholderText(/describe an image/i), 'a dragon')
+    await user.click(screen.getByRole('button', { name: /generate/i }))
+    await screen.findByRole('button', { name: /download pdf/i })
+
+    const publishButton = await screen.findByRole('button', { name: /publish as new chapter/i })
+    await user.click(publishButton)
+
+    expect(await screen.findByText(/published to "my test book"\./i)).toBeInTheDocument()
+    const viewBookLink = screen.getByRole('link', { name: /view your book/i })
+    expect(viewBookLink).toHaveAttribute('href', '/library/book/book-1')
   })
 
   it('accepts a PDF in the panel-art file picker', async () => {

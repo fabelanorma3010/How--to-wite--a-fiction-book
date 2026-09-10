@@ -844,7 +844,8 @@
     "downloadButton": "Download PDF",
     "downloadingButton": "Preparing…",
     "downloadError": "Couldn't open the print view — try again in a moment.",
-    "downloadDefaultTitle": "My Book Panel"
+    "downloadDefaultTitle": "My Book Panel",
+    "publishViewBook": "View your book →"
   },
   "KidsCorner": {
     "metaTitle": "Kids Corner — Storyburst",
