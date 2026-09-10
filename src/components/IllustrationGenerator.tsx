@@ -80,7 +80,7 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
   }
 
   return (
-    <section id="illustration-generator" className="px-4 py-16 sm:px-6">
+    <section id="illustration-generator" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
         <Sticker emoji="🎨" className="-top-2 -right-2 rotate-12 sm:-top-4 sm:-right-4" />
         <div className="text-center">

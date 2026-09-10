@@ -225,7 +225,7 @@ export default function Community() {
   }
 
   return (
-    <section id="community" className="px-4 py-16 sm:px-6">
+    <section id="community" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 💬</h2>

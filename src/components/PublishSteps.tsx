@@ -38,7 +38,7 @@ export default function PublishSteps() {
   const doneCount = steps.reduce((total, _, i) => total + (completed[i] ? 1 : 0), 0)
 
   return (
-    <section id="publish" className="px-4 py-16 sm:px-6">
+    <section id="publish" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="mx-auto max-w-3xl">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 🚀</h2>
