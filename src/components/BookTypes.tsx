@@ -14,7 +14,7 @@ export default function BookTypes({ selected, onSelect }: BookTypesProps) {
   const tips = t.raw(`types.${active.id}.tips`) as string[]
 
   return (
-    <section id="book-types" className="px-4 py-16 sm:px-6">
+    <section id="book-types" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="mx-auto max-w-5xl">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('sectionTitle')}</h2>

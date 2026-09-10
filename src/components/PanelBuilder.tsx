@@ -386,9 +386,9 @@ export default function PanelBuilder() {
   const selectedBookTitle = books?.find((b) => b.id === publishedBookId)?.title
 
   return (
-    <section id="panel-builder" className="px-4 py-16 sm:px-6">
-      <span id="comic-planner" className="sr-only" aria-hidden="true" />
-      <span id="manga-planner" className="sr-only" aria-hidden="true" />
+    <section id="panel-builder" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
+      <span id="comic-planner" className="sr-only scroll-mt-[116px] lg:scroll-mt-20" aria-hidden="true" />
+      <span id="manga-planner" className="sr-only scroll-mt-[116px] lg:scroll-mt-20" aria-hidden="true" />
       <div
         className="relative mx-auto max-w-3xl rounded-3xl border-2 p-6 shadow-sm sm:p-10"
         style={{ background: theme.pageBg, borderColor: `${theme.ink}1a` }}

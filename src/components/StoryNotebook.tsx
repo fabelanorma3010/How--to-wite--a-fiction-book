@@ -151,7 +151,7 @@ export default function StoryNotebook() {
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0
 
   return (
-    <section id="notebook" className="px-4 py-16 sm:px-6">
+    <section id="notebook" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">{t('title')} 📓</h2>

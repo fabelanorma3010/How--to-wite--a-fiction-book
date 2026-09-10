@@ -5,7 +5,7 @@ export default function Hero() {
   const t = useTranslations('Hero')
 
   return (
-    <section id="top" className="relative overflow-hidden px-4 pb-20 pt-14 sm:px-6 sm:pt-20">
+    <section id="top" className="relative scroll-mt-[116px] overflow-hidden px-4 pb-20 pt-14 sm:px-6 sm:pt-20 lg:scroll-mt-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-secondary/30 blur-2xl sm:h-72 sm:w-72"
