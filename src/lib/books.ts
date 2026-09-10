@@ -127,17 +127,20 @@ export interface RecentBook {
 /**
  * Newest books whose owner has a public profile, for the Discovery Feed.
  * RLS on public.books already restricts anonymous/public reads to
- * is_public owners, so no extra visibility filter is needed here.
+ * is_public owners, so no extra visibility filter is needed here. Pass
+ * bookType to restrict to one type (the Genres page links here with one).
  */
-export async function getRecentPublicBooks(limit = 12): Promise<RecentBook[]> {
+export async function getRecentPublicBooks(limit = 12, bookType?: BookTypeId): Promise<RecentBook[]> {
   const supabase = await createClient()
   if (!supabase) return []
 
-  const { data: rows } = await supabase
+  let query = supabase
     .from('books')
     .select('id, title, book_type, cover_url, user_id')
     .order('created_at', { ascending: false })
     .limit(limit)
+  if (bookType) query = query.eq('book_type', bookType)
+  const { data: rows } = await query
   if (!rows || rows.length === 0) return []
 
   const ids = [...new Set(rows.map((r) => r.user_id as string))]
@@ -181,4 +184,67 @@ export async function getChapterById(
     bookTitle: book?.title ?? '',
     bookType: (book?.book_type as BookFormat | null) ?? null,
   }
+}
+
+export interface FollowedUpdate {
+  chapterId: string
+  bookId: string
+  bookTitle: string
+  bookType: BookFormat | null
+  coverUrl: string | null
+  chapterNumber: number
+  chapterTitle: string | null
+  authorName: string
+  publishedAt: string
+}
+
+/**
+ * Recently published chapters from authors the given user follows, newest
+ * first. Empty for anyone not following anyone yet — the caller decides how
+ * to render that (e.g. a "follow some writers" prompt).
+ */
+export async function getFollowedUpdates(userId: string, limit = 20): Promise<FollowedUpdate[]> {
+  const supabase = await createClient()
+  if (!supabase) return []
+
+  const { data: followRows } = await supabase.from('follows').select('followed_id').eq('follower_id', userId)
+  const followedIds = (followRows ?? []).map((r) => r.followed_id as string)
+  if (followedIds.length === 0) return []
+
+  const { data: bookRows } = await supabase
+    .from('books')
+    .select('id, title, book_type, cover_url, user_id')
+    .in('user_id', followedIds)
+  const books = bookRows ?? []
+  if (books.length === 0) return []
+
+  const bookIds = books.map((b) => b.id as string)
+  const bookById = new Map(books.map((b) => [b.id as string, b]))
+
+  const { data: chapterRows } = await supabase
+    .from('book_chapters')
+    .select('id, book_id, chapter_number, title, published_at')
+    .in('book_id', bookIds)
+    .order('published_at', { ascending: false })
+    .limit(limit)
+
+  const authorIds = [...new Set(books.map((b) => b.user_id as string))]
+  const names = new Map<string, string>()
+  const { data: profiles } = await supabase.from('public_profiles').select('id, name').in('id', authorIds)
+  profiles?.forEach((p) => names.set(p.id as string, (p.name as string) ?? 'A writer'))
+
+  return (chapterRows ?? []).map((row) => {
+    const book = bookById.get(row.book_id as string)
+    return {
+      chapterId: row.id as string,
+      bookId: row.book_id as string,
+      bookTitle: (book?.title as string | undefined) ?? '',
+      bookType: (book?.book_type as BookFormat | null) ?? null,
+      coverUrl: (book?.cover_url as string | null | undefined) ?? null,
+      chapterNumber: row.chapter_number as number,
+      chapterTitle: row.title as string | null,
+      authorName: names.get((book?.user_id as string | undefined) ?? '') ?? 'A writer',
+      publishedAt: row.published_at as string,
+    }
+  })
 }
