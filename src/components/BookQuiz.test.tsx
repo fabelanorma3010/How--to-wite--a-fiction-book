@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
@@ -11,6 +11,10 @@ async function enterAge(user: ReturnType<typeof userEvent.setup>, age: string) {
 }
 
 describe('BookQuiz', () => {
+  afterEach(() => {
+    window.localStorage.clear()
+  })
+
   it("asks for the reader's age before anything else", () => {
     renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
     expect(screen.getByLabelText(/how old is the reader/i)).toBeInTheDocument()
@@ -108,5 +112,38 @@ describe('BookQuiz', () => {
     }
 
     expect(screen.getByText('Comic Book')).toBeInTheDocument()
+  })
+
+  it('remembers the age on a later visit and skips straight to the quiz', async () => {
+    const user = userEvent.setup()
+    const { unmount } = renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    await enterAge(user, '25')
+    unmount()
+
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    expect(await screen.findByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
+    expect(screen.queryByLabelText(/how old is the reader/i)).not.toBeInTheDocument()
+  })
+
+  it('remembers parent approval too, for a reader under 13', async () => {
+    const user = userEvent.setup()
+    const { unmount } = renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    await enterAge(user, '9')
+    await user.click(screen.getByRole('button', { name: /grown-up says it's okay/i }))
+    unmount()
+
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    expect(await screen.findByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
+  })
+
+  it('forgetting a mistaken age via "not my age" clears the memory too', async () => {
+    const user = userEvent.setup()
+    const { unmount } = renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    await enterAge(user, '9')
+    await user.click(screen.getByRole('button', { name: /not my age/i }))
+    unmount()
+
+    renderWithIntl(<BookQuiz onSelect={vi.fn()} />)
+    expect(await screen.findByLabelText(/how old is the reader/i)).toBeInTheDocument()
   })
 })
