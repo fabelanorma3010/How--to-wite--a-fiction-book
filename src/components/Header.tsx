@@ -18,6 +18,7 @@ const navLinks = [
   { href: '/book-types', key: 'bookTypes' },
   { href: '/action-generator', key: 'actionText' },
   { href: '/illustration-generator', key: 'illustrations' },
+  { href: '/picture-book', key: 'pictureBook' },
   { href: '/book-panel', key: 'bookPanel' },
   { href: '/notebook', key: 'notebook' },
   { href: '/publish', key: 'publish' },

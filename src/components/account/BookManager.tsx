@@ -219,7 +219,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
               <option value="chapterbook">📗 Chapter book (prose, not panels)</option>
             </select>
           </div>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 space-y-4">
             <div>
               <label htmlFor="book-cover" className={labelClass}>
                 Cover image
@@ -266,16 +266,43 @@ export default function BookManager({ userId, books }: { userId: string; books: 
               )}
             </div>
             <div>
-              <label htmlFor="book-file" className={labelClass}>
-                Book file (PDF/EPUB)
-              </label>
-              <input
-                id="book-file"
-                type="file"
-                accept={ACCEPTED_FILE.join(',')}
-                onChange={(e) => setBookFile(e.target.files?.[0] ?? null)}
-                className="w-full text-sm text-ink/70"
-              />
+              <label className={labelClass}>Your book file</label>
+              {bookFile ? (
+                <div className="flex items-center gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 px-4 py-3">
+                  <span className="text-2xl" aria-hidden="true">
+                    📄
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-bold text-ink">{bookFile.name}</p>
+                    <p className="text-xs text-ink/50">{(bookFile.size / (1024 * 1024)).toFixed(1)} MB</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setBookFile(null)}
+                    className="shrink-0 text-sm font-bold text-ink/50 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="book-file"
+                  className="flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border-2 border-dashed border-ink/20 bg-page/60 px-4 py-8 text-center transition-colors hover:border-primary/40 hover:bg-primary/5"
+                >
+                  <span className="text-3xl" aria-hidden="true">
+                    📄
+                  </span>
+                  <span className="font-bold text-ink">Tap to choose your PDF or EPUB</span>
+                  <span className="text-xs text-ink/50">Up to 50MB</span>
+                  <input
+                    id="book-file"
+                    type="file"
+                    accept={ACCEPTED_FILE.join(',')}
+                    onChange={(e) => setBookFile(e.target.files?.[0] ?? null)}
+                    className="hidden"
+                  />
+                </label>
+              )}
             </div>
           </div>
 

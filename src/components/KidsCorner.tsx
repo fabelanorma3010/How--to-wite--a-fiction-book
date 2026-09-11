@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { getHelperReply } from '../data/helper'
+import { saveStoredAgeGate } from '../lib/quizGate'
 import DictateButton from './DictateButton'
 
 const STICKERS = ['🐉', '🚀', '🦄', '🍩', '👑', '🐙', '🌈', '🧙']
@@ -31,8 +34,14 @@ function pick<T>(arr: readonly T[], not?: T): T {
 
 export default function KidsCorner() {
   const t = useTranslations('KidsCorner')
+  const router = useRouter()
   const funWords = t.raw('funWords') as string[]
   const starterLines = t.raw('starterLines') as string[]
+
+  function retakeQuiz() {
+    saveStoredAgeGate(null)
+    router.push('/quiz')
+  }
 
   const [pickedStickers, setPickedStickers] = useState<string[]>([])
   const [usedWords, setUsedWords] = useState<string[]>([])
@@ -174,6 +183,13 @@ export default function KidsCorner() {
             {t('heading')}
           </h1>
           <p className="max-w-xl text-lg font-semibold text-ink/70">{t('lead')}</p>
+          <button
+            type="button"
+            onClick={retakeQuiz}
+            className="text-sm font-bold text-ink/40 underline underline-offset-2 hover:text-ink/70"
+          >
+            {t('wrongAge')}
+          </button>
         </div>
       </section>
 
@@ -239,7 +255,12 @@ export default function KidsCorner() {
         </section>
 
         <section className="rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-extrabold text-ink">{t('sparkyHeading')} ✨</h2>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-xl font-extrabold text-ink">{t('sparkyHeading')} ✨</h2>
+            <span className="rounded-full border-2 border-dashed border-ink/20 px-3 py-1 text-xs font-bold text-ink/40">
+              {t('aiVoiceComingSoon')}
+            </span>
+          </div>
           <p className="mt-1 text-sm text-ink/60">{t('sparkyIntro')}</p>
 
           <div ref={scrollRef} aria-live="polite" className="mt-4 max-h-64 space-y-2.5 overflow-y-auto rounded-2xl bg-page/60 p-3">
@@ -352,6 +373,30 @@ export default function KidsCorner() {
             )}
           </div>
         </section>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <section className="rounded-3xl border-2 border-ink/10 bg-white/70 p-6 text-center shadow-sm sm:p-8">
+            <h2 className="text-xl font-extrabold text-ink">{t('colorHeading')}</h2>
+            <p className="mt-1 text-sm text-ink/60">{t('colorLead')}</p>
+            <Link
+              href="/picture-book"
+              className="mt-3 inline-block rounded-full bg-primary px-6 py-2.5 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
+            >
+              {t('colorButton')}
+            </Link>
+          </section>
+
+          <section className="rounded-3xl border-2 border-ink/10 bg-white/70 p-6 text-center shadow-sm sm:p-8">
+            <h2 className="text-xl font-extrabold text-ink">{t('notebookHeading')}</h2>
+            <p className="mt-1 text-sm text-ink/60">{t('notebookLead')}</p>
+            <Link
+              href="/notebook"
+              className="mt-3 inline-block rounded-full bg-primary px-6 py-2.5 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
+            >
+              {t('notebookButton')}
+            </Link>
+          </section>
+        </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border-2 border-ink/10 bg-white/70 p-5 text-center">
