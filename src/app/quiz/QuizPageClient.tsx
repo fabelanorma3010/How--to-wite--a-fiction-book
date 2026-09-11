@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -14,11 +15,15 @@ export default function QuizPageClient() {
     router.push(`/book-types?type=${type}`)
   }
 
+  const handleUnderage = useCallback(() => {
+    router.push('/kids')
+  }, [router])
+
   return (
     <div className="min-h-screen">
       <Header />
       <main>
-        <BookQuiz onSelect={handleSelect} />
+        <BookQuiz onSelect={handleSelect} onUnderage={handleUnderage} />
       </main>
       <Footer />
       <FictionHelper selected="comic" />
