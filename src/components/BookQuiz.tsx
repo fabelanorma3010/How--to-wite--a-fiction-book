@@ -4,43 +4,15 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { bookTypeEmoji, type BookTypeId } from '../data/bookTypes'
 import { QUIZ_OPTION_ORDER, QUIZ_QUESTION_COUNT, type QuizQuestionCopy } from '../data/quiz'
+import { loadStoredAgeGate, saveStoredAgeGate } from '../lib/quizGate'
 import Sticker from './Sticker'
 
 interface BookQuizProps {
   onSelect: (id: BookTypeId) => void
+  onUnderage: () => void
 }
 
-const AGE_GATE_STORAGE_KEY = 'storyburst:quiz-age-gate'
-
-interface StoredAgeGate {
-  age: number
-  parentApproved: boolean
-}
-
-// Remembers the age-gate answer per browser so returning visitors go
-// straight into the quiz instead of re-answering it every visit.
-function loadStoredAgeGate(): StoredAgeGate | null {
-  try {
-    const raw = window.localStorage.getItem(AGE_GATE_STORAGE_KEY)
-    if (!raw) return null
-    const parsed = JSON.parse(raw)
-    if (typeof parsed?.age !== 'number') return null
-    return { age: parsed.age, parentApproved: Boolean(parsed.parentApproved) }
-  } catch {
-    return null
-  }
-}
-
-function saveStoredAgeGate(next: StoredAgeGate | null) {
-  try {
-    if (next) window.localStorage.setItem(AGE_GATE_STORAGE_KEY, JSON.stringify(next))
-    else window.localStorage.removeItem(AGE_GATE_STORAGE_KEY)
-  } catch {
-    // Private browsing / storage full — the age gate just re-asks next visit.
-  }
-}
-
-export default function BookQuiz({ onSelect }: BookQuizProps) {
+export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
   const t = useTranslations('Quiz')
   const bt = useTranslations('BookTypes')
   const [step, setStep] = useState(0)
@@ -48,22 +20,32 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
   const [age, setAge] = useState<number | null>(null)
   const [ageInput, setAgeInput] = useState('')
   const [ageError, setAgeError] = useState('')
-  const [parentApproved, setParentApproved] = useState(false)
 
+  // A remembered under-13 reader is routed away every time, on mount —
+  // they never get to unblock quiz questions in this component again.
   useEffect(() => {
     const stored = loadStoredAgeGate()
     if (!stored) return
+    if (stored.age < 13) {
+      onUnderage()
+      return
+    }
     setAge(stored.age)
-    setParentApproved(stored.parentApproved)
-  }, [])
+  }, [onUnderage])
 
   const questions = t.raw('questions') as QuizQuestionCopy[]
   const isFinished = step >= QUIZ_QUESTION_COUNT
   const progress = Math.round((step / QUIZ_QUESTION_COUNT) * 100)
-  const needsParentApproval = age !== null && age < 13 && !parentApproved
-  const quizStarted = age !== null && !needsParentApproval
+  const needsParentApproval = age !== null && age < 13
+  const quizStarted = age !== null && age >= 13
 
   const resultId = isFinished ? getWinner(answers) : null
+
+  useEffect(() => {
+    if (quizStarted && isFinished && age !== null) {
+      saveStoredAgeGate({ age, parentApproved: false, completed: true })
+    }
+  }, [quizStarted, isFinished, age])
 
   function handleAgeSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -75,19 +57,22 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
     setAgeError('')
     const nextAge = Math.floor(parsed)
     setAge(nextAge)
-    saveStoredAgeGate({ age: nextAge, parentApproved: false })
+    saveStoredAgeGate({ age: nextAge, parentApproved: false, completed: false })
   }
 
   function handleChangeAge() {
     setAge(null)
     setAgeInput('')
-    setParentApproved(false)
     saveStoredAgeGate(null)
   }
 
+  // Parental approval doesn't unlock the quiz questions here — an
+  // under-13 reader belongs on Kids Corner instead, so approval just
+  // remembers that and routes them there.
   function handleParentApprove() {
-    setParentApproved(true)
-    if (age !== null) saveStoredAgeGate({ age, parentApproved: true })
+    if (age === null) return
+    saveStoredAgeGate({ age, parentApproved: true, completed: true })
+    onUnderage()
   }
 
   function handleAnswer(typeId: BookTypeId) {
