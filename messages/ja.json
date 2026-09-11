@@ -365,7 +365,8 @@
     "parentHeading": "おとなに聞いてみよう！",
     "parentBody": "このクイズは13歳以上の方向けです。それより若い場合は、保護者の方と一緒に進めてください。",
     "parentApprove": "おとなが「いいよ」と言っています ✓",
-    "parentChangeAge": "年齢が違います"
+    "parentChangeAge": "年齢が違います",
+    "changeAgeLink": "年齢が違う？変更する"
   },
   "WriteGuide": {
     "metaTitle": "{name}の書き方 — Storyburst",

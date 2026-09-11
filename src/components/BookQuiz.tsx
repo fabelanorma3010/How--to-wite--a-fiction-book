@@ -102,6 +102,18 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
         <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
           <Sticker emoji="🎯" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
 
+          {age !== null && !needsParentApproval && (
+            <div className="mb-4 text-center">
+              <button
+                type="button"
+                onClick={handleChangeAge}
+                className="text-xs font-bold text-ink/40 underline underline-offset-2 hover:text-ink/70"
+              >
+                {t('changeAgeLink')}
+              </button>
+            </div>
+          )}
+
           {age === null && (
             <form onSubmit={handleAgeSubmit} className="animate-slide-in text-center">
               <label htmlFor="quiz-age" className="text-xl font-extrabold text-ink sm:text-2xl">
