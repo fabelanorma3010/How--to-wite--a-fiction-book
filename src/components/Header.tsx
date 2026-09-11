@@ -21,8 +21,7 @@ const navLinks = [
   { href: '/book-panel', key: 'bookPanel' },
   { href: '/notebook', key: 'notebook' },
   { href: '/publish', key: 'publish' },
-  // Community tab removed while the Community page is unplugged —
-  // see Community.tsx. Re-add { href: '/community', key: 'community' } to restore.
+  { href: '/community', key: 'community' },
 ] as const
 
 const pageLinks = [
