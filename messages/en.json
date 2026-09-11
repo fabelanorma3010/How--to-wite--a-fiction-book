@@ -100,7 +100,8 @@
     "saving": "Saving…",
     "saved": "Saved!",
     "saveLoginPrompt": "Log In to Save This",
-    "saveError": "Could not save that — try again in a moment."
+    "saveError": "Could not save that — try again in a moment.",
+    "aiVoiceComingSoon": "AI Voice — Coming Soon"
   },
   "PictureBook": {
     "title": "Picture Book Maker",
@@ -113,7 +114,14 @@
     "prevPage": "Previous page",
     "nextPage": "Next page",
     "pageCount": "Page {current} of {total}",
+    "addPageLabel": "Add a blank page, or one ready to color in:",
     "addPage": "Add page",
+    "template": {
+      "dog": "Dog",
+      "cat": "Cat",
+      "dinosaur": "Dinosaur",
+      "rocket": "Rocket"
+    },
     "removePage": "Delete page",
     "deletePageConfirm": "Delete this page? This can't be undone.",
     "captionPlaceholder": "Write what happens on this page…",
@@ -957,6 +965,7 @@
     ],
     "sparkyHeading": "4. Ask Sparky, your story helper",
     "sparkyIntro": "Sparky is a friendly robot helper. Ask for ideas, names, or what happens next.",
+    "aiVoiceComingSoon": "🔊 AI Voice — Coming Soon",
     "sparkyWelcome": "Hi! I'm Sparky! Tell me about your story, or tap a button below and I'll help!",
     "sparkyInputPlaceholder": "Ask Sparky something about your story…",
     "sparkyAsk": "Ask",
@@ -974,6 +983,12 @@
     "drawEmpty": "Your picture will appear here",
     "drawError": "Could not draw that. Try again in a moment.",
     "drawSpeak": "Speak",
+    "colorHeading": "Color a Picture 🖍️",
+    "colorLead": "Grab pencils and crayons and color your own page in the Picture Book Maker.",
+    "colorButton": "Go Color",
+    "notebookHeading": "Story Notebook 📓",
+    "notebookLead": "Write your story down — or talk and let the microphone do the typing.",
+    "notebookButton": "Open Notebook",
     "tipTimerTitle": "Ten minutes",
     "tipTimerBody": "Set a timer. Write until it beeps. No stopping to fix things.",
     "tipTimerStart": "Start",

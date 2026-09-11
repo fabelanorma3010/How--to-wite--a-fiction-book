@@ -100,7 +100,8 @@
     "saving": "Salvataggio…",
     "saved": "Salvato!",
     "saveLoginPrompt": "Accedi per salvare",
-    "saveError": "Non è stato possibile salvarlo — riprova tra un momento."
+    "saveError": "Non è stato possibile salvarlo — riprova tra un momento.",
+    "aiVoiceComingSoon": "Voce IA — Prossimamente"
   },
   "PictureBook": {
     "title": "Creatore di Libri Illustrati",
@@ -113,7 +114,14 @@
     "prevPage": "Pagina precedente",
     "nextPage": "Pagina successiva",
     "pageCount": "Pagina {current} di {total}",
+    "addPageLabel": "Aggiungi una pagina vuota, o una pronta da colorare:",
     "addPage": "Aggiungi pagina",
+    "template": {
+      "dog": "Cane",
+      "cat": "Gatto",
+      "dinosaur": "Dinosauro",
+      "rocket": "Razzo"
+    },
     "removePage": "Elimina pagina",
     "deletePageConfirm": "Eliminare questa pagina? L'azione non può essere annullata.",
     "captionPlaceholder": "Scrivi cosa succede in questa pagina…",
@@ -957,6 +965,7 @@
     ],
     "sparkyHeading": "4. Chiedi a Sparky, il tuo aiutante di storie",
     "sparkyIntro": "Sparky è un robot amichevole che aiuta. Chiedigli idee, nomi, o cosa succede dopo.",
+    "aiVoiceComingSoon": "🔊 Voce IA — Prossimamente",
     "sparkyWelcome": "Ciao! Sono Sparky! Raccontami della tua storia, o tocca un pulsante qui sotto e ti aiuto!",
     "sparkyInputPlaceholder": "Chiedi qualcosa a Sparky sulla tua storia…",
     "sparkyAsk": "Chiedi",
@@ -974,6 +983,12 @@
     "drawEmpty": "Il tuo disegno apparirà qui",
     "drawError": "Non sono riuscito a disegnarlo. Riprova tra un momento.",
     "drawSpeak": "Parla",
+    "colorHeading": "Colora un Disegno 🖍️",
+    "colorLead": "Prendi matite e pastelli a cera e colora la tua pagina nel Creatore di Libri Illustrati.",
+    "colorButton": "Vai a Colorare",
+    "notebookHeading": "Quaderno delle Storie 📓",
+    "notebookLead": "Scrivi la tua storia — oppure parla e lascia che sia il microfono a scrivere.",
+    "notebookButton": "Apri Quaderno",
     "tipTimerTitle": "Dieci minuti",
     "tipTimerBody": "Imposta un timer. Scrivi finché non suona. Non fermarti a correggere.",
     "tipTimerStart": "Avvia",

@@ -100,7 +100,8 @@
     "saving": "Wird gespeichert…",
     "saved": "Gespeichert!",
     "saveLoginPrompt": "Zum Speichern anmelden",
-    "saveError": "Konnte das nicht speichern — versuch es gleich noch einmal."
+    "saveError": "Konnte das nicht speichern — versuch es gleich noch einmal.",
+    "aiVoiceComingSoon": "KI-Stimme — Bald verfügbar"
   },
   "PictureBook": {
     "title": "Bilderbuch-Ersteller",
@@ -113,7 +114,14 @@
     "prevPage": "Vorherige Seite",
     "nextPage": "Nächste Seite",
     "pageCount": "Seite {current} von {total}",
+    "addPageLabel": "Füge eine leere Seite hinzu oder eine zum Ausmalen:",
     "addPage": "Seite hinzufügen",
+    "template": {
+      "dog": "Hund",
+      "cat": "Katze",
+      "dinosaur": "Dino",
+      "rocket": "Rakete"
+    },
     "removePage": "Seite löschen",
     "deletePageConfirm": "Diese Seite löschen? Das kann nicht rückgängig gemacht werden.",
     "captionPlaceholder": "Schreibe, was auf dieser Seite passiert…",
@@ -957,6 +965,7 @@
     ],
     "sparkyHeading": "4. Frag Sparky, deinen Geschichtenhelfer",
     "sparkyIntro": "Sparky ist ein freundlicher Roboterhelfer. Frag nach Ideen, Namen oder wie es weitergeht.",
+    "aiVoiceComingSoon": "🔊 KI-Stimme — Bald verfügbar",
     "sparkyWelcome": "Hallo! Ich bin Sparky! Erzähl mir von deiner Geschichte, oder tippe unten auf einen Knopf und ich helfe dir!",
     "sparkyInputPlaceholder": "Frag Sparky etwas zu deiner Geschichte…",
     "sparkyAsk": "Fragen",
@@ -974,6 +983,12 @@
     "drawEmpty": "Dein Bild erscheint hier",
     "drawError": "Konnte das nicht malen. Versuch es gleich nochmal.",
     "drawSpeak": "Sprechen",
+    "colorHeading": "Ein Bild ausmalen 🖍️",
+    "colorLead": "Schnapp dir Stifte und Wachsmalstifte und male deine eigene Seite im Bilderbuch-Ersteller.",
+    "colorButton": "Zum Ausmalen",
+    "notebookHeading": "Story-Notizbuch 📓",
+    "notebookLead": "Schreib deine Geschichte auf — oder sprich einfach und lass das Mikrofon tippen.",
+    "notebookButton": "Notizbuch öffnen",
     "tipTimerTitle": "Zehn Minuten",
     "tipTimerBody": "Stell einen Timer. Schreib, bis er piept. Nicht anhalten zum Verbessern.",
     "tipTimerStart": "Start",

@@ -196,6 +196,9 @@ export default function IllustrationGenerator({ selected, onSelect }: Illustrati
           <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
             <DictateButton onResult={handleSpeakIdea} label={t('speakIdea')} className={actionButtonClass} />
             <ReadAloud text={idea} label={t('readIdea')} className={actionButtonClass} />
+            <span className="rounded-full border-2 border-dashed border-ink/15 px-4 py-2 text-sm font-bold text-ink/40">
+              ✨ {t('aiVoiceComingSoon')}
+            </span>
             <label className={`${actionButtonClass} cursor-pointer`}>
               📤 {t('upload')}
               <input

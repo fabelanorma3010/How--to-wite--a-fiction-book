@@ -7,6 +7,66 @@ import Sticker from './Sticker'
 
 type Tool = 'pencil' | 'crayon' | 'eraser'
 type Point = { x: number; y: number }
+type TemplateId = 'dog' | 'cat' | 'dinosaur' | 'rocket'
+
+// Simple original line-art outlines (not any copyrighted character) that drop
+// onto a fresh page so there's something fun to color inside of.
+const TEMPLATES: { id: TemplateId; emoji: string }[] = [
+  { id: 'dog', emoji: '🐶' },
+  { id: 'cat', emoji: '🐱' },
+  { id: 'dinosaur', emoji: '🦕' },
+  { id: 'rocket', emoji: '🚀' },
+]
+
+const TEMPLATE_STROKE = 'fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"'
+
+const TEMPLATE_SVGS: Record<TemplateId, string> = {
+  dog: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><g ${TEMPLATE_STROKE}>
+    <ellipse cx="95" cy="135" rx="32" ry="62" transform="rotate(-35 95 135)"/>
+    <ellipse cx="305" cy="135" rx="32" ry="62" transform="rotate(35 305 135)"/>
+    <circle cx="200" cy="180" r="90"/>
+    <ellipse cx="200" cy="240" rx="45" ry="35"/>
+    <ellipse cx="200" cy="230" rx="14" ry="10"/>
+    <circle cx="165" cy="165" r="8"/>
+    <circle cx="235" cy="165" r="8"/>
+    <ellipse cx="200" cy="390" rx="110" ry="90"/>
+    <rect x="140" y="440" width="30" height="50" rx="14"/>
+    <rect x="230" y="440" width="30" height="50" rx="14"/>
+    <path d="M310 350 Q 370 320 355 260"/>
+  </g></svg>`,
+  cat: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><g ${TEMPLATE_STROKE}>
+    <path d="M140 120 L120 60 L175 105 Z"/>
+    <path d="M260 120 L280 60 L225 105 Z"/>
+    <circle cx="200" cy="170" r="85"/>
+    <ellipse cx="170" cy="160" rx="10" ry="14"/>
+    <ellipse cx="230" cy="160" rx="10" ry="14"/>
+    <path d="M192 190 L208 190 L200 200 Z"/>
+    <path d="M120 190 L60 180 M120 205 L60 205 M120 220 L60 230"/>
+    <path d="M280 190 L340 180 M280 205 L340 205 M280 220 L340 230"/>
+    <ellipse cx="200" cy="380" rx="100" ry="95"/>
+    <rect x="150" y="430" width="26" height="55" rx="13"/>
+    <rect x="224" y="430" width="26" height="55" rx="13"/>
+    <path d="M300 400 Q 380 380 370 300 Q 365 260 330 260"/>
+  </g></svg>`,
+  dinosaur: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><g ${TEMPLATE_STROKE}>
+    <ellipse cx="220" cy="330" rx="120" ry="80"/>
+    <path d="M140 300 Q 60 220 90 130"/>
+    <ellipse cx="80" cy="110" rx="35" ry="25" transform="rotate(-30 80 110)"/>
+    <circle cx="75" cy="100" r="6"/>
+    <path d="M180 260 L195 220 L210 260 M215 265 L230 222 L245 265 M250 270 L265 228 L280 270"/>
+    <path d="M330 340 Q 400 330 395 260"/>
+    <rect x="160" y="390" width="30" height="60" rx="12"/>
+    <rect x="260" y="390" width="30" height="60" rx="12"/>
+  </g></svg>`,
+  rocket: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><g ${TEMPLATE_STROKE}>
+    <path d="M200 40 L150 160 L250 160 Z"/>
+    <rect x="150" y="160" width="100" height="220" rx="10"/>
+    <circle cx="200" cy="230" r="28"/>
+    <path d="M150 320 L90 400 L150 380 Z"/>
+    <path d="M250 320 L310 400 L250 380 Z"/>
+    <path d="M170 380 Q 200 460 200 480 Q 200 460 230 380"/>
+  </g></svg>`,
+}
 
 const COLORS = [
   '#1a1a1a',
@@ -34,6 +94,29 @@ function blankPageDataUrl(): string {
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
   }
   return c.toDataURL('image/png')
+}
+
+function templatePageDataUrl(templateId: TemplateId): Promise<string> {
+  return new Promise((resolve) => {
+    const c = document.createElement('canvas')
+    c.width = CANVAS_W
+    c.height = CANVAS_H
+    const ctx = c.getContext('2d')
+    if (!ctx) {
+      resolve(blankPageDataUrl())
+      return
+    }
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
+    const img = new Image()
+    const finish = () => resolve(c.toDataURL('image/png'))
+    img.onload = () => {
+      ctx.drawImage(img, CANVAS_W * 0.1, CANVAS_H * 0.08, CANVAS_W * 0.8, CANVAS_H * 0.8)
+      finish()
+    }
+    img.onerror = finish
+    img.src = `data:image/svg+xml;base64,${btoa(TEMPLATE_SVGS[templateId])}`
+  })
 }
 
 const toolButtonClass = (active: boolean) =>
@@ -209,10 +292,11 @@ export default function PictureBookMaker() {
     setPageIndex((i) => i + 1)
   }
 
-  function addPage() {
+  async function addPage(templateId?: TemplateId) {
     if (pages.length >= MAX_PAGES) return
     const updated = saveCurrentPage()
-    setPages([...updated, blankPageDataUrl()])
+    const blank = templateId ? await templatePageDataUrl(templateId) : blankPageDataUrl()
+    setPages([...updated, blank])
     setCaptions((prev) => [...prev, ''])
     setTurnDir('next')
     setPageIndex(updated.length)
@@ -373,20 +457,34 @@ export default function PictureBookMaker() {
               />
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <p className="mt-4 text-center text-xs font-bold uppercase tracking-wide text-ink/40">
+              {t('addPageLabel')}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
               <button
                 type="button"
-                onClick={addPage}
+                onClick={() => void addPage()}
                 disabled={pages.length >= MAX_PAGES}
-                className="rounded-full border-2 border-primary/40 bg-white px-5 py-2.5 font-bold text-ink transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-full border-2 border-primary/40 bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 ➕ {t('addPage')}
               </button>
+              {TEMPLATES.map((template) => (
+                <button
+                  key={template.id}
+                  type="button"
+                  onClick={() => void addPage(template.id)}
+                  disabled={pages.length >= MAX_PAGES}
+                  className="rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {template.emoji} {t(`template.${template.id}`)}
+                </button>
+              ))}
               <button
                 type="button"
                 onClick={removePage}
                 disabled={pages.length <= 1}
-                className="rounded-full border-2 border-ink/15 bg-white px-5 py-2.5 font-bold text-ink/70 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {t('removePage')}
               </button>

@@ -100,7 +100,8 @@
     "saving": "Enregistrement…",
     "saved": "Enregistré !",
     "saveLoginPrompt": "Connectez-vous pour enregistrer",
-    "saveError": "Impossible d'enregistrer — réessayez dans un instant."
+    "saveError": "Impossible d'enregistrer — réessayez dans un instant.",
+    "aiVoiceComingSoon": "Voix IA — Bientôt disponible"
   },
   "PictureBook": {
     "title": "Créateur de Livre Illustré",
@@ -113,7 +114,14 @@
     "prevPage": "Page précédente",
     "nextPage": "Page suivante",
     "pageCount": "Page {current} sur {total}",
+    "addPageLabel": "Ajoute une page vierge, ou une prête à colorier :",
     "addPage": "Ajouter une page",
+    "template": {
+      "dog": "Chien",
+      "cat": "Chat",
+      "dinosaur": "Dinosaure",
+      "rocket": "Fusée"
+    },
     "removePage": "Supprimer la page",
     "deletePageConfirm": "Supprimer cette page ? Cette action est irréversible.",
     "captionPlaceholder": "Écrivez ce qui se passe sur cette page…",
@@ -957,6 +965,7 @@
     ],
     "sparkyHeading": "4. Demande à Sparky, ton assistant d'histoires",
     "sparkyIntro": "Sparky est un robot sympa qui aide. Demande-lui des idées, des noms, ou ce qui se passe ensuite.",
+    "aiVoiceComingSoon": "🔊 Voix IA — Bientôt disponible",
     "sparkyWelcome": "Salut ! Je suis Sparky ! Parle-moi de ton histoire, ou touche un bouton ci-dessous et je t'aide !",
     "sparkyInputPlaceholder": "Demande quelque chose à Sparky sur ton histoire…",
     "sparkyAsk": "Demander",
@@ -974,6 +983,12 @@
     "drawEmpty": "Ton dessin apparaîtra ici",
     "drawError": "Impossible de dessiner ça. Réessaie dans un instant.",
     "drawSpeak": "Parler",
+    "colorHeading": "Colorier un Dessin 🖍️",
+    "colorLead": "Prends des crayons et des craies grasses et colorie ta propre page dans le Créateur de Livre Illustré.",
+    "colorButton": "Aller Colorier",
+    "notebookHeading": "Carnet d'Histoires 📓",
+    "notebookLead": "Écris ton histoire — ou parle et laisse le micro écrire à ta place.",
+    "notebookButton": "Ouvrir le Carnet",
     "tipTimerTitle": "Dix minutes",
     "tipTimerBody": "Mets un minuteur. Écris jusqu'au bip. Ne t'arrête pas pour corriger.",
     "tipTimerStart": "Démarrer",

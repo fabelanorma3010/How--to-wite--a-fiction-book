@@ -100,7 +100,8 @@
     "saving": "保存中…",
     "saved": "已保存！",
     "saveLoginPrompt": "登录后保存",
-    "saveError": "无法保存——请稍后再试。"
+    "saveError": "无法保存——请稍后再试。",
+    "aiVoiceComingSoon": "AI 语音——即将推出"
   },
   "PictureBook": {
     "title": "绘本制作工具",
@@ -113,7 +114,14 @@
     "prevPage": "上一页",
     "nextPage": "下一页",
     "pageCount": "第 {current} 页，共 {total} 页",
+    "addPageLabel": "添加一页空白页，或一页可以直接上色的：",
     "addPage": "添加页面",
+    "template": {
+      "dog": "小狗",
+      "cat": "小猫",
+      "dinosaur": "恐龙",
+      "rocket": "火箭"
+    },
     "removePage": "删除页面",
     "deletePageConfirm": "删除这一页？此操作无法撤销。",
     "captionPlaceholder": "写下这一页发生了什么…",
@@ -957,6 +965,7 @@
     ],
     "sparkyHeading": "4. 问问你的故事小助手\"火花\"",
     "sparkyIntro": "\"火花\"是一个友好的机器人助手。问它要点子、名字，或者接下来会发生什么。",
+    "aiVoiceComingSoon": "🔊 AI 语音——即将推出",
     "sparkyWelcome": "嗨！我是火花！告诉我你的故事，或者点下面的按钮，我来帮你！",
     "sparkyInputPlaceholder": "向火花问点关于你故事的问题…",
     "sparkyAsk": "提问",
@@ -974,6 +983,12 @@
     "drawEmpty": "你的图片会显示在这里",
     "drawError": "画不出来，请稍后再试。",
     "drawSpeak": "说话",
+    "colorHeading": "给画上色 🖍️",
+    "colorLead": "拿起铅笔和蜡笔，在绘本制作工具里给你自己的画面上色。",
+    "colorButton": "去上色",
+    "notebookHeading": "故事笔记本 📓",
+    "notebookLead": "写下你的故事——或者直接说话，让麦克风帮你打字。",
+    "notebookButton": "打开笔记本",
     "tipTimerTitle": "十分钟",
     "tipTimerBody": "设个计时器。写到响铃为止，中途别停下来改错字。",
     "tipTimerStart": "开始",
