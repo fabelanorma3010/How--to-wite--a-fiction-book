@@ -11,7 +11,7 @@
     "bookPanel": "Cases de livre",
     "notebook": "Carnet",
     "publish": "Publier",
-    "community": "Communauté",
+    "community": "Club de lecture",
     "tools": "Outils",
     "creators": "Illustrateurs",
     "about": "À propos",
@@ -150,7 +150,7 @@
     "stop": "Arrêter"
   },
   "Community": {
-    "title": "Communauté Storyburst",
+    "title": "Club de lecture Storyburst",
     "intro": "Partagez une réplique, une idée ou quelque chose dont vous êtes fier — et voyez ce sur quoi d'autres auteurs et artistes travaillent en ce moment.",
     "postingAs": "Publié en tant que {name}",
     "bookTypeLabel": "Type de livre pour votre publication",
@@ -160,13 +160,13 @@
     "contentField": "Sur quoi travaillez-vous ?",
     "contentPlaceholder": "Partagez une réplique, un rebondissement ou une idée dont vous êtes fier...",
     "sharing": "Partage…",
-    "share": "Partager avec la communauté",
-    "loginPrompt": "<login>Connectez-vous</login> ou <signup>inscrivez-vous</signup> pour partager avec la communauté.",
-    "loading": "Chargement des publications de la communauté…",
-    "loadError": "Impossible de charger le mur de la communauté pour le moment.",
+    "share": "Partager avec le club de lecture",
+    "loginPrompt": "<login>Connectez-vous</login> ou <signup>inscrivez-vous</signup> pour partager avec le club de lecture.",
+    "loading": "Chargement des publications du club de lecture…",
+    "loadError": "Impossible de charger le mur du club de lecture pour le moment.",
     "tryAgain": "Réessayer",
     "empty": "Aucune publication pour l'instant — soyez le premier à partager ! ✨",
-    "unavailable": "Le mur de la communauté n'est pas disponible pour le moment.",
+    "unavailable": "Le mur du club de lecture n'est pas disponible pour le moment.",
     "couldNotPost": "Publication impossible.",
     "likeCount": "{count, plural, one {# j'aime} other {# j'aime}}",
     "commentCount": "{count, plural, one {# commentaire} other {# commentaires}}",
@@ -600,7 +600,7 @@
       },
       {
         "question": "Dois-je créer un compte ?",
-        "answer": "Pas pour les outils — le quiz, les générateurs, le carnet, l'assistant IA et les outils d'écriture fonctionnent dès que vous arrivez sur la page. Un compte gratuit (e-mail et mot de passe, ou « Continuer avec Google ») vous permet de publier sur le mur communautaire, de synchroniser votre carnet entre appareils et de créer un profil public de créateur."
+        "answer": "Pas pour les outils — le quiz, les générateurs, le carnet, l'assistant IA et les outils d'écriture fonctionnent dès que vous arrivez sur la page. Un compte gratuit (e-mail et mot de passe, ou « Continuer avec Google ») vous permet de publier sur le mur du club de lecture, de synchroniser votre carnet entre appareils et de créer un profil public de créateur."
       },
       {
         "question": "Qu'arrive-t-il à mon carnet si je n'ai pas de compte ?",

@@ -11,7 +11,7 @@
     "bookPanel": "图书分格",
     "notebook": "笔记本",
     "publish": "出版",
-    "community": "社区",
+    "community": "读书会",
     "tools": "工具",
     "creators": "插画师",
     "about": "关于",
@@ -150,7 +150,7 @@
     "stop": "停止"
   },
   "Community": {
-    "title": "Storyburst 社区",
+    "title": "Storyburst 读书会",
     "intro": "分享一句台词、一个点子或你引以为傲的东西——看看其他作者和画师现在都在做什么。",
     "postingAs": "以 {name} 的身份发布",
     "bookTypeLabel": "帖子的图书类型",
@@ -160,13 +160,13 @@
     "contentField": "你正在做什么？",
     "contentPlaceholder": "分享一句台词、一个剧情转折或你引以为傲的点子……",
     "sharing": "发布中…",
-    "share": "分享到社区",
-    "loginPrompt": "<login>登录</login>或<signup>注册</signup>即可分享到社区。",
-    "loading": "正在加载社区帖子…",
-    "loadError": "暂时无法加载社区墙。",
+    "share": "分享到读书会",
+    "loginPrompt": "<login>登录</login>或<signup>注册</signup>即可分享到读书会。",
+    "loading": "正在加载读书会帖子…",
+    "loadError": "暂时无法加载读书会墙。",
     "tryAgain": "重试",
     "empty": "还没有帖子——来做第一个分享的人吧！ ✨",
-    "unavailable": "社区墙暂时不可用。",
+    "unavailable": "读书会墙暂时不可用。",
     "couldNotPost": "无法发布。",
     "likeCount": "{count} 个赞",
     "commentCount": "{count} 条评论",
@@ -600,7 +600,7 @@
       },
       {
         "question": "我需要注册账户吗？",
-        "answer": "用工具不需要——测验、生成器、笔记本、AI 助手和写作工具在你打开页面的那一刻就能用。一个免费账户（邮箱和密码，或“使用 Google 继续”）可以让你在社区墙发帖、在多个设备间同步笔记本，并建立一个公开创作者资料。"
+        "answer": "用工具不需要——测验、生成器、笔记本、AI 助手和写作工具在你打开页面的那一刻就能用。一个免费账户（邮箱和密码，或“使用 Google 继续”）可以让你在读书会墙发帖、在多个设备间同步笔记本，并建立一个公开创作者资料。"
       },
       {
         "question": "如果我没有账户，我的笔记本会怎样？",

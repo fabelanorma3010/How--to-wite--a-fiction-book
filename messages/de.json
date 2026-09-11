@@ -11,7 +11,7 @@
     "bookPanel": "Buch-Panel",
     "notebook": "Notizbuch",
     "publish": "Veröffentlichen",
-    "community": "Community",
+    "community": "Buchclub",
     "tools": "Werkzeuge",
     "creators": "Illustratoren",
     "about": "Über uns",
@@ -150,7 +150,7 @@
     "stop": "Stopp"
   },
   "Community": {
-    "title": "Storyburst-Community",
+    "title": "Storyburst-Buchclub",
     "intro": "Teile eine Zeile, eine Idee oder etwas, worauf du stolz bist — und sieh, woran andere Autorinnen und Künstler gerade arbeiten.",
     "postingAs": "Beitrag als {name}",
     "bookTypeLabel": "Buchtyp für deinen Beitrag",
@@ -160,13 +160,13 @@
     "contentField": "Woran arbeitest du?",
     "contentPlaceholder": "Teile eine Dialogzeile, eine Wendung oder eine Idee, auf die du stolz bist...",
     "sharing": "Wird geteilt…",
-    "share": "Mit der Community teilen",
-    "loginPrompt": "<login>Melde dich an</login> oder <signup>registriere dich</signup>, um mit der Community zu teilen.",
-    "loading": "Community-Beiträge werden geladen…",
-    "loadError": "Die Community-Wand konnte gerade nicht geladen werden.",
+    "share": "Mit dem Buchclub teilen",
+    "loginPrompt": "<login>Melde dich an</login> oder <signup>registriere dich</signup>, um mit dem Buchclub zu teilen.",
+    "loading": "Buchclub-Beiträge werden geladen…",
+    "loadError": "Die Buchclub-Wand konnte gerade nicht geladen werden.",
     "tryAgain": "Erneut versuchen",
     "empty": "Noch keine Beiträge — sei die/der Erste! ✨",
-    "unavailable": "Die Community-Wand ist gerade nicht verfügbar.",
+    "unavailable": "Die Buchclub-Wand ist gerade nicht verfügbar.",
     "couldNotPost": "Beitrag konnte nicht gesendet werden.",
     "likeCount": "{count, plural, one {# Like} other {# Likes}}",
     "commentCount": "{count, plural, one {# Kommentar} other {# Kommentare}}",
@@ -600,7 +600,7 @@
       },
       {
         "question": "Muss ich ein Konto anlegen?",
-        "answer": "Für die Werkzeuge nicht — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer und die Schreibwerkzeuge funktionieren, sobald du auf der Seite landest. Ein kostenloses Konto (E-Mail und Passwort, oder „Mit Google fortfahren“) lässt dich auf der Community-Wand posten, dein Notizbuch geräteübergreifend synchronisieren und ein öffentliches Kreativ-Profil einrichten."
+        "answer": "Für die Werkzeuge nicht — das Quiz, die Generatoren, das Notizbuch, der KI-Helfer und die Schreibwerkzeuge funktionieren, sobald du auf der Seite landest. Ein kostenloses Konto (E-Mail und Passwort, oder „Mit Google fortfahren“) lässt dich auf der Buchclub-Wand posten, dein Notizbuch geräteübergreifend synchronisieren und ein öffentliches Kreativ-Profil einrichten."
       },
       {
         "question": "Was passiert mit meinem Notizbuch, wenn ich kein Konto habe?",

@@ -11,7 +11,7 @@
     "bookPanel": "Book Panel",
     "notebook": "Notebook",
     "publish": "Publish",
-    "community": "Community",
+    "community": "Book Club",
     "tools": "Tools",
     "creators": "Illustrators",
     "about": "About",
@@ -150,7 +150,7 @@
     "stop": "Stop"
   },
   "Community": {
-    "title": "Storyburst Community",
+    "title": "Storyburst Book Club",
     "intro": "Share a line, a prompt, or an idea you're proud of — and see what other writers and artists are working on right now.",
     "postingAs": "Posting as {name}",
     "bookTypeLabel": "Book type for your post",
@@ -160,13 +160,13 @@
     "contentField": "What are you working on?",
     "contentPlaceholder": "Share a line of dialogue, a plot twist, or an idea you're proud of...",
     "sharing": "Sharing…",
-    "share": "Share with the Community",
-    "loginPrompt": "<login>Log in</login> or <signup>sign up</signup> to share with the community.",
-    "loading": "Loading community posts…",
-    "loadError": "Couldn't load the community wall right now.",
+    "share": "Share with the Book Club",
+    "loginPrompt": "<login>Log in</login> or <signup>sign up</signup> to share with the book club.",
+    "loading": "Loading book club posts…",
+    "loadError": "Couldn't load the book club wall right now.",
     "tryAgain": "Try Again",
     "empty": "No posts yet — be the first to share! ✨",
-    "unavailable": "The community wall isn't available right now.",
+    "unavailable": "The book club wall isn't available right now.",
     "couldNotPost": "Could not post.",
     "likeCount": "{count, plural, one {# like} other {# likes}}",
     "commentCount": "{count, plural, one {# comment} other {# comments}}",
@@ -600,7 +600,7 @@
       },
       {
         "question": "Do I need to make an account?",
-        "answer": "Not for the tools — the quiz, generators, notebook, AI helper, and writing tools all work the moment you land on the page. A free account (email and password, or \"Continue with Google\") lets you post to the community wall, sync your notebook across devices, and set up a public creator profile."
+        "answer": "Not for the tools — the quiz, generators, notebook, AI helper, and writing tools all work the moment you land on the page. A free account (email and password, or \"Continue with Google\") lets you post to the book club wall, sync your notebook across devices, and set up a public creator profile."
       },
       {
         "question": "What happens to my notebook if I don't have an account?",
