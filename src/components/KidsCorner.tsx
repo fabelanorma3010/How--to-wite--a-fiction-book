@@ -324,7 +324,12 @@ export default function KidsCorner() {
         </section>
 
         <section className="rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-extrabold text-ink">{t('drawHeading')} 🎨</h2>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-xl font-extrabold text-ink">{t('drawHeading')} 🎨</h2>
+            <span className="rounded-full border-2 border-dashed border-ink/20 px-3 py-1 text-xs font-bold text-ink/40">
+              {t('aiVoiceComingSoon')}
+            </span>
+          </div>
           <p className="mt-1 text-sm text-ink/60">{t('drawLead')}</p>
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
