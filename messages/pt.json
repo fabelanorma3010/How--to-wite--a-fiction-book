@@ -11,7 +11,7 @@
     "bookPanel": "Quadros do livro",
     "notebook": "Caderno",
     "publish": "Publicar",
-    "community": "Comunidade",
+    "community": "Clube do Livro",
     "tools": "Ferramentas",
     "creators": "Ilustradores",
     "about": "Sobre",
@@ -150,7 +150,7 @@
     "stop": "Parar"
   },
   "Community": {
-    "title": "Comunidade Storyburst",
+    "title": "Clube do Livro Storyburst",
     "intro": "Compartilhe uma fala, uma ideia ou algo de que você se orgulha — e veja no que outros escritores e artistas estão trabalhando agora.",
     "postingAs": "Publicando como {name}",
     "bookTypeLabel": "Tipo de livro para sua publicação",
@@ -160,13 +160,13 @@
     "contentField": "No que você está trabalhando?",
     "contentPlaceholder": "Compartilhe uma fala, uma reviravolta ou uma ideia de que você se orgulha...",
     "sharing": "Compartilhando…",
-    "share": "Compartilhar com a comunidade",
-    "loginPrompt": "<login>Entre</login> ou <signup>cadastre-se</signup> para compartilhar com a comunidade.",
-    "loading": "Carregando publicações da comunidade…",
-    "loadError": "Não foi possível carregar o mural da comunidade agora.",
+    "share": "Compartilhar com o clube do livro",
+    "loginPrompt": "<login>Entre</login> ou <signup>cadastre-se</signup> para compartilhar com o clube do livro.",
+    "loading": "Carregando publicações do clube do livro…",
+    "loadError": "Não foi possível carregar o mural do clube do livro agora.",
     "tryAgain": "Tentar de novo",
     "empty": "Ainda não há publicações — seja o primeiro a compartilhar! ✨",
-    "unavailable": "O mural da comunidade não está disponível agora.",
+    "unavailable": "O mural do clube do livro não está disponível agora.",
     "couldNotPost": "Não foi possível publicar.",
     "likeCount": "{count, plural, one {# curtida} other {# curtidas}}",
     "commentCount": "{count, plural, one {# comentário} other {# comentários}}",
@@ -600,7 +600,7 @@
       },
       {
         "question": "Preciso criar uma conta?",
-        "answer": "Para as ferramentas, não — o teste, os geradores, o caderno, o assistente de IA e as ferramentas de escrita funcionam assim que você chega na página. Uma conta grátis (e-mail e senha, ou \"Continuar com o Google\") permite postar no mural da comunidade, sincronizar seu caderno entre dispositivos e criar um perfil público de criador."
+        "answer": "Para as ferramentas, não — o teste, os geradores, o caderno, o assistente de IA e as ferramentas de escrita funcionam assim que você chega na página. Uma conta grátis (e-mail e senha, ou \"Continuar com o Google\") permite postar no mural do clube do livro, sincronizar seu caderno entre dispositivos e criar um perfil público de criador."
       },
       {
         "question": "O que acontece com meu caderno se eu não tiver conta?",

@@ -11,7 +11,7 @@
     "bookPanel": "Vignette libro",
     "notebook": "Taccuino",
     "publish": "Pubblica",
-    "community": "Community",
+    "community": "Club del Libro",
     "tools": "Strumenti",
     "creators": "Illustratori",
     "about": "Chi siamo",
@@ -150,7 +150,7 @@
     "stop": "Ferma"
   },
   "Community": {
-    "title": "Community di Storyburst",
+    "title": "Club del Libro di Storyburst",
     "intro": "Condividi una battuta, un'idea o qualcosa di cui vai fiero — e guarda a cosa stanno lavorando ora altri scrittori e artisti.",
     "postingAs": "Pubblichi come {name}",
     "bookTypeLabel": "Tipo di libro per il tuo post",
@@ -160,13 +160,13 @@
     "contentField": "A cosa stai lavorando?",
     "contentPlaceholder": "Condividi una battuta di dialogo, un colpo di scena o un'idea di cui vai fiero...",
     "sharing": "Condivisione…",
-    "share": "Condividi con la community",
-    "loginPrompt": "<login>Accedi</login> o <signup>registrati</signup> per condividere con la community.",
-    "loading": "Caricamento dei post della community…",
-    "loadError": "Non è stato possibile caricare la bacheca della community in questo momento.",
+    "share": "Condividi con il club del libro",
+    "loginPrompt": "<login>Accedi</login> o <signup>registrati</signup> per condividere con il club del libro.",
+    "loading": "Caricamento dei post del club del libro…",
+    "loadError": "Non è stato possibile caricare la bacheca del club del libro in questo momento.",
     "tryAgain": "Riprova",
     "empty": "Ancora nessun post — sii il primo a condividere! ✨",
-    "unavailable": "La bacheca della community non è disponibile in questo momento.",
+    "unavailable": "La bacheca del club del libro non è disponibile in questo momento.",
     "couldNotPost": "Impossibile pubblicare.",
     "likeCount": "{count, plural, one {# mi piace} other {# mi piace}}",
     "commentCount": "{count, plural, one {# commento} other {# commenti}}",
@@ -600,7 +600,7 @@
       },
       {
         "question": "Devo creare un account?",
-        "answer": "Per gli strumenti no — il quiz, i generatori, il taccuino, l'assistente IA e gli strumenti di scrittura funzionano appena arrivi sulla pagina. Un account gratuito (e-mail e password, o «Continua con Google») ti permette di pubblicare sulla bacheca della community, sincronizzare il taccuino tra i dispositivi e creare un profilo pubblico da creatore."
+        "answer": "Per gli strumenti no — il quiz, i generatori, il taccuino, l'assistente IA e gli strumenti di scrittura funzionano appena arrivi sulla pagina. Un account gratuito (e-mail e password, o «Continua con Google») ti permette di pubblicare sulla bacheca del club del libro, sincronizzare il taccuino tra i dispositivi e creare un profilo pubblico da creatore."
       },
       {
         "question": "Cosa succede al mio taccuino se non ho un account?",

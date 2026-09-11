@@ -7,7 +7,7 @@ import Community from '../../components/Community'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Community')
-  const title = `${t('title')} — Storyburst`
+  const title = t('title')
   const description = t('intro')
   return {
     title,
