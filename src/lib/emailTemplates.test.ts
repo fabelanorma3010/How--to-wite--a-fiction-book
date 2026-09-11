@@ -7,9 +7,9 @@ describe('welcomeEmail', () => {
   it('includes the name, a greeting, and a CTA button linking to the quiz', () => {
     const { html, text } = welcomeEmail('Ada', SITE_URL)
     expect(html).toContain('Welcome, Ada!')
-    expect(html).toContain(`href="${SITE_URL}/#quiz"`)
+    expect(html).toContain(`href="${SITE_URL}/quiz"`)
     expect(text).toContain('Welcome, Ada!')
-    expect(text).toContain(`${SITE_URL}/#quiz`)
+    expect(text).toContain(`${SITE_URL}/quiz`)
   })
 
   it('falls back to "there" for a blank or whitespace-only name', () => {

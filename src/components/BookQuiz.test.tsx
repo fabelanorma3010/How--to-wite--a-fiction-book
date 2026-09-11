@@ -77,8 +77,8 @@ describe('BookQuiz', () => {
 
     // The result screen replaces the question fieldset.
     expect(document.querySelector('fieldset')).toBeNull()
-    const seeTipsLink = screen.getByRole('link')
-    await user.click(seeTipsLink)
+    const seeTipsButton = screen.getByRole('button', { name: /see .* tips/i })
+    await user.click(seeTipsButton)
     expect(onSelect).toHaveBeenCalledTimes(1)
   })
 

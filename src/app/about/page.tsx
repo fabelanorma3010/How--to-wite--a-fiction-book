@@ -84,19 +84,19 @@ export default async function AboutPage() {
             <p className="mx-auto mt-3 max-w-xl text-ink/80">{t('ctaBody')}</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
-                href="/#quiz"
+                href="/quiz"
                 className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
               >
                 {t('ctaQuiz')}
               </a>
               <a
-                href="/#book-types"
+                href="/book-types"
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
                 {t('ctaBookTypes')}
               </a>
               <a
-                href="/#notebook"
+                href="/notebook"
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
                 {t('ctaNotebook')}

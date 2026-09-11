@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "continueTo": "继续前往{name} →",
+    "continueToAccount": "前往你的账户 →"
+  },
   "Header": {
     "quiz": "测验",
     "bookTypes": "图书类型",

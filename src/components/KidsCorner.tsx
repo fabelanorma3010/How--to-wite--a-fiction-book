@@ -388,7 +388,7 @@ export default function KidsCorner() {
 
         <div className="text-center">
           <a
-            href="/#notebook"
+            href="/notebook"
             className="inline-block rounded-full bg-primary px-8 py-3.5 text-lg font-extrabold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
           >
             {t('ctaButton')}

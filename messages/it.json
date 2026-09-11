@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "continueTo": "Continua verso {name} →",
+    "continueToAccount": "Vai al tuo account →"
+  },
   "Header": {
     "quiz": "Quiz",
     "bookTypes": "Tipi di libro",

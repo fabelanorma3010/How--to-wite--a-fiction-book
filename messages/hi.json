@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "continueTo": "{name} पर जारी रखें →",
+    "continueToAccount": "अपने खाते पर जाएं →"
+  },
   "Header": {
     "quiz": "क्विज़",
     "bookTypes": "पुस्तक के प्रकार",
