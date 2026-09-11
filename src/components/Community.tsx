@@ -587,8 +587,9 @@ function PostCard({
                       <button
                         type="button"
                         onClick={() => void handleDeleteComment(comment.id)}
-                        className="font-bold text-ink/30 hover:text-red-600"
+                        className="flex items-center gap-1 font-bold text-red-600/70 hover:text-red-600"
                       >
+                        <span aria-hidden="true">🗑️</span>
                         {t('deleteComment')}
                       </button>
                     )}
