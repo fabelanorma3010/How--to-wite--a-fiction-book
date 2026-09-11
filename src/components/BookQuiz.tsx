@@ -9,10 +9,9 @@ import Sticker from './Sticker'
 
 interface BookQuizProps {
   onSelect: (id: BookTypeId) => void
-  onUnderage: () => void
 }
 
-export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
+export default function BookQuiz({ onSelect }: BookQuizProps) {
   const t = useTranslations('Quiz')
   const bt = useTranslations('BookTypes')
   const [step, setStep] = useState(0)
@@ -20,23 +19,23 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
   const [age, setAge] = useState<number | null>(null)
   const [ageInput, setAgeInput] = useState('')
   const [ageError, setAgeError] = useState('')
+  const [underage, setUnderage] = useState(false)
 
-  // A remembered under-13 reader is routed away every time, on mount —
-  // they never get to unblock quiz questions in this component again.
+  // A remembered under-13 reader sees the same "come back later" notice
+  // every time, on mount.
   useEffect(() => {
     const stored = loadStoredAgeGate()
     if (!stored) return
     if (stored.age < 13) {
-      onUnderage()
+      setUnderage(true)
       return
     }
     setAge(stored.age)
-  }, [onUnderage])
+  }, [])
 
   const questions = t.raw('questions') as QuizQuestionCopy[]
   const isFinished = step >= QUIZ_QUESTION_COUNT
   const progress = Math.round((step / QUIZ_QUESTION_COUNT) * 100)
-  const needsParentApproval = age !== null && age < 13
   const quizStarted = age !== null && age >= 13
 
   const resultId = isFinished ? getWinner(answers) : null
@@ -57,22 +56,19 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
     setAgeError('')
     const nextAge = Math.floor(parsed)
     setAge(nextAge)
-    saveStoredAgeGate({ age: nextAge, parentApproved: false, completed: false })
+    if (nextAge < 13) {
+      setUnderage(true)
+      saveStoredAgeGate({ age: nextAge, parentApproved: false, completed: true })
+    } else {
+      saveStoredAgeGate({ age: nextAge, parentApproved: false, completed: false })
+    }
   }
 
   function handleChangeAge() {
     setAge(null)
     setAgeInput('')
+    setUnderage(false)
     saveStoredAgeGate(null)
-  }
-
-  // Parental approval doesn't unlock the quiz questions here — an
-  // under-13 reader belongs on Kids Corner instead, so approval just
-  // remembers that and routes them there.
-  function handleParentApprove() {
-    if (age === null) return
-    saveStoredAgeGate({ age, parentApproved: true, completed: true })
-    onUnderage()
   }
 
   function handleAnswer(typeId: BookTypeId) {
@@ -102,7 +98,7 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
         <div className="animate-pop-in relative rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8">
           <Sticker emoji="🎯" className="-top-2 -left-2 -rotate-12 sm:-top-4 sm:-left-4" />
 
-          {age !== null && !needsParentApproval && (
+          {(age !== null || underage) && (
             <div className="mb-4 text-center">
               <button
                 type="button"
@@ -114,7 +110,7 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
             </div>
           )}
 
-          {age === null && (
+          {age === null && !underage && (
             <form onSubmit={handleAgeSubmit} className="animate-slide-in text-center">
               <label htmlFor="quiz-age" className="text-xl font-extrabold text-ink sm:text-2xl">
                 {t('ageQuestion')}
@@ -147,26 +143,10 @@ export default function BookQuiz({ onSelect, onUnderage }: BookQuizProps) {
             </form>
           )}
 
-          {needsParentApproval && (
+          {underage && (
             <div className="animate-slide-in text-center">
-              <p className="text-xl font-extrabold text-ink sm:text-2xl">{t('parentHeading')}</p>
-              <p className="mx-auto mt-2 max-w-md text-sm text-ink/70">{t('parentBody')}</p>
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={handleParentApprove}
-                  className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 active:scale-95"
-                >
-                  {t('parentApprove')}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleChangeAge}
-                  className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
-                >
-                  {t('parentChangeAge')}
-                </button>
-              </div>
+              <p className="text-xl font-extrabold text-ink sm:text-2xl">{t('underageHeading')}</p>
+              <p className="mx-auto mt-2 max-w-md text-sm text-ink/70">{t('underageBody')}</p>
             </div>
           )}
 
