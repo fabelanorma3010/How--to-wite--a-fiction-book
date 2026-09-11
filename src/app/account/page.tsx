@@ -6,9 +6,11 @@ import Footer from '../../components/Footer'
 import AccountForms from '../../components/account/AccountForms'
 import BookManager from '../../components/account/BookManager'
 import IllustrationGallery from '../../components/account/IllustrationGallery'
+import FollowingList from '../../components/account/FollowingList'
 import { getCurrentUser } from '../../lib/user'
 import { getUserBooks } from '../../lib/books'
 import { getUserFiles } from '../../lib/files'
+import { getFollowing } from '../../lib/follows'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('AccountPage')
@@ -25,7 +27,11 @@ export default async function AccountPage() {
   const t = await getTranslations('AccountPage')
   const user = await getCurrentUser()
   if (!user) redirect('/login?next=/account')
-  const [books, files] = await Promise.all([getUserBooks(user.id), getUserFiles(user.id)])
+  const [books, files, following] = await Promise.all([
+    getUserBooks(user.id),
+    getUserFiles(user.id),
+    getFollowing(user.id),
+  ])
 
   return (
     <div className="min-h-screen">
@@ -77,6 +83,7 @@ export default async function AccountPage() {
             />
             <BookManager userId={user.id} books={books} />
             <IllustrationGallery files={files} />
+            <FollowingList viewerId={user.id} following={following} />
           </div>
         </section>
       </main>
