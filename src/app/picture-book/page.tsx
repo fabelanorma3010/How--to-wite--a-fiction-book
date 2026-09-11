@@ -4,7 +4,6 @@ import { getTranslations } from 'next-intl/server'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import FictionHelper from '../../components/FictionHelper'
-import QuizGate from '../../components/QuizGate'
 import PictureBookMaker from '../../components/PictureBookMaker'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,23 +24,21 @@ export default async function PictureBookPage() {
   const h = await getTranslations('Header')
 
   return (
-    <QuizGate>
-      <div className="min-h-screen">
-        <Header />
-        <main>
-          <PictureBookMaker />
-          <div className="px-4 pb-16 text-center sm:px-6">
-            <Link
-              href="/book-panel"
-              className="inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
-            >
-              {c('continueTo', { name: h('bookPanel') })}
-            </Link>
-          </div>
-        </main>
-        <Footer />
-        <FictionHelper selected="childrens" />
-      </div>
-    </QuizGate>
+    <div className="min-h-screen">
+      <Header />
+      <main>
+        <PictureBookMaker />
+        <div className="px-4 pb-16 text-center sm:px-6">
+          <Link
+            href="/book-panel"
+            className="inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
+          >
+            {c('continueTo', { name: h('bookPanel') })}
+          </Link>
+        </div>
+      </main>
+      <Footer />
+      <FictionHelper selected="childrens" />
+    </div>
   )
 }
