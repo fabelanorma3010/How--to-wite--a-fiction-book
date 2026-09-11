@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { screen, waitFor, within } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
 import BookQuiz from './BookQuiz'
@@ -10,8 +10,8 @@ async function enterAge(user: ReturnType<typeof userEvent.setup>, age: string) {
   await user.click(screen.getByRole('button', { name: /continue/i }))
 }
 
-function renderQuiz(onSelect = vi.fn(), onUnderage = vi.fn()) {
-  return { ...renderWithIntl(<BookQuiz onSelect={onSelect} onUnderage={onUnderage} />), onSelect, onUnderage }
+function renderQuiz(onSelect = vi.fn()) {
+  return { ...renderWithIntl(<BookQuiz onSelect={onSelect} />), onSelect }
 }
 
 describe('BookQuiz', () => {
@@ -36,33 +36,29 @@ describe('BookQuiz', () => {
 
   it('goes straight to question 1 for an age of 13 or older', async () => {
     const user = userEvent.setup()
-    const { onUnderage } = renderQuiz()
+    renderQuiz()
 
     await enterAge(user, '13')
     expect(screen.getByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
-    expect(onUnderage).not.toHaveBeenCalled()
   })
 
-  it('sends an under-13 reader to Kids Corner once approved, and never unlocks quiz questions', async () => {
-    const user = userEvent.setup()
-    const { onUnderage } = renderQuiz()
-
-    await enterAge(user, '9')
-    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /grown-up says it's okay/i })).toBeInTheDocument()
-    expect(onUnderage).not.toHaveBeenCalled()
-
-    await user.click(screen.getByRole('button', { name: /grown-up says it's okay/i }))
-    expect(onUnderage).toHaveBeenCalledTimes(1)
-    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
-  })
-
-  it('lets a mistaken age be corrected from the parent-approval screen', async () => {
+  it('shows an underage notice for a reader under 13, and never unlocks quiz questions', async () => {
     const user = userEvent.setup()
     renderQuiz()
 
     await enterAge(user, '9')
-    await user.click(screen.getByRole('button', { name: /not my age/i }))
+    expect(await screen.findByText('Storyburst Is for Teens and Adults')).toBeInTheDocument()
+    expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('lets a mistaken under-13 age be corrected via the change-age link', async () => {
+    const user = userEvent.setup()
+    renderQuiz()
+
+    await enterAge(user, '9')
+    expect(await screen.findByText('Storyburst Is for Teens and Adults')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /not your age/i }))
     expect(screen.getByLabelText(/how old is the reader/i)).toBeInTheDocument()
 
     await enterAge(user, '30')
@@ -126,29 +122,28 @@ describe('BookQuiz', () => {
     await enterAge(user, '25')
     unmount()
 
-    const { onUnderage } = renderQuiz()
+    renderQuiz()
     expect(await screen.findByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).toBeInTheDocument()
     expect(screen.queryByLabelText(/how old is the reader/i)).not.toBeInTheDocument()
-    expect(onUnderage).not.toHaveBeenCalled()
   })
 
-  it('routes a remembered under-13 reader straight to Kids Corner on a later visit', async () => {
+  it('shows the underage notice again for a remembered under-13 reader on a later visit', async () => {
     const user = userEvent.setup()
     const { unmount } = renderQuiz()
     await enterAge(user, '9')
-    await user.click(screen.getByRole('button', { name: /grown-up says it's okay/i }))
+    expect(await screen.findByText('Storyburst Is for Teens and Adults')).toBeInTheDocument()
     unmount()
 
-    const { onUnderage } = renderQuiz()
-    await waitFor(() => expect(onUnderage).toHaveBeenCalledTimes(1))
+    renderQuiz()
+    expect(await screen.findByText('Storyburst Is for Teens and Adults')).toBeInTheDocument()
     expect(screen.queryByText(`1 of ${QUIZ_QUESTION_COUNT}`, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('forgetting a mistaken age via "not my age" clears the memory too', async () => {
+  it('forgetting a mistaken age via the change-age link clears the memory too', async () => {
     const user = userEvent.setup()
     const { unmount } = renderQuiz()
     await enterAge(user, '9')
-    await user.click(screen.getByRole('button', { name: /not my age/i }))
+    await user.click(screen.getByRole('button', { name: /not your age/i }))
     unmount()
 
     renderQuiz()
