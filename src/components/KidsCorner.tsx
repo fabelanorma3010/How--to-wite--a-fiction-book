@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { getHelperReply } from '../data/helper'
+import { saveStoredAgeGate } from '../lib/quizGate'
 import DictateButton from './DictateButton'
 
 const STICKERS = ['🐉', '🚀', '🦄', '🍩', '👑', '🐙', '🌈', '🧙']
@@ -31,8 +33,14 @@ function pick<T>(arr: readonly T[], not?: T): T {
 
 export default function KidsCorner() {
   const t = useTranslations('KidsCorner')
+  const router = useRouter()
   const funWords = t.raw('funWords') as string[]
   const starterLines = t.raw('starterLines') as string[]
+
+  function retakeQuiz() {
+    saveStoredAgeGate(null)
+    router.push('/quiz')
+  }
 
   const [pickedStickers, setPickedStickers] = useState<string[]>([])
   const [usedWords, setUsedWords] = useState<string[]>([])
@@ -174,6 +182,13 @@ export default function KidsCorner() {
             {t('heading')}
           </h1>
           <p className="max-w-xl text-lg font-semibold text-ink/70">{t('lead')}</p>
+          <button
+            type="button"
+            onClick={retakeQuiz}
+            className="text-sm font-bold text-ink/40 underline underline-offset-2 hover:text-ink/70"
+          >
+            {t('wrongAge')}
+          </button>
         </div>
       </section>
 
