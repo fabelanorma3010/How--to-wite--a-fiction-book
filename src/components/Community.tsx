@@ -12,7 +12,7 @@ import {
   type PostComment,
   type ReportReason,
 } from '../lib/community'
-import { addComment, createPost, deleteComment, submitReport, toggleLike } from '../lib/communityActions'
+import { addComment, createPost, deleteComment, deletePost, submitReport, toggleLike } from '../lib/communityActions'
 import { createClient } from '../lib/supabase/client'
 import Sticker from './Sticker'
 
@@ -224,6 +224,10 @@ export default function Community() {
     }))
   }
 
+  function handlePostDeleted(postId: string) {
+    setPosts((prev) => prev.filter((p) => p.id !== postId))
+  }
+
   return (
     <section id="community" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="mx-auto max-w-3xl">
@@ -369,6 +373,7 @@ export default function Community() {
                 onLikeToggled={(liked) => handleLikeToggled(post.id, liked)}
                 onCommentAdded={(comment) => handleCommentAdded(post.id, comment)}
                 onCommentDeleted={(commentId) => handleCommentDeleted(post.id, commentId)}
+                onPostDeleted={() => handlePostDeleted(post.id)}
               />
             ))}
         </div>
@@ -388,6 +393,7 @@ function PostCard({
   onLikeToggled,
   onCommentAdded,
   onCommentDeleted,
+  onPostDeleted,
 }: {
   post: CommunityPost
   user: AuthUser | null | undefined
@@ -399,6 +405,7 @@ function PostCard({
   onLikeToggled: (liked: boolean) => void
   onCommentAdded: (comment: PostComment) => void
   onCommentDeleted: (commentId: string) => void
+  onPostDeleted: () => void
 }) {
   const t = useTranslations('Community')
   const bt = useTranslations('BookTypes')
@@ -407,6 +414,8 @@ function PostCard({
 
   const [likeBusy, setLikeBusy] = useState(false)
   const [likeError, setLikeError] = useState('')
+  const [postDeleting, setPostDeleting] = useState(false)
+  const [postDeleteError, setPostDeleteError] = useState('')
   const [commentBody, setCommentBody] = useState('')
   const [commentSubmitting, setCommentSubmitting] = useState(false)
   const [commentError, setCommentError] = useState('')
@@ -474,6 +483,20 @@ function PostCard({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Community comment delete failed:', error)
+    }
+  }
+
+  async function handleDeletePost() {
+    if (postDeleting || !confirm(t('deletePostConfirm'))) return
+    setPostDeleting(true)
+    setPostDeleteError('')
+    try {
+      const result = await deletePost(post.id)
+      if ('error' in result) throw new Error(result.error)
+      onPostDeleted()
+    } catch (error) {
+      setPostDeleteError(error instanceof Error ? error.message : t('deletePostError'))
+      setPostDeleting(false)
     }
   }
 
@@ -554,9 +577,26 @@ function PostCard({
           </button>
         )}
 
+        {isOwnPost && (
+          <button
+            type="button"
+            onClick={() => void handleDeletePost()}
+            disabled={postDeleting}
+            className="flex items-center gap-1 font-bold text-red-600/70 transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <span aria-hidden="true">🗑️</span>
+            {postDeleting ? t('deletingPost') : t('deletePost')}
+          </button>
+        )}
+
         {likeError && (
           <p role="alert" className="w-full text-xs font-semibold text-red-600">
             {likeError}
+          </p>
+        )}
+        {postDeleteError && (
+          <p role="alert" className="w-full text-xs font-semibold text-red-600">
+            {postDeleteError}
           </p>
         )}
       </div>

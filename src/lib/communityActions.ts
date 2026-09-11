@@ -101,6 +101,17 @@ export async function deleteComment(commentId: string): Promise<{ ok: true } | {
   }
 }
 
+export async function deletePost(postId: string): Promise<{ ok: true } | { error: string }> {
+  try {
+    const { supabase } = await requireUser()
+    const { error } = await supabase.from('posts').delete().eq('id', postId)
+    if (error) throw error
+    return { ok: true }
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : 'Could not delete post.' }
+  }
+}
+
 export async function submitReport(input: {
   postId: string | null
   commentId: string | null
