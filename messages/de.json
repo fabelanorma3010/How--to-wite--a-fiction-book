@@ -365,7 +365,8 @@
     "parentHeading": "Frag einen Erwachsenen!",
     "parentBody": "Dieses Quiz ist für Leser:innen ab 13 Jahren. Wenn du jünger bist, lass es dir bitte von einem Elternteil oder einer Aufsichtsperson erlauben.",
     "parentApprove": "Ein Erwachsener sagt, es ist okay ✓",
-    "parentChangeAge": "Das ist nicht mein Alter"
+    "parentChangeAge": "Das ist nicht mein Alter",
+    "changeAgeLink": "Nicht dein Alter? Ändern"
   },
   "WriteGuide": {
     "metaTitle": "Wie man {name} schreibt — Storyburst",

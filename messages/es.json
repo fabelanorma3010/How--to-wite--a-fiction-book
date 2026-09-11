@@ -365,7 +365,8 @@
     "parentHeading": "¡Pide ayuda a un adulto!",
     "parentBody": "Este cuestionario es para lectores de 13 años en adelante. Si eres más joven, pide a un padre, madre o tutor que continúe contigo.",
     "parentApprove": "Un adulto dice que está bien ✓",
-    "parentChangeAge": "Esa no es mi edad"
+    "parentChangeAge": "Esa no es mi edad",
+    "changeAgeLink": "¿No es tu edad? Cámbiala"
   },
   "WriteGuide": {
     "metaTitle": "Cómo escribir {name} — Storyburst",

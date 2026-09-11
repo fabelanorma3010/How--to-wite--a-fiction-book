@@ -365,7 +365,8 @@
     "parentHeading": "请一位大人来帮忙！",
     "parentBody": "本测验适合13岁及以上的读者。如果你更小，请让家长或监护人陪同继续。",
     "parentApprove": "大人说可以 ✓",
-    "parentChangeAge": "这不是我的年龄"
+    "parentChangeAge": "这不是我的年龄",
+    "changeAgeLink": "不是你的年龄？更改"
   },
   "WriteGuide": {
     "metaTitle": "如何写{name} — Storyburst",
