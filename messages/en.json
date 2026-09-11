@@ -94,7 +94,12 @@
     "upload": "Upload Image",
     "speakIdea": "Speak Your Idea",
     "readIdea": "Read Idea Aloud",
-    "imageError": "Could not generate that image."
+    "imageError": "Could not generate that image.",
+    "saveToProfile": "Save to Your Profile",
+    "saving": "Saving…",
+    "saved": "Saved!",
+    "saveLoginPrompt": "Log In to Save This",
+    "saveError": "Could not save that — try again in a moment."
   },
   "Notebook": {
     "title": "Your Story Notebook",

@@ -94,7 +94,12 @@
     "upload": "Enviar imagem",
     "speakIdea": "Dite sua ideia",
     "readIdea": "Ler ideia em voz alta",
-    "imageError": "Não foi possível gerar essa imagem."
+    "imageError": "Não foi possível gerar essa imagem.",
+    "saveToProfile": "Salvar no seu perfil",
+    "saving": "Salvando…",
+    "saved": "Salvo!",
+    "saveLoginPrompt": "Entre para salvar",
+    "saveError": "Não foi possível salvar isso — tente novamente em instantes."
   },
   "Notebook": {
     "title": "Seu caderno de histórias",

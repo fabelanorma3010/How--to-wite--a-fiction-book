@@ -94,7 +94,12 @@
     "upload": "画像をアップロード",
     "speakIdea": "アイデアを話す",
     "readIdea": "アイデアを読み上げる",
-    "imageError": "その画像を生成できませんでした。"
+    "imageError": "その画像を生成できませんでした。",
+    "saveToProfile": "プロフィールに保存",
+    "saving": "保存中…",
+    "saved": "保存しました！",
+    "saveLoginPrompt": "保存するにはログイン",
+    "saveError": "保存できませんでした。少し待ってからもう一度お試しください。"
   },
   "Notebook": {
     "title": "あなたのストーリーノート",

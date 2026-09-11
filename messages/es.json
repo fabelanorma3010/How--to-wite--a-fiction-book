@@ -94,7 +94,12 @@
     "upload": "Subir imagen",
     "speakIdea": "Dicta tu idea",
     "readIdea": "Leer idea en voz alta",
-    "imageError": "No se pudo generar esa imagen."
+    "imageError": "No se pudo generar esa imagen.",
+    "saveToProfile": "Guardar en tu perfil",
+    "saving": "Guardando…",
+    "saved": "¡Guardado!",
+    "saveLoginPrompt": "Inicia sesión para guardar esto",
+    "saveError": "No se pudo guardar eso — inténtalo de nuevo en un momento."
   },
   "Notebook": {
     "title": "Tu cuaderno de historias",

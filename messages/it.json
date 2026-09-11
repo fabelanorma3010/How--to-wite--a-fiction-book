@@ -94,7 +94,12 @@
     "upload": "Carica immagine",
     "speakIdea": "Detta la tua idea",
     "readIdea": "Leggi l'idea ad alta voce",
-    "imageError": "Impossibile generare quell'immagine."
+    "imageError": "Impossibile generare quell'immagine.",
+    "saveToProfile": "Salva nel tuo profilo",
+    "saving": "Salvataggio…",
+    "saved": "Salvato!",
+    "saveLoginPrompt": "Accedi per salvare",
+    "saveError": "Non è stato possibile salvarlo — riprova tra un momento."
   },
   "Notebook": {
     "title": "Il tuo taccuino di storie",

@@ -94,7 +94,12 @@
     "upload": "Importer une image",
     "speakIdea": "Dictez votre idée",
     "readIdea": "Lire l'idée à voix haute",
-    "imageError": "Impossible de générer cette image."
+    "imageError": "Impossible de générer cette image.",
+    "saveToProfile": "Enregistrer dans votre profil",
+    "saving": "Enregistrement…",
+    "saved": "Enregistré !",
+    "saveLoginPrompt": "Connectez-vous pour enregistrer",
+    "saveError": "Impossible d'enregistrer — réessayez dans un instant."
   },
   "Notebook": {
     "title": "Votre carnet d'histoires",

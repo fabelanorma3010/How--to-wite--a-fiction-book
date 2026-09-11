@@ -94,7 +94,12 @@
     "upload": "上传图片",
     "speakIdea": "说出你的点子",
     "readIdea": "朗读点子",
-    "imageError": "无法生成该图片。"
+    "imageError": "无法生成该图片。",
+    "saveToProfile": "保存到你的主页",
+    "saving": "保存中…",
+    "saved": "已保存！",
+    "saveLoginPrompt": "登录后保存",
+    "saveError": "无法保存——请稍后再试。"
   },
   "Notebook": {
     "title": "你的故事笔记本",

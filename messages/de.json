@@ -94,7 +94,12 @@
     "upload": "Bild hochladen",
     "speakIdea": "Idee einsprechen",
     "readIdea": "Idee vorlesen",
-    "imageError": "Das Bild konnte nicht erzeugt werden."
+    "imageError": "Das Bild konnte nicht erzeugt werden.",
+    "saveToProfile": "In deinem Profil speichern",
+    "saving": "Wird gespeichert…",
+    "saved": "Gespeichert!",
+    "saveLoginPrompt": "Zum Speichern anmelden",
+    "saveError": "Konnte das nicht speichern — versuch es gleich noch einmal."
   },
   "Notebook": {
     "title": "Dein Story-Notizbuch",
