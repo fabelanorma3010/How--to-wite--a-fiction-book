@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '../lib/supabase/client'
 
@@ -14,15 +14,15 @@ interface AuthUser {
 }
 
 const navLinks = [
-  { href: '/#quiz', key: 'quiz' },
-  { href: '/#book-types', key: 'bookTypes' },
-  { href: '/#action-generator', key: 'actionText' },
-  { href: '/#illustration-generator', key: 'illustrations' },
-  { href: '/#panel-builder', key: 'bookPanel' },
-  { href: '/#notebook', key: 'notebook' },
-  { href: '/#publish', key: 'publish' },
-  // Community tab removed while the Community section is off the homepage —
-  // see App.tsx. Re-add { href: '/#community', key: 'community' } to restore.
+  { href: '/quiz', key: 'quiz' },
+  { href: '/book-types', key: 'bookTypes' },
+  { href: '/action-generator', key: 'actionText' },
+  { href: '/illustration-generator', key: 'illustrations' },
+  { href: '/book-panel', key: 'bookPanel' },
+  { href: '/notebook', key: 'notebook' },
+  { href: '/publish', key: 'publish' },
+  // Community tab removed while the Community page is unplugged —
+  // see Community.tsx. Re-add { href: '/community', key: 'community' } to restore.
 ] as const
 
 const pageLinks = [
@@ -39,8 +39,6 @@ export default function Header() {
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
-  const pathname = usePathname()
-  const onHome = pathname === '/'
 
   useEffect(() => {
     const supabase = createClient()
@@ -83,7 +81,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b-4 border-ink/10 bg-page/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link
-          href={onHome ? '#top' : '/'}
+          href="/"
           className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-ink sm:text-2xl"
         >
           <span aria-hidden="true" className="text-2xl sm:text-3xl">📖</span>

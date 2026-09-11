@@ -44,7 +44,7 @@ export default function NotFound() {
                 Back to Storyburst
               </Link>
               <Link
-                href="/#quiz"
+                href="/quiz"
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
                 Take the Quiz 🎯

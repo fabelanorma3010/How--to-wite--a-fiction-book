@@ -3,9 +3,9 @@ import { useTranslations } from 'next-intl'
 import Sticker from './Sticker'
 
 const STEPS = [
-  { emoji: '🎯', href: '#quiz' },
-  { emoji: '💡', href: '#action-generator' },
-  { emoji: '✍️', href: '#notebook' },
+  { emoji: '🎯', href: '/quiz' },
+  { emoji: '💡', href: '/action-generator' },
+  { emoji: '✍️', href: '/notebook' },
   { emoji: '📚', href: '/account' },
 ] as const
 
@@ -22,10 +22,12 @@ export default function JourneySteps() {
         </div>
 
         <ol className="grid gap-4 sm:grid-cols-4">
-          {STEPS.map((step, i) => {
-            const isExternal = step.href.startsWith('/')
-            const content = (
-              <>
+          {STEPS.map((step, i) => (
+            <li key={step.href}>
+              <Link
+                href={step.href}
+                className="block h-full rounded-2xl border-2 border-ink/10 bg-white/70 p-4 shadow-sm transition-colors hover:border-primary/40 hover:bg-white"
+              >
                 <span className="flex items-center gap-2">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-extrabold text-primary-content">
                     {i + 1}
@@ -36,24 +38,9 @@ export default function JourneySteps() {
                 </span>
                 <h3 className="mt-3 text-base font-extrabold text-ink">{t(`steps.${i}.title`)}</h3>
                 <p className="mt-1 text-sm text-ink/60">{t(`steps.${i}.description`)}</p>
-              </>
-            )
-            const className =
-              'block h-full rounded-2xl border-2 border-ink/10 bg-white/70 p-4 shadow-sm transition-colors hover:border-primary/40 hover:bg-white'
-            return (
-              <li key={step.href}>
-                {isExternal ? (
-                  <Link href={step.href} className={className}>
-                    {content}
-                  </Link>
-                ) : (
-                  <a href={step.href} className={className}>
-                    {content}
-                  </a>
-                )}
-              </li>
-            )
-          })}
+              </Link>
+            </li>
+          ))}
         </ol>
       </div>
     </section>

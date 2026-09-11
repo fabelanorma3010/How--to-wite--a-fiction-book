@@ -138,13 +138,13 @@ export default async function WriteGuidePage({ params }: { params: Promise<{ typ
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
-                href="/#book-types"
+                href="/book-types"
                 className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
               >
                 {wg('tryTools', { name })}
               </a>
               <a
-                href="/#quiz"
+                href="/quiz"
                 className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
               >
                 {wg('takeQuiz')}

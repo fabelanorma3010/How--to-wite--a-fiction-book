@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 const footerLinks = [
-  { href: '/#quiz', key: 'quiz' },
-  { href: '/#book-types', key: 'bookTypes' },
+  { href: '/quiz', key: 'quiz' },
+  { href: '/book-types', key: 'bookTypes' },
   { href: '/tools', key: 'tools' },
   { href: '/creators', key: 'creators' },
   { href: '/about', key: 'about' },

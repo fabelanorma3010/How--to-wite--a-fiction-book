@@ -10,7 +10,7 @@ function escapeHtml(value: string): string {
 export function welcomeEmail(name: string, siteUrl: string): { subject: string; html: string; text: string } {
   const displayName = name.trim() || 'there'
   const safeName = escapeHtml(displayName)
-  const quizUrl = `${siteUrl}/#quiz`
+  const quizUrl = `${siteUrl}/quiz`
 
   const html = `<!doctype html>
 <html>

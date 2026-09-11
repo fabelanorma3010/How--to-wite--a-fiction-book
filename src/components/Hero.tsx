@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import Sticker from './Sticker'
 
@@ -5,7 +6,7 @@ export default function Hero() {
   const t = useTranslations('Hero')
 
   return (
-    <section id="top" className="relative scroll-mt-[116px] overflow-hidden px-4 pb-20 pt-14 sm:px-6 sm:pt-20 lg:scroll-mt-20">
+    <section className="relative overflow-hidden px-4 pb-20 pt-14 sm:px-6 sm:pt-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-secondary/30 blur-2xl sm:h-72 sm:w-72"
@@ -45,24 +46,24 @@ export default function Hero() {
           className="animate-fade-up mt-2 flex flex-wrap items-center justify-center gap-3"
           style={{ animationDelay: '270ms' }}
         >
-          <a
-            href="#quiz"
+          <Link
+            href="/quiz"
             className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
           >
             {t('ctaQuiz')}
-          </a>
-          <a
-            href="#book-types"
+          </Link>
+          <Link
+            href="/book-types"
             className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
           >
             {t('ctaBookTypes')}
-          </a>
-          <a
-            href="#publish"
+          </Link>
+          <Link
+            href="/publish"
             className="rounded-full border-2 border-ink/15 bg-white/70 px-6 py-3 font-bold text-ink transition-colors hover:bg-white active:scale-95"
           >
             {t('ctaPublish')}
-          </a>
+          </Link>
         </div>
 
         <div

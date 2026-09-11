@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
@@ -171,7 +173,7 @@ export default function PanelBuilder() {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null))
   }, [])
 
-  // The header's "Book Panel" tab lands on #panel-builder directly, but old
+  // The header's "Book Panel" tab lands on this page directly, but old
   // links/bookmarks may still point at these two anchors — honor them by
   // picking the matching style so they still land on the right tool.
   useEffect(() => {

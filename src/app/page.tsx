@@ -10,7 +10,7 @@ export default async function Page() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    '@id': `${siteUrl}/#book-types`,
+    '@id': `${siteUrl}/book-types`,
     name: bt('sectionTitle'),
     itemListElement: bookTypes.map((type, i) => ({
       '@type': 'ListItem',

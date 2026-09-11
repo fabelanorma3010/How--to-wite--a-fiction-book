@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { bookTypeEmoji, type BookTypeId } from '../data/bookTypes'
@@ -227,13 +229,13 @@ export default function BookQuiz({ onSelect }: BookQuizProps) {
               <p className="mx-auto mt-4 max-w-xl text-ink/80">{bt(`types.${resultId}.blurb`)}</p>
 
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href="#book-types"
+                <button
+                  type="button"
                   onClick={handleSeeType}
                   className="rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
                 >
                   {t('seeTips', { name: bt(`types.${resultId}.name`) })}
-                </a>
+                </button>
                 <button
                   type="button"
                   onClick={handleRetake}
