@@ -95,6 +95,28 @@ describe('PanelBuilder', () => {
     expect(screen.getByDisplayValue('The vault door creaks open.')).toBeInTheDocument()
   })
 
+  it('lets the panel text size be changed, and defaults to Medium', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+
+    const mediumButton = screen.getByRole('button', { name: /^Medium$/ })
+    const largeButton = screen.getByRole('button', { name: /^Large$/ })
+    expect(mediumButton).toHaveAttribute('aria-pressed', 'true')
+
+    const box = screen.getByPlaceholderText('Type here…')
+    expect(box).toHaveStyle({ fontSize: '10.5px' })
+
+    await user.click(largeButton)
+    expect(largeButton).toHaveAttribute('aria-pressed', 'true')
+    expect(mediumButton).toHaveAttribute('aria-pressed', 'false')
+    expect(box).toHaveStyle({ fontSize: '14px' })
+  })
+
   it('clearing a panel removes its text tools', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()

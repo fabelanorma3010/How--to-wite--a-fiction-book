@@ -5,9 +5,16 @@ import { useTranslations } from 'next-intl'
 import { printHtml, escapeHtml } from '../lib/printHtml'
 import Sticker from './Sticker'
 
-type Tool = 'pencil' | 'crayon' | 'eraser'
+type Tool = 'pencil' | 'crayon' | 'eraser' | 'text'
 type Point = { x: number; y: number }
 type TemplateId = 'dog' | 'cat' | 'dinosaur' | 'rocket'
+type FontSize = 'sm' | 'md' | 'lg'
+type PendingText = { canvasX: number; canvasY: number; screenX: number; screenY: number; scale: number; value: string }
+
+const FONT_SIZE_ORDER: FontSize[] = ['sm', 'md', 'lg']
+const FONT_SIZE_PX: Record<FontSize, number> = { sm: 32, md: 48, lg: 72 }
+const ACCEPTED_UPLOAD_IMAGE = ['image/png', 'image/jpeg', 'image/webp']
+const MAX_UPLOAD_IMAGE_BYTES = 15 * 1024 * 1024
 
 // Simple original line-art outlines (not any copyrighted character) that drop
 // onto a fresh page so there's something fun to color inside of.
@@ -119,6 +126,39 @@ function templatePageDataUrl(templateId: TemplateId): Promise<string> {
   })
 }
 
+function uploadedImagePageDataUrl(file: File): Promise<string> {
+  return new Promise((resolve) => {
+    const c = document.createElement('canvas')
+    c.width = CANVAS_W
+    c.height = CANVAS_H
+    const ctx = c.getContext('2d')
+    if (!ctx) {
+      resolve(blankPageDataUrl())
+      return
+    }
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
+    const img = new Image()
+    const finish = () => resolve(c.toDataURL('image/png'))
+    img.onload = () => {
+      const maxW = CANVAS_W * 0.86
+      const maxH = CANVAS_H * 0.86
+      const scale = Math.min(maxW / img.width, maxH / img.height, 1)
+      const w = img.width * scale
+      const h = img.height * scale
+      ctx.drawImage(img, (CANVAS_W - w) / 2, (CANVAS_H - h) / 2, w, h)
+      finish()
+    }
+    img.onerror = finish
+    const reader = new FileReader()
+    reader.onload = () => {
+      img.src = reader.result as string
+    }
+    reader.onerror = finish
+    reader.readAsDataURL(file)
+  })
+}
+
 const toolButtonClass = (active: boolean) =>
   `rounded-full px-4 py-2 text-sm font-bold transition-colors ${
     active ? 'bg-primary text-primary-content' : 'text-ink/60 hover:bg-page'
@@ -136,9 +176,12 @@ export default function PictureBookMaker() {
   const [pageIndex, setPageIndex] = useState(0)
   const [tool, setTool] = useState<Tool>('pencil')
   const [color, setColor] = useState(COLORS[0])
+  const [textSize, setTextSize] = useState<FontSize>('md')
+  const [pendingText, setPendingText] = useState<PendingText | null>(null)
   const [turnDir, setTurnDir] = useState<'next' | 'prev'>('next')
   const [downloadBusy, setDownloadBusy] = useState(false)
   const [downloadError, setDownloadError] = useState('')
+  const [uploadError, setUploadError] = useState('')
 
   // Canvas needs the DOM, so the first blank page is created client-side only.
   useEffect(() => {
@@ -164,6 +207,8 @@ export default function PictureBookMaker() {
   }, [pageIndex, pages[pageIndex]])
 
   function saveCurrentPage(): string[] {
+    commitText(pendingText)
+    setPendingText(null)
     const canvas = canvasRef.current
     if (!canvas) return pages
     const snapshot = canvas.toDataURL('image/png')
@@ -177,6 +222,18 @@ export default function PictureBookMaker() {
     const canvas = canvasRef.current
     if (!canvas) return
     historyRef.current = [...historyRef.current.slice(-19), canvas.toDataURL('image/png')]
+  }
+
+  function commitText(pt: PendingText | null) {
+    if (!pt || !pt.value.trim()) return
+    const ctx = canvasRef.current?.getContext('2d')
+    if (!ctx) return
+    pushHistory()
+    ctx.fillStyle = color
+    ctx.font = `bold ${FONT_SIZE_PX[textSize]}px sans-serif`
+    ctx.textBaseline = 'top'
+    const lineHeight = FONT_SIZE_PX[textSize] * 1.2
+    pt.value.split('\n').forEach((line, i) => ctx.fillText(line, pt.canvasX, pt.canvasY + i * lineHeight))
   }
 
   function getPos(e: React.PointerEvent<HTMLCanvasElement>): Point {
@@ -234,6 +291,22 @@ export default function PictureBookMaker() {
   }
 
   function handlePointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
+    if (tool === 'text') {
+      commitText(pendingText)
+      const canvas = canvasRef.current!
+      const containerRect = canvas.parentElement!.getBoundingClientRect()
+      const scale = containerRect.width / CANVAS_W
+      const canvasPos = getPos(e)
+      setPendingText({
+        canvasX: canvasPos.x,
+        canvasY: canvasPos.y,
+        screenX: Math.min(e.clientX - containerRect.left, containerRect.width - 140),
+        screenY: Math.min(e.clientY - containerRect.top, containerRect.height - 90),
+        scale,
+        value: '',
+      })
+      return
+    }
     canvasRef.current?.setPointerCapture(e.pointerId)
     pushHistory()
     drawingRef.current = true
@@ -256,6 +329,7 @@ export default function PictureBookMaker() {
   }
 
   function handleUndo() {
+    setPendingText(null)
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     const prev = historyRef.current.pop()
@@ -269,6 +343,7 @@ export default function PictureBookMaker() {
   }
 
   function handleClearPage() {
+    setPendingText(null)
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
@@ -302,13 +377,35 @@ export default function PictureBookMaker() {
     setPageIndex(updated.length)
   }
 
+  async function handleUploadImage(file: File) {
+    setUploadError('')
+    if (pages.length >= MAX_PAGES) return
+    if (!ACCEPTED_UPLOAD_IMAGE.includes(file.type) || file.size > MAX_UPLOAD_IMAGE_BYTES) {
+      setUploadError(t('uploadImageError'))
+      return
+    }
+    const updated = saveCurrentPage()
+    const withImage = await uploadedImagePageDataUrl(file)
+    setPages([...updated, withImage])
+    setCaptions((prev) => [...prev, ''])
+    setTurnDir('next')
+    setPageIndex(updated.length)
+  }
+
   function removePage() {
     if (pages.length <= 1) return
     if (!confirm(t('deletePageConfirm'))) return
+    setPendingText(null)
     const next = pages.filter((_, i) => i !== pageIndex)
     setPages(next)
     setCaptions((prev) => prev.filter((_, i) => i !== pageIndex))
     setPageIndex((i) => Math.min(i, next.length - 1))
+  }
+
+  function selectTool(next: Tool) {
+    commitText(pendingText)
+    setPendingText(null)
+    setTool(next)
   }
 
   function updateCaption(value: string) {
@@ -359,14 +456,17 @@ export default function PictureBookMaker() {
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
           <div className="flex items-center gap-1 rounded-full border-2 border-ink/10 bg-white p-1">
-            <button type="button" onClick={() => setTool('pencil')} aria-pressed={tool === 'pencil'} className={toolButtonClass(tool === 'pencil')}>
+            <button type="button" onClick={() => selectTool('pencil')} aria-pressed={tool === 'pencil'} className={toolButtonClass(tool === 'pencil')}>
               ✏️ {t('pencil')}
             </button>
-            <button type="button" onClick={() => setTool('crayon')} aria-pressed={tool === 'crayon'} className={toolButtonClass(tool === 'crayon')}>
+            <button type="button" onClick={() => selectTool('crayon')} aria-pressed={tool === 'crayon'} className={toolButtonClass(tool === 'crayon')}>
               🖍️ {t('crayon')}
             </button>
-            <button type="button" onClick={() => setTool('eraser')} aria-pressed={tool === 'eraser'} className={toolButtonClass(tool === 'eraser')}>
+            <button type="button" onClick={() => selectTool('eraser')} aria-pressed={tool === 'eraser'} className={toolButtonClass(tool === 'eraser')}>
               🧽 {t('eraser')}
+            </button>
+            <button type="button" onClick={() => selectTool('text')} aria-pressed={tool === 'text'} className={toolButtonClass(tool === 'text')}>
+              🔤 {t('text')}
             </button>
           </div>
           <button
@@ -401,6 +501,25 @@ export default function PictureBookMaker() {
           ))}
         </div>
 
+        {tool === 'text' && (
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+            <span className="text-xs font-bold text-ink/50">{t('fontSizeLabel')}</span>
+            {FONT_SIZE_ORDER.map((size) => (
+              <button
+                key={size}
+                type="button"
+                onClick={() => setTextSize(size)}
+                aria-pressed={textSize === size}
+                className={`rounded-full border-2 px-3 py-1 text-xs font-bold ${
+                  textSize === size ? 'border-primary bg-primary/20 text-ink' : 'border-ink/15 bg-white text-ink/70'
+                }`}
+              >
+                {t(`fontSize${size === 'sm' ? 'Small' : size === 'md' ? 'Medium' : 'Large'}`)}
+              </button>
+            ))}
+          </div>
+        )}
+
         {pages.length > 0 && (
           <>
             <div className="mt-6 flex items-center justify-center gap-2" style={{ perspective: '1400px' }}>
@@ -431,6 +550,43 @@ export default function PictureBookMaker() {
                   onPointerUp={handlePointerUp}
                   onPointerLeave={handlePointerUp}
                 />
+                {pendingText && (
+                  <div
+                    className="absolute z-20 flex flex-col items-start gap-1"
+                    style={{ left: pendingText.screenX, top: pendingText.screenY }}
+                  >
+                    <textarea
+                      autoFocus
+                      rows={2}
+                      value={pendingText.value}
+                      onChange={(e) => setPendingText((p) => (p ? { ...p, value: e.target.value } : p))}
+                      placeholder={t('textPlaceholder')}
+                      className="min-w-[110px] resize border-2 border-dashed border-primary bg-white/90 p-1 font-bold leading-tight outline-none"
+                      style={{ color, fontSize: Math.max(FONT_SIZE_PX[textSize] * pendingText.scale, 12) }}
+                    />
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          commitText(pendingText)
+                          setPendingText(null)
+                        }}
+                        aria-label={t('textConfirm')}
+                        className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-content"
+                      >
+                        ✓
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPendingText(null)}
+                        aria-label={t('textCancel')}
+                        className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-ink/15 bg-white text-xs font-bold text-ink/60"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <button
@@ -480,6 +636,24 @@ export default function PictureBookMaker() {
                   {template.emoji} {t(`template.${template.id}`)}
                 </button>
               ))}
+              <label
+                className={`rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition-colors ${
+                  pages.length >= MAX_PAGES ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-page'
+                }`}
+              >
+                📤 {t('uploadImage')}
+                <input
+                  type="file"
+                  accept={ACCEPTED_UPLOAD_IMAGE.join(',')}
+                  disabled={pages.length >= MAX_PAGES}
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) void handleUploadImage(file)
+                    e.target.value = ''
+                  }}
+                />
+              </label>
               <button
                 type="button"
                 onClick={removePage}
@@ -489,6 +663,7 @@ export default function PictureBookMaker() {
                 {t('removePage')}
               </button>
             </div>
+            {uploadError && <p className="mt-2 text-center text-sm font-semibold text-red-600">{uploadError}</p>}
           </>
         )}
 
