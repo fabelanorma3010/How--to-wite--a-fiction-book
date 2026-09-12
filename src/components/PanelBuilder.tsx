@@ -7,7 +7,7 @@ import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatTheme
 import type { BookFormat } from '../lib/books'
 import { createClient } from '../lib/supabase/client'
 import { encodeCaptionType, type CaptionType } from '../lib/captionType'
-import { rasterizePdfFirstPage } from '../lib/pdfToImage'
+import { rasterizePdfFirstPage, rasterizePdfPages } from '../lib/pdfToImage'
 import { downloadBookAsPdf } from '../lib/downloadBookPdf'
 import DictateButton from './DictateButton'
 
@@ -150,6 +150,8 @@ export default function PanelBuilder() {
   const [imageBusy, setImageBusy] = useState(false)
   const [imageError, setImageError] = useState('')
   const [convertingPdf, setConvertingPdf] = useState(false)
+  const [importingPdf, setImportingPdf] = useState(false)
+  const [importError, setImportError] = useState('')
 
   const [userId, setUserId] = useState<string | null>(null)
   const [books, setBooks] = useState<PlannerBook[] | null>(null)
@@ -312,6 +314,51 @@ export default function PanelBuilder() {
     updatePanel(selectedPanel, { image: url })
   }
 
+  async function handleImportPdf(file: File) {
+    if (!userId || importingPdf) return
+    setImportError('')
+
+    let rasterized: File[]
+    try {
+      rasterized = await rasterizePdfPages(file, MAX_PAGES)
+      if (rasterized.length === 0) throw new Error('empty')
+    } catch {
+      setImportError(t('pdfConvertError'))
+      return
+    }
+
+    setImportingPdf(true)
+    try {
+      const supabase = createClient()
+      if (!supabase) throw new Error('unavailable')
+      const urls: string[] = []
+      for (let i = 0; i < rasterized.length; i++) {
+        const path = `${userId}/builder-import-${style}-${Date.now()}-${i}.png`
+        const { error: uploadError } = await supabase.storage
+          .from('books')
+          .upload(path, rasterized[i], { contentType: rasterized[i].type })
+        if (uploadError) throw uploadError
+        urls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
+      }
+
+      setPagesByStyle((prev) => ({
+        ...prev,
+        [style]: urls.map((url) => {
+          const page = makePage('oneBig')
+          page.panels[0] = { image: url }
+          return page
+        }),
+      }))
+      setPageIndex(0)
+      setSelectedPanel(null)
+      setPublishedBookId(null)
+    } catch {
+      setImportError(t('importSaveError'))
+    } finally {
+      setImportingPdf(false)
+    }
+  }
+
   const filledPanels = pages.flatMap((page) => page.panels.filter((p) => p.image))
 
   function flattenPages() {
@@ -420,6 +467,36 @@ export default function PanelBuilder() {
               {t(`style.${s}`)}
             </button>
           ))}
+        </div>
+
+        <div className="mt-6 rounded-2xl border-2 border-dashed border-ink/20 bg-white/60 p-4 text-center sm:p-5">
+          <p className="text-sm font-extrabold text-ink">{t('importHeading')}</p>
+          <p className="mx-auto mt-1 max-w-md text-xs text-ink/60">{t('importLead')}</p>
+          <div className="mt-3 flex flex-col items-center gap-1.5">
+            {userId ? (
+              <label
+                className={`rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink ${
+                  importingPdf ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
+                }`}
+              >
+                {importingPdf ? t('importingButton') : `📄 ${t('importButton')}`}
+                <input
+                  type="file"
+                  accept={PDF_TYPE}
+                  disabled={importingPdf}
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) void handleImportPdf(file)
+                    e.target.value = ''
+                  }}
+                />
+              </label>
+            ) : (
+              <p className="text-xs font-semibold text-ink/45">{t('importSignIn')}</p>
+            )}
+            {importError && <p className="text-xs font-semibold text-red-600">{importError}</p>}
+          </div>
         </div>
 
         <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-4">
