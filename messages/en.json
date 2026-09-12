@@ -907,6 +907,7 @@
     },
     "clearPanel": "Clear panel",
     "panelImageLabel": "Panel art",
+    "unsplashLink": "Need a picture? Browse Unsplash ↗",
     "uploadImage": "Upload image",
     "signInForUpload": "Log in to upload your own image.",
     "generateImagePrompt": "Describe an image to generate…",

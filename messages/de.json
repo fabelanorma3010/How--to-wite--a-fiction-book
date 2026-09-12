@@ -907,6 +907,7 @@
     },
     "clearPanel": "Panel leeren",
     "panelImageLabel": "Panel-Kunst",
+    "unsplashLink": "Brauchst du ein Bild? Unsplash durchsuchen ↗",
     "uploadImage": "Bild hochladen",
     "signInForUpload": "Melde dich an, um ein eigenes Bild hochzuladen.",
     "generateImagePrompt": "Beschreibe ein zu erzeugendes Bild…",

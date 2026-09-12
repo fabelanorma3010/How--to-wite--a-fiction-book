@@ -907,6 +907,7 @@
     },
     "clearPanel": "Vaciar viñeta",
     "panelImageLabel": "Arte del panel",
+    "unsplashLink": "¿Necesitas una imagen? Explora Unsplash ↗",
     "uploadImage": "Subir imagen",
     "signInForUpload": "Inicia sesión para subir tu propia imagen.",
     "generateImagePrompt": "Describe una imagen para generar…",

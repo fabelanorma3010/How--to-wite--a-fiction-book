@@ -907,6 +907,7 @@
     },
     "clearPanel": "コマを空にする",
     "panelImageLabel": "コマの絵",
+    "unsplashLink": "画像が必要？Unsplashを見る ↗",
     "uploadImage": "画像をアップロード",
     "signInForUpload": "自分の画像をアップロードするにはログインしてください。",
     "generateImagePrompt": "生成する画像を説明してください…",

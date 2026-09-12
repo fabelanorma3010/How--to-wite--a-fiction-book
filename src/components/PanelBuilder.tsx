@@ -688,7 +688,17 @@ export default function PanelBuilder() {
 
             {!currentPanel?.image && (
               <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
-                <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
+                <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-xs font-bold text-ink/60">{t('panelImageLabel')}</p>
+                  <a
+                    href="https://unsplash.com/s/photos/free-images"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+                  >
+                    {t('unsplashLink')}
+                  </a>
+                </div>
                 {userId ? (
                   <label
                     className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${

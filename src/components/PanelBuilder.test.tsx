@@ -161,6 +161,18 @@ describe('PanelBuilder', () => {
     expect(await screen.findByText(/upload image/i)).toBeInTheDocument()
   })
 
+  it('links to Unsplash for free reference photos, even signed out', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const link = await screen.findByRole('link', { name: /unsplash/i })
+    expect(link).toHaveAttribute('href', 'https://unsplash.com/s/photos/free-images')
+    expect(link).toHaveAttribute('target', '_blank')
+  })
+
   it('offers a Download button once a panel has art, and it works while signed out', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     global.fetch = vi.fn().mockResolvedValue({

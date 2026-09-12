@@ -907,6 +907,7 @@
     },
     "clearPanel": "Svuota vignetta",
     "panelImageLabel": "Illustrazione del pannello",
+    "unsplashLink": "Ti serve un'immagine? Sfoglia Unsplash ↗",
     "uploadImage": "Carica immagine",
     "signInForUpload": "Accedi per caricare una tua immagine.",
     "generateImagePrompt": "Descrivi un'immagine da generare…",

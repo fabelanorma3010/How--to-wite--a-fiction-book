@@ -907,6 +907,7 @@
     },
     "clearPanel": "पैनल खाली करें",
     "panelImageLabel": "पैनल आर्ट",
+    "unsplashLink": "तस्वीर चाहिए? Unsplash देखें ↗",
     "uploadImage": "इमेज अपलोड करें",
     "signInForUpload": "अपनी खुद की इमेज अपलोड करने के लिए लॉग इन करें।",
     "generateImagePrompt": "बनाने के लिए इमेज का विवरण दें…",
