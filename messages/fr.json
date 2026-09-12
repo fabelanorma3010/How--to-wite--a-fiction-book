@@ -907,6 +907,7 @@
     },
     "clearPanel": "Vider la case",
     "panelImageLabel": "Illustration du panel",
+    "unsplashLink": "Besoin d'une image ? Parcourez Unsplash ↗",
     "uploadImage": "Importer une image",
     "signInForUpload": "Connectez-vous pour importer votre propre image.",
     "generateImagePrompt": "Décrivez une image à générer…",

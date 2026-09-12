@@ -907,6 +907,7 @@
     },
     "clearPanel": "Limpar quadro",
     "panelImageLabel": "Arte do quadro",
+    "unsplashLink": "Precisa de uma imagem? Explore o Unsplash ↗",
     "uploadImage": "Enviar imagem",
     "signInForUpload": "Faça login para enviar sua própria imagem.",
     "generateImagePrompt": "Descreva uma imagem para gerar…",
