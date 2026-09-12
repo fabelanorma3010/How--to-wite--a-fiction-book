@@ -97,10 +97,15 @@ const ACCEPTED_UPLOAD = [...ACCEPTED_IMAGE, PDF_TYPE]
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
 const MAX_PAGES = 30
 
+type FontSize = 'sm' | 'md' | 'lg'
+const FONT_SIZE_ORDER: FontSize[] = ['sm', 'md', 'lg']
+const FONT_SIZE_PX: Record<FontSize, number> = { sm: 8, md: 10.5, lg: 14 }
+
 interface PanelState {
   image?: string
   textType?: CaptionType
   text?: string
+  fontSize?: FontSize
 }
 interface PageState {
   layout: LayoutKey
@@ -608,6 +613,7 @@ export default function PanelBuilder() {
                       rtl={rtl}
                       manga={style === 'manga'}
                       placeholder={t('textPlaceholder')}
+                      fontSizePx={FONT_SIZE_PX[panel.fontSize ?? 'md']}
                     />
                   )}
                 </div>
@@ -685,6 +691,27 @@ export default function PanelBuilder() {
                 </button>
               )}
             </div>
+
+            {currentPanel?.textType && (
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                <span className="text-xs font-bold text-ink/50">{t('fontSizeLabel')}</span>
+                {FONT_SIZE_ORDER.map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => updatePanel(selectedPanel, { fontSize: size })}
+                    aria-pressed={(currentPanel?.fontSize ?? 'md') === size}
+                    className={`rounded-full border-2 px-3 py-1 text-xs font-bold ${
+                      (currentPanel?.fontSize ?? 'md') === size
+                        ? 'border-primary bg-primary/20 text-ink'
+                        : 'border-ink/15 bg-white text-ink/70'
+                    }`}
+                  >
+                    {t(`fontSize${size === 'sm' ? 'Small' : size === 'md' ? 'Medium' : 'Large'}`)}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {!currentPanel?.image && (
               <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
@@ -845,6 +872,7 @@ function TextBox({
   rtl,
   manga,
   placeholder,
+  fontSizePx,
 }: {
   type: CaptionType
   value: string
@@ -853,6 +881,7 @@ function TextBox({
   rtl: boolean
   manga: boolean
   placeholder: string
+  fontSizePx: number
 }) {
   const radius = manga ? 3 : 14
   const side: 'left' | 'right' = rtl ? 'right' : 'left'
@@ -863,8 +892,8 @@ function TextBox({
       onChange={(e) => onChange(e.target.value)}
       rows={2}
       placeholder={placeholder}
-      className="block w-full resize-none border-0 bg-transparent p-0 text-[10.5px] font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
-      style={{ fontFamily: theme.bodyFont }}
+      className="block w-full resize-none border-0 bg-transparent p-0 font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
+      style={{ fontFamily: theme.bodyFont, fontSize: fontSizePx }}
     />
   )
 
