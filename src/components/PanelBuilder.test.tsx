@@ -8,6 +8,7 @@ const getUserMock = vi.fn()
 const uploadMock = vi.fn().mockResolvedValue({ error: null })
 const getPublicUrlMock = vi.fn().mockReturnValue({ data: { publicUrl: 'https://example.com/rasterized.png' } })
 const rasterizeMock = vi.fn()
+const rasterizePagesMock = vi.fn()
 
 // Chainable query stub: every builder method returns itself. Awaiting (or
 // `.then`-ing) it resolves per-table — an empty list by default, except
@@ -37,6 +38,7 @@ vi.mock('../lib/supabase/client', () => ({
 
 vi.mock('../lib/pdfToImage', () => ({
   rasterizePdfFirstPage: (file: File) => rasterizeMock(file),
+  rasterizePdfPages: (file: File, maxPages: number) => rasterizePagesMock(file, maxPages),
 }))
 
 const downloadBookAsPdfMock = vi.fn().mockResolvedValue(undefined)
@@ -268,5 +270,70 @@ describe('PanelBuilder', () => {
 
     expect(await screen.findByText(/could not read that pdf/i)).toBeInTheDocument()
     expect(uploadMock).not.toHaveBeenCalled()
+  })
+
+  it('prompts a signed-out visitor to log in instead of showing the PDF-import control', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    renderWithIntl(<PanelBuilder />)
+
+    expect(await screen.findByText(/log in to import a pdf/i)).toBeInTheDocument()
+    expect(screen.queryByLabelText(/upload a pdf/i)).not.toBeInTheDocument()
+  })
+
+  it('shows the PDF-import control for a signed-in visitor', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    renderWithIntl(<PanelBuilder />)
+
+    expect(await screen.findByLabelText(/upload a pdf/i)).toBeInTheDocument()
+  })
+
+  it('imports every page of a whole PDF as its own single-panel page', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const pages = [
+      new File(['p1'], 'book-1.png', { type: 'image/png' }),
+      new File(['p2'], 'book-2.png', { type: 'image/png' }),
+      new File(['p3'], 'book-3.png', { type: 'image/png' }),
+    ]
+    rasterizePagesMock.mockResolvedValue(pages)
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    const input = (await screen.findByLabelText(/upload a pdf/i)) as HTMLInputElement
+    const pdfFile = new File(['%PDF-1.4'], 'my-book.pdf', { type: 'application/pdf' })
+    await user.upload(input, pdfFile)
+
+    await waitFor(() => expect(rasterizePagesMock).toHaveBeenCalledWith(pdfFile, 30))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalledTimes(3))
+    expect(await within(stage).findByAltText('')).toHaveAttribute('src', 'https://example.com/rasterized.png')
+    expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument()
+  })
+
+  it('shows a translated error and imports nothing when the whole-PDF import cannot be read', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    rasterizePagesMock.mockRejectedValue(new Error('broken pdf'))
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+
+    const input = (await screen.findByLabelText(/upload a pdf/i)) as HTMLInputElement
+    const pdfFile = new File(['%PDF-1.4'], 'my-book.pdf', { type: 'application/pdf' })
+    await user.upload(input, pdfFile)
+
+    expect(await screen.findByText(/could not read that pdf/i)).toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
+  })
+
+  it('shows a translated error when an imported page fails to save', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    rasterizePagesMock.mockResolvedValue([new File(['p1'], 'book-1.png', { type: 'image/png' })])
+    uploadMock.mockResolvedValueOnce({ error: { message: 'boom' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+
+    const input = (await screen.findByLabelText(/upload a pdf/i)) as HTMLInputElement
+    const pdfFile = new File(['%PDF-1.4'], 'my-book.pdf', { type: 'application/pdf' })
+    await user.upload(input, pdfFile)
+
+    expect(await screen.findByText(/could not save those pages/i)).toBeInTheDocument()
   })
 })
