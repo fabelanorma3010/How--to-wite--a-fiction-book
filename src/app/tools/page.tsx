@@ -79,6 +79,22 @@ export default async function ToolsPage() {
           <WritingTools />
         </section>
 
+        <section className="px-4 pb-8 sm:px-6">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 rounded-3xl border-2 border-ink/10 bg-white/70 px-6 py-10 text-center shadow-sm">
+            <span aria-hidden="true" className="text-4xl">
+              🎨
+            </span>
+            <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">{t('artGeneratorHeading')}</h2>
+            <p className="max-w-md font-semibold text-ink/70">{t('artGeneratorBody')}</p>
+            <Link
+              href="/art-generator"
+              className="mt-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-content shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"
+            >
+              {t('artGeneratorButton')}
+            </Link>
+          </div>
+        </section>
+
         <section className="px-4 pb-16 sm:px-6">
           <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 rounded-3xl border-2 border-primary/20 bg-primary/5 px-6 py-10 text-center">
             <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">{t('signupCtaHeading')}</h2>

@@ -565,6 +565,9 @@
     "badge": "✨ 無料の AI ライティングツール",
     "heading": "ライティング<highlight>ツール</highlight>",
     "intro": "要約、講評、整理——テキストを貼り付けるかファイルをアップロードすると、数秒で結果が返ります。",
+    "artGeneratorHeading": "ランダムアートジェネレーター",
+    "artGeneratorBody": "図形、コミック、キャラクターなど、ブラウザ上で世界に一つだけの画像を生成できます。無料・即座・AI不要です。",
+    "artGeneratorButton": "試してみる →",
     "signupCtaHeading": "もっとツールが欲しいですか？",
     "signupCtaBody": "無料登録して作業を保存し、全ツールキットを解放して本作りを始めましょう。",
     "signupCtaButton": "もっとツールを使うために登録"
@@ -938,5 +941,32 @@
     "downloadError": "印刷プレビューを開けませんでした。少し経ってからもう一度お試しください。",
     "downloadDefaultTitle": "わたしの本のコマ割り",
     "publishViewBook": "本を見る →"
+  },
+  "ArtGenerator": {
+    "title": "ランダムアートジェネレーター",
+    "lead": "「生成」をタップすると、図形やコミック、キャラクターなど、毎回新しく描かれるオリジナル画像ができます。",
+    "noAiNote": "AI不要、無料 — ブラウザの中で描画の計算をしているだけです。",
+    "styleLabel": "スタイル",
+    "surpriseMe": "おまかせ",
+    "category": {
+      "shapes": "図形",
+      "comic": "コミック",
+      "person": "人物",
+      "superhero": "スーパーヒーロー",
+      "animal": "動物",
+      "cartoonCharacter": "カートゥーンキャラクター",
+      "redHairedWoman": "赤毛の女性",
+      "ninja": "忍者",
+      "angel": "天使"
+    },
+    "blurLabel": "ぼかし",
+    "blur": {
+      "none": "なし",
+      "light": "弱め",
+      "medium": "普通",
+      "heavy": "強め"
+    },
+    "generateButton": "もう一枚生成",
+    "downloadButton": "PNGをダウンロード"
   }
 }

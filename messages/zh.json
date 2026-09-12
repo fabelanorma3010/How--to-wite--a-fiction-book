@@ -565,6 +565,9 @@
     "badge": "✨ 免费的 AI 写作工具",
     "heading": "写作<highlight>工具</highlight>",
     "intro": "概括、评点、整理你的文字——粘贴文字或上传文件，几秒内拿到结果。",
+    "artGeneratorHeading": "随机图案生成器",
+    "artGeneratorBody": "在浏览器中直接生成独一无二的图片——形状、漫画、角色等等。免费、即时，无需 AI。",
+    "artGeneratorButton": "试一试 →",
     "signupCtaHeading": "想要更多这样的工具吗？",
     "signupCtaBody": "免费注册以保存你的工作、解锁完整工具包，并开始创作你的书。",
     "signupCtaButton": "注册解锁更多工具"
@@ -938,5 +941,32 @@
     "downloadError": "无法打开打印预览，请稍后重试。",
     "downloadDefaultTitle": "我的图书分格",
     "publishViewBook": "查看你的书 →"
+  },
+  "ArtGenerator": {
+    "title": "随机图案生成器",
+    "lead": "点击生成即可获得一张独一无二的图片——形状、漫画、角色等等，每次都是全新绘制。",
+    "noAiNote": "无需 AI，完全免费——只是浏览器里的绘图运算。",
+    "styleLabel": "风格",
+    "surpriseMe": "随机惊喜",
+    "category": {
+      "shapes": "形状",
+      "comic": "漫画",
+      "person": "人物",
+      "superhero": "超级英雄",
+      "animal": "动物",
+      "cartoonCharacter": "卡通角色",
+      "redHairedWoman": "红发女子",
+      "ninja": "忍者",
+      "angel": "天使"
+    },
+    "blurLabel": "模糊",
+    "blur": {
+      "none": "无",
+      "light": "轻微",
+      "medium": "中等",
+      "heavy": "强烈"
+    },
+    "generateButton": "再生成一张",
+    "downloadButton": "下载 PNG"
   }
 }

@@ -565,6 +565,9 @@
     "badge": "✨ Free AI writing tools",
     "heading": "Writing <highlight>Tools</highlight>",
     "intro": "Summarize, critique, and tidy up your writing — paste text or upload a file, get a result back in seconds.",
+    "artGeneratorHeading": "Random Art Generator",
+    "artGeneratorBody": "Generate one-of-a-kind pictures — shapes, comics, characters, and more — right in your browser. Free, instant, no AI needed.",
+    "artGeneratorButton": "Try it →",
     "signupCtaHeading": "Want more tools like these?",
     "signupCtaBody": "Sign up free to save your work, unlock the full toolkit, and start building your book.",
     "signupCtaButton": "Sign up for more tools"
@@ -938,5 +941,32 @@
     "downloadError": "Couldn't open the print view — try again in a moment.",
     "downloadDefaultTitle": "My Book Panel",
     "publishViewBook": "View your book →"
+  },
+  "ArtGenerator": {
+    "title": "Random Art Generator",
+    "lead": "Click Generate for a one-of-a-kind picture — shapes, comics, characters, and more, drawn fresh every time.",
+    "noAiNote": "No AI, no cost — just your browser drawing math, right here.",
+    "styleLabel": "Style",
+    "surpriseMe": "Surprise me",
+    "category": {
+      "shapes": "Shapes",
+      "comic": "Comic",
+      "person": "Person",
+      "superhero": "Superhero",
+      "animal": "Animal",
+      "cartoonCharacter": "Cartoon Character",
+      "redHairedWoman": "Red-Haired Woman",
+      "ninja": "Ninja",
+      "angel": "Angel"
+    },
+    "blurLabel": "Blur",
+    "blur": {
+      "none": "None",
+      "light": "Light",
+      "medium": "Medium",
+      "heavy": "Heavy"
+    },
+    "generateButton": "Generate Another",
+    "downloadButton": "Download PNG"
   }
 }

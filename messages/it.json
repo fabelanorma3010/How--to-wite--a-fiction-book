@@ -565,6 +565,9 @@
     "badge": "✨ Strumenti di scrittura IA gratuiti",
     "heading": "Strumenti di <highlight>scrittura</highlight>",
     "intro": "Riassumi, critica e metti in ordine la tua scrittura — incolla il testo o carica un file, ricevi un risultato in pochi secondi.",
+    "artGeneratorHeading": "Generatore d'Arte Casuale",
+    "artGeneratorBody": "Genera immagini uniche — forme, fumetti, personaggi e altro — direttamente nel tuo browser. Gratis, istantaneo, senza IA.",
+    "artGeneratorButton": "Provalo →",
     "signupCtaHeading": "Vuoi altri strumenti come questi?",
     "signupCtaBody": "Iscriviti gratis per salvare il tuo lavoro, sbloccare il toolkit completo e iniziare il tuo libro.",
     "signupCtaButton": "Iscriviti per altri strumenti"
@@ -938,5 +941,32 @@
     "downloadError": "Impossibile aprire l'anteprima di stampa. Riprova tra un momento.",
     "downloadDefaultTitle": "Le mie vignette libro",
     "publishViewBook": "Vedi il tuo libro →"
+  },
+  "ArtGenerator": {
+    "title": "Generatore d'Arte Casuale",
+    "lead": "Tocca Genera per un'immagine unica — forme, fumetti, personaggi e altro, disegnata di nuovo ogni volta.",
+    "noAiNote": "Niente IA, nessun costo — solo matematica di disegno, proprio qui nel tuo browser.",
+    "styleLabel": "Stile",
+    "surpriseMe": "Sorprendimi",
+    "category": {
+      "shapes": "Forme",
+      "comic": "Fumetto",
+      "person": "Persona",
+      "superhero": "Supereroe",
+      "animal": "Animale",
+      "cartoonCharacter": "Personaggio dei cartoni",
+      "redHairedWoman": "Donna dai capelli rossi",
+      "ninja": "Ninja",
+      "angel": "Angelo"
+    },
+    "blurLabel": "Sfocatura",
+    "blur": {
+      "none": "Nessuna",
+      "light": "Leggera",
+      "medium": "Media",
+      "heavy": "Forte"
+    },
+    "generateButton": "Genera un altro",
+    "downloadButton": "Scarica PNG"
   }
 }
