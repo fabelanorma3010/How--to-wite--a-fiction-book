@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithIntl } from '../test/renderWithIntl'
 import PanelBuilder from './PanelBuilder'
@@ -95,7 +95,7 @@ describe('PanelBuilder', () => {
     expect(screen.getByDisplayValue('The vault door creaks open.')).toBeInTheDocument()
   })
 
-  it('lets the panel text size be changed, and defaults to Medium', async () => {
+  it('lets the panel text size be changed anywhere from 1 to 75px, defaulting to 10.5px', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
@@ -104,17 +104,18 @@ describe('PanelBuilder', () => {
     await user.click(within(stage).getByText('Panel 1'))
     await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
 
-    const mediumButton = screen.getByRole('button', { name: /^Medium$/ })
-    const largeButton = screen.getByRole('button', { name: /^Large$/ })
-    expect(mediumButton).toHaveAttribute('aria-pressed', 'true')
+    const slider = screen.getByLabelText('Text size') as HTMLInputElement
+    expect(slider).toHaveAttribute('min', '1')
+    expect(slider).toHaveAttribute('max', '75')
+    expect(slider.value).toBe('10.5')
 
     const box = screen.getByPlaceholderText('Type here…')
     expect(box).toHaveStyle({ fontSize: '10.5px' })
+    expect(screen.getByText('11px')).toBeInTheDocument()
 
-    await user.click(largeButton)
-    expect(largeButton).toHaveAttribute('aria-pressed', 'true')
-    expect(mediumButton).toHaveAttribute('aria-pressed', 'false')
-    expect(box).toHaveStyle({ fontSize: '14px' })
+    fireEvent.change(slider, { target: { value: '60' } })
+    expect(box).toHaveStyle({ fontSize: '60px' })
+    expect(screen.getByText('60px')).toBeInTheDocument()
   })
 
   it('clearing a panel removes its text tools', async () => {
