@@ -8,11 +8,11 @@ import Sticker from './Sticker'
 type Tool = 'pencil' | 'crayon' | 'eraser' | 'text'
 type Point = { x: number; y: number }
 type TemplateId = 'dog' | 'cat' | 'dinosaur' | 'rocket'
-type FontSize = 'sm' | 'md' | 'lg'
 type PendingText = { canvasX: number; canvasY: number; screenX: number; screenY: number; scale: number; value: string }
 
-const FONT_SIZE_ORDER: FontSize[] = ['sm', 'md', 'lg']
-const FONT_SIZE_PX: Record<FontSize, number> = { sm: 32, md: 48, lg: 72 }
+const MIN_FONT_SIZE = 1
+const MAX_FONT_SIZE = 75
+const DEFAULT_FONT_SIZE = 48
 const ACCEPTED_UPLOAD_IMAGE = ['image/png', 'image/jpeg', 'image/webp']
 const MAX_UPLOAD_IMAGE_BYTES = 15 * 1024 * 1024
 
@@ -176,7 +176,7 @@ export default function PictureBookMaker() {
   const [pageIndex, setPageIndex] = useState(0)
   const [tool, setTool] = useState<Tool>('pencil')
   const [color, setColor] = useState(COLORS[0])
-  const [textSize, setTextSize] = useState<FontSize>('md')
+  const [textSize, setTextSize] = useState<number>(DEFAULT_FONT_SIZE)
   const [pendingText, setPendingText] = useState<PendingText | null>(null)
   const [turnDir, setTurnDir] = useState<'next' | 'prev'>('next')
   const [downloadBusy, setDownloadBusy] = useState(false)
@@ -230,9 +230,9 @@ export default function PictureBookMaker() {
     if (!ctx) return
     pushHistory()
     ctx.fillStyle = color
-    ctx.font = `bold ${FONT_SIZE_PX[textSize]}px sans-serif`
+    ctx.font = `bold ${textSize}px sans-serif`
     ctx.textBaseline = 'top'
-    const lineHeight = FONT_SIZE_PX[textSize] * 1.2
+    const lineHeight = textSize * 1.2
     pt.value.split('\n').forEach((line, i) => ctx.fillText(line, pt.canvasX, pt.canvasY + i * lineHeight))
   }
 
@@ -502,21 +502,20 @@ export default function PictureBookMaker() {
         </div>
 
         {tool === 'text' && (
-          <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
-            <span className="text-xs font-bold text-ink/50">{t('fontSizeLabel')}</span>
-            {FONT_SIZE_ORDER.map((size) => (
-              <button
-                key={size}
-                type="button"
-                onClick={() => setTextSize(size)}
-                aria-pressed={textSize === size}
-                className={`rounded-full border-2 px-3 py-1 text-xs font-bold ${
-                  textSize === size ? 'border-primary bg-primary/20 text-ink' : 'border-ink/15 bg-white text-ink/70'
-                }`}
-              >
-                {t(`fontSize${size === 'sm' ? 'Small' : size === 'md' ? 'Medium' : 'Large'}`)}
-              </button>
-            ))}
+          <div className="mx-auto mt-3 flex max-w-xs items-center gap-2">
+            <label htmlFor="picture-book-font-size" className="text-xs font-bold text-ink/50">
+              {t('fontSizeLabel')}
+            </label>
+            <input
+              id="picture-book-font-size"
+              type="range"
+              min={MIN_FONT_SIZE}
+              max={MAX_FONT_SIZE}
+              value={textSize}
+              onChange={(e) => setTextSize(Number(e.target.value))}
+              className="h-2 flex-1 accent-primary"
+            />
+            <span className="w-10 shrink-0 text-right text-xs font-bold text-ink/60">{textSize}px</span>
           </div>
         )}
 
@@ -562,7 +561,7 @@ export default function PictureBookMaker() {
                       onChange={(e) => setPendingText((p) => (p ? { ...p, value: e.target.value } : p))}
                       placeholder={t('textPlaceholder')}
                       className="min-w-[110px] resize border-2 border-dashed border-primary bg-white/90 p-1 font-bold leading-tight outline-none"
-                      style={{ color, fontSize: Math.max(FONT_SIZE_PX[textSize] * pendingText.scale, 12) }}
+                      style={{ color, fontSize: Math.max(textSize * pendingText.scale, 10) }}
                     />
                     <div className="flex gap-1">
                       <button
