@@ -565,6 +565,9 @@
     "badge": "✨ Kostenlose KI-Schreibwerkzeuge",
     "heading": "<highlight>Schreibwerkzeuge</highlight>",
     "intro": "Zusammenfassen, kritisieren und dein Schreiben aufräumen — Text einfügen oder Datei hochladen, in Sekunden ein Ergebnis zurückbekommen.",
+    "artGeneratorHeading": "Zufälliger Bildgenerator",
+    "artGeneratorBody": "Erzeuge einzigartige Bilder – Formen, Comics, Figuren und mehr – direkt in deinem Browser. Kostenlos, sofort, ganz ohne KI.",
+    "artGeneratorButton": "Ausprobieren →",
     "signupCtaHeading": "Willst du mehr solcher Tools?",
     "signupCtaBody": "Melde dich kostenlos an, um deine Arbeit zu speichern, das komplette Toolkit freizuschalten und dein Buch zu starten.",
     "signupCtaButton": "Für mehr Tools anmelden"
@@ -938,5 +941,32 @@
     "downloadError": "Die Druckansicht konnte nicht geöffnet werden. Versuch es gleich noch einmal.",
     "downloadDefaultTitle": "Mein Buch-Panel",
     "publishViewBook": "Buch ansehen →"
+  },
+  "ArtGenerator": {
+    "title": "Zufälliger Bildgenerator",
+    "lead": "Tippe auf Erzeugen für ein einzigartiges Bild – Formen, Comics, Figuren und mehr, jedes Mal frisch gezeichnet.",
+    "noAiNote": "Keine KI, keine Kosten – nur Zeichenmathematik direkt in deinem Browser.",
+    "styleLabel": "Stil",
+    "surpriseMe": "Überrasch mich",
+    "category": {
+      "shapes": "Formen",
+      "comic": "Comic",
+      "person": "Person",
+      "superhero": "Superheld",
+      "animal": "Tier",
+      "cartoonCharacter": "Cartoon-Figur",
+      "redHairedWoman": "Rothaarige Frau",
+      "ninja": "Ninja",
+      "angel": "Engel"
+    },
+    "blurLabel": "Unschärfe",
+    "blur": {
+      "none": "Keine",
+      "light": "Leicht",
+      "medium": "Mittel",
+      "heavy": "Stark"
+    },
+    "generateButton": "Neues erzeugen",
+    "downloadButton": "PNG herunterladen"
   }
 }

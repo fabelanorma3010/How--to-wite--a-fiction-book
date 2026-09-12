@@ -565,6 +565,9 @@
     "badge": "✨ Herramientas de escritura con IA gratuitas",
     "heading": "Herramientas de <highlight>escritura</highlight>",
     "intro": "Resume, critica y ordena tu escritura: pega el texto o sube un archivo y recibe un resultado en segundos.",
+    "artGeneratorHeading": "Generador de Arte Aleatorio",
+    "artGeneratorBody": "Genera imágenes únicas: formas, cómics, personajes y más, directamente en tu navegador. Gratis, al instante, sin IA.",
+    "artGeneratorButton": "Probarlo →",
     "signupCtaHeading": "¿Quieres más herramientas como estas?",
     "signupCtaBody": "Regístrate gratis para guardar tu trabajo, desbloquear el kit completo de herramientas y empezar tu libro.",
     "signupCtaButton": "Regístrate para más herramientas"
@@ -938,5 +941,32 @@
     "downloadError": "No se pudo abrir la vista de impresión. Inténtalo de nuevo en un momento.",
     "downloadDefaultTitle": "Mis viñetas de libro",
     "publishViewBook": "Ver tu libro →"
+  },
+  "ArtGenerator": {
+    "title": "Generador de Arte Aleatorio",
+    "lead": "Pulsa Generar para obtener una imagen única — formas, cómics, personajes y más, dibujada de nuevo cada vez.",
+    "noAiNote": "Sin IA, sin costo — solo matemáticas de dibujo en tu navegador.",
+    "styleLabel": "Estilo",
+    "surpriseMe": "Sorpréndeme",
+    "category": {
+      "shapes": "Formas",
+      "comic": "Cómic",
+      "person": "Persona",
+      "superhero": "Superhéroe",
+      "animal": "Animal",
+      "cartoonCharacter": "Personaje de dibujos animados",
+      "redHairedWoman": "Mujer pelirroja",
+      "ninja": "Ninja",
+      "angel": "Ángel"
+    },
+    "blurLabel": "Desenfoque",
+    "blur": {
+      "none": "Ninguno",
+      "light": "Leve",
+      "medium": "Medio",
+      "heavy": "Fuerte"
+    },
+    "generateButton": "Generar otro",
+    "downloadButton": "Descargar PNG"
   }
 }

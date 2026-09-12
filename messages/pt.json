@@ -565,6 +565,9 @@
     "badge": "✨ Ferramentas de escrita com IA gratuitas",
     "heading": "Ferramentas de <highlight>escrita</highlight>",
     "intro": "Resuma, critique e organize sua escrita — cole o texto ou envie um arquivo e receba um resultado em segundos.",
+    "artGeneratorHeading": "Gerador de Arte Aleatória",
+    "artGeneratorBody": "Gere imagens únicas — formas, quadrinhos, personagens e muito mais — direto no seu navegador. Grátis, instantâneo, sem IA.",
+    "artGeneratorButton": "Experimentar →",
     "signupCtaHeading": "Quer mais ferramentas como essas?",
     "signupCtaBody": "Cadastre-se grátis para salvar seu trabalho, desbloquear o kit completo de ferramentas e começar seu livro.",
     "signupCtaButton": "Cadastre-se para mais ferramentas"
@@ -938,5 +941,32 @@
     "downloadError": "Não foi possível abrir a visualização de impressão. Tente novamente em instantes.",
     "downloadDefaultTitle": "Meus quadros do livro",
     "publishViewBook": "Ver seu livro →"
+  },
+  "ArtGenerator": {
+    "title": "Gerador de Arte Aleatória",
+    "lead": "Toque em Gerar para uma imagem única — formas, quadrinhos, personagens e muito mais, desenhada de novo a cada vez.",
+    "noAiNote": "Sem IA, sem custo — só matemática de desenho, bem aqui no seu navegador.",
+    "styleLabel": "Estilo",
+    "surpriseMe": "Me surpreenda",
+    "category": {
+      "shapes": "Formas",
+      "comic": "Quadrinho",
+      "person": "Pessoa",
+      "superhero": "Super-herói",
+      "animal": "Animal",
+      "cartoonCharacter": "Personagem de desenho animado",
+      "redHairedWoman": "Mulher ruiva",
+      "ninja": "Ninja",
+      "angel": "Anjo"
+    },
+    "blurLabel": "Desfoque",
+    "blur": {
+      "none": "Nenhum",
+      "light": "Leve",
+      "medium": "Médio",
+      "heavy": "Forte"
+    },
+    "generateButton": "Gerar outra",
+    "downloadButton": "Baixar PNG"
   }
 }

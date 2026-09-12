@@ -565,6 +565,9 @@
     "badge": "✨ Outils d'écriture IA gratuits",
     "heading": "Outils <highlight>d'écriture</highlight>",
     "intro": "Résumez, critiquez et mettez de l'ordre dans votre écriture — collez du texte ou importez un fichier, obtenez un résultat en quelques secondes.",
+    "artGeneratorHeading": "Générateur d'art aléatoire",
+    "artGeneratorBody": "Générez des images uniques — formes, bandes dessinées, personnages et plus — directement dans votre navigateur. Gratuit, instantané, sans IA.",
+    "artGeneratorButton": "Essayer →",
     "signupCtaHeading": "Envie de plus d'outils comme ceux-ci ?",
     "signupCtaBody": "Inscrivez-vous gratuitement pour sauvegarder votre travail, débloquer la boîte à outils complète et démarrer votre livre.",
     "signupCtaButton": "S'inscrire pour plus d'outils"
@@ -938,5 +941,32 @@
     "downloadError": "Impossible d'ouvrir l'aperçu d'impression. Réessayez dans un instant.",
     "downloadDefaultTitle": "Mes cases de livre",
     "publishViewBook": "Voir ton livre →"
+  },
+  "ArtGenerator": {
+    "title": "Générateur d'art aléatoire",
+    "lead": "Cliquez sur Générer pour obtenir une image unique — formes, bandes dessinées, personnages et plus, dessinée à nouveau à chaque fois.",
+    "noAiNote": "Pas d'IA, pas de coût — juste des maths de dessin, ici même dans votre navigateur.",
+    "styleLabel": "Style",
+    "surpriseMe": "Surprends-moi",
+    "category": {
+      "shapes": "Formes",
+      "comic": "BD",
+      "person": "Personne",
+      "superhero": "Super-héros",
+      "animal": "Animal",
+      "cartoonCharacter": "Personnage de dessin animé",
+      "redHairedWoman": "Femme rousse",
+      "ninja": "Ninja",
+      "angel": "Ange"
+    },
+    "blurLabel": "Flou",
+    "blur": {
+      "none": "Aucun",
+      "light": "Léger",
+      "medium": "Moyen",
+      "heavy": "Fort"
+    },
+    "generateButton": "Générer un autre",
+    "downloadButton": "Télécharger le PNG"
   }
 }
