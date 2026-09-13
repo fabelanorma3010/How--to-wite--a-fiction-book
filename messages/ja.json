@@ -908,6 +908,7 @@
     },
     "layoutHeading": "このページのパネルレイアウト",
     "pageOf": "{total}ページ中{n}ページ目",
+    "insertPageBefore": "このページの前にページを挿入",
     "layout": {
       "oneBig": "大きいコマ1つ",
       "twoStacked": "2段",

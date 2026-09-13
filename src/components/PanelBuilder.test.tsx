@@ -145,6 +145,57 @@ describe('PanelBuilder', () => {
     expect(next).toBeDisabled()
   })
 
+  it('inserts a blank page before the current one without disturbing pages already written', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    // Page 1 gets "First page", then a fresh page 2 gets "Second page".
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.type(screen.getByPlaceholderText('Type here…'), 'First page')
+
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.type(screen.getByPlaceholderText('Type here…'), 'Second page')
+    expect(screen.getByText('Page 2 of 30')).toBeInTheDocument()
+
+    // Back to page 1, then insert a page before it.
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(screen.getByDisplayValue('First page')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /insert page before/i }))
+
+    // Still page index 1 (the counter always shows "of 30", the cap — not a
+    // live count), but it's now the fresh blank page: the old page 1's text
+    // moved to page 2, and the old page 2 to page 3.
+    expect(screen.getByText('Page 1 of 30')).toBeInTheDocument()
+    expect(screen.queryByDisplayValue('First page')).not.toBeInTheDocument()
+    expect(within(stage).queryByPlaceholderText('Type here…')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    expect(screen.getByText('Page 2 of 30')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('First page')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    expect(screen.getByText('Page 3 of 30')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('Second page')).toBeInTheDocument()
+  })
+
+  it('disables inserting a page once at the 30-page cap', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const next = screen.getByRole('button', { name: /next page/i })
+
+    for (let i = 0; i < 29; i++) {
+      await user.click(next)
+    }
+    expect(screen.getByRole('button', { name: /insert page before/i })).toBeDisabled()
+  })
+
   it('keeps separate layouts per drawing style', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()

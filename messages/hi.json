@@ -908,6 +908,7 @@
     },
     "layoutHeading": "इस पेज के लिए पैनल लेआउट",
     "pageOf": "पेज {n} / {total}",
+    "insertPageBefore": "इस पेज से पहले पेज जोड़ें",
     "layout": {
       "oneBig": "1 बड़ा पैनल",
       "twoStacked": "2 स्टैक्ड",

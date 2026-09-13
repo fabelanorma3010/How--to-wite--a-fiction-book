@@ -908,6 +908,7 @@
     },
     "layoutHeading": "Diseño de viñetas para esta página",
     "pageOf": "Página {n} de {total}",
+    "insertPageBefore": "Insertar página antes de esta",
     "layout": {
       "oneBig": "1 viñeta grande",
       "twoStacked": "2 apiladas",

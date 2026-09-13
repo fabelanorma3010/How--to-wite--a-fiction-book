@@ -908,6 +908,7 @@
     },
     "layoutHeading": "Layout delle vignette per questa pagina",
     "pageOf": "Pagina {n} di {total}",
+    "insertPageBefore": "Inserisci pagina prima di questa",
     "layout": {
       "oneBig": "1 vignetta grande",
       "twoStacked": "2 impilate",

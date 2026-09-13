@@ -908,6 +908,7 @@
     },
     "layoutHeading": "Panel-Layout für diese Seite",
     "pageOf": "Seite {n} von {total}",
+    "insertPageBefore": "Seite davor einfügen",
     "layout": {
       "oneBig": "1 großes Panel",
       "twoStacked": "2 gestapelt",
