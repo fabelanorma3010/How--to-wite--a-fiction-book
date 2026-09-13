@@ -109,9 +109,27 @@ function isAcceptedAudioType(type: string): boolean {
   return ACCEPTED_AUDIO_PREFIXES.some((prefix) => type === prefix || type.startsWith(`${prefix};`))
 }
 
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(file)
+  })
+}
+
 const MIN_FONT_SIZE = 1
 const MAX_FONT_SIZE = 75
 const DEFAULT_FONT_SIZE = 10.5
+
+const MIN_IMAGE_ZOOM = 1
+const MAX_IMAGE_ZOOM = 3
+const DEFAULT_IMAGE_ZOOM = 1
+const MAX_IMAGE_OFFSET = 45
+
+function clampImageOffset(value: number): number {
+  return Math.max(-MAX_IMAGE_OFFSET, Math.min(MAX_IMAGE_OFFSET, value))
+}
 
 const EXPORT_VIDEO_W = 1350
 const EXPORT_VIDEO_H = 1800
@@ -165,15 +183,38 @@ function preloadExportPage(src: string): Promise<PreloadedPage> {
   })
 }
 
-function drawContained(ctx: CanvasRenderingContext2D, media: HTMLImageElement | HTMLVideoElement) {
+interface PageFraming {
+  zoom: number
+  offsetX: number
+  offsetY: number
+}
+
+const DEFAULT_PAGE_FRAMING: PageFraming = { zoom: 1, offsetX: 0, offsetY: 0 }
+
+/**
+ * Fills the whole export frame with the media, cropping instead of
+ * letterboxing — a plain "contain" fit left large white bars around any
+ * picture that didn't already match the export's portrait shape, which is
+ * the normal case since AI-generated art comes out square. Zoom/offset
+ * mirror the same crop the panel preview shows in the editor (applied via
+ * CSS transform there, replicated here in canvas-drawing terms), so the
+ * export matches what was framed on screen.
+ */
+function drawContained(
+  ctx: CanvasRenderingContext2D,
+  media: HTMLImageElement | HTMLVideoElement,
+  framing: PageFraming = DEFAULT_PAGE_FRAMING,
+) {
   const mediaW = media instanceof HTMLVideoElement ? media.videoWidth : media.width
   const mediaH = media instanceof HTMLVideoElement ? media.videoHeight : media.height
   ctx.fillStyle = '#ffffff'
   ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-  const scale = Math.min(EXPORT_VIDEO_W / mediaW, EXPORT_VIDEO_H / mediaH)
+  const scale = Math.max(EXPORT_VIDEO_W / mediaW, EXPORT_VIDEO_H / mediaH) * framing.zoom
   const w = mediaW * scale
   const h = mediaH * scale
-  ctx.drawImage(media, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
+  const x = (EXPORT_VIDEO_W - w) / 2 + (framing.offsetX / 100) * EXPORT_VIDEO_W
+  const y = (EXPORT_VIDEO_H - h) / 2 + (framing.offsetY / 100) * EXPORT_VIDEO_H
+  ctx.drawImage(media, x, y, w, h)
 }
 
 /**
@@ -192,7 +233,7 @@ function holdStaticFrame(draw: () => void): Promise<void> {
 }
 
 /** Renders one already-loaded page into the export canvas and resolves once its on-screen time is up. */
-function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage): Promise<void> {
+function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage, framing: PageFraming): Promise<void> {
   if (page.kind === 'failed') {
     return holdStaticFrame(() => {
       ctx.fillStyle = '#ffffff'
@@ -200,7 +241,7 @@ function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage): P
     })
   }
   if (page.kind === 'image') {
-    return holdStaticFrame(() => drawContained(ctx, page.el))
+    return holdStaticFrame(() => drawContained(ctx, page.el, framing))
   }
 
   const videoEl = page.el
@@ -216,7 +257,7 @@ function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage): P
     }
     const draw = () => {
       if (done) return
-      drawContained(ctx, videoEl)
+      drawContained(ctx, videoEl, framing)
       raf = window.requestAnimationFrame(draw)
     }
     const seconds = Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS)
@@ -237,6 +278,9 @@ interface PanelState {
   text?: string
   fontSize?: number
   audio?: string
+  imageZoom?: number
+  imageOffsetX?: number
+  imageOffsetY?: number
 }
 interface PageState {
   layout: LayoutKey
@@ -245,6 +289,20 @@ interface PageState {
 
 function makePage(layout: LayoutKey): PageState {
   return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})) }
+}
+
+/**
+ * Zoom/position only ever adjust how a panel's picture is framed inside its
+ * own small grid cell here in the editor — every exported/published page
+ * (PDF, video, the reader) shows the whole picture uncropped, so there's
+ * nothing to carry over there.
+ */
+function panelImageStyle(panel: PanelState): React.CSSProperties {
+  const zoom = panel.imageZoom ?? DEFAULT_IMAGE_ZOOM
+  const x = panel.imageOffsetX ?? 0
+  const y = panel.imageOffsetY ?? 0
+  if (zoom === DEFAULT_IMAGE_ZOOM && x === 0 && y === 0) return {}
+  return { transform: `scale(${zoom}) translate(${x}%, ${y}%)` }
 }
 
 const DRAFT_DB_NAME = 'storyburst-book-panel'
@@ -360,6 +418,21 @@ export default function PanelBuilder() {
   const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'restored' | 'error'>('idle')
   const draftLoadedRef = useRef(false)
 
+  // Tracks an in-progress drag-to-reposition on a panel's image, so a plain
+  // tap can still select/deselect the panel while a real drag doesn't.
+  const imageDragRef = useRef<{
+    panelIndex: number
+    pointerId: number
+    startX: number
+    startY: number
+    startOffsetX: number
+    startOffsetY: number
+    boxWidth: number
+    boxHeight: number
+    canDrag: boolean
+    moved: boolean
+  } | null>(null)
+
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
   const rtl = STYLE_RTL[style]
   const pages = pagesByStyle[style]
@@ -467,6 +540,48 @@ export default function PanelBuilder() {
     })
   }
 
+  // A tap still selects/deselects a panel, but a real drag on an already
+  // selected panel's picture repositions it instead — distinguished by
+  // whether the pointer moved past a small threshold before release.
+  function handlePanelPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+    const box = e.currentTarget.getBoundingClientRect()
+    imageDragRef.current = {
+      panelIndex,
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startOffsetX: panel.imageOffsetX ?? 0,
+      startOffsetY: panel.imageOffsetY ?? 0,
+      boxWidth: box.width,
+      boxHeight: box.height,
+      canDrag: selectedPanel === panelIndex && !!panel.image,
+      moved: false,
+    }
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+  }
+
+  function handlePanelPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const drag = imageDragRef.current
+    if (!drag || drag.pointerId !== e.pointerId || !drag.canDrag) return
+    const dx = e.clientX - drag.startX
+    const dy = e.clientY - drag.startY
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return
+    drag.moved = true
+    updatePanel(drag.panelIndex, {
+      imageOffsetX: clampImageOffset(drag.startOffsetX + (dx / drag.boxWidth) * 100),
+      imageOffsetY: clampImageOffset(drag.startOffsetY + (dy / drag.boxHeight) * 100),
+    })
+  }
+
+  function handlePanelPointerUp(e: React.PointerEvent<HTMLDivElement>, panelIndex: number) {
+    const drag = imageDragRef.current
+    imageDragRef.current = null
+    if (!drag || drag.pointerId !== e.pointerId) return
+    if (!drag.moved) {
+      setSelectedPanel(selectedPanel === panelIndex ? null : panelIndex)
+    }
+  }
+
   function goPrev() {
     if (pageIndex === 0) return
     setTurnDir('prev')
@@ -544,10 +659,28 @@ export default function PanelBuilder() {
   }
 
   async function handleUploadImage(file: File) {
-    if (selectedPanel === null || !userId || convertingPdf) return
+    if (selectedPanel === null || convertingPdf) return
     setImageError('')
     if (!ACCEPTED_UPLOAD.includes(file.type)) {
       setImageError(t('imageFileError'))
+      return
+    }
+
+    // Anyone can add a plain photo without an account — it's kept as a data:
+    // URL in the browser rather than uploaded to Storage, which needs a
+    // signed-in owner. PDFs (need server-side rasterizing) and video (large
+    // enough to bloat a published page as inline data) still need sign-in.
+    if (!userId) {
+      if (!ACCEPTED_IMAGE.includes(file.type)) {
+        setImageError(t('signInForUpload'))
+        return
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        setImageError(t('imageFileError'))
+        return
+      }
+      const dataUrl = await readFileAsDataUrl(file)
+      updatePanel(selectedPanel, { image: dataUrl })
       return
     }
 
@@ -706,7 +839,12 @@ export default function PanelBuilder() {
     const pagesOut = orderedPanels.map((p) => p.image!)
     const pageCaptions = orderedPanels.map((p) => (p.text ? encodeCaptionType(p.textType ?? 'speech', p.text) : ''))
     const pageAudio = orderedPanels.map((p) => p.audio ?? '')
-    return { pagesOut, pageCaptions, pageAudio }
+    const pageFraming: PageFraming[] = orderedPanels.map((p) => ({
+      zoom: p.imageZoom ?? DEFAULT_IMAGE_ZOOM,
+      offsetX: p.imageOffsetX ?? 0,
+      offsetY: p.imageOffsetY ?? 0,
+    }))
+    return { pagesOut, pageCaptions, pageAudio, pageFraming }
   }
 
   async function handlePublish() {
@@ -776,7 +914,7 @@ export default function PanelBuilder() {
     setVideoBusy(true)
     setVideoError('')
     try {
-      const { pagesOut } = flattenPages()
+      const { pagesOut, pageFraming } = flattenPages()
 
       const canvas = document.createElement('canvas')
       canvas.width = EXPORT_VIDEO_W
@@ -813,8 +951,8 @@ export default function PanelBuilder() {
       })
 
       recorder.start()
-      for (const page of pages) {
-        await renderExportPage(ctx, page)
+      for (let i = 0; i < pages.length; i++) {
+        await renderExportPage(ctx, pages[i], pageFraming[i])
       }
       recorder.stop()
       await finished
@@ -983,8 +1121,10 @@ export default function PanelBuilder() {
               return (
                 <div
                   key={n}
-                  onClick={() => setSelectedPanel(isSelected ? null : n - 1)}
-                  className="relative cursor-pointer overflow-hidden"
+                  onPointerDown={(e) => handlePanelPointerDown(e, n - 1, panel)}
+                  onPointerMove={handlePanelPointerMove}
+                  onPointerUp={(e) => handlePanelPointerUp(e, n - 1)}
+                  className={`relative cursor-pointer overflow-hidden ${isSelected && panel.image ? 'touch-none' : ''}`}
                   style={{
                     gridColumn,
                     gridRow,
@@ -1001,16 +1141,18 @@ export default function PanelBuilder() {
                           loop
                           muted
                           playsInline
+                          draggable={false}
                           className="absolute inset-0 h-full w-full object-cover"
-                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                          style={{ ...panelImageStyle(panel), ...(theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : {}) }}
                         />
                       ) : (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={panel.image}
                           alt=""
+                          draggable={false}
                           className="absolute inset-0 h-full w-full object-cover"
-                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                          style={{ ...panelImageStyle(panel), ...(theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : {}) }}
                         />
                       )}
                       {theme.illustTexture !== 'flat' && (
@@ -1202,28 +1344,25 @@ export default function PanelBuilder() {
                     {t('unsplashLink')}
                   </a>
                 </div>
-                {userId ? (
-                  <label
-                    className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${
-                      convertingPdf ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
-                    }`}
-                  >
-                    {convertingPdf ? t('convertingPdf') : t('uploadImage')}
-                    <input
-                      type="file"
-                      accept={ACCEPTED_UPLOAD.join(',')}
-                      disabled={convertingPdf}
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0]
-                        if (file) void handleUploadImage(file)
-                        e.target.value = ''
-                      }}
-                    />
-                  </label>
-                ) : (
-                  <p className="text-xs font-semibold text-ink/45">{t('signInForUpload')}</p>
-                )}
+                <label
+                  className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${
+                    convertingPdf ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
+                  }`}
+                >
+                  {convertingPdf ? t('convertingPdf') : userId ? t('uploadImage') : t('uploadImageOnly')}
+                  <input
+                    type="file"
+                    accept={(userId ? ACCEPTED_UPLOAD : ACCEPTED_IMAGE).join(',')}
+                    disabled={convertingPdf}
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) void handleUploadImage(file)
+                      e.target.value = ''
+                    }}
+                  />
+                </label>
+                {!userId && <p className="mt-1 text-[10px] font-semibold text-ink/45">{t('uploadMoreSignIn')}</p>}
                 <p className="mt-1 text-[10px] font-semibold text-ink/40">{t('videoPanelHint')}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
                   <input
@@ -1247,6 +1386,47 @@ export default function PanelBuilder() {
                   </button>
                 </div>
                 {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
+              </div>
+            )}
+
+            {currentPanel?.image && (
+              <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <p className="text-xs font-bold text-ink/60">{t('panelPositionLabel')}</p>
+                  {((currentPanel.imageZoom ?? DEFAULT_IMAGE_ZOOM) !== DEFAULT_IMAGE_ZOOM ||
+                    (currentPanel.imageOffsetX ?? 0) !== 0 ||
+                    (currentPanel.imageOffsetY ?? 0) !== 0) && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        updatePanel(selectedPanel, { imageZoom: undefined, imageOffsetX: undefined, imageOffsetY: undefined })
+                      }
+                      className="text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+                    >
+                      {t('resetPosition')}
+                    </button>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <label htmlFor="panel-image-zoom" className="text-xs">
+                    🔍
+                  </label>
+                  <input
+                    id="panel-image-zoom"
+                    type="range"
+                    min={MIN_IMAGE_ZOOM}
+                    max={MAX_IMAGE_ZOOM}
+                    step={0.05}
+                    value={currentPanel.imageZoom ?? DEFAULT_IMAGE_ZOOM}
+                    onChange={(e) => updatePanel(selectedPanel, { imageZoom: Number(e.target.value) })}
+                    className="h-2 flex-1 accent-primary"
+                    aria-label={t('zoomLabel')}
+                  />
+                  <span className="w-12 shrink-0 text-right text-xs font-bold text-ink/60">
+                    {Math.round((currentPanel.imageZoom ?? DEFAULT_IMAGE_ZOOM) * 100)}%
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[10px] font-semibold text-ink/40">{t('dragToReposition')}</p>
               </div>
             )}
 
@@ -1426,6 +1606,7 @@ function TextBox({
     <textarea
       value={value}
       onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       onChange={(e) => onChange(e.target.value)}
       rows={2}
       placeholder={placeholder}
@@ -1440,6 +1621,7 @@ function TextBox({
         className="absolute inset-x-0 bottom-0 z-[2] px-2.5 py-2"
         style={{ background: 'rgba(255,255,255,.93)', borderTop: `2px solid ${theme.ink}` }}
         onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       >
         {textarea}
       </div>
@@ -1452,6 +1634,7 @@ function TextBox({
         className="absolute top-1.5 z-[2] max-w-[80%] px-3 py-2.5"
         style={{ [side]: 6, background: '#fff', border: `2px solid ${theme.ink}`, borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%' } as React.CSSProperties}
         onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       >
         {textarea}
         <span
@@ -1476,6 +1659,7 @@ function TextBox({
       className="absolute top-1.5 z-[2] max-w-[80%] px-2.5 py-1.5"
       style={{ [side]: 6, background: '#fff', border: `2px solid ${theme.ink}`, borderRadius: radius } as React.CSSProperties}
       onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
     >
       {textarea}
       <span
