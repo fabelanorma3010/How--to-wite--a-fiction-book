@@ -195,7 +195,16 @@
   },
   "ReadAloud": {
     "readAloud": "読み上げ",
-    "stop": "停止"
+    "stop": "停止",
+    "voiceLabel": "声を選択",
+    "defaultVoice": "システムのデフォルト",
+    "characterLabel": "声のキャラクター",
+    "preset": {
+      "normal": "ふつう",
+      "oldMan": "愉快なおじいさん",
+      "youngWoman": "若い女性",
+      "clown": "ピエロ"
+    }
   },
   "Dictate": {
     "dictate": "音声入力",

@@ -195,7 +195,16 @@
   },
   "ReadAloud": {
     "readAloud": "Leggi ad alta voce",
-    "stop": "Ferma"
+    "stop": "Ferma",
+    "voiceLabel": "Scegli una voce",
+    "defaultVoice": "Predefinita di sistema",
+    "characterLabel": "Personaggio vocale",
+    "preset": {
+      "normal": "Normale",
+      "oldMan": "Vecchietto buffo",
+      "youngWoman": "Giovane donna",
+      "clown": "Pagliaccio"
+    }
   },
   "Dictate": {
     "dictate": "Detta",
