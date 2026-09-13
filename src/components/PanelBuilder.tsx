@@ -113,9 +113,10 @@ const MIN_FONT_SIZE = 1
 const MAX_FONT_SIZE = 75
 const DEFAULT_FONT_SIZE = 10.5
 
-const EXPORT_VIDEO_W = 900
-const EXPORT_VIDEO_H = 1200
+const EXPORT_VIDEO_W = 1350
+const EXPORT_VIDEO_H = 1800
 const EXPORT_VIDEO_FPS = 10
+const EXPORT_VIDEO_BITRATE = 8_000_000
 const IMAGE_PAGE_SECONDS = 2.5
 const MAX_VIDEO_PANEL_SECONDS = 8
 
@@ -136,32 +137,74 @@ function exportableSrc(src: string): string {
   return `/api/proxy-media?url=${encodeURIComponent(src)}`
 }
 
-/** Draws a static page image centered/contained onto the export canvas, then resolves. */
-function drawImagePage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+type PreloadedPage = { kind: 'image'; el: HTMLImageElement } | { kind: 'video'; el: HTMLVideoElement } | { kind: 'failed' }
+
+/**
+ * Fully loads one page's media (network-bound — through the proxy, possibly
+ * a cold serverless start) before recording ever starts. Doing this loading
+ * *during* the recording instead — as an earlier version did — let a slow
+ * first fetch eat into that page's on-screen time, so it came out blank in
+ * the exported video even though the page itself was fine.
+ */
+function preloadExportPage(src: string): Promise<PreloadedPage> {
   return new Promise((resolve) => {
-    const img = new Image()
-    img.onload = () => {
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-      const scale = Math.min(EXPORT_VIDEO_W / img.width, EXPORT_VIDEO_H / img.height)
-      const w = img.width * scale
-      const h = img.height * scale
-      ctx.drawImage(img, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
-      resolve()
+    if (isVideoUrl(src)) {
+      const el = document.createElement('video')
+      el.muted = true
+      el.playsInline = true
+      el.preload = 'auto'
+      el.onloadeddata = () => resolve({ kind: 'video', el })
+      el.onerror = () => resolve({ kind: 'failed' })
+      el.src = exportableSrc(src)
+      return
     }
-    img.onerror = () => resolve()
-    img.src = exportableSrc(src)
+    const el = new Image()
+    el.onload = () => resolve({ kind: 'image', el })
+    el.onerror = () => resolve({ kind: 'failed' })
+    el.src = exportableSrc(src)
   })
 }
 
-/** Plays a video panel's real footage into the export canvas for up to MAX_VIDEO_PANEL_SECONDS, then resolves. */
-function playVideoPage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
-  return new Promise((resolve) => {
-    const videoEl = document.createElement('video')
-    videoEl.muted = true
-    videoEl.playsInline = true
-    videoEl.src = exportableSrc(src)
+function drawContained(ctx: CanvasRenderingContext2D, media: HTMLImageElement | HTMLVideoElement) {
+  const mediaW = media instanceof HTMLVideoElement ? media.videoWidth : media.width
+  const mediaH = media instanceof HTMLVideoElement ? media.videoHeight : media.height
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+  const scale = Math.min(EXPORT_VIDEO_W / mediaW, EXPORT_VIDEO_H / mediaH)
+  const w = mediaW * scale
+  const h = mediaH * scale
+  ctx.drawImage(media, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
+}
 
+/**
+ * `canvas.captureStream()` only samples a new frame when the canvas actually
+ * repaints — a single draw followed by an idle wait does not reliably
+ * produce a full, correctly-ordered `IMAGE_PAGE_SECONDS` of recorded output
+ * (verified live: a two-page export came out truncated to one page's worth
+ * of duration with the pages' content scrambled). Keep repainting the same
+ * frame on an interval for the whole hold, the same way video pages stay
+ * correct via their requestAnimationFrame redraw loop.
+ */
+function holdStaticFrame(draw: () => void): Promise<void> {
+  draw()
+  const interval = window.setInterval(draw, 100)
+  return wait(IMAGE_PAGE_SECONDS * 1000).then(() => window.clearInterval(interval))
+}
+
+/** Renders one already-loaded page into the export canvas and resolves once its on-screen time is up. */
+function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage): Promise<void> {
+  if (page.kind === 'failed') {
+    return holdStaticFrame(() => {
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+    })
+  }
+  if (page.kind === 'image') {
+    return holdStaticFrame(() => drawContained(ctx, page.el))
+  }
+
+  const videoEl = page.el
+  return new Promise((resolve) => {
     let raf = 0
     let done = false
     const finish = () => {
@@ -173,25 +216,18 @@ function playVideoPage(ctx: CanvasRenderingContext2D, src: string): Promise<void
     }
     const draw = () => {
       if (done) return
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-      const scale = Math.min(EXPORT_VIDEO_W / videoEl.videoWidth, EXPORT_VIDEO_H / videoEl.videoHeight)
-      const w = videoEl.videoWidth * scale
-      const h = videoEl.videoHeight * scale
-      ctx.drawImage(videoEl, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
+      drawContained(ctx, videoEl)
       raf = window.requestAnimationFrame(draw)
     }
-    videoEl.onloadedmetadata = () => {
-      const seconds = Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS)
-      videoEl
-        .play()
-        .then(() => {
-          draw()
-          window.setTimeout(finish, seconds * 1000)
-        })
-        .catch(finish)
-    }
-    videoEl.onerror = () => resolve()
+    const seconds = Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS)
+    videoEl.currentTime = 0
+    videoEl
+      .play()
+      .then(() => {
+        draw()
+        window.setTimeout(finish, seconds * 1000)
+      })
+      .catch(finish)
   })
 }
 
@@ -624,6 +660,7 @@ export default function PanelBuilder() {
     setVideoError('')
     try {
       const { pagesOut } = flattenPages()
+
       const canvas = document.createElement('canvas')
       canvas.width = EXPORT_VIDEO_W
       canvas.height = EXPORT_VIDEO_H
@@ -632,10 +669,7 @@ export default function PanelBuilder() {
         setVideoError(t('videoUnsupported'))
         return
       }
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
 
-      const stream = canvas.captureStream(EXPORT_VIDEO_FPS)
       const mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find((type) =>
         MediaRecorder.isTypeSupported(type),
       )
@@ -643,7 +677,16 @@ export default function PanelBuilder() {
         setVideoError(t('videoUnsupported'))
         return
       }
-      const recorder = new MediaRecorder(stream, { mimeType })
+
+      // Load every page's media fully — this is the network-bound step,
+      // slowest on a cold serverless start — before recording starts at all,
+      // so no page's on-screen time gets silently eaten by its own loading.
+      const pages = await Promise.all(pagesOut.map(preloadExportPage))
+
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+      const stream = canvas.captureStream(EXPORT_VIDEO_FPS)
+      const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: EXPORT_VIDEO_BITRATE })
       const chunks: BlobPart[] = []
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data)
@@ -653,13 +696,8 @@ export default function PanelBuilder() {
       })
 
       recorder.start()
-      for (const src of pagesOut) {
-        if (isVideoUrl(src)) {
-          await playVideoPage(ctx, src)
-        } else {
-          await drawImagePage(ctx, src)
-          await wait(IMAGE_PAGE_SECONDS * 1000)
-        }
+      for (const page of pages) {
+        await renderExportPage(ctx, page)
       }
       recorder.stop()
       await finished
