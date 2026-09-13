@@ -514,4 +514,132 @@ describe('PanelBuilder', () => {
     expect(await screen.findByText(/must be a png/i)).toBeInTheDocument()
     expect(uploadMock).not.toHaveBeenCalled()
   })
+
+  it('prompts a signed-out visitor to log in instead of showing voiceover controls', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    expect(await screen.findByText(/log in to add a voiceover/i)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /record voiceover/i })).not.toBeInTheDocument()
+  })
+
+  it('uploads a voiceover audio file and shows a playback control for it', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/voiceover.mp3' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload audio/i)) as HTMLInputElement
+    expect(input.accept).toContain('audio/mpeg')
+
+    const audioFile = new File([new Uint8Array(1024)], 'line.mp3', { type: 'audio/mpeg' })
+    await user.upload(input, audioFile)
+
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    const player = document.querySelector('audio') as HTMLAudioElement
+    expect(player).toBeTruthy()
+    expect(player).toHaveAttribute('src', 'https://example.com/voiceover.mp3')
+    expect(screen.getByRole('button', { name: /remove audio/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^upload audio$/i })).not.toBeInTheDocument()
+  })
+
+  it('rejects an audio file of the wrong type', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload audio/i)) as HTMLInputElement
+    // `accept` is only a client-side hint — userEvent.upload itself enforces
+    // it and would silently drop this file, so bypass it the same way a
+    // picker set to "All Files" would, to test the component's own check.
+    const badFile = new File(['not audio'], 'notes.txt', { type: 'text/plain' })
+    Object.defineProperty(input, 'files', { value: [badFile], configurable: true })
+    fireEvent.change(input)
+
+    expect(await screen.findByText(/must be an mp3/i)).toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
+  })
+
+  it('records a voiceover from the microphone and uploads it once stopped', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/recorded.webm' } })
+
+    const stopTrack = vi.fn()
+    const getUserMedia = vi.fn().mockResolvedValue({ getTracks: () => [{ stop: stopTrack }] })
+    Object.defineProperty(navigator, 'mediaDevices', { value: { getUserMedia }, configurable: true })
+
+    class FakeMediaRecorder {
+      state: 'inactive' | 'recording' = 'inactive'
+      mimeType = 'audio/webm'
+      ondataavailable: ((e: { data: Blob }) => void) | null = null
+      onstop: (() => void) | null = null
+      start() {
+        this.state = 'recording'
+      }
+      stop() {
+        this.state = 'inactive'
+        this.ondataavailable?.({ data: new Blob(['fake-audio'], { type: 'audio/webm' }) })
+        this.onstop?.()
+      }
+    }
+    vi.stubGlobal('MediaRecorder', FakeMediaRecorder)
+
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const recordButton = await screen.findByRole('button', { name: /record voiceover/i })
+    await user.click(recordButton)
+
+    expect(getUserMedia).toHaveBeenCalledWith({ audio: true })
+    const stopButton = await screen.findByRole('button', { name: /stop recording/i })
+    await user.click(stopButton)
+
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    expect(stopTrack).toHaveBeenCalled()
+    const player = document.querySelector('audio') as HTMLAudioElement
+    expect(player).toHaveAttribute('src', 'https://example.com/recorded.webm')
+
+    vi.unstubAllGlobals()
+  })
+
+  it('shows a friendly error when microphone access is denied', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const getUserMedia = vi.fn().mockRejectedValue(new Error('Permission denied'))
+    Object.defineProperty(navigator, 'mediaDevices', { value: { getUserMedia }, configurable: true })
+
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(await screen.findByRole('button', { name: /record voiceover/i }))
+
+    expect(await screen.findByText(/couldn't access your microphone/i)).toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
+  })
+
+  it('clearing a panel also removes its voiceover', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/voiceover.mp3' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload audio/i)) as HTMLInputElement
+    await user.upload(input, new File([new Uint8Array(1024)], 'line.mp3', { type: 'audio/mpeg' }))
+    await waitFor(() => expect(document.querySelector('audio')).toBeTruthy())
+
+    await user.click(screen.getByRole('button', { name: /clear panel/i }))
+    expect(document.querySelector('audio')).not.toBeInTheDocument()
+  })
 })

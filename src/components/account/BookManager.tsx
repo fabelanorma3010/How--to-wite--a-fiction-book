@@ -444,7 +444,7 @@ function ChapterPanel({
     }
     const { data } = await supabase
       .from('book_chapters')
-      .select('id, book_id, chapter_number, title, body, pages, page_captions, published_at')
+      .select('id, book_id, chapter_number, title, body, pages, page_captions, page_audio, published_at')
       .eq('book_id', bookId)
       .order('chapter_number', { ascending: true })
     setChapters(
@@ -456,6 +456,7 @@ function ChapterPanel({
         body: row.body,
         pages: row.pages ?? [],
         pageCaptions: row.page_captions ?? [],
+        pageAudio: row.page_audio ?? [],
         publishedAt: row.published_at,
       })),
     )

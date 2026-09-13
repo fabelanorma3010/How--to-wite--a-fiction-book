@@ -9,6 +9,8 @@ import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes
 import { decodeCaptionType } from '@/lib/captionType'
 import { isVideoUrl } from '@/lib/isVideoUrl'
 
+/* eslint-disable jsx-a11y/media-has-caption -- a voiceover clip has no separate caption track; the page's own text/speech-bubble is the transcript */
+
 type ChapterData = Chapter & { bookTitle: string; bookType: BookFormat | null }
 type Sibling = { id: string; chapterNumber: number } | null
 
@@ -28,7 +30,9 @@ export default function ChapterReaderClient({
   const [controlsVisible, setControlsVisible] = useState(true)
   const [pageIndex, setPageIndex] = useState(0)
   const [turnDir, setTurnDir] = useState<'next' | 'prev'>('next')
+  const [audioPlaying, setAudioPlaying] = useState(false)
   const hideTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const isText = Boolean(chapter.body)
   const isManga = chapter.bookType === 'manga'
   const theme = isText ? CHAPTERBOOK_THEME : getBookFormatTheme(chapter.bookType)
@@ -38,6 +42,24 @@ export default function ChapterReaderClient({
     return () => clearTimeout(hideTimeout.current)
   }, [])
 
+  // Stop any playing voiceover the moment the reader moves to a different page.
+  useEffect(() => {
+    audioRef.current?.pause()
+    setAudioPlaying(false)
+  }, [pageIndex])
+
+  function toggleAudio() {
+    const el = audioRef.current
+    if (!el) return
+    if (el.paused) {
+      void el.play()
+      setAudioPlaying(true)
+    } else {
+      el.pause()
+      setAudioPlaying(false)
+    }
+  }
+
   function handleCanvasClick(e: React.MouseEvent) {
     if ((e.target as HTMLElement).closest('button, a, header, #reader-footer')) return
     setControlsVisible((v) => !v)
@@ -45,6 +67,8 @@ export default function ChapterReaderClient({
 
   const pages = isManga ? [...chapter.pages].reverse() : chapter.pages
   const captions = isManga ? [...chapter.pageCaptions].reverse() : chapter.pageCaptions
+  const pageAudioList = isManga ? [...chapter.pageAudio].reverse() : chapter.pageAudio
+  const currentAudio = pageAudioList[pageIndex]
   const decodedCaption = captions[pageIndex] ? decodeCaptionType(captions[pageIndex]) : null
   // 'caption' and 'thought' are explicit choices from the Panel Builder and always render
   // as that type; 'speech' (including every un-prefixed caption from before those existed)
@@ -317,6 +341,22 @@ export default function ChapterReaderClient({
                           />
                         </div>
                       )}
+                    </>
+                  )}
+
+                  {currentAudio && (
+                    <>
+                      <audio ref={audioRef} src={currentAudio} onEnded={() => setAudioPlaying(false)} />
+                      <button
+                        type="button"
+                        onClick={toggleAudio}
+                        aria-label={audioPlaying ? 'Pause voiceover' : 'Play voiceover'}
+                        className="absolute bottom-3 right-3 z-[3] flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-transform hover:scale-105"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          {audioPlaying ? 'pause' : 'volume_up'}
+                        </span>
+                      </button>
                     </>
                   )}
                 </div>

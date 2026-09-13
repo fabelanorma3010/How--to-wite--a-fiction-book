@@ -19,6 +19,7 @@ function makeChapter(overrides: Partial<ChapterData> = {}): ChapterData {
     body: null,
     pages: ['/a.png', '/b.png', '/c.png'],
     pageCaptions: [],
+    pageAudio: [],
     publishedAt: '2026-01-01',
     bookTitle: 'Test Book',
     bookType: 'comic',
