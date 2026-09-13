@@ -10,7 +10,7 @@ import { NextResponse } from 'next/server'
  * an open proxy for arbitrary URLs.
  */
 function allowedPrefix(): string | null {
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, '')
   return base ? `${base}/storage/v1/object/public/` : null
 }
 

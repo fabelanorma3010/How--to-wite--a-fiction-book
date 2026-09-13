@@ -92,6 +92,7 @@ const CANVAS_W = 800
 const CANVAS_H = 1000
 const VIDEO_FPS = 2
 const VIDEO_SECONDS_PER_PAGE = 2.5
+const VIDEO_BITRATE = 6_000_000
 
 function blankPageDataUrl(): string {
   const c = document.createElement('canvas')
@@ -161,21 +162,36 @@ function uploadedImagePageDataUrl(file: File): Promise<string> {
   })
 }
 
-function drawPageOnCanvas(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+function loadImage(src: string): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
     const img = new Image()
-    img.onload = () => {
-      ctx.clearRect(0, 0, CANVAS_W, CANVAS_H)
-      ctx.drawImage(img, 0, 0, CANVAS_W, CANVAS_H)
-      resolve()
-    }
-    img.onerror = () => resolve()
+    img.onload = () => resolve(img)
+    img.onerror = () => resolve(null)
     img.src = src
   })
 }
 
 function wait(ms: number): Promise<void> {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+/**
+ * `canvas.captureStream()` only samples a new frame when the canvas actually
+ * repaints — drawing a page once and then waiting idle does not reliably
+ * produce a full, correctly-ordered `VIDEO_SECONDS_PER_PAGE` of recorded
+ * output per page. Keep repainting the same frame on an interval for the
+ * whole hold so the stream keeps sampling real content.
+ */
+async function holdPageOnCanvas(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+  const img = await loadImage(src)
+  const draw = () => {
+    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H)
+    if (img) ctx.drawImage(img, 0, 0, CANVAS_W, CANVAS_H)
+  }
+  draw()
+  const interval = window.setInterval(draw, 100)
+  await wait(VIDEO_SECONDS_PER_PAGE * 1000)
+  window.clearInterval(interval)
 }
 
 const toolButtonClass = (active: boolean) =>
@@ -491,7 +507,7 @@ export default function PictureBookMaker() {
         setVideoError(t('videoUnsupported'))
         return
       }
-      const recorder = new MediaRecorder(stream, { mimeType })
+      const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: VIDEO_BITRATE })
       const chunks: BlobPart[] = []
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data)
@@ -502,8 +518,7 @@ export default function PictureBookMaker() {
 
       recorder.start()
       for (const src of updated) {
-        await drawPageOnCanvas(ctx, src)
-        await wait(VIDEO_SECONDS_PER_PAGE * 1000)
+        await holdPageOnCanvas(ctx, src)
       }
       recorder.stop()
       await finished

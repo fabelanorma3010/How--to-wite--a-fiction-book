@@ -63,4 +63,16 @@ describe('/api/proxy-media', () => {
     const res = await proxyRequest(ALLOWED)
     expect(res.status).toBe(502)
   })
+
+  it('still matches when the configured Supabase URL has a trailing slash', async () => {
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', `${SUPABASE_URL}/`)
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response('bytes', { status: 200, headers: { 'content-type': 'image/png' } })),
+    )
+
+    const res = await proxyRequest(ALLOWED)
+    expect(res.status).toBe(200)
+    expect(fetch).toHaveBeenCalledWith(ALLOWED)
+  })
 })
