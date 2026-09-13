@@ -4,6 +4,7 @@ import { getBookById, getBookChapters } from '@/lib/books'
 import { getPublicProfileById } from '@/lib/publicProfile'
 import { isBookSaved } from '@/lib/savedBooks'
 import { getCurrentUser } from '@/lib/user'
+import { isVideoUrl } from '@/lib/isVideoUrl'
 import { bookFormatEmoji } from '@/data/bookTypes'
 import ReadAloud from '@/components/ReadAloud'
 import ShimmerNextImage from '@/components/ShimmerNextImage'
@@ -37,6 +38,7 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
     getCurrentUser(),
   ])
   const saved = await isBookSaved(book.id, currentUser?.id ?? null)
+  const isVideoFile = isVideoUrl(book.fileUrl)
 
   return (
     <div className="relative pb-[48px]">
@@ -116,9 +118,9 @@ export default async function RealBookDetailPage({ params }: { params: Promise<{
                     className="flex flex-1 items-center justify-center gap-2 rounded-full bg-noir-primary-fixed px-8 py-4 font-noir-display text-[20px] font-bold text-noir-on-primary-fixed shadow-[0_0_20px_rgba(255,225,109,0.2)] transition-colors hover:bg-noir-primary-fixed-dim active:scale-95 sm:flex-none"
                   >
                     <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      menu_book
+                      {isVideoFile ? 'play_circle' : 'menu_book'}
                     </span>
-                    Read the full book
+                    {isVideoFile ? 'Watch the full video' : 'Read the full book'}
                   </a>
                 ) : null}
               </div>

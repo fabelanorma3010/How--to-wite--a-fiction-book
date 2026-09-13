@@ -9,6 +9,7 @@ import { createClient } from '../lib/supabase/client'
 import { encodeCaptionType, type CaptionType } from '../lib/captionType'
 import { rasterizePdfFirstPage, rasterizePdfPages } from '../lib/pdfToImage'
 import { downloadBookAsPdf } from '../lib/downloadBookPdf'
+import { isVideoUrl } from '../lib/isVideoUrl'
 import DictateButton from './DictateButton'
 
 type BuilderStyle = 'picturebook' | 'comic' | 'manga'
@@ -93,8 +94,10 @@ const TEXT_TYPE_ICON: Record<CaptionType, string> = { speech: '💬', caption: '
 
 const ACCEPTED_IMAGE = ['image/png', 'image/jpeg', 'image/webp']
 const PDF_TYPE = 'application/pdf'
-const ACCEPTED_UPLOAD = [...ACCEPTED_IMAGE, PDF_TYPE]
+const ACCEPTED_VIDEO = ['video/mp4', 'video/webm', 'video/quicktime']
+const ACCEPTED_UPLOAD = [...ACCEPTED_IMAGE, PDF_TYPE, ...ACCEPTED_VIDEO]
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024
 const MAX_PAGES = 30
 
 const MIN_FONT_SIZE = 1
@@ -286,6 +289,7 @@ export default function PanelBuilder() {
       return
     }
 
+    const isVideo = ACCEPTED_VIDEO.includes(file.type)
     let uploadFile = file
     if (file.type === PDF_TYPE) {
       setConvertingPdf(true)
@@ -299,7 +303,7 @@ export default function PanelBuilder() {
       setConvertingPdf(false)
     }
 
-    if (uploadFile.size > MAX_IMAGE_BYTES) {
+    if (uploadFile.size > (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES)) {
       setImageError(t('imageFileError'))
       return
     }
@@ -578,13 +582,25 @@ export default function PanelBuilder() {
                 >
                   {panel.image ? (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={panel.image}
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-cover"
-                        style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
-                      />
+                      {isVideoUrl(panel.image) ? (
+                        <video
+                          src={panel.image}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 h-full w-full object-cover"
+                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                        />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={panel.image}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover"
+                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                        />
+                      )}
                       {theme.illustTexture !== 'flat' && (
                         <div
                           aria-hidden="true"
@@ -748,6 +764,7 @@ export default function PanelBuilder() {
                 ) : (
                   <p className="text-xs font-semibold text-ink/45">{t('signInForUpload')}</p>
                 )}
+                <p className="mt-1 text-[10px] font-semibold text-ink/40">{t('videoPanelHint')}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
                   <input
                     value={imagePrompt}
