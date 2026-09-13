@@ -908,6 +908,7 @@
     },
     "layoutHeading": "Layout de quadros desta página",
     "pageOf": "Página {n} de {total}",
+    "insertPageBefore": "Inserir página antes desta",
     "layout": {
       "oneBig": "1 quadro grande",
       "twoStacked": "2 empilhados",

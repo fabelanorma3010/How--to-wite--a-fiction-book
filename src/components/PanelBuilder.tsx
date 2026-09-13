@@ -331,6 +331,16 @@ export default function PanelBuilder() {
     setSelectedPanel(null)
   }
 
+  function insertPageBefore() {
+    if (pages.length >= MAX_PAGES) return
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      pageList.splice(pageIndex, 0, makePage(currentPage.layout))
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedPanel(null)
+  }
+
   async function handleGenerateImage() {
     if (selectedPanel === null || !imagePrompt.trim() || imageBusy) return
     setImageBusy(true)
@@ -806,6 +816,17 @@ export default function PanelBuilder() {
               style={{ width: i === pageIndex ? 18 : 6, background: i === pageIndex ? theme.accent : `${theme.ink}26` }}
             />
           ))}
+        </div>
+
+        <div className="mt-2 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={insertPageBefore}
+            disabled={pages.length >= MAX_PAGES}
+            className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/60 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            ➕ {t('insertPageBefore')}
+          </button>
         </div>
 
         {selectedPanel === null ? (

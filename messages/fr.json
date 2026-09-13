@@ -908,6 +908,7 @@
     },
     "layoutHeading": "Mise en page des cases pour cette page",
     "pageOf": "Page {n} sur {total}",
+    "insertPageBefore": "Insérer une page avant celle-ci",
     "layout": {
       "oneBig": "1 grande case",
       "twoStacked": "2 empilées",

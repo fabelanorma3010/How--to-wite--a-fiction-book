@@ -908,6 +908,7 @@
     },
     "layoutHeading": "本页的分格布局",
     "pageOf": "第 {n} 页，共 {total} 页",
+    "insertPageBefore": "在此页之前插入一页",
     "layout": {
       "oneBig": "1 个大格",
       "twoStacked": "2 格上下叠放",
