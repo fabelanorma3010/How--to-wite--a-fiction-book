@@ -959,6 +959,10 @@
     "downloadButton": "Baixar PDF",
     "downloadingButton": "Preparando…",
     "downloadError": "Não foi possível abrir a visualização de impressão. Tente novamente em instantes.",
+    "downloadVideoButton": "Baixar como vídeo",
+    "downloadingVideoButton": "Preparando seu vídeo…",
+    "videoUnsupported": "A exportação em vídeo não é compatível com este navegador — tente o Chrome ou o Firefox em um computador.",
+    "videoError": "Não foi possível criar o vídeo — tente novamente em instantes.",
     "downloadDefaultTitle": "Meus quadros do livro",
     "publishViewBook": "Ver seu livro →"
   },
