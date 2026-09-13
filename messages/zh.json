@@ -195,7 +195,16 @@
   },
   "ReadAloud": {
     "readAloud": "朗读",
-    "stop": "停止"
+    "stop": "停止",
+    "voiceLabel": "选择声音",
+    "defaultVoice": "系统默认",
+    "characterLabel": "声音角色",
+    "preset": {
+      "normal": "正常",
+      "oldMan": "搞笑老爷爷",
+      "youngWoman": "年轻女性",
+      "clown": "小丑"
+    }
   },
   "Dictate": {
     "dictate": "语音输入",

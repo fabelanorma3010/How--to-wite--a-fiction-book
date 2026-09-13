@@ -195,7 +195,16 @@
   },
   "ReadAloud": {
     "readAloud": "Lire à voix haute",
-    "stop": "Arrêter"
+    "stop": "Arrêter",
+    "voiceLabel": "Choisir une voix",
+    "defaultVoice": "Voix par défaut du système",
+    "characterLabel": "Personnage vocal",
+    "preset": {
+      "normal": "Normal",
+      "oldMan": "Vieil homme rigolo",
+      "youngWoman": "Jeune femme",
+      "clown": "Clown"
+    }
   },
   "Dictate": {
     "dictate": "Dicter",

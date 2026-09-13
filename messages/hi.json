@@ -195,7 +195,16 @@
   },
   "ReadAloud": {
     "readAloud": "ज़ोर से पढ़ें",
-    "stop": "रोकें"
+    "stop": "रोकें",
+    "voiceLabel": "आवाज़ चुनें",
+    "defaultVoice": "सिस्टम डिफ़ॉल्ट",
+    "characterLabel": "आवाज़ का किरदार",
+    "preset": {
+      "normal": "सामान्य",
+      "oldMan": "मज़ेदार बूढ़ा आदमी",
+      "youngWoman": "युवती",
+      "clown": "जोकर"
+    }
   },
   "Dictate": {
     "dictate": "बोलकर लिखें",
