@@ -135,7 +135,11 @@
     "download": "Download Picture Book",
     "downloading": "Getting your book ready…",
     "downloadError": "Couldn't open the print view — try again in a moment.",
-    "downloadTitle": "My Picture Book"
+    "downloadTitle": "My Picture Book",
+    "downloadVideo": "Download as Video",
+    "downloadingVideo": "Putting your video together…",
+    "videoUnsupported": "Video export isn't supported in this browser — try Chrome or Firefox on a computer.",
+    "videoError": "Couldn't make the video — try again in a moment."
   },
   "Notebook": {
     "title": "Your Story Notebook",

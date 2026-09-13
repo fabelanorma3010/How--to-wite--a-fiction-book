@@ -135,7 +135,11 @@
     "download": "Télécharger le livre illustré",
     "downloading": "Préparation de votre livre…",
     "downloadError": "Impossible d'ouvrir l'aperçu avant impression — réessayez dans un instant.",
-    "downloadTitle": "Mon livre illustré"
+    "downloadTitle": "Mon livre illustré",
+    "downloadVideo": "Télécharger en vidéo",
+    "downloadingVideo": "Préparation de votre vidéo…",
+    "videoUnsupported": "L'export vidéo n'est pas pris en charge par ce navigateur — essayez Chrome ou Firefox sur un ordinateur.",
+    "videoError": "Impossible de créer la vidéo — réessayez dans un instant."
   },
   "Notebook": {
     "title": "Votre carnet d'histoires",

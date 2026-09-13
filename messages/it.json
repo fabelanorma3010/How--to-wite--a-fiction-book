@@ -135,7 +135,11 @@
     "download": "Scarica il libro illustrato",
     "downloading": "Preparazione del tuo libro…",
     "downloadError": "Impossibile aprire l'anteprima di stampa — riprova tra un momento.",
-    "downloadTitle": "Il mio libro illustrato"
+    "downloadTitle": "Il mio libro illustrato",
+    "downloadVideo": "Scarica come video",
+    "downloadingVideo": "Preparazione del tuo video…",
+    "videoUnsupported": "L'esportazione video non è supportata in questo browser — prova con Chrome o Firefox su un computer.",
+    "videoError": "Impossibile creare il video — riprova tra un momento."
   },
   "Notebook": {
     "title": "Il tuo taccuino di storie",

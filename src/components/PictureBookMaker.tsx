@@ -90,6 +90,8 @@ const COLORS = [
 const MAX_PAGES = 20
 const CANVAS_W = 800
 const CANVAS_H = 1000
+const VIDEO_FPS = 2
+const VIDEO_SECONDS_PER_PAGE = 2.5
 
 function blankPageDataUrl(): string {
   const c = document.createElement('canvas')
@@ -159,6 +161,23 @@ function uploadedImagePageDataUrl(file: File): Promise<string> {
   })
 }
 
+function drawPageOnCanvas(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => {
+      ctx.clearRect(0, 0, CANVAS_W, CANVAS_H)
+      ctx.drawImage(img, 0, 0, CANVAS_W, CANVAS_H)
+      resolve()
+    }
+    img.onerror = () => resolve()
+    img.src = src
+  })
+}
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
 const toolButtonClass = (active: boolean) =>
   `rounded-full px-4 py-2 text-sm font-bold transition-colors ${
     active ? 'bg-primary text-primary-content' : 'text-ink/60 hover:bg-page'
@@ -182,6 +201,8 @@ export default function PictureBookMaker() {
   const [downloadBusy, setDownloadBusy] = useState(false)
   const [downloadError, setDownloadError] = useState('')
   const [uploadError, setUploadError] = useState('')
+  const [videoBusy, setVideoBusy] = useState(false)
+  const [videoError, setVideoError] = useState('')
 
   // Canvas needs the DOM, so the first blank page is created client-side only.
   useEffect(() => {
@@ -445,6 +466,64 @@ export default function PictureBookMaker() {
     }
   }
 
+  async function handleDownloadVideo() {
+    if (videoBusy || pages.length === 0) return
+    setVideoBusy(true)
+    setVideoError('')
+    try {
+      const updated = saveCurrentPage()
+      const canvas = document.createElement('canvas')
+      canvas.width = CANVAS_W
+      canvas.height = CANVAS_H
+      const ctx = canvas.getContext('2d')
+      if (!ctx || typeof canvas.captureStream !== 'function' || typeof MediaRecorder === 'undefined') {
+        setVideoError(t('videoUnsupported'))
+        return
+      }
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
+
+      const stream = canvas.captureStream(VIDEO_FPS)
+      const mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find((type) =>
+        MediaRecorder.isTypeSupported(type),
+      )
+      if (!mimeType) {
+        setVideoError(t('videoUnsupported'))
+        return
+      }
+      const recorder = new MediaRecorder(stream, { mimeType })
+      const chunks: BlobPart[] = []
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data)
+      }
+      const finished = new Promise<void>((resolve) => {
+        recorder.onstop = () => resolve()
+      })
+
+      recorder.start()
+      for (const src of updated) {
+        await drawPageOnCanvas(ctx, src)
+        await wait(VIDEO_SECONDS_PER_PAGE * 1000)
+      }
+      recorder.stop()
+      await finished
+
+      const blob = new Blob(chunks, { type: mimeType })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${t('downloadTitle')}.webm`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.setTimeout(() => URL.revokeObjectURL(url), 2000)
+    } catch {
+      setVideoError(t('videoError'))
+    } finally {
+      setVideoBusy(false)
+    }
+  }
+
   return (
     <section id="picture-book" className="scroll-mt-[116px] px-4 py-16 sm:px-6 lg:scroll-mt-20">
       <div className="relative mx-auto max-w-3xl rounded-3xl border-2 border-ink/10 bg-white/60 p-6 shadow-sm sm:p-10">
@@ -667,15 +746,26 @@ export default function PictureBookMaker() {
         )}
 
         <div className="mt-6 flex flex-col items-center gap-2 border-t-2 border-ink/10 pt-6">
-          <button
-            type="button"
-            onClick={() => void handleDownload()}
-            disabled={downloadBusy || pages.length === 0}
-            className="rounded-full bg-accent px-8 py-3.5 text-lg font-extrabold text-accent-content shadow-md transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {downloadBusy ? t('downloading') : `📖 ${t('download')}`}
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => void handleDownload()}
+              disabled={downloadBusy || pages.length === 0}
+              className="rounded-full bg-accent px-8 py-3.5 text-lg font-extrabold text-accent-content shadow-md transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {downloadBusy ? t('downloading') : `📖 ${t('download')}`}
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleDownloadVideo()}
+              disabled={videoBusy || pages.length === 0}
+              className="rounded-full border-2 border-accent bg-white px-8 py-3.5 text-lg font-extrabold text-ink shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {videoBusy ? t('downloadingVideo') : `🎬 ${t('downloadVideo')}`}
+            </button>
+          </div>
           {downloadError && <p className="text-sm font-semibold text-red-600">{downloadError}</p>}
+          {videoError && <p className="text-sm font-semibold text-red-600">{videoError}</p>}
         </div>
       </div>
     </section>

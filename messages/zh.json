@@ -135,7 +135,11 @@
     "download": "下载绘本",
     "downloading": "正在准备你的书…",
     "downloadError": "无法打开打印预览——请稍后再试。",
-    "downloadTitle": "我的绘本"
+    "downloadTitle": "我的绘本",
+    "downloadVideo": "下载为视频",
+    "downloadingVideo": "正在制作你的视频…",
+    "videoUnsupported": "此浏览器不支持视频导出——请在电脑上使用 Chrome 或 Firefox 试试。",
+    "videoError": "无法制作视频——请稍后再试。"
   },
   "Notebook": {
     "title": "你的故事笔记本",

@@ -135,7 +135,11 @@
     "download": "Descargar libro ilustrado",
     "downloading": "Preparando tu libro…",
     "downloadError": "No se pudo abrir la vista de impresión — inténtalo de nuevo en un momento.",
-    "downloadTitle": "Mi libro ilustrado"
+    "downloadTitle": "Mi libro ilustrado",
+    "downloadVideo": "Descargar como video",
+    "downloadingVideo": "Preparando tu video…",
+    "videoUnsupported": "La exportación de video no es compatible con este navegador — prueba con Chrome o Firefox en una computadora.",
+    "videoError": "No se pudo crear el video — inténtalo de nuevo en un momento."
   },
   "Notebook": {
     "title": "Tu cuaderno de historias",
