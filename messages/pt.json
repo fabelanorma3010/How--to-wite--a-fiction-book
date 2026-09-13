@@ -135,7 +135,11 @@
     "download": "Baixar livro ilustrado",
     "downloading": "Preparando seu livro…",
     "downloadError": "Não foi possível abrir a visualização de impressão — tente novamente em instantes.",
-    "downloadTitle": "Meu livro ilustrado"
+    "downloadTitle": "Meu livro ilustrado",
+    "downloadVideo": "Baixar como vídeo",
+    "downloadingVideo": "Preparando seu vídeo…",
+    "videoUnsupported": "A exportação em vídeo não é compatível com este navegador — tente o Chrome ou o Firefox em um computador.",
+    "videoError": "Não foi possível criar o vídeo — tente novamente em instantes."
   },
   "Notebook": {
     "title": "Seu caderno de histórias",

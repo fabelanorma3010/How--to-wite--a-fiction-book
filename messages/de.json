@@ -135,7 +135,11 @@
     "download": "Bilderbuch herunterladen",
     "downloading": "Dein Buch wird vorbereitet…",
     "downloadError": "Die Druckansicht konnte nicht geöffnet werden — versuch es gleich noch einmal.",
-    "downloadTitle": "Mein Bilderbuch"
+    "downloadTitle": "Mein Bilderbuch",
+    "downloadVideo": "Als Video herunterladen",
+    "downloadingVideo": "Dein Video wird zusammengestellt…",
+    "videoUnsupported": "Video-Export wird in diesem Browser nicht unterstützt — versuch es mit Chrome oder Firefox am Computer.",
+    "videoError": "Das Video konnte nicht erstellt werden — versuch es gleich noch einmal."
   },
   "Notebook": {
     "title": "Dein Story-Notizbuch",

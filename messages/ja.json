@@ -135,7 +135,11 @@
     "download": "絵本をダウンロード",
     "downloading": "絵本を準備しています…",
     "downloadError": "印刷プレビューを開けませんでした。少し待ってからもう一度お試しください。",
-    "downloadTitle": "わたしの絵本"
+    "downloadTitle": "わたしの絵本",
+    "downloadVideo": "動画としてダウンロード",
+    "downloadingVideo": "動画を作成しています…",
+    "videoUnsupported": "このブラウザでは動画の書き出しに対応していません——パソコンで Chrome か Firefox をお試しください。",
+    "videoError": "動画を作成できませんでした。少し待ってからもう一度お試しください。"
   },
   "Notebook": {
     "title": "あなたのストーリーノート",
