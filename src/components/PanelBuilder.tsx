@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatThemes'
@@ -100,6 +100,15 @@ const MAX_IMAGE_BYTES = 10 * 1024 * 1024
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024
 const MAX_PAGES = 30
 
+const ACCEPTED_AUDIO_PREFIXES = ['audio/mpeg', 'audio/wav', 'audio/webm', 'audio/mp4', 'audio/ogg', 'audio/aac', 'audio/x-m4a']
+const ACCEPTED_AUDIO_ACCEPT = ACCEPTED_AUDIO_PREFIXES.join(',')
+const MAX_AUDIO_BYTES = 15 * 1024 * 1024
+const MAX_RECORDING_MS = 5 * 60 * 1000
+
+function isAcceptedAudioType(type: string): boolean {
+  return ACCEPTED_AUDIO_PREFIXES.some((prefix) => type === prefix || type.startsWith(`${prefix};`))
+}
+
 const MIN_FONT_SIZE = 1
 const MAX_FONT_SIZE = 75
 const DEFAULT_FONT_SIZE = 10.5
@@ -114,11 +123,23 @@ function wait(ms: number): Promise<void> {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
 }
 
+/**
+ * Panel art/video lives on Supabase Storage — a different origin from the
+ * app — and drawing a cross-origin resource onto a canvas taints it unless
+ * the server sends CORS headers permitting it, which Storage doesn't
+ * guarantee. Routing it through our own /api/proxy-media route instead makes
+ * it same-origin, so the exported video's canvas capture never comes out
+ * blank. A data: URL (e.g. an AI-generated image) needs no proxying.
+ */
+function exportableSrc(src: string): string {
+  if (src.startsWith('data:')) return src
+  return `/api/proxy-media?url=${encodeURIComponent(src)}`
+}
+
 /** Draws a static page image centered/contained onto the export canvas, then resolves. */
 function drawImagePage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
   return new Promise((resolve) => {
     const img = new Image()
-    img.crossOrigin = 'anonymous'
     img.onload = () => {
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
@@ -129,7 +150,7 @@ function drawImagePage(ctx: CanvasRenderingContext2D, src: string): Promise<void
       resolve()
     }
     img.onerror = () => resolve()
-    img.src = src
+    img.src = exportableSrc(src)
   })
 }
 
@@ -137,10 +158,9 @@ function drawImagePage(ctx: CanvasRenderingContext2D, src: string): Promise<void
 function playVideoPage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
   return new Promise((resolve) => {
     const videoEl = document.createElement('video')
-    videoEl.crossOrigin = 'anonymous'
     videoEl.muted = true
     videoEl.playsInline = true
-    videoEl.src = src
+    videoEl.src = exportableSrc(src)
 
     let raf = 0
     let done = false
@@ -180,6 +200,7 @@ interface PanelState {
   textType?: CaptionType
   text?: string
   fontSize?: number
+  audio?: string
 }
 interface PageState {
   layout: LayoutKey
@@ -231,6 +252,11 @@ export default function PanelBuilder() {
   const [convertingPdf, setConvertingPdf] = useState(false)
   const [importingPdf, setImportingPdf] = useState(false)
   const [importError, setImportError] = useState('')
+  const [audioBusy, setAudioBusy] = useState(false)
+  const [audioError, setAudioError] = useState('')
+  const [recording, setRecording] = useState(false)
+  const audioRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<BlobPart[]>([])
 
   const [userId, setUserId] = useState<string | null>(null)
   const [books, setBooks] = useState<PlannerBook[] | null>(null)
@@ -406,6 +432,71 @@ export default function PanelBuilder() {
     updatePanel(selectedPanel, { image: url })
   }
 
+  async function uploadAudioFile(file: File) {
+    if (selectedPanel === null || !userId) return
+    const supabase = createClient()
+    if (!supabase) return
+    setAudioBusy(true)
+    try {
+      const ext = file.name.split('.').pop() || 'webm'
+      const path = `${userId}/builder-${style}-${pageIndex}-${selectedPanel}-audio-${Date.now()}.${ext}`
+      const { error: uploadError } = await supabase.storage
+        .from('books')
+        .upload(path, file, { contentType: file.type })
+      if (uploadError) {
+        setAudioError(uploadError.message)
+        return
+      }
+      const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
+      updatePanel(selectedPanel, { audio: url })
+    } finally {
+      setAudioBusy(false)
+    }
+  }
+
+  async function handleUploadAudio(file: File) {
+    if (selectedPanel === null || !userId || recording) return
+    setAudioError('')
+    if (!isAcceptedAudioType(file.type) || file.size > MAX_AUDIO_BYTES) {
+      setAudioError(t('audioFileError'))
+      return
+    }
+    await uploadAudioFile(file)
+  }
+
+  async function startRecording() {
+    if (selectedPanel === null || !userId || recording) return
+    setAudioError('')
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+      audioChunksRef.current = []
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data)
+      }
+      recorder.onstop = () => {
+        stream.getTracks().forEach((track) => track.stop())
+        const mimeType = recorder.mimeType || 'audio/webm'
+        const blob = new Blob(audioChunksRef.current, { type: mimeType })
+        const ext = mimeType.split('/')[1]?.split(';')[0] || 'webm'
+        void uploadAudioFile(new File([blob], `voiceover-${Date.now()}.${ext}`, { type: mimeType }))
+      }
+      audioRecorderRef.current = recorder
+      recorder.start()
+      setRecording(true)
+      window.setTimeout(() => {
+        if (audioRecorderRef.current === recorder && recorder.state === 'recording') stopRecording()
+      }, MAX_RECORDING_MS)
+    } catch {
+      setAudioError(t('micError'))
+    }
+  }
+
+  function stopRecording() {
+    audioRecorderRef.current?.stop()
+    setRecording(false)
+  }
+
   async function handleImportPdf(file: File) {
     if (!userId || importingPdf) return
     setImportError('')
@@ -461,7 +552,8 @@ export default function PanelBuilder() {
     })
     const pagesOut = orderedPanels.map((p) => p.image!)
     const pageCaptions = orderedPanels.map((p) => (p.text ? encodeCaptionType(p.textType ?? 'speech', p.text) : ''))
-    return { pagesOut, pageCaptions }
+    const pageAudio = orderedPanels.map((p) => p.audio ?? '')
+    return { pagesOut, pageCaptions, pageAudio }
   }
 
   async function handlePublish() {
@@ -478,13 +570,14 @@ export default function PanelBuilder() {
         .order('chapter_number', { ascending: false })
         .limit(1)
       const nextNumber = existing && existing.length > 0 ? existing[0].chapter_number + 1 : 1
-      const { pagesOut, pageCaptions } = flattenPages()
+      const { pagesOut, pageCaptions, pageAudio } = flattenPages()
       const { error: insertError } = await supabase.from('book_chapters').insert({
         book_id: selectedBookId,
         chapter_number: nextNumber,
         title: null,
         pages: pagesOut,
         page_captions: pageCaptions,
+        page_audio: pageAudio,
       })
       if (insertError) throw insertError
       setPublishedBookId(selectedBookId)
@@ -500,7 +593,7 @@ export default function PanelBuilder() {
     setDownloading(true)
     setDownloadError('')
     try {
-      const { pagesOut, pageCaptions } = flattenPages()
+      const { pagesOut, pageCaptions, pageAudio } = flattenPages()
       const title = books?.find((b) => b.id === selectedBookId)?.title || t('downloadDefaultTitle')
       await downloadBookAsPdf(
         { title, description: '' },
@@ -513,6 +606,7 @@ export default function PanelBuilder() {
             body: null,
             pages: pagesOut,
             pageCaptions,
+            pageAudio,
             publishedAt: new Date().toISOString(),
           },
         ],
@@ -766,6 +860,17 @@ export default function PanelBuilder() {
                     {t('panelWord')} {n}
                   </span>
 
+                  {panel.audio && (
+                    <span
+                      aria-label={t('panelHasAudio')}
+                      title={t('panelHasAudio')}
+                      className="absolute bottom-1 flex h-4 w-4 items-center justify-center rounded-full text-[9px]"
+                      style={{ [rtl ? 'left' : 'right']: 4, background: `${theme.pageBg}cc` } as React.CSSProperties}
+                    >
+                      🎙️
+                    </span>
+                  )}
+
                   {panel.textType && (
                     <TextBox
                       type={decoded}
@@ -854,10 +959,12 @@ export default function PanelBuilder() {
                   {TEXT_TYPE_ICON[typeKey]} {t(`textType.${typeKey}`)}
                 </button>
               ))}
-              {(currentPanel?.image || currentPanel?.textType) && (
+              {(currentPanel?.image || currentPanel?.textType || currentPanel?.audio) && (
                 <button
                   type="button"
-                  onClick={() => updatePanel(selectedPanel, { image: undefined, text: undefined, textType: undefined })}
+                  onClick={() =>
+                    updatePanel(selectedPanel, { image: undefined, text: undefined, textType: undefined, audio: undefined })
+                  }
                   className="rounded-full border-2 border-red-400/50 bg-white px-3 py-1.5 text-xs font-bold text-red-600"
                 >
                   ✕ {t('clearPanel')}
@@ -946,6 +1053,57 @@ export default function PanelBuilder() {
                 {imageError && <p className="mt-1.5 text-xs font-semibold text-red-600">{imageError}</p>}
               </div>
             )}
+
+            <div className="mt-3 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
+              <p className="mb-1.5 text-xs font-bold text-ink/60">{t('panelAudioLabel')}</p>
+              {currentPanel?.audio ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <audio controls src={currentPanel.audio} className="h-8 max-w-full" />
+                  <button
+                    type="button"
+                    onClick={() => updatePanel(selectedPanel, { audio: undefined })}
+                    className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 hover:bg-page"
+                  >
+                    {t('removeAudio')}
+                  </button>
+                </div>
+              ) : userId ? (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => (recording ? stopRecording() : void startRecording())}
+                    disabled={audioBusy}
+                    className={`rounded-full border-2 px-3 py-1 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-60 ${
+                      recording ? 'border-red-400 bg-red-50 text-red-600' : 'border-ink/15 bg-white text-ink/70 hover:bg-page'
+                    }`}
+                  >
+                    {recording ? `⏹ ${t('stopRecording')}` : `🎙️ ${t('recordVoiceover')}`}
+                  </button>
+                  <label
+                    className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${
+                      audioBusy || recording ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
+                    }`}
+                  >
+                    {audioBusy ? t('uploadingAudio') : t('uploadAudio')}
+                    <input
+                      type="file"
+                      accept={ACCEPTED_AUDIO_ACCEPT}
+                      disabled={audioBusy || recording}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) void handleUploadAudio(file)
+                        e.target.value = ''
+                      }}
+                    />
+                  </label>
+                </div>
+              ) : (
+                <p className="text-xs font-semibold text-ink/45">{t('signInForAudio')}</p>
+              )}
+              {audioError && <p className="mt-1.5 text-xs font-semibold text-red-600">{audioError}</p>}
+            </div>
           </div>
         )}
 
