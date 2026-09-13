@@ -163,7 +163,14 @@
     "fontSerif": "Serif",
     "fontMono": "Monospace",
     "picturesTitle": "Immagini di riferimento",
-    "stockPhotosLink": "Ti serve un'immagine? Sfoglia Adobe Stock ↗"
+    "stockPhotosLink": "Ti serve un'immagine? Sfoglia Adobe Stock ↗",
+    "historyButton": "Cronologia",
+    "historyTitle": "Cronologia bozze",
+    "historyClose": "Chiudi",
+    "historyLoading": "Caricamento delle bozze precedenti…",
+    "historyEmpty": "Ancora nessuna bozza precedente — se ne salva una automaticamente mentre scrivi.",
+    "historyRestore": "Ripristina",
+    "restoreConfirm": "Ripristinare questa bozza? Anche quello che c'è ora nel tuo taccuino verrà salvato, quindi non lo perderai."
   },
   "NotebookExport": {
     "pdf": "PDF",

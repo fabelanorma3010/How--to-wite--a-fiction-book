@@ -163,7 +163,14 @@
     "fontSerif": "Serif",
     "fontMono": "Monospace",
     "picturesTitle": "Images de référence",
-    "stockPhotosLink": "Besoin d'une image ? Parcourez Adobe Stock ↗"
+    "stockPhotosLink": "Besoin d'une image ? Parcourez Adobe Stock ↗",
+    "historyButton": "Historique",
+    "historyTitle": "Historique des brouillons",
+    "historyClose": "Fermer",
+    "historyLoading": "Chargement de vos brouillons précédents…",
+    "historyEmpty": "Pas encore de brouillon antérieur — un est enregistré automatiquement pendant que vous écrivez.",
+    "historyRestore": "Restaurer",
+    "restoreConfirm": "Restaurer ce brouillon ? Ce qui se trouve actuellement dans votre carnet sera aussi enregistré, vous ne perdrez donc rien."
   },
   "NotebookExport": {
     "pdf": "PDF",

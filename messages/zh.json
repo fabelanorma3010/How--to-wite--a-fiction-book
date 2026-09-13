@@ -163,7 +163,14 @@
     "fontSerif": "衬线体",
     "fontMono": "等宽体",
     "picturesTitle": "参考图片",
-    "stockPhotosLink": "需要图片？浏览 Adobe Stock ↗"
+    "stockPhotosLink": "需要图片？浏览 Adobe Stock ↗",
+    "historyButton": "历史记录",
+    "historyTitle": "草稿历史",
+    "historyClose": "关闭",
+    "historyLoading": "正在加载以前的草稿…",
+    "historyEmpty": "还没有更早的草稿——写作时会自动保存。",
+    "historyRestore": "恢复",
+    "restoreConfirm": "要恢复这个草稿吗？你笔记本里现在的内容也会被保存，不会丢失。"
   },
   "NotebookExport": {
     "pdf": "PDF",

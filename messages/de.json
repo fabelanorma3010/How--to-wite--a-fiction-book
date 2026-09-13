@@ -163,7 +163,14 @@
     "fontSerif": "Serifenschrift",
     "fontMono": "Monospace",
     "picturesTitle": "Referenzbilder",
-    "stockPhotosLink": "Brauchst du ein Bild? Adobe Stock durchsuchen ↗"
+    "stockPhotosLink": "Brauchst du ein Bild? Adobe Stock durchsuchen ↗",
+    "historyButton": "Verlauf",
+    "historyTitle": "Entwurfsverlauf",
+    "historyClose": "Schließen",
+    "historyLoading": "Frühere Entwürfe werden geladen …",
+    "historyEmpty": "Noch keine früheren Entwürfe — beim Schreiben wird automatisch einer gespeichert.",
+    "historyRestore": "Wiederherstellen",
+    "restoreConfirm": "Diesen Entwurf wiederherstellen? Was gerade in deinem Notizbuch steht, wird vorher auch gespeichert, du verlierst also nichts."
   },
   "NotebookExport": {
     "pdf": "PDF",
