@@ -1,6 +1,7 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { IDBFactory } from 'fake-indexeddb'
 import { renderWithIntl } from '../test/renderWithIntl'
 import PanelBuilder from './PanelBuilder'
 
@@ -641,5 +642,152 @@ describe('PanelBuilder', () => {
 
     await user.click(screen.getByRole('button', { name: /clear panel/i }))
     expect(document.querySelector('audio')).not.toBeInTheDocument()
+  })
+
+  it('deletes the current page, shifting later pages up, without touching the others', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    async function writeOnCurrentPage(text: string) {
+      await user.click(within(stage).getByText('Panel 1'))
+      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.type(screen.getByPlaceholderText('Type here…'), text)
+    }
+
+    await writeOnCurrentPage('First page')
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    await writeOnCurrentPage('Second page')
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    await writeOnCurrentPage('Third page')
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(screen.getByDisplayValue('Second page')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /delete page/i }))
+    expect(window.confirm).toHaveBeenCalled()
+
+    // "Second page" is gone for good, and "Third page" slid up into its slot —
+    // page 1 is untouched, proving this removes one page, not the whole book.
+    expect(screen.queryByDisplayValue('Second page')).not.toBeInTheDocument()
+    expect(screen.getByDisplayValue('Third page')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(screen.getByDisplayValue('First page')).toBeInTheDocument()
+  })
+
+  it('does not delete the last remaining page', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    renderWithIntl(<PanelBuilder />)
+    expect(screen.getByRole('button', { name: /delete page/i })).toBeDisabled()
+  })
+
+  it('shifts a page earlier or later, moving its content along with it', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    async function writeOnCurrentPage(text: string) {
+      await user.click(within(stage).getByText('Panel 1'))
+      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.type(screen.getByPlaceholderText('Type here…'), text)
+    }
+
+    await writeOnCurrentPage('First page')
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    await writeOnCurrentPage('Second page')
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    await writeOnCurrentPage('Third page')
+
+    // Move the middle page ("Second page") one slot earlier.
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(screen.getByDisplayValue('Second page')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /move earlier/i }))
+
+    // The move follows the page: still on "Second page", now leading at position 1.
+    expect(screen.getByDisplayValue('Second page')).toBeInTheDocument()
+
+    // "First page" and "Second page" swapped places; "Third page" is untouched.
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    expect(screen.getByDisplayValue('First page')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    expect(screen.getByDisplayValue('Third page')).toBeInTheDocument()
+  })
+
+  it('disables moving a page past either end', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+
+    // A single page has nowhere to move in either direction.
+    expect(screen.getByRole('button', { name: /move earlier/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /move later/i })).toBeDisabled()
+
+    await user.click(screen.getByRole('button', { name: /next page/i }))
+    // Now on page 2 of 2: later has nothing after it, earlier does.
+    expect(screen.getByRole('button', { name: /move later/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /move earlier/i })).not.toBeDisabled()
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    // Back on page 1 of 2: earlier has nothing before it, later does.
+    expect(screen.getByRole('button', { name: /move earlier/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /move later/i })).not.toBeDisabled()
+  })
+
+  describe('draft save and restore', () => {
+    beforeEach(() => {
+      // A fresh in-memory IndexedDB per test — jsdom has none built in, and
+      // this keeps each test's saved draft from leaking into the next.
+      Object.defineProperty(window, 'indexedDB', { value: new IDBFactory(), configurable: true })
+    })
+
+    afterEach(() => {
+      Reflect.deleteProperty(window, 'indexedDB')
+    })
+
+    it('saves a draft on demand and restores it after remounting, like after a refresh', async () => {
+      getUserMock.mockResolvedValue({ data: { user: null } })
+      const user = userEvent.setup()
+      const { unmount } = renderWithIntl(<PanelBuilder />)
+      const stage = getStage()
+
+      await user.click(within(stage).getByText('Panel 1'))
+      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.type(screen.getByPlaceholderText('Type here…'), 'Remember me')
+
+      await user.click(screen.getByRole('button', { name: '💾 Save' }))
+      expect(await screen.findByText(/saved/i)).toBeInTheDocument()
+
+      unmount()
+
+      renderWithIntl(<PanelBuilder />)
+      expect(await screen.findByDisplayValue('Remember me')).toBeInTheDocument()
+    })
+
+    it('automatically saves in the background, without needing the button', async () => {
+      getUserMock.mockResolvedValue({ data: { user: null } })
+      const user = userEvent.setup()
+      const { unmount } = renderWithIntl(<PanelBuilder />)
+      const stage = getStage()
+
+      await user.click(within(stage).getByText('Panel 1'))
+      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.type(screen.getByPlaceholderText('Type here…'), 'Autosaved line')
+      expect(screen.getByDisplayValue('Autosaved line')).toBeInTheDocument()
+
+      // The autosave is debounced 1200ms after the last keystroke — wait past
+      // that (real time, not a fake timer) so the full, final text is what
+      // actually lands in the background save, not an in-progress keystroke.
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      expect(screen.getByText(/✓ Saved/)).toBeInTheDocument()
+
+      unmount()
+
+      renderWithIntl(<PanelBuilder />)
+      expect(await screen.findByDisplayValue('Autosaved line')).toBeInTheDocument()
+    })
   })
 })

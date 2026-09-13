@@ -247,6 +247,59 @@ function makePage(layout: LayoutKey): PageState {
   return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})) }
 }
 
+const DRAFT_DB_NAME = 'storyburst-book-panel'
+const DRAFT_STORE = 'drafts'
+const DRAFT_KEY = 'current'
+
+interface SavedDraft {
+  style: BuilderStyle
+  pagesByStyle: Record<BuilderStyle, PageState[]>
+}
+
+function draftPersistenceSupported(): boolean {
+  return typeof indexedDB !== 'undefined'
+}
+
+function openDraftDb(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    if (!draftPersistenceSupported()) {
+      reject(new Error('IndexedDB unavailable'))
+      return
+    }
+    const req = indexedDB.open(DRAFT_DB_NAME, 1)
+    req.onupgradeneeded = () => req.result.createObjectStore(DRAFT_STORE)
+    req.onsuccess = () => resolve(req.result)
+    req.onerror = () => reject(req.error)
+  })
+}
+
+// A book in progress can hold several freshly AI-generated images as raw
+// data: URLs (not yet uploaded to Storage) — easily tens of megabytes across
+// a whole book, well past what localStorage allows. IndexedDB has no such
+// practical limit, so drafts live there instead.
+async function saveDraftToDb(draft: SavedDraft): Promise<void> {
+  const db = await openDraftDb()
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(DRAFT_STORE, 'readwrite')
+    tx.objectStore(DRAFT_STORE).put(draft, DRAFT_KEY)
+    tx.oncomplete = () => resolve()
+    tx.onerror = () => reject(tx.error)
+  })
+  db.close()
+}
+
+async function loadDraftFromDb(): Promise<SavedDraft | undefined> {
+  const db = await openDraftDb()
+  const draft = await new Promise<SavedDraft | undefined>((resolve, reject) => {
+    const tx = db.transaction(DRAFT_STORE, 'readonly')
+    const req = tx.objectStore(DRAFT_STORE).get(DRAFT_KEY)
+    req.onsuccess = () => resolve(req.result as SavedDraft | undefined)
+    req.onerror = () => reject(req.error)
+  })
+  db.close()
+  return draft
+}
+
 function layoutCells(key: LayoutKey) {
   const { areas } = LAYOUTS[key]
   const seen = new Set<number>()
@@ -304,6 +357,8 @@ export default function PanelBuilder() {
   const [downloadError, setDownloadError] = useState('')
   const [videoBusy, setVideoBusy] = useState(false)
   const [videoError, setVideoError] = useState('')
+  const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'restored' | 'error'>('idle')
+  const draftLoadedRef = useRef(false)
 
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
   const rtl = STYLE_RTL[style]
@@ -326,6 +381,46 @@ export default function PanelBuilder() {
     if (hash === 'manga-planner') setStyle('manga')
     else if (hash === 'comic-planner') setStyle('comic')
   }, [])
+
+  // Pick up any work left over from a previous visit before autosave can run,
+  // so a restart doesn't silently overwrite a real draft with a fresh blank one.
+  useEffect(() => {
+    loadDraftFromDb()
+      .then((draft) => {
+        if (draft) {
+          setPagesByStyle(draft.pagesByStyle)
+          setStyle(draft.style)
+          setDraftStatus('restored')
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        draftLoadedRef.current = true
+      })
+  }, [])
+
+  // Quietly keep the draft up to date as the book changes, so closing the tab
+  // or a refresh never loses more than a few seconds of work.
+  useEffect(() => {
+    if (!draftLoadedRef.current || !draftPersistenceSupported()) return
+    const id = window.setTimeout(() => {
+      setDraftStatus('saving')
+      saveDraftToDb({ style, pagesByStyle })
+        .then(() => setDraftStatus('saved'))
+        .catch(() => setDraftStatus('error'))
+    }, 1200)
+    return () => window.clearTimeout(id)
+  }, [style, pagesByStyle])
+
+  async function handleSaveDraft() {
+    setDraftStatus('saving')
+    try {
+      await saveDraftToDb({ style, pagesByStyle })
+      setDraftStatus('saved')
+    } catch {
+      setDraftStatus('error')
+    }
+  }
 
   useEffect(() => {
     if (!userId) {
@@ -400,6 +495,28 @@ export default function PanelBuilder() {
       pageList.splice(pageIndex, 0, makePage(currentPage.layout))
       return { ...prev, [style]: pageList }
     })
+    setSelectedPanel(null)
+  }
+
+  function removeCurrentPage() {
+    if (pages.length <= 1) return
+    if (!confirm(t('deletePageConfirm'))) return
+    const removedIndex = pageIndex
+    setPagesByStyle((prev) => ({ ...prev, [style]: prev[style].filter((_, i) => i !== removedIndex) }))
+    setPageIndex(Math.min(removedIndex, pages.length - 2))
+    setSelectedPanel(null)
+  }
+
+  function movePage(direction: -1 | 1) {
+    const targetIndex = pageIndex + direction
+    if (targetIndex < 0 || targetIndex >= pages.length) return
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      ;[pageList[pageIndex], pageList[targetIndex]] = [pageList[targetIndex], pageList[pageIndex]]
+      return { ...prev, [style]: pageList }
+    })
+    setTurnDir(direction === 1 ? 'next' : 'prev')
+    setPageIndex(targetIndex)
     setSelectedPanel(null)
   }
 
@@ -738,6 +855,23 @@ export default function PanelBuilder() {
           </p>
         </div>
 
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => void handleSaveDraft()}
+            disabled={draftStatus === 'saving'}
+            className="rounded-full border-2 border-ink/15 bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            💾 {t('saveDraft')}
+          </button>
+          <span className="text-xs font-semibold" style={{ color: theme.soft }} role="status">
+            {draftStatus === 'saving' && t('draftSaving')}
+            {draftStatus === 'saved' && `✓ ${t('draftSaved')}`}
+            {draftStatus === 'restored' && `✓ ${t('draftRestored')}`}
+            {draftStatus === 'error' && t('draftError')}
+          </span>
+        </div>
+
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           {STYLE_ORDER.map((s) => (
             <button
@@ -961,7 +1095,15 @@ export default function PanelBuilder() {
           ))}
         </div>
 
-        <div className="mt-2 flex items-center justify-center">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => movePage(-1)}
+            disabled={pageIndex === 0}
+            className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/60 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            ⬅ {t('movePageEarlier')}
+          </button>
           <button
             type="button"
             onClick={insertPageBefore}
@@ -969,6 +1111,22 @@ export default function PanelBuilder() {
             className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/60 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
           >
             ➕ {t('insertPageBefore')}
+          </button>
+          <button
+            type="button"
+            onClick={removeCurrentPage}
+            disabled={pages.length <= 1}
+            className="rounded-full border-2 border-red-400/50 bg-white px-3 py-1 text-xs font-bold text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            🗑️ {t('deletePage')}
+          </button>
+          <button
+            type="button"
+            onClick={() => movePage(1)}
+            disabled={pageIndex >= pages.length - 1}
+            className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/60 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {t('movePageLater')} ➡
           </button>
         </div>
 
