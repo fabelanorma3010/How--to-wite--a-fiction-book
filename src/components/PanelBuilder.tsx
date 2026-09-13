@@ -104,6 +104,77 @@ const MIN_FONT_SIZE = 1
 const MAX_FONT_SIZE = 75
 const DEFAULT_FONT_SIZE = 10.5
 
+const EXPORT_VIDEO_W = 900
+const EXPORT_VIDEO_H = 1200
+const EXPORT_VIDEO_FPS = 10
+const IMAGE_PAGE_SECONDS = 2.5
+const MAX_VIDEO_PANEL_SECONDS = 8
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+/** Draws a static page image centered/contained onto the export canvas, then resolves. */
+function drawImagePage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+      const scale = Math.min(EXPORT_VIDEO_W / img.width, EXPORT_VIDEO_H / img.height)
+      const w = img.width * scale
+      const h = img.height * scale
+      ctx.drawImage(img, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
+      resolve()
+    }
+    img.onerror = () => resolve()
+    img.src = src
+  })
+}
+
+/** Plays a video panel's real footage into the export canvas for up to MAX_VIDEO_PANEL_SECONDS, then resolves. */
+function playVideoPage(ctx: CanvasRenderingContext2D, src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const videoEl = document.createElement('video')
+    videoEl.crossOrigin = 'anonymous'
+    videoEl.muted = true
+    videoEl.playsInline = true
+    videoEl.src = src
+
+    let raf = 0
+    let done = false
+    const finish = () => {
+      if (done) return
+      done = true
+      window.cancelAnimationFrame(raf)
+      videoEl.pause()
+      resolve()
+    }
+    const draw = () => {
+      if (done) return
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+      const scale = Math.min(EXPORT_VIDEO_W / videoEl.videoWidth, EXPORT_VIDEO_H / videoEl.videoHeight)
+      const w = videoEl.videoWidth * scale
+      const h = videoEl.videoHeight * scale
+      ctx.drawImage(videoEl, (EXPORT_VIDEO_W - w) / 2, (EXPORT_VIDEO_H - h) / 2, w, h)
+      raf = window.requestAnimationFrame(draw)
+    }
+    videoEl.onloadedmetadata = () => {
+      const seconds = Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS)
+      videoEl
+        .play()
+        .then(() => {
+          draw()
+          window.setTimeout(finish, seconds * 1000)
+        })
+        .catch(finish)
+    }
+    videoEl.onerror = () => resolve()
+  })
+}
+
 interface PanelState {
   image?: string
   textType?: CaptionType
@@ -169,6 +240,8 @@ export default function PanelBuilder() {
   const [publishedBookId, setPublishedBookId] = useState<string | null>(null)
   const [downloading, setDownloading] = useState(false)
   const [downloadError, setDownloadError] = useState('')
+  const [videoBusy, setVideoBusy] = useState(false)
+  const [videoError, setVideoError] = useState('')
 
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
   const rtl = STYLE_RTL[style]
@@ -438,6 +511,69 @@ export default function PanelBuilder() {
       setDownloadError(t('downloadError'))
     } finally {
       setDownloading(false)
+    }
+  }
+
+  async function handleDownloadVideo() {
+    if (filledPanels.length === 0 || videoBusy) return
+    setVideoBusy(true)
+    setVideoError('')
+    try {
+      const { pagesOut } = flattenPages()
+      const canvas = document.createElement('canvas')
+      canvas.width = EXPORT_VIDEO_W
+      canvas.height = EXPORT_VIDEO_H
+      const ctx = canvas.getContext('2d')
+      if (!ctx || typeof canvas.captureStream !== 'function' || typeof MediaRecorder === 'undefined') {
+        setVideoError(t('videoUnsupported'))
+        return
+      }
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
+
+      const stream = canvas.captureStream(EXPORT_VIDEO_FPS)
+      const mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find((type) =>
+        MediaRecorder.isTypeSupported(type),
+      )
+      if (!mimeType) {
+        setVideoError(t('videoUnsupported'))
+        return
+      }
+      const recorder = new MediaRecorder(stream, { mimeType })
+      const chunks: BlobPart[] = []
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data)
+      }
+      const finished = new Promise<void>((resolve) => {
+        recorder.onstop = () => resolve()
+      })
+
+      recorder.start()
+      for (const src of pagesOut) {
+        if (isVideoUrl(src)) {
+          await playVideoPage(ctx, src)
+        } else {
+          await drawImagePage(ctx, src)
+          await wait(IMAGE_PAGE_SECONDS * 1000)
+        }
+      }
+      recorder.stop()
+      await finished
+
+      const blob = new Blob(chunks, { type: mimeType })
+      const url = URL.createObjectURL(blob)
+      const title = books?.find((b) => b.id === selectedBookId)?.title || t('downloadDefaultTitle')
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${title}.webm`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.setTimeout(() => URL.revokeObjectURL(url), 2000)
+    } catch {
+      setVideoError(t('videoError'))
+    } finally {
+      setVideoBusy(false)
     }
   }
 
@@ -802,7 +938,16 @@ export default function PanelBuilder() {
             >
               {downloading ? t('downloadingButton') : `⬇️ ${t('downloadButton')}`}
             </button>
+            <button
+              type="button"
+              onClick={() => void handleDownloadVideo()}
+              disabled={videoBusy}
+              className="flex items-center gap-2 rounded-full border-2 border-primary bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {videoBusy ? t('downloadingVideoButton') : `🎬 ${t('downloadVideoButton')}`}
+            </button>
             {downloadError && <p className="text-xs font-semibold text-red-600">{downloadError}</p>}
+            {videoError && <p className="text-xs font-semibold text-red-600">{videoError}</p>}
           </div>
         )}
 

@@ -959,6 +959,10 @@
     "downloadButton": "Download PDF",
     "downloadingButton": "Preparing…",
     "downloadError": "Couldn't open the print view — try again in a moment.",
+    "downloadVideoButton": "Download as Video",
+    "downloadingVideoButton": "Putting your video together…",
+    "videoUnsupported": "Video export isn't supported in this browser — try Chrome or Firefox on a computer.",
+    "videoError": "Couldn't make the video — try again in a moment.",
     "downloadDefaultTitle": "My Book Panel",
     "publishViewBook": "View your book →"
   },

@@ -959,6 +959,10 @@
     "downloadButton": "PDF डाउनलोड करें",
     "downloadingButton": "तैयार की जा रही है…",
     "downloadError": "प्रिंट व्यू नहीं खुल सका। कुछ देर में फिर कोशिश करें।",
+    "downloadVideoButton": "वीडियो के रूप में डाउनलोड करें",
+    "downloadingVideoButton": "आपका वीडियो तैयार किया जा रहा है…",
+    "videoUnsupported": "इस ब्राउज़र में वीडियो एक्सपोर्ट सपोर्ट नहीं है — कंप्यूटर पर Chrome या Firefox आज़माएं।",
+    "videoError": "वीडियो नहीं बन सका — कृपया थोड़ी देर में फिर कोशिश करें।",
     "downloadDefaultTitle": "मेरा पुस्तक पैनल",
     "publishViewBook": "अपनी किताब देखें →"
   },
