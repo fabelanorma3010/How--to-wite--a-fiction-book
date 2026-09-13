@@ -7,6 +7,7 @@ import type { Chapter, BookFormat } from '@/lib/books'
 import { parseChapterBody } from '@/lib/parseChapterBody'
 import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes'
 import { decodeCaptionType } from '@/lib/captionType'
+import { isVideoUrl } from '@/lib/isVideoUrl'
 
 type ChapterData = Chapter & { bookTitle: string; bookType: BookFormat | null }
 type Sibling = { id: string; chapterNumber: number } | null
@@ -204,12 +205,24 @@ export default function ChapterReaderClient({
                   {showBar ? (
                     <div className="flex flex-col">
                       <div className="relative w-full overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={pages[pageIndex]}
-                          alt={`Page ${pageIndex + 1}`}
-                          className="max-h-[60vh] w-full object-cover"
-                        />
+                        {isVideoUrl(pages[pageIndex]) ? (
+                          <video
+                            src={pages[pageIndex]}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            controls
+                            className="max-h-[60vh] w-full object-cover"
+                          />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={pages[pageIndex]}
+                            alt={`Page ${pageIndex + 1}`}
+                            className="max-h-[60vh] w-full object-cover"
+                          />
+                        )}
                         {theme.illustTexture !== 'flat' && (
                           <div
                             aria-hidden="true"
@@ -232,13 +245,26 @@ export default function ChapterReaderClient({
                     </div>
                   ) : (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={pages[pageIndex]}
-                        alt={`Page ${pageIndex + 1}`}
-                        className="max-h-[80vh] w-full object-contain"
-                        style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
-                      />
+                      {isVideoUrl(pages[pageIndex]) ? (
+                        <video
+                          src={pages[pageIndex]}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          controls
+                          className="max-h-[80vh] w-full object-contain"
+                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                        />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={pages[pageIndex]}
+                          alt={`Page ${pageIndex + 1}`}
+                          className="max-h-[80vh] w-full object-contain"
+                          style={theme.grayscale ? { filter: 'grayscale(1) contrast(1.05)' } : undefined}
+                        />
+                      )}
                       {theme.illustTexture !== 'flat' && (
                         <div
                           aria-hidden="true"

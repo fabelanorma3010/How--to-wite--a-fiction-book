@@ -371,4 +371,71 @@ describe('PanelBuilder', () => {
 
     expect(await screen.findByText(/could not save those pages/i)).toBeInTheDocument()
   })
+
+  it('accepts video files in the panel-art file picker', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    expect(input.accept).toContain('video/mp4')
+    expect(input.accept).toContain('video/webm')
+  })
+
+  it('uploads a video as panel art and renders it as a looping, muted video instead of a static image', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/panel-clip.mp4' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    const videoFile = new File([new Uint8Array(1024)], 'clip.mp4', { type: 'video/mp4' })
+    await user.upload(input, videoFile)
+
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    const video = stage.querySelector('video') as HTMLVideoElement
+    expect(video).toBeTruthy()
+    expect(video).toHaveAttribute('src', 'https://example.com/panel-clip.mp4')
+    expect(video).toHaveAttribute('autoplay')
+    expect(video).toHaveAttribute('loop')
+    // React sets `muted` as a live DOM property rather than an HTML attribute
+    // (the attribute only controls the *default* muted state) — so check the
+    // property, not `hasAttribute`.
+    expect(video.muted).toBe(true)
+    expect(within(stage).queryByAltText('')).not.toBeInTheDocument()
+  })
+
+  it('accepts a video bigger than the 10MB image cap, up to its own 50MB limit', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    const bigVideo = new File([new Uint8Array(20 * 1024 * 1024)], 'clip.mp4', { type: 'video/mp4' })
+    await user.upload(input, bigVideo)
+
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    expect(screen.queryByText(/must be a png/i)).not.toBeInTheDocument()
+  })
+
+  it('rejects a video over its 50MB limit', async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    const hugeVideo = new File([new Uint8Array(51 * 1024 * 1024)], 'clip.mp4', { type: 'video/mp4' })
+    await user.upload(input, hugeVideo)
+
+    expect(await screen.findByText(/must be a png/i)).toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
+  })
 })

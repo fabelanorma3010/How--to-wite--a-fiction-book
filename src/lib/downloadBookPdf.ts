@@ -1,5 +1,6 @@
 import { escapeHtml, printHtml } from './printHtml'
 import { parseChapterBody } from './parseChapterBody'
+import { isVideoUrl } from './isVideoUrl'
 import type { Chapter } from './books'
 
 function longDate(): string {
@@ -30,7 +31,11 @@ function chapterHtml(chapter: Chapter): string {
 
   if (chapter.pages.length > 0) {
     const pages = chapter.pages
-      .map((url, i) => `<div class="page"><img src="${escapeHtml(url)}" alt="Page ${i + 1}"></div>`)
+      .map((url, i) =>
+        isVideoUrl(url)
+          ? `<div class="page"><p class="video-note">🎬 Page ${i + 1} is a video panel — it can't be included in a printed PDF.</p></div>`
+          : `<div class="page"><img src="${escapeHtml(url)}" alt="Page ${i + 1}"></div>`,
+      )
       .join('')
     return `<section class="chapter">${heading}${pages}</section>`
   }
@@ -66,6 +71,7 @@ export function downloadBookAsPdf(book: { title: string; description: string }, 
   .page { break-after: page; }
   .page:last-child { break-after: auto; }
   .page img { max-width: 100%; max-height: 85vh; display: block; margin: 0 auto; }
+  .page .video-note { color: #666; font-style: italic; text-align: center; margin-top: 40vh; }
 </style></head><body>
 <div class="cover">
   <h1>${escapeHtml(book.title)}</h1>

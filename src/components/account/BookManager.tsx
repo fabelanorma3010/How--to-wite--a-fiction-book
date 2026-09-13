@@ -15,7 +15,9 @@ const MAX_FILE_BYTES = 50 * 1024 * 1024
 const MAX_PAGE_BYTES = 10 * 1024 * 1024
 const MAX_PAGES_PER_CHAPTER = 30
 const ACCEPTED_COVER = ['image/png', 'image/jpeg', 'image/webp']
-const ACCEPTED_FILE = ['application/pdf', 'application/epub+zip']
+const ACCEPTED_DOCUMENT = ['application/pdf', 'application/epub+zip']
+const ACCEPTED_VIDEO = ['video/mp4', 'video/webm', 'video/quicktime']
+const ACCEPTED_FILE = [...ACCEPTED_DOCUMENT, ...ACCEPTED_VIDEO]
 const ACCEPTED_PAGE = ['image/png', 'image/jpeg', 'image/webp']
 
 const cardClass = 'rounded-3xl border-2 border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8'
@@ -60,7 +62,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
       return
     }
     if (bookFile && (!ACCEPTED_FILE.includes(bookFile.type) || bookFile.size > MAX_FILE_BYTES)) {
-      setError('Book file must be a PDF or EPUB, 50MB max.')
+      setError('Book file must be a PDF, EPUB, or video (MP4, WebM, MOV), 50MB max.')
       return
     }
 
@@ -270,7 +272,7 @@ export default function BookManager({ userId, books }: { userId: string; books: 
               {bookFile ? (
                 <div className="flex items-center gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 px-4 py-3">
                   <span className="text-2xl" aria-hidden="true">
-                    📄
+                    {ACCEPTED_VIDEO.includes(bookFile.type) ? '🎬' : '📄'}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-bold text-ink">{bookFile.name}</p>
@@ -290,9 +292,9 @@ export default function BookManager({ userId, books }: { userId: string; books: 
                   className="flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border-2 border-dashed border-ink/20 bg-page/60 px-4 py-8 text-center transition-colors hover:border-primary/40 hover:bg-primary/5"
                 >
                   <span className="text-3xl" aria-hidden="true">
-                    📄
+                    📄🎬
                   </span>
-                  <span className="font-bold text-ink">Tap to choose your PDF or EPUB</span>
+                  <span className="font-bold text-ink">Tap to choose your PDF, EPUB, or video</span>
                   <span className="text-xs text-ink/50">Up to 50MB</span>
                   <input
                     id="book-file"
