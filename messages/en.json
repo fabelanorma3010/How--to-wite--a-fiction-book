@@ -163,7 +163,14 @@
     "fontSerif": "Serif",
     "fontMono": "Monospace",
     "picturesTitle": "Reference pictures",
-    "stockPhotosLink": "Need a picture? Browse Adobe Stock ↗"
+    "stockPhotosLink": "Need a picture? Browse Adobe Stock ↗",
+    "historyButton": "History",
+    "historyTitle": "Draft history",
+    "historyClose": "Close",
+    "historyLoading": "Loading your past drafts…",
+    "historyEmpty": "No earlier drafts yet — one saves automatically as you write.",
+    "historyRestore": "Restore",
+    "restoreConfirm": "Restore this draft? What's in your notebook now will be saved too, so you won't lose it."
   },
   "NotebookExport": {
     "pdf": "PDF",

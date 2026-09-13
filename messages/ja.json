@@ -163,7 +163,14 @@
     "fontSerif": "明朝体",
     "fontMono": "等幅",
     "picturesTitle": "参考画像",
-    "stockPhotosLink": "画像が必要？Adobe Stockを見る ↗"
+    "stockPhotosLink": "画像が必要？Adobe Stockを見る ↗",
+    "historyButton": "履歴",
+    "historyTitle": "下書きの履歴",
+    "historyClose": "閉じる",
+    "historyLoading": "過去の下書きを読み込み中…",
+    "historyEmpty": "まだ過去の下書きはありません——書いていくと自動的に保存されます。",
+    "historyRestore": "復元",
+    "restoreConfirm": "この下書きを復元しますか？今ノートに書いてある内容も保存されるので、消えることはありません。"
   },
   "NotebookExport": {
     "pdf": "PDF",

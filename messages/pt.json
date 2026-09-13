@@ -163,7 +163,14 @@
     "fontSerif": "Serifada",
     "fontMono": "Monoespaçada",
     "picturesTitle": "Imagens de referência",
-    "stockPhotosLink": "Precisa de uma imagem? Explore o Adobe Stock ↗"
+    "stockPhotosLink": "Precisa de uma imagem? Explore o Adobe Stock ↗",
+    "historyButton": "Histórico",
+    "historyTitle": "Histórico de rascunhos",
+    "historyClose": "Fechar",
+    "historyLoading": "Carregando seus rascunhos anteriores…",
+    "historyEmpty": "Ainda não há rascunhos anteriores — um é salvo automaticamente enquanto você escreve.",
+    "historyRestore": "Restaurar",
+    "restoreConfirm": "Restaurar este rascunho? O que está no seu caderno agora também será salvo, então você não vai perder nada."
   },
   "NotebookExport": {
     "pdf": "PDF",

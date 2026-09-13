@@ -163,7 +163,14 @@
     "fontSerif": "Serif",
     "fontMono": "Monoespaciada",
     "picturesTitle": "Imágenes de referencia",
-    "stockPhotosLink": "¿Necesitas una imagen? Explora Adobe Stock ↗"
+    "stockPhotosLink": "¿Necesitas una imagen? Explora Adobe Stock ↗",
+    "historyButton": "Historial",
+    "historyTitle": "Historial de borradores",
+    "historyClose": "Cerrar",
+    "historyLoading": "Cargando tus borradores anteriores…",
+    "historyEmpty": "Aún no hay borradores anteriores — se guarda uno automáticamente mientras escribes.",
+    "historyRestore": "Restaurar",
+    "restoreConfirm": "¿Restaurar este borrador? Lo que hay ahora en tu cuaderno también se guardará, así que no lo perderás."
   },
   "NotebookExport": {
     "pdf": "PDF",

@@ -163,7 +163,14 @@
     "fontSerif": "सेरिफ़",
     "fontMono": "मोनोस्पेस",
     "picturesTitle": "संदर्भ चित्र",
-    "stockPhotosLink": "तस्वीर चाहिए? Adobe Stock देखें ↗"
+    "stockPhotosLink": "तस्वीर चाहिए? Adobe Stock देखें ↗",
+    "historyButton": "इतिहास",
+    "historyTitle": "ड्राफ़्ट इतिहास",
+    "historyClose": "बंद करें",
+    "historyLoading": "आपके पुराने ड्राफ़्ट लोड हो रहे हैं…",
+    "historyEmpty": "अभी तक कोई पुराना ड्राफ़्ट नहीं है — लिखते समय एक अपने आप सेव हो जाता है।",
+    "historyRestore": "वापस लाएं",
+    "restoreConfirm": "यह ड्राफ़्ट वापस लाएं? आपकी नोटबुक में अभी जो है, वह भी सेव कर लिया जाएगा, तो कुछ नहीं खोएगा।"
   },
   "NotebookExport": {
     "pdf": "PDF",
