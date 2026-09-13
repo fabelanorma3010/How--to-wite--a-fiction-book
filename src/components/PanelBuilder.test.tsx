@@ -214,16 +214,59 @@ describe('PanelBuilder', () => {
     expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument() // Comic's 1-big-panel choice was preserved
   })
 
-  it('lets a signed-out visitor generate images, but prompts them to log in to upload', async () => {
+  it('lets a signed-out visitor generate images and upload their own picture, but prompts them to log in for PDFs/video', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    expect(await screen.findByText(/log in to upload/i)).toBeInTheDocument()
-    expect(screen.queryByText(/^upload image$/i)).not.toBeInTheDocument()
+    expect(await screen.findByText(/upload a picture/i)).toBeInTheDocument()
+    expect(screen.getByText(/log in to also upload pdfs/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /generate/i })).toBeInTheDocument()
+
+    const input = screen.getByLabelText(/upload a picture/i) as HTMLInputElement
+    expect(input.accept).toBe('image/png,image/jpeg,image/webp')
+  })
+
+  it('lets a signed-out visitor upload their own picture without an account', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = screen.getByLabelText(/upload a picture/i) as HTMLInputElement
+    const imageFile = new File([new Uint8Array(1024)], 'photo.png', { type: 'image/png' })
+    await user.upload(input, imageFile)
+
+    // Kept as a data: URL in the browser rather than uploaded to Storage,
+    // which needs a signed-in owner — so no network call happens at all.
+    const img = await within(stage).findByAltText('')
+    expect(img.getAttribute('src')).toMatch(/^data:image\/png/)
+    expect(uploadMock).not.toHaveBeenCalled()
+  })
+
+  it('still asks a signed-out visitor to log in for a PDF or video file', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = screen.getByLabelText(/upload a picture/i) as HTMLInputElement
+    // The picker's accept filter would normally steer a signed-out visitor
+    // away from a PDF, but a determined user (drag-and-drop, "all files")
+    // can still hand one to the input — the app must reject it itself.
+    Object.defineProperty(input, 'files', {
+      value: [new File([new Uint8Array(1024)], 'story.pdf', { type: 'application/pdf' })],
+      configurable: true,
+    })
+    fireEvent.change(input)
+
+    expect(await screen.findByText(/log in to upload a pdf or video/i)).toBeInTheDocument()
+    expect(within(stage).queryByAltText('')).not.toBeInTheDocument()
+    expect(uploadMock).not.toHaveBeenCalled()
   })
 
   it('shows upload tools for a signed-in visitor', async () => {
@@ -642,6 +685,82 @@ describe('PanelBuilder', () => {
 
     await user.click(screen.getByRole('button', { name: /clear panel/i }))
     expect(document.querySelector('audio')).not.toBeInTheDocument()
+  })
+
+  async function generateImageOnPanel1(user: ReturnType<typeof userEvent.setup>, stage: HTMLElement) {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ image: 'https://example.com/generated.png' }),
+    }) as unknown as typeof fetch
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.type(screen.getByPlaceholderText(/describe an image/i), 'a dragon')
+    await user.click(screen.getByRole('button', { name: /generate/i }))
+    await screen.findByLabelText('Zoom')
+  }
+
+  it('zooms a panel picture with the zoom slider, and resets it back', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await generateImageOnPanel1(user, stage)
+
+    expect(screen.queryByRole('button', { name: /reset/i })).not.toBeInTheDocument()
+
+    const zoomSlider = screen.getByLabelText('Zoom') as HTMLInputElement
+    expect(zoomSlider.value).toBe('1')
+
+    fireEvent.change(zoomSlider, { target: { value: '2' } })
+    expect(screen.getByText('200%')).toBeInTheDocument()
+    const img = within(stage).getByAltText('')
+    expect(img).toHaveStyle({ transform: 'scale(2) translate(0%, 0%)' })
+
+    await user.click(screen.getByRole('button', { name: /reset/i }))
+    expect((screen.getByLabelText('Zoom') as HTMLInputElement).value).toBe('1')
+    expect(screen.getByText('100%')).toBeInTheDocument()
+  })
+
+  it('drags a panel picture to reposition it, without deselecting the panel', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await generateImageOnPanel1(user, stage)
+
+    const panelDiv = within(stage).getByText('Panel 1').closest('div')!
+    panelDiv.getBoundingClientRect = () =>
+      ({ width: 100, height: 100, x: 0, y: 0, top: 0, left: 0, right: 100, bottom: 100, toJSON: () => {} }) as DOMRect
+
+    fireEvent.pointerDown(panelDiv, { pointerId: 7, clientX: 50, clientY: 50 })
+    fireEvent.pointerMove(panelDiv, { pointerId: 7, clientX: 70, clientY: 40 })
+    fireEvent.pointerUp(panelDiv, { pointerId: 7, clientX: 70, clientY: 40 })
+
+    const img = within(stage).getByAltText('')
+    expect(img).toHaveStyle({ transform: 'scale(1) translate(20%, -10%)' })
+    // Images are natively draggable in browsers by default, which hijacks
+    // pointer events mid-gesture and silently breaks this feature — confirmed
+    // live in a real browser, where a real mouse drag stalled after ~12px
+    // instead of tracking the full movement, until this was set.
+    expect(img).toHaveAttribute('draggable', 'false')
+    // A real drag repositions the picture — it should not also deselect the
+    // panel, which would hide the very controls used to reposition it.
+    expect(screen.getByLabelText('Zoom')).toBeInTheDocument()
+  })
+
+  it('a plain tap (no movement) still selects and deselects a panel with a picture', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await generateImageOnPanel1(user, stage)
+
+    const panelDiv = within(stage).getByText('Panel 1').closest('div')!
+    panelDiv.getBoundingClientRect = () =>
+      ({ width: 100, height: 100, x: 0, y: 0, top: 0, left: 0, right: 100, bottom: 100, toJSON: () => {} }) as DOMRect
+
+    fireEvent.pointerDown(panelDiv, { pointerId: 9, clientX: 50, clientY: 50 })
+    fireEvent.pointerUp(panelDiv, { pointerId: 9, clientX: 50, clientY: 50 })
+    expect(screen.queryByLabelText('Zoom')).not.toBeInTheDocument()
   })
 
   it('deletes the current page, shifting later pages up, without touching the others', async () => {
