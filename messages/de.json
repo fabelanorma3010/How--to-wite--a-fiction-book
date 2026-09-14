@@ -204,6 +204,22 @@
       "oldMan": "Alberner alter Mann",
       "youngWoman": "Junge Frau",
       "clown": "Clown"
+    },
+    "translateLabel": "Übersetzen in",
+    "originalLanguage": "Original",
+    "translating": "Übersetze…",
+    "translateError": "Konnte das nicht übersetzen. Versuch es gleich noch einmal.",
+    "translatedLabel": "Übersetzung",
+    "language": {
+      "en": "Englisch",
+      "de": "Deutsch",
+      "es": "Spanisch",
+      "fr": "Französisch",
+      "hi": "Hindi",
+      "it": "Italienisch",
+      "ja": "Japanisch",
+      "pt": "Portugiesisch",
+      "zh": "Chinesisch"
     }
   },
   "Dictate": {

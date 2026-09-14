@@ -23,6 +23,10 @@ function isFunPreset(value: string): value is FunPreset {
   return (PRESET_ORDER as string[]).includes(value)
 }
 
+// Same 9 languages the /api/writing-tools translate mode accepts (Storyburst's
+// own UI languages) — keeps the picker in sync with what the backend supports.
+const TRANSLATE_LANGUAGE_CODES = ['en', 'de', 'es', 'fr', 'hi', 'it', 'ja', 'pt', 'zh'] as const
+
 interface ReadAloudProps {
   text: string
   label?: string
@@ -36,6 +40,10 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
   const [voiceURI, setVoiceURI] = useState('')
   const [preset, setPreset] = useState<FunPreset>('normal')
+  const [targetLang, setTargetLang] = useState('')
+  const [translations, setTranslations] = useState<Record<string, string>>({})
+  const [translateStatus, setTranslateStatus] = useState<'idle' | 'loading' | 'error'>('idle')
+  const [translateError, setTranslateError] = useState('')
 
   useEffect(() => {
     const hasSpeech = typeof window !== 'undefined' && 'speechSynthesis' in window
@@ -62,6 +70,15 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
     }
   }, [])
 
+  // Reset any cached translation when the underlying text changes — a stale
+  // translation of yesterday's draft would otherwise keep playing today.
+  useEffect(() => {
+    setTranslations({})
+    setTranslateError('')
+  }, [text])
+
+  const activeText = targetLang && translations[targetLang] ? translations[targetLang] : text
+
   function handleVoiceChange(uri: string) {
     setVoiceURI(uri)
     window.localStorage.setItem(VOICE_STORAGE_KEY, uri)
@@ -70,6 +87,42 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
   function handlePresetChange(next: FunPreset) {
     setPreset(next)
     window.localStorage.setItem(PRESET_STORAGE_KEY, next)
+  }
+
+  async function runTranslate(lang: string) {
+    setTranslateStatus('loading')
+    setTranslateError('')
+    try {
+      const res = await fetch('/api/writing-tools', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, mode: 'translate', targetLang: lang }),
+      })
+      const data = await res.json()
+      if (!res.ok || typeof data?.result !== 'string') throw new Error(data?.error || t('translateError'))
+      setTranslations((prev) => ({ ...prev, [lang]: data.result }))
+      setTranslateStatus('idle')
+    } catch (err) {
+      setTranslateError(err instanceof Error ? err.message : t('translateError'))
+      setTranslateStatus('idle')
+    }
+  }
+
+  function handleTargetLangChange(lang: string) {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel()
+    setSpeaking(false)
+    setTargetLang(lang)
+    setTranslateError('')
+
+    if (!lang) {
+      // Back to the original text — restore whatever voice was actually
+      // saved, rather than whichever foreign-language voice was auto-picked.
+      setVoiceURI(window.localStorage.getItem(VOICE_STORAGE_KEY) ?? '')
+      return
+    }
+    const match = voices.find((v) => v.lang.toLowerCase().startsWith(lang))
+    if (match) setVoiceURI(match.voiceURI)
+    if (!translations[lang]) void runTranslate(lang)
   }
 
   function handleToggle() {
@@ -82,10 +135,10 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
       return
     }
 
-    if (!text.trim()) return
+    if (!activeText.trim()) return
 
     synth.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
+    const utterance = new SpeechSynthesisUtterance(activeText)
     const chosenVoice = voices.find((v) => v.voiceURI === voiceURI)
     if (chosenVoice) utterance.voice = chosenVoice
     utterance.pitch = PRESET_SETTINGS[preset].pitch
@@ -98,12 +151,18 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
 
   if (!supported) return null
 
+  // A voice matching the chosen language is far more useful to list first —
+  // but if none exists on this device, fall back to the full list rather
+  // than showing an empty picker.
+  const languageVoices = targetLang ? voices.filter((v) => v.lang.toLowerCase().startsWith(targetLang)) : voices
+  const voiceOptions = languageVoices.length > 0 ? languageVoices : voices
+
   return (
     <span className="inline-flex flex-wrap items-center gap-1.5">
       <button
         type="button"
         onClick={handleToggle}
-        disabled={!speaking && !text.trim()}
+        disabled={!speaking && !activeText.trim()}
         aria-pressed={speaking}
         className={className}
       >
@@ -126,7 +185,21 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
           </button>
         ))}
       </span>
-      {voices.length > 1 && (
+      <select
+        aria-label={t('translateLabel')}
+        value={targetLang}
+        disabled={!text.trim()}
+        onChange={(e) => handleTargetLangChange(e.target.value)}
+        className="rounded-full border-2 border-ink/15 bg-white/80 px-2 py-1 text-xs font-semibold text-ink/70"
+      >
+        <option value="">{t('originalLanguage')}</option>
+        {TRANSLATE_LANGUAGE_CODES.map((code) => (
+          <option key={code} value={code}>
+            {t(`language.${code}`)}
+          </option>
+        ))}
+      </select>
+      {voiceOptions.length > 1 && (
         <select
           aria-label={t('voiceLabel')}
           value={voiceURI}
@@ -134,12 +207,32 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
           className="rounded-full border-2 border-ink/15 bg-white/80 px-2 py-1 text-xs font-semibold text-ink/70"
         >
           <option value="">{t('defaultVoice')}</option>
-          {voices.map((voice) => (
+          {voiceOptions.map((voice) => (
             <option key={voice.voiceURI} value={voice.voiceURI}>
               {voice.name} ({voice.lang})
             </option>
           ))}
         </select>
+      )}
+      {targetLang && (
+        <span className="mt-1 w-full basis-full">
+          {translateStatus === 'loading' && <p className="text-xs font-semibold text-ink/50">{t('translating')}</p>}
+          {translateError && (
+            <p role="alert" className="text-xs font-semibold text-red-600">
+              {translateError}
+            </p>
+          )}
+          {translations[targetLang] && (
+            <span className="mt-1 block rounded-xl border-2 border-ink/10 bg-white/70 p-3">
+              <span className="mb-1 block text-[10px] font-extrabold uppercase tracking-wide text-ink/40">
+                {t('translatedLabel')}
+              </span>
+              <span className="block whitespace-pre-wrap text-sm leading-relaxed text-ink/90">
+                {translations[targetLang]}
+              </span>
+            </span>
+          )}
+        </span>
       )}
     </span>
   )

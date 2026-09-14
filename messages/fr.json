@@ -204,6 +204,22 @@
       "oldMan": "Vieil homme rigolo",
       "youngWoman": "Jeune femme",
       "clown": "Clown"
+    },
+    "translateLabel": "Traduire en",
+    "originalLanguage": "Original",
+    "translating": "Traduction en cours…",
+    "translateError": "Impossible de traduire ce texte. Réessayez dans un instant.",
+    "translatedLabel": "Traduction",
+    "language": {
+      "en": "Anglais",
+      "de": "Allemand",
+      "es": "Espagnol",
+      "fr": "Français",
+      "hi": "Hindi",
+      "it": "Italien",
+      "ja": "Japonais",
+      "pt": "Portugais",
+      "zh": "Chinois"
     }
   },
   "Dictate": {

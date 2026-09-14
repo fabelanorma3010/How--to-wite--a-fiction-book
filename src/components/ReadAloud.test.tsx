@@ -16,6 +16,22 @@ function renderReadAloud(props: Partial<React.ComponentProps<typeof ReadAloud>> 
           defaultVoice: 'System default',
           characterLabel: 'Voice character',
           preset: { normal: 'Normal', oldMan: 'Silly old man', youngWoman: 'Young woman', clown: 'Clown' },
+          translateLabel: 'Translate to',
+          originalLanguage: 'Original',
+          translating: 'Translating…',
+          translateError: "Couldn't translate that. Try again in a moment.",
+          translatedLabel: 'Translation',
+          language: {
+            en: 'English',
+            de: 'German',
+            es: 'Spanish',
+            fr: 'French',
+            hi: 'Hindi',
+            it: 'Italian',
+            ja: 'Japanese',
+            pt: 'Portuguese',
+            zh: 'Chinese',
+          },
         },
       }}
     >
@@ -34,6 +50,7 @@ describe('ReadAloud', () => {
     // @ts-expect-error test-only cleanup of a global that may not exist on the type
     delete window.speechSynthesis
     window.localStorage.clear()
+    vi.restoreAllMocks()
   })
 
   it('renders nothing when speechSynthesis is unsupported', () => {
@@ -145,5 +162,134 @@ describe('ReadAloud', () => {
     await user.click(screen.getByRole('button', { name: /read aloud/i }))
 
     expect(speak.mock.calls[0][0].voice).toBe(kyoko)
+  })
+
+  it('shows a translate picker offering the original plus all 9 languages', () => {
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak: vi.fn(), getVoices: () => [] }
+    renderReadAloud()
+    const picker = screen.getByLabelText('Translate to') as HTMLSelectElement
+    expect(picker).toBeInTheDocument()
+    expect(screen.getByText('Original')).toBeInTheDocument()
+    expect(screen.getByText('Spanish')).toBeInTheDocument()
+    expect(screen.getByText('Japanese')).toBeInTheDocument()
+  })
+
+  it('is disabled when there is no text, same as the read-aloud button', () => {
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak: vi.fn(), getVoices: () => [] }
+    renderReadAloud({ text: '' })
+    expect(screen.getByLabelText('Translate to')).toBeDisabled()
+  })
+
+  it('translates the text, shows the result, and speaks the translation once ready', async () => {
+    const speak = vi.fn()
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak, getVoices: () => [] }
+    // @ts-expect-error jsdom doesn't provide this constructor
+    window.SpeechSynthesisUtterance = function (text: string) {
+      return { text }
+    }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ result: 'Érase una vez' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'es')
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/writing-tools',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ text: 'Once upon a time', mode: 'translate', targetLang: 'es' }),
+      }),
+    )
+    expect(await screen.findByText('Érase una vez')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /read aloud/i }))
+    expect(speak.mock.calls[0][0].text).toBe('Érase una vez')
+  })
+
+  it('caches a translation instead of re-fetching when picked again', async () => {
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak: vi.fn(), getVoices: () => [] }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ result: 'Es war einmal' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'de')
+    await screen.findByText('Es war einmal')
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'Original')
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'de')
+
+    expect(screen.getByText('Es war einmal')).toBeInTheDocument()
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('auto-picks a voice matching the target language', async () => {
+    const speak = vi.fn()
+    const alex = makeVoice('Alex', 'en-US')
+    const kyoko = makeVoice('Kyoko', 'ja-JP')
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak, getVoices: () => [alex, kyoko] }
+    // @ts-expect-error jsdom doesn't provide this constructor
+    window.SpeechSynthesisUtterance = function (text: string) {
+      return { text }
+    }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ result: '昔々' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'ja')
+    await screen.findByText('昔々')
+    await user.click(screen.getByRole('button', { name: /read aloud/i }))
+
+    expect(speak.mock.calls[0][0].voice).toBe(kyoko)
+  })
+
+  it('shows an error and keeps working when translation fails', async () => {
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak: vi.fn(), getVoices: () => [] }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      json: async () => ({ error: 'Rate limited' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'fr')
+
+    expect(await screen.findByText('Rate limited')).toBeInTheDocument()
+  })
+
+  it('reverts to the original text after switching back from a translation', async () => {
+    const speak = vi.fn()
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak, getVoices: () => [] }
+    // @ts-expect-error jsdom doesn't provide this constructor
+    window.SpeechSynthesisUtterance = function (text: string) {
+      return { text }
+    }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ result: 'Il était une fois' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'fr')
+    await screen.findByText('Il était une fois')
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'Original')
+    await user.click(screen.getByRole('button', { name: /read aloud/i }))
+
+    expect(speak.mock.calls[0][0].text).toBe('Once upon a time')
   })
 })

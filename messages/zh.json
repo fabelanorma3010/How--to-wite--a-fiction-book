@@ -204,6 +204,22 @@
       "oldMan": "搞笑老爷爷",
       "youngWoman": "年轻女性",
       "clown": "小丑"
+    },
+    "translateLabel": "翻译成",
+    "originalLanguage": "原文",
+    "translating": "翻译中…",
+    "translateError": "无法翻译，请稍后再试。",
+    "translatedLabel": "翻译",
+    "language": {
+      "en": "英语",
+      "de": "德语",
+      "es": "西班牙语",
+      "fr": "法语",
+      "hi": "印地语",
+      "it": "意大利语",
+      "ja": "日语",
+      "pt": "葡萄牙语",
+      "zh": "中文"
     }
   },
   "Dictate": {

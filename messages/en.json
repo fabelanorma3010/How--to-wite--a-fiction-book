@@ -204,6 +204,22 @@
       "oldMan": "Silly old man",
       "youngWoman": "Young woman",
       "clown": "Clown"
+    },
+    "translateLabel": "Translate to",
+    "originalLanguage": "Original",
+    "translating": "Translating…",
+    "translateError": "Couldn't translate that. Try again in a moment.",
+    "translatedLabel": "Translation",
+    "language": {
+      "en": "English",
+      "de": "German",
+      "es": "Spanish",
+      "fr": "French",
+      "hi": "Hindi",
+      "it": "Italian",
+      "ja": "Japanese",
+      "pt": "Portuguese",
+      "zh": "Chinese"
     }
   },
   "Dictate": {
