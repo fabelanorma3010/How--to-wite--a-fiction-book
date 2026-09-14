@@ -204,6 +204,22 @@
       "oldMan": "Vecchietto buffo",
       "youngWoman": "Giovane donna",
       "clown": "Pagliaccio"
+    },
+    "translateLabel": "Traduci in",
+    "originalLanguage": "Originale",
+    "translating": "Traduzione in corso…",
+    "translateError": "Impossibile tradurre. Riprova tra un momento.",
+    "translatedLabel": "Traduzione",
+    "language": {
+      "en": "Inglese",
+      "de": "Tedesco",
+      "es": "Spagnolo",
+      "fr": "Francese",
+      "hi": "Hindi",
+      "it": "Italiano",
+      "ja": "Giapponese",
+      "pt": "Portoghese",
+      "zh": "Cinese"
     }
   },
   "Dictate": {

@@ -204,6 +204,22 @@
       "oldMan": "Viejo gracioso",
       "youngWoman": "Mujer joven",
       "clown": "Payaso"
+    },
+    "translateLabel": "Traducir a",
+    "originalLanguage": "Original",
+    "translating": "Traduciendo…",
+    "translateError": "No se pudo traducir eso. Inténtalo de nuevo en un momento.",
+    "translatedLabel": "Traducción",
+    "language": {
+      "en": "Inglés",
+      "de": "Alemán",
+      "es": "Español",
+      "fr": "Francés",
+      "hi": "Hindi",
+      "it": "Italiano",
+      "ja": "Japonés",
+      "pt": "Portugués",
+      "zh": "Chino"
     }
   },
   "Dictate": {

@@ -26,10 +26,26 @@ const MODES = {
   },
 } as const
 
-type Mode = keyof typeof MODES
+// Same 9 languages Storyburst's own UI is translated into — a browser is
+// reasonably likely to have a text-to-speech voice for one of these, which
+// a fully open-ended target language wouldn't guarantee.
+export const TRANSLATE_LANGUAGES: Record<string, string> = {
+  en: 'English',
+  de: 'German',
+  es: 'Spanish',
+  fr: 'French',
+  hi: 'Hindi',
+  it: 'Italian',
+  ja: 'Japanese',
+  pt: 'Portuguese',
+  zh: 'Chinese',
+}
+
+type FixedMode = keyof typeof MODES
+type Mode = FixedMode | 'translate'
 
 function isMode(value: unknown): value is Mode {
-  return typeof value === 'string' && Object.prototype.hasOwnProperty.call(MODES, value)
+  return typeof value === 'string' && (Object.prototype.hasOwnProperty.call(MODES, value) || value === 'translate')
 }
 
 export async function POST(request: Request) {
@@ -43,10 +59,12 @@ export async function POST(request: Request) {
 
   let text: unknown
   let mode: unknown
+  let targetLang: unknown
   try {
     const body = await request.json()
     text = body?.text
     mode = body?.mode
+    targetLang = body?.targetLang
   } catch {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
@@ -63,11 +81,17 @@ export async function POST(request: Request) {
       { status: 400 },
     )
   }
+  if (mode === 'translate' && (typeof targetLang !== 'string' || !TRANSLATE_LANGUAGES[targetLang])) {
+    return NextResponse.json({ error: 'Unknown target language.' }, { status: 400 })
+  }
 
   const limited = await checkAiLimit(request, 'tools')
   if (limited) return NextResponse.json({ error: limited.error }, { status: limited.status })
 
-  const system = MODES[mode].system
+  const system =
+    mode === 'translate'
+      ? `You are a translation assistant. Translate the user's text into ${TRANSLATE_LANGUAGES[targetLang as string]}. Preserve tone, meaning, paragraph breaks, and formatting. Output ONLY the translated text — no preamble, no explanation, no notes about the translation.`
+      : MODES[mode].system
   const content = text.trim()
 
   // Prefer Gemini; fall through to Anthropic if Gemini fails and its key is set.
