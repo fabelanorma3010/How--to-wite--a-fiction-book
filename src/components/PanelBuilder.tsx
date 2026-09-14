@@ -11,6 +11,7 @@ import { rasterizePdfFirstPage, rasterizePdfPages } from '../lib/pdfToImage'
 import { downloadBookAsPdf } from '../lib/downloadBookPdf'
 import { isVideoUrl } from '../lib/isVideoUrl'
 import DictateButton from './DictateButton'
+import ReadAloud from './ReadAloud'
 
 type BuilderStyle = 'picturebook' | 'comic' | 'manga'
 type LayoutKey = 'oneBig' | 'twoStacked' | 'threeAcross' | 'wideTop2' | 'fourSquares' | 'manga5'
@@ -1632,6 +1633,15 @@ export default function PanelBuilder() {
                     {t('resetPosition')}
                   </button>
                 )}
+              </div>
+            )}
+
+            {currentPanel?.textType && (
+              <div className="mt-2">
+                <ReadAloud
+                  text={currentPanel.text ?? ''}
+                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
+                />
               </div>
             )}
 

@@ -55,6 +55,9 @@ describe('PanelBuilder', () => {
   afterEach(() => {
     vi.clearAllMocks()
     window.location.hash = ''
+    // jsdom has no Web Speech API by default; only the Read Aloud test below adds it.
+    // @ts-expect-error test-only cleanup of a global that may not exist on the type
+    delete window.speechSynthesis
   })
 
   it('opens on Comic with the 3-across layout, showing 3 numbered panels', async () => {
@@ -117,6 +120,33 @@ describe('PanelBuilder', () => {
     fireEvent.change(slider, { target: { value: '60' } })
     expect(box).toHaveStyle({ fontSize: '60px' })
     expect(screen.getByText('60px')).toBeInTheDocument()
+  })
+
+  it('offers Read Aloud (with translate) for a panel once it has text', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const speak = vi.fn()
+    // @ts-expect-error minimal stub of the browser API Read Aloud checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak, getVoices: () => [] }
+    // @ts-expect-error jsdom doesn't provide this constructor
+    window.SpeechSynthesisUtterance = function (text: string) {
+      return { text }
+    }
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+
+    const readButton = screen.getByRole('button', { name: /read aloud/i })
+    expect(readButton).toBeDisabled()
+
+    await user.type(screen.getByPlaceholderText('Type here…'), 'The vault door creaks open.')
+    expect(readButton).toBeEnabled()
+    expect(screen.getByLabelText(/translate to/i)).toBeInTheDocument()
+
+    await user.click(readButton)
+    expect(speak.mock.calls[0][0].text).toBe('The vault door creaks open.')
   })
 
   it('clearing a panel removes its text tools', async () => {
