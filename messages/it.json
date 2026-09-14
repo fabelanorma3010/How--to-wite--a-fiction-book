@@ -958,14 +958,17 @@
     "panelWord": "Vignetta",
     "textPlaceholder": "Scrivi qui…",
     "tapHint": "Tocca una vignetta per selezionarla, poi aggiungi un'immagine o del testo.",
+    "addBubble": "Aggiungi",
     "textType": {
       "speech": "Dialogo",
       "caption": "Didascalia",
       "thought": "Pensiero"
     },
     "clearPanel": "Svuota vignetta",
+    "removeTextBox": "Rimuovi fumetto",
+    "tooManyTextBoxes": "Puoi aggiungere fino a 20 fumetti per vignetta.",
     "fontSizeLabel": "Dimensione testo",
-    "dragTextHint": "Trascina un fumetto o una didascalia dal bordo per spostarlo.",
+    "dragTextHint": "Tocca un fumetto per selezionarlo, poi trascinalo, ridimensionalo o rimuovilo qui sotto.",
     "panelImageLabel": "Illustrazione del pannello",
     "unsplashLink": "Ti serve un'immagine? Sfoglia Unsplash ↗",
     "uploadImage": "Carica immagine, PDF o video",

@@ -958,14 +958,17 @@
     "panelWord": "Panel",
     "textPlaceholder": "Type here…",
     "tapHint": "Tap a panel to pick it, then add a picture or some text to that panel.",
+    "addBubble": "Add",
     "textType": {
       "speech": "Speech",
       "caption": "Caption",
       "thought": "Thought"
     },
     "clearPanel": "Clear panel",
+    "removeTextBox": "Remove bubble",
+    "tooManyTextBoxes": "You can only add up to 20 bubbles per panel.",
     "fontSizeLabel": "Text size",
-    "dragTextHint": "Drag a caption or speech bubble by its edge to move it.",
+    "dragTextHint": "Tap a bubble to select it, then drag it, resize it, or remove it below.",
     "panelImageLabel": "Panel art",
     "unsplashLink": "Need a picture? Browse Unsplash ↗",
     "uploadImage": "Upload image, PDF, or video",

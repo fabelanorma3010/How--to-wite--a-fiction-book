@@ -958,14 +958,17 @@
     "panelWord": "コマ",
     "textPlaceholder": "ここに入力…",
     "tapHint": "コマをタップして選び、写真かテキストを追加しましょう。",
+    "addBubble": "追加",
     "textType": {
       "speech": "セリフ",
       "caption": "キャプション",
       "thought": "心の声"
     },
     "clearPanel": "コマを空にする",
+    "removeTextBox": "吹き出しを削除",
+    "tooManyTextBoxes": "1コマにつき吹き出しは20個まで追加できます。",
     "fontSizeLabel": "文字サイズ",
-    "dragTextHint": "キャプションや吹き出しの端をドラッグすると移動できます。",
+    "dragTextHint": "吹き出しをタップして選択し、下でドラッグ、サイズ変更、削除ができます。",
     "panelImageLabel": "コマの絵",
     "unsplashLink": "画像が必要？Unsplashを見る ↗",
     "uploadImage": "画像・PDF・動画をアップロード",

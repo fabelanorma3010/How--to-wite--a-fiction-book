@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import type { Chapter, BookFormat } from '@/lib/books'
 import { parseChapterBody } from '@/lib/parseChapterBody'
 import { getBookFormatTheme, textureOverlayStyle } from '@/data/bookFormatThemes'
-import { decodeCaptionType } from '@/lib/captionType'
+import { decodeCaptionList } from '@/lib/captionType'
 import { isVideoUrl } from '@/lib/isVideoUrl'
 
 /* eslint-disable jsx-a11y/media-has-caption -- a voiceover clip has no separate caption track; the page's own text/speech-bubble is the transcript */
@@ -69,12 +69,17 @@ export default function ChapterReaderClient({
   const captions = isManga ? [...chapter.pageCaptions].reverse() : chapter.pageCaptions
   const pageAudioList = isManga ? [...chapter.pageAudio].reverse() : chapter.pageAudio
   const currentAudio = pageAudioList[pageIndex]
-  const decodedCaption = captions[pageIndex] ? decodeCaptionType(captions[pageIndex]) : null
-  // 'caption' and 'thought' are explicit choices from the Panel Builder and always render
-  // as that type; 'speech' (including every un-prefixed caption from before those existed)
-  // keeps the original per-format behavior — a bottom bar for 'big' formats, else a bubble.
-  const showBar = decodedCaption?.type === 'caption' || (decodedCaption?.type === 'speech' && theme.captionStyle === 'big')
-  const showThought = decodedCaption?.type === 'thought'
+  const pageItems = captions[pageIndex] ? decodeCaptionList(captions[pageIndex]) : []
+  // A page normally carries exactly one bubble (every chapter published
+  // before a panel could hold more than one, plus the common case today,
+  // both decode to a single item) and keeps the original per-format
+  // treatment: 'caption' and 'thought' always render as that type; 'speech'
+  // gets a bottom bar for 'big' formats, else a bubble. Two or more bubbles
+  // on one page always stack as overlaid bubbles instead — piling up
+  // several full-width bars would be a lot more visual noise than bubbles,
+  // so this keeps that less-common case simple to render correctly.
+  const singleItem = pageItems.length === 1 ? pageItems[0] : null
+  const showBar = singleItem?.type === 'caption' || (singleItem?.type === 'speech' && theme.captionStyle === 'big')
   // One extra "slide" past the real pages for the Chapter Complete / To Be
   // Continued card, so "next" walks through the whole chapter in one motion.
   const totalSlides = pages.length + 1
@@ -264,7 +269,7 @@ export default function ChapterReaderClient({
                           borderTop: `2px solid ${theme.ink}22`,
                         }}
                       >
-                        {decodedCaption?.text}
+                        {singleItem?.text}
                       </div>
                     </div>
                   ) : (
@@ -296,49 +301,56 @@ export default function ChapterReaderClient({
                           style={textureOverlayStyle(theme.illustTexture, theme.ink)}
                         />
                       )}
-                      {decodedCaption && showThought && (
-                        <div
-                          className="absolute left-4 top-4 max-w-[75%]"
-                          style={{
-                            background: '#fff',
-                            border: `2px solid ${theme.ink}`,
-                            borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%',
-                            padding: '12px 16px',
-                            boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
-                          }}
-                        >
-                          <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
-                            {decodedCaption.text}
-                          </p>
-                          <span aria-hidden="true" className="absolute left-5 top-full mt-1 flex flex-col items-start gap-1">
-                            <span className="block h-3 w-3 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
-                            <span className="ml-1.5 block h-1.5 w-1.5 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
-                          </span>
-                        </div>
-                      )}
-                      {decodedCaption && !showThought && decodedCaption.text && (
-                        <div
-                          className="absolute left-4 top-4 max-w-[75%]"
-                          style={{
-                            background: '#fff',
-                            border: `2px solid ${theme.ink}`,
-                            borderRadius: theme.captionStyle === 'manga' ? '3px' : '18px',
-                            padding: '10px 14px',
-                            boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
-                          }}
-                        >
-                          <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
-                            {decodedCaption.text}
-                          </p>
-                          <span
-                            aria-hidden="true"
-                            className="absolute -bottom-[7px] left-5 h-3.5 w-3.5 rotate-45"
-                            style={{
-                              background: '#fff',
-                              borderRight: `2px solid ${theme.ink}`,
-                              borderBottom: `2px solid ${theme.ink}`,
-                            }}
-                          />
+                      {pageItems.length > 0 && (
+                        <div className="absolute left-4 top-4 flex max-w-[75%] flex-col gap-3">
+                          {pageItems.map((item, i) =>
+                            item.type === 'thought' ? (
+                              <div
+                                key={i}
+                                className="relative"
+                                style={{
+                                  background: '#fff',
+                                  border: `2px solid ${theme.ink}`,
+                                  borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%',
+                                  padding: '12px 16px',
+                                  boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
+                                }}
+                              >
+                                <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
+                                  {item.text}
+                                </p>
+                                <span aria-hidden="true" className="absolute left-5 top-full mt-1 flex flex-col items-start gap-1">
+                                  <span className="block h-3 w-3 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
+                                  <span className="ml-1.5 block h-1.5 w-1.5 rounded-full" style={{ background: '#fff', border: `1.5px solid ${theme.ink}` }} />
+                                </span>
+                              </div>
+                            ) : (
+                              <div
+                                key={i}
+                                className="relative"
+                                style={{
+                                  background: '#fff',
+                                  border: `2px solid ${theme.ink}`,
+                                  borderRadius: theme.captionStyle === 'manga' ? '3px' : '18px',
+                                  padding: '10px 14px',
+                                  boxShadow: '0 3px 8px rgba(0,0,0,0.3)',
+                                }}
+                              >
+                                <p className="text-sm font-bold" style={{ fontFamily: theme.bodyFont, color: '#141414' }}>
+                                  {item.text}
+                                </p>
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute -bottom-[7px] left-5 h-3.5 w-3.5 rotate-45"
+                                  style={{
+                                    background: '#fff',
+                                    borderRight: `2px solid ${theme.ink}`,
+                                    borderBottom: `2px solid ${theme.ink}`,
+                                  }}
+                                />
+                              </div>
+                            ),
+                          )}
                         </div>
                       )}
                     </>

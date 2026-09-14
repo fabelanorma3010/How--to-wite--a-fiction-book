@@ -958,14 +958,17 @@
     "panelWord": "Panel",
     "textPlaceholder": "Hier tippen…",
     "tapHint": "Tippe auf ein Panel, um es auszuwählen, dann füge ein Bild oder Text hinzu.",
+    "addBubble": "Hinzufügen",
     "textType": {
       "speech": "Sprechblase",
       "caption": "Bildunterschrift",
       "thought": "Gedanke"
     },
     "clearPanel": "Panel leeren",
+    "removeTextBox": "Sprechblase entfernen",
+    "tooManyTextBoxes": "Du kannst pro Panel bis zu 20 Sprechblasen hinzufügen.",
     "fontSizeLabel": "Textgröße",
-    "dragTextHint": "Zieh eine Sprechblase oder Bildunterschrift am Rand, um sie zu verschieben.",
+    "dragTextHint": "Tippe auf eine Sprechblase, um sie auszuwählen, und zieh, vergrößere oder entferne sie dann unten.",
     "panelImageLabel": "Panel-Kunst",
     "unsplashLink": "Brauchst du ein Bild? Unsplash durchsuchen ↗",
     "uploadImage": "Bild, PDF oder Video hochladen",

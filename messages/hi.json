@@ -958,14 +958,17 @@
     "panelWord": "पैनल",
     "textPlaceholder": "यहाँ लिखें…",
     "tapHint": "किसी पैनल को चुनने के लिए टैप करें, फिर उसमें तस्वीर या टेक्स्ट जोड़ें।",
+    "addBubble": "जोड़ें",
     "textType": {
       "speech": "स्पीच",
       "caption": "कैप्शन",
       "thought": "थॉट"
     },
     "clearPanel": "पैनल खाली करें",
+    "removeTextBox": "बबल हटाएं",
+    "tooManyTextBoxes": "आप प्रति पैनल अधिकतम 20 बबल जोड़ सकते हैं।",
     "fontSizeLabel": "टेक्स्ट आकार",
-    "dragTextHint": "किसी कैप्शन या स्पीच बबल को उसके किनारे से खींचकर हिलाएं।",
+    "dragTextHint": "किसी बबल को चुनने के लिए टैप करें, फिर उसे नीचे खींचें, आकार बदलें या हटाएं।",
     "panelImageLabel": "पैनल आर्ट",
     "unsplashLink": "तस्वीर चाहिए? Unsplash देखें ↗",
     "uploadImage": "इमेज, PDF या वीडियो अपलोड करें",
