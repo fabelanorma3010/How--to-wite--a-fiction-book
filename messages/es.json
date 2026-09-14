@@ -947,6 +947,7 @@
     },
     "clearPanel": "Vaciar viñeta",
     "fontSizeLabel": "Tamaño de texto",
+    "dragTextHint": "Arrastra un globo de diálogo o un pie de foto por su borde para moverlo.",
     "panelImageLabel": "Arte del panel",
     "unsplashLink": "¿Necesitas una imagen? Explora Unsplash ↗",
     "uploadImage": "Subir imagen, PDF o video",
