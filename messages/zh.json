@@ -998,6 +998,14 @@
     "panelHasAudio": "此分格带有配音",
     "stickersHeading": "贴纸",
     "addSticker": "添加贴纸",
+    "stickerPresetsLabel": "或点按其中一个以添加：",
+    "stickerPreset": {
+      "whistle": "哨子贴纸",
+      "musicNotes": "音符贴纸",
+      "heart": "爱心贴纸",
+      "crown": "皇冠贴纸",
+      "flower": "花朵贴纸"
+    },
     "dragStickerHint": "点按贴纸即可选中，然后可拖到页面上的任意位置，或在下方调整大小。",
     "stickerSizeLabel": "贴纸大小",
     "removeSticker": "删除贴纸",

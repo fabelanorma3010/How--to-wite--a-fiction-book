@@ -998,6 +998,14 @@
     "panelHasAudio": "Este quadro tem uma locução",
     "stickersHeading": "Adesivos",
     "addSticker": "Adicionar adesivo",
+    "stickerPresetsLabel": "Ou toque em um para adicioná-lo:",
+    "stickerPreset": {
+      "whistle": "Adesivo de apito",
+      "musicNotes": "Adesivo de notas musicais",
+      "heart": "Adesivo de coração",
+      "crown": "Adesivo de coroa",
+      "flower": "Adesivo de flor"
+    },
     "dragStickerHint": "Toque em um adesivo para selecioná-lo, depois arraste-o para qualquer lugar da página ou redimensione-o abaixo.",
     "stickerSizeLabel": "Tamanho do adesivo",
     "removeSticker": "Remover adesivo",

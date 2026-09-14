@@ -998,6 +998,14 @@
     "panelHasAudio": "This panel has a voiceover",
     "stickersHeading": "Stickers",
     "addSticker": "Add sticker",
+    "stickerPresetsLabel": "Or tap one to add it:",
+    "stickerPreset": {
+      "whistle": "Whistle sticker",
+      "musicNotes": "Music notes sticker",
+      "heart": "Heart sticker",
+      "crown": "Crown sticker",
+      "flower": "Flower sticker"
+    },
     "dragStickerHint": "Tap a sticker to select it, then drag it anywhere on the page or resize it below.",
     "stickerSizeLabel": "Sticker size",
     "removeSticker": "Remove sticker",
