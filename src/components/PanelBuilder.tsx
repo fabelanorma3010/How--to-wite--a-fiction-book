@@ -121,7 +121,7 @@ function readFileAsDataUrl(file: File): Promise<string> {
 
 const MIN_FONT_SIZE = 1
 const MAX_FONT_SIZE = 75
-const DEFAULT_FONT_SIZE = 10.5
+const DEFAULT_FONT_SIZE = 16
 
 const MIN_IMAGE_ZOOM = 1
 const MAX_IMAGE_ZOOM = 3

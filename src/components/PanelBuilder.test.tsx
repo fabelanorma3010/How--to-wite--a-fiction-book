@@ -99,7 +99,7 @@ describe('PanelBuilder', () => {
     expect(screen.getByDisplayValue('The vault door creaks open.')).toBeInTheDocument()
   })
 
-  it('lets the panel text size be changed anywhere from 1 to 75px, defaulting to 10.5px', async () => {
+  it('lets the panel text size be changed anywhere from 1 to 75px, defaulting to 16px', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
@@ -111,11 +111,11 @@ describe('PanelBuilder', () => {
     const slider = screen.getByLabelText('Text size') as HTMLInputElement
     expect(slider).toHaveAttribute('min', '1')
     expect(slider).toHaveAttribute('max', '75')
-    expect(slider.value).toBe('10.5')
+    expect(slider.value).toBe('16')
 
     const box = screen.getByPlaceholderText('Type here…')
-    expect(box).toHaveStyle({ fontSize: '10.5px' })
-    expect(screen.getByText('11px')).toBeInTheDocument()
+    expect(box).toHaveStyle({ fontSize: '16px' })
+    expect(screen.getByText('16px')).toBeInTheDocument()
 
     fireEvent.change(slider, { target: { value: '60' } })
     expect(box).toHaveStyle({ fontSize: '60px' })
