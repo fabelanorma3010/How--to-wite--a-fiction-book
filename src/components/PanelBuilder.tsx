@@ -232,22 +232,34 @@ function drawContained(
  * frame on an interval for the whole hold, the same way video pages stay
  * correct via their requestAnimationFrame redraw loop.
  */
-function holdStaticFrame(draw: () => void): Promise<void> {
+function holdStaticFrame(draw: () => void, seconds: number = IMAGE_PAGE_SECONDS): Promise<void> {
   draw()
   const interval = window.setInterval(draw, 100)
-  return wait(IMAGE_PAGE_SECONDS * 1000).then(() => window.clearInterval(interval))
+  return wait(seconds * 1000).then(() => window.clearInterval(interval))
 }
 
-/** Renders one already-loaded page into the export canvas and resolves once its on-screen time is up. */
-function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage, framing: PageFraming): Promise<void> {
+/**
+ * Renders one already-loaded page into the export canvas and resolves once
+ * its on-screen time is up. `minSeconds` — a page's own recorded voiceover
+ * duration, if any — stretches that time so the narration isn't cut off
+ * partway through: an image page normally holds for IMAGE_PAGE_SECONDS, and
+ * a video page normally plays for its own length (capped at
+ * MAX_VIDEO_PANEL_SECONDS), but either extends to fit a longer voiceover.
+ */
+function renderExportPage(
+  ctx: CanvasRenderingContext2D,
+  page: PreloadedPage,
+  framing: PageFraming,
+  minSeconds = 0,
+): Promise<void> {
   if (page.kind === 'failed') {
     return holdStaticFrame(() => {
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-    })
+    }, Math.max(IMAGE_PAGE_SECONDS, minSeconds))
   }
   if (page.kind === 'image') {
-    return holdStaticFrame(() => drawContained(ctx, page.el, framing))
+    return holdStaticFrame(() => drawContained(ctx, page.el, framing), Math.max(IMAGE_PAGE_SECONDS, minSeconds))
   }
 
   const videoEl = page.el
@@ -266,7 +278,7 @@ function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage, fr
       drawContained(ctx, videoEl, framing)
       raf = window.requestAnimationFrame(draw)
     }
-    const seconds = Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS)
+    const seconds = Math.max(Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS), minSeconds)
     videoEl.currentTime = 0
     videoEl
       .play()
@@ -275,6 +287,23 @@ function renderExportPage(ctx: CanvasRenderingContext2D, page: PreloadedPage, fr
         window.setTimeout(finish, seconds * 1000)
       })
       .catch(finish)
+  })
+}
+
+/**
+ * Preloads one page's voiceover, same rationale as preloadExportPage: fully
+ * fetched before recording starts, and proxied same-origin so capturing it
+ * into the recorded stream doesn't get silently muted as tainted
+ * cross-origin media.
+ */
+function preloadExportAudio(src: string): Promise<HTMLAudioElement | null> {
+  if (!src) return Promise.resolve(null)
+  return new Promise((resolve) => {
+    const el = new Audio()
+    el.preload = 'auto'
+    el.onloadedmetadata = () => resolve(el)
+    el.onerror = () => resolve(null)
+    el.src = exportableSrc(src)
   })
 }
 
@@ -1109,8 +1138,9 @@ export default function PanelBuilder() {
     if (filledPanels.length === 0 || videoBusy) return
     setVideoBusy(true)
     setVideoError('')
+    let audioCtx: AudioContext | undefined
     try {
-      const { pagesOut, pageFraming } = flattenPages()
+      const { pagesOut, pageFraming, pageAudio } = flattenPages()
 
       const canvas = document.createElement('canvas')
       canvas.width = EXPORT_VIDEO_W
@@ -1132,12 +1162,38 @@ export default function PanelBuilder() {
       // Load every page's media fully — this is the network-bound step,
       // slowest on a cold serverless start — before recording starts at all,
       // so no page's on-screen time gets silently eaten by its own loading.
-      const pages = await Promise.all(pagesOut.map(preloadExportPage))
+      const [pages, audioEls] = await Promise.all([
+        Promise.all(pagesOut.map(preloadExportPage)),
+        Promise.all(pageAudio.map(preloadExportAudio)),
+      ])
 
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-      const stream = canvas.captureStream(EXPORT_VIDEO_FPS)
-      const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: EXPORT_VIDEO_BITRATE })
+      const videoTracks = canvas.captureStream(EXPORT_VIDEO_FPS).getVideoTracks()
+
+      // Only a page with an actual recorded voiceover needs the Web Audio
+      // graph at all — a book nobody narrated keeps today's silent export
+      // (and a real player hides the volume control entirely for a track
+      // with no audio, which is exactly what a silent book should show).
+      let audioTracks: MediaStreamTrack[] = []
+      const audioSources = new Map<number, MediaElementAudioSourceNode>()
+      if (audioEls.some((el) => el !== null)) {
+        audioCtx = new AudioContext()
+        await audioCtx.resume()
+        const dest = audioCtx.createMediaStreamDestination()
+        audioEls.forEach((el, i) => {
+          if (!el) return
+          const source = audioCtx!.createMediaElementSource(el)
+          source.connect(dest)
+          audioSources.set(i, source)
+        })
+        audioTracks = dest.stream.getAudioTracks()
+      }
+
+      const recorder = new MediaRecorder(new MediaStream([...videoTracks, ...audioTracks]), {
+        mimeType,
+        videoBitsPerSecond: EXPORT_VIDEO_BITRATE,
+      })
       const chunks: BlobPart[] = []
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data)
@@ -1148,7 +1204,13 @@ export default function PanelBuilder() {
 
       recorder.start()
       for (let i = 0; i < pages.length; i++) {
-        await renderExportPage(ctx, pages[i], pageFraming[i])
+        const voiceover = audioEls[i]
+        if (voiceover && audioSources.has(i)) {
+          voiceover.currentTime = 0
+          void voiceover.play()
+        }
+        await renderExportPage(ctx, pages[i], pageFraming[i], voiceover?.duration || 0)
+        voiceover?.pause()
       }
       recorder.stop()
       await finished
@@ -1166,6 +1228,7 @@ export default function PanelBuilder() {
     } catch {
       setVideoError(t('videoError'))
     } finally {
+      await audioCtx?.close()
       setVideoBusy(false)
     }
   }
