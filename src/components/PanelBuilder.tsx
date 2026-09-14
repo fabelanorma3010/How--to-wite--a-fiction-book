@@ -132,10 +132,17 @@ function clampImageOffset(value: number): number {
   return Math.max(-MAX_IMAGE_OFFSET, Math.min(MAX_IMAGE_OFFSET, value))
 }
 
-const MAX_TEXT_OFFSET = 160
+// A text bubble may be dragged up to this fraction of its own panel's
+// rendered width/height away from its default position — the panel's
+// overflow-hidden clips anything further, so this is what "all the way to
+// the edge" actually means, and it scales with however big that panel is.
+const TEXT_OFFSET_RANGE_RATIO = 0.9
+// Fallback for the rare case a panel's size can't be measured yet.
+const FALLBACK_TEXT_OFFSET_BASIS = 180
 
-function clampTextOffset(value: number): number {
-  return Math.max(-MAX_TEXT_OFFSET, Math.min(MAX_TEXT_OFFSET, value))
+function clampTextOffset(value: number, basis: number): number {
+  const max = basis * TEXT_OFFSET_RANGE_RATIO
+  return Math.max(-max, Math.min(max, value))
 }
 
 const MIN_TEXT_HEIGHT = 44
@@ -546,6 +553,8 @@ export default function PanelBuilder() {
     startY: number
     startOffsetX: number
     startOffsetY: number
+    boxWidth: number
+    boxHeight: number
     moved: boolean
   } | null>(null)
 
@@ -566,6 +575,8 @@ export default function PanelBuilder() {
   const cells = layoutCells(currentPage.layout)
   const currentPanel = selectedPanel !== null ? currentPage.panels[selectedPanel] : undefined
   const currentSticker = selectedSticker ? currentPage.stickers.find((s) => s.id === selectedSticker) : undefined
+  const currentPageIsBlank =
+    currentPage.stickers.length === 0 && currentPage.panels.every((p) => !p.image && !p.text && !p.textType && !p.audio)
 
   useEffect(() => {
     const supabase = createClient()
@@ -797,6 +808,10 @@ export default function PanelBuilder() {
   // never fights the panel's own tap-to-select or image drag — it's a fully
   // separate gesture, tracked the same tap-vs-drag way as the others.
   function handleTextPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+    // The bubble's own panel cell is its DOM parent (see TextBox below) —
+    // measuring that, not the bubble itself, is what lets the drag range
+    // scale to however big this particular panel actually is.
+    const box = e.currentTarget.parentElement?.getBoundingClientRect()
     textDragRef.current = {
       panelIndex,
       pointerId: e.pointerId,
@@ -804,6 +819,8 @@ export default function PanelBuilder() {
       startY: e.clientY,
       startOffsetX: panel.textOffsetX ?? 0,
       startOffsetY: panel.textOffsetY ?? 0,
+      boxWidth: box?.width || FALLBACK_TEXT_OFFSET_BASIS,
+      boxHeight: box?.height || FALLBACK_TEXT_OFFSET_BASIS,
       moved: false,
     }
     e.currentTarget.setPointerCapture?.(e.pointerId)
@@ -818,8 +835,8 @@ export default function PanelBuilder() {
     if (!drag.moved && Math.hypot(dx, dy) < 4) return
     drag.moved = true
     updatePanel(drag.panelIndex, {
-      textOffsetX: clampTextOffset(drag.startOffsetX + dx),
-      textOffsetY: clampTextOffset(drag.startOffsetY + dy),
+      textOffsetX: clampTextOffset(drag.startOffsetX + dx, drag.boxWidth),
+      textOffsetY: clampTextOffset(drag.startOffsetY + dy, drag.boxHeight),
     })
   }
 
@@ -895,6 +912,20 @@ export default function PanelBuilder() {
     setPagesByStyle((prev) => ({ ...prev, [style]: prev[style].filter((_, i) => i !== removedIndex) }))
     setPageIndex(Math.min(removedIndex, pages.length - 2))
     setSelectedPanel(null)
+  }
+
+  // Wipes every panel and sticker on this page back to blank, but keeps the
+  // page itself in place (same layout, same spot in the book) — unlike
+  // removeCurrentPage, which drops the page slot entirely.
+  function clearCurrentPage() {
+    if (!confirm(t('clearPageConfirm'))) return
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      pageList[pageIndex] = makePage(pageList[pageIndex].layout)
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedPanel(null)
+    setSelectedSticker(null)
   }
 
   function movePage(direction: -1 | 1) {
@@ -1596,6 +1627,14 @@ export default function PanelBuilder() {
             className="rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/60 transition-colors hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
           >
             ➕ {t('insertPageBefore')}
+          </button>
+          <button
+            type="button"
+            onClick={clearCurrentPage}
+            disabled={currentPageIsBlank}
+            className="rounded-full border-2 border-red-400/50 bg-white px-3 py-1 text-xs font-bold text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            🧹 {t('clearPage')}
           </button>
           <button
             type="button"

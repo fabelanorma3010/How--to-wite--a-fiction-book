@@ -941,6 +941,8 @@
     "draftError": "Não foi possível salvar",
     "deletePage": "Excluir página",
     "deletePageConfirm": "Excluir esta página? Isso não pode ser desfeito.",
+    "clearPage": "Limpar página",
+    "clearPageConfirm": "Apagar tudo nesta página e recomeçar? Isso não pode ser desfeito.",
     "movePageEarlier": "Mover para antes",
     "movePageLater": "Mover para depois",
     "layout": {

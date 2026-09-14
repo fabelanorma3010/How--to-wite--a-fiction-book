@@ -941,6 +941,8 @@
     "draftError": "No se pudo guardar",
     "deletePage": "Eliminar página",
     "deletePageConfirm": "¿Eliminar esta página? No se puede deshacer.",
+    "clearPage": "Vaciar página",
+    "clearPageConfirm": "¿Borrar todo en esta página y empezar de nuevo? No se puede deshacer.",
     "movePageEarlier": "Mover antes",
     "movePageLater": "Mover después",
     "layout": {

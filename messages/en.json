@@ -941,6 +941,8 @@
     "draftError": "Couldn't save",
     "deletePage": "Delete page",
     "deletePageConfirm": "Delete this page? This can't be undone.",
+    "clearPage": "Clear page",
+    "clearPageConfirm": "Clear everything on this page and start over? This can't be undone.",
     "movePageEarlier": "Move earlier",
     "movePageLater": "Move later",
     "layout": {
