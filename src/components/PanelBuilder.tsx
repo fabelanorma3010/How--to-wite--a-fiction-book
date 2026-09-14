@@ -138,6 +138,14 @@ function clampTextOffset(value: number): number {
   return Math.max(-MAX_TEXT_OFFSET, Math.min(MAX_TEXT_OFFSET, value))
 }
 
+const MIN_TEXT_HEIGHT = 44
+const MAX_TEXT_HEIGHT = 420
+const DEFAULT_TEXT_HEIGHT = 66
+
+function clampTextHeight(value: number): number {
+  return Math.max(MIN_TEXT_HEIGHT, Math.min(MAX_TEXT_HEIGHT, value))
+}
+
 const EXPORT_VIDEO_W = 1350
 const EXPORT_VIDEO_H = 1800
 const EXPORT_VIDEO_FPS = 10
@@ -323,6 +331,10 @@ interface PanelState {
   // barely move it. Pixels track the drag 1:1 regardless of bubble size.
   textOffsetX?: number
   textOffsetY?: number
+  // Pixels, like the offsets above. Native CSS textarea resize handles
+  // barely work with touch, so the box's height is dragged by hand instead
+  // (see the grip below the text) and stored explicitly.
+  textHeight?: number
 }
 interface PageSticker {
   id: string
@@ -535,6 +547,16 @@ export default function PanelBuilder() {
     startOffsetX: number
     startOffsetY: number
     moved: boolean
+  } | null>(null)
+
+  // And once more, for dragging the grip below a panel's text box to make it
+  // taller or shorter by hand — a plain CSS resize handle barely works with
+  // touch, so this tracks the gesture itself instead.
+  const textHeightDragRef = useRef<{
+    panelIndex: number
+    pointerId: number
+    startY: number
+    startHeight: number
   } | null>(null)
 
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
@@ -804,6 +826,33 @@ export default function PanelBuilder() {
   function handleTextPointerUp(e: React.PointerEvent<HTMLDivElement>) {
     const drag = textDragRef.current
     textDragRef.current = null
+    if (!drag || drag.pointerId !== e.pointerId) return
+    e.stopPropagation()
+  }
+
+  // The little grip below a panel's text box — drag it down to make the box
+  // taller, up to make it shorter. No tap-vs-drag distinction needed here:
+  // this handle has no other purpose, so any press on it means resize.
+  function handleTextHeightPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+    textHeightDragRef.current = {
+      panelIndex,
+      pointerId: e.pointerId,
+      startY: e.clientY,
+      startHeight: panel.textHeight ?? DEFAULT_TEXT_HEIGHT,
+    }
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    e.stopPropagation()
+  }
+
+  function handleTextHeightPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const drag = textHeightDragRef.current
+    if (!drag || drag.pointerId !== e.pointerId) return
+    updatePanel(drag.panelIndex, { textHeight: clampTextHeight(drag.startHeight + (e.clientY - drag.startY)) })
+  }
+
+  function handleTextHeightPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    const drag = textHeightDragRef.current
+    textHeightDragRef.current = null
     if (!drag || drag.pointerId !== e.pointerId) return
     e.stopPropagation()
   }
@@ -1462,6 +1511,10 @@ export default function PanelBuilder() {
                       onDragPointerDown={(e) => handleTextPointerDown(e, n - 1, panel)}
                       onDragPointerMove={handleTextPointerMove}
                       onDragPointerUp={handleTextPointerUp}
+                      height={panel.textHeight ?? DEFAULT_TEXT_HEIGHT}
+                      onHeightDragPointerDown={(e) => handleTextHeightPointerDown(e, n - 1, panel)}
+                      onHeightDragPointerMove={handleTextHeightPointerMove}
+                      onHeightDragPointerUp={handleTextHeightPointerUp}
                     />
                   )}
                 </div>
@@ -1964,6 +2017,10 @@ function TextBox({
   onDragPointerDown,
   onDragPointerMove,
   onDragPointerUp,
+  height,
+  onHeightDragPointerDown,
+  onHeightDragPointerMove,
+  onHeightDragPointerUp,
 }: {
   type: CaptionType
   value: string
@@ -1978,6 +2035,10 @@ function TextBox({
   onDragPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
   onDragPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void
   onDragPointerUp: (e: React.PointerEvent<HTMLDivElement>) => void
+  height: number
+  onHeightDragPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
+  onHeightDragPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void
+  onHeightDragPointerUp: (e: React.PointerEvent<HTMLDivElement>) => void
 }) {
   const radius = manga ? 3 : 14
   const side: 'left' | 'right' = rtl ? 'right' : 'left'
@@ -1997,11 +2058,24 @@ function TextBox({
       onClick={(e) => e.stopPropagation()}
       onPointerDown={(e) => e.stopPropagation()}
       onChange={(e) => onChange(e.target.value)}
-      rows={3}
       placeholder={placeholder}
-      className="block w-full resize-y border-0 bg-transparent p-0 font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
-      style={{ fontFamily: theme.bodyFont, fontSize: fontSizePx, minHeight: '2.5em' }}
+      className="block w-full resize-none border-0 bg-transparent p-0 font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
+      style={{ fontFamily: theme.bodyFont, fontSize: fontSizePx, height }}
     />
+  )
+  // A native CSS resize handle barely works with touch, so this small grip
+  // below the text is dragged by hand instead — same pointer-drag pattern
+  // as everything else draggable in this editor.
+  const resizeGrip = (
+    <div
+      onPointerDown={onHeightDragPointerDown}
+      onPointerMove={onHeightDragPointerMove}
+      onPointerUp={onHeightDragPointerUp}
+      className="-mb-0.5 mt-1 flex h-4 cursor-ns-resize touch-none items-center justify-center"
+      aria-hidden="true"
+    >
+      <span className="h-1 w-8 rounded-full" style={{ background: `${theme.ink}33` }} />
+    </div>
   )
 
   if (type === 'caption') {
@@ -2013,6 +2087,7 @@ function TextBox({
         {...dragHandlers}
       >
         {textarea}
+        {resizeGrip}
       </div>
     )
   }
@@ -2034,6 +2109,7 @@ function TextBox({
         {...dragHandlers}
       >
         {textarea}
+        {resizeGrip}
         <span
           className="absolute flex flex-col gap-0.5"
           style={{ [side]: 12, top: '100%', marginTop: 3 } as React.CSSProperties}
@@ -2059,6 +2135,7 @@ function TextBox({
       {...dragHandlers}
     >
       {textarea}
+      {resizeGrip}
       <span
         className="absolute -bottom-[5px] h-[9px] w-[9px] rotate-45"
         style={{ [side]: 12, background: '#fff', borderRight: `2px solid ${theme.ink}`, borderBottom: `2px solid ${theme.ink}` } as React.CSSProperties}

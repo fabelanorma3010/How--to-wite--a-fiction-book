@@ -930,6 +930,48 @@ describe('PanelBuilder', () => {
     expect(screen.getByDisplayValue('Hello there.')).toBeInTheDocument()
   })
 
+  it('drags the grip below a speech bubble to change its height, without moving the bubble', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const box = screen.getByPlaceholderText('Type here…') as HTMLTextAreaElement
+    expect(box).toHaveStyle({ height: '66px' })
+
+    const grip = box.nextElementSibling as HTMLElement
+    fireEvent.pointerDown(grip, { pointerId: 21, clientY: 100 })
+    fireEvent.pointerMove(grip, { pointerId: 21, clientY: 140 })
+    fireEvent.pointerUp(grip, { pointerId: 21, clientY: 140 })
+
+    expect(box).toHaveStyle({ height: '106px' })
+    expect((box.parentElement as HTMLElement).style.transform).toBe('')
+  })
+
+  it('clamps a dragged text box height between 44px and 420px', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const box = screen.getByPlaceholderText('Type here…') as HTMLTextAreaElement
+    const grip = box.nextElementSibling as HTMLElement
+
+    fireEvent.pointerDown(grip, { pointerId: 22, clientY: 100 })
+    fireEvent.pointerMove(grip, { pointerId: 22, clientY: -1000 })
+    fireEvent.pointerUp(grip, { pointerId: 22, clientY: -1000 })
+    expect(box).toHaveStyle({ height: '44px' })
+
+    fireEvent.pointerDown(grip, { pointerId: 23, clientY: 0 })
+    fireEvent.pointerMove(grip, { pointerId: 23, clientY: 5000 })
+    fireEvent.pointerUp(grip, { pointerId: 23, clientY: 5000 })
+    expect(box).toHaveStyle({ height: '420px' })
+  })
+
   it('shows a reset-position link after dragging a text box, and it clears the offset', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
