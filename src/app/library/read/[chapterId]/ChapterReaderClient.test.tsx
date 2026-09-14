@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ChapterReaderClient from './ChapterReaderClient'
 import type { Chapter, BookFormat } from '@/lib/books'
+import { encodeCaptionList } from '@/lib/captionType'
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: vi.fn() }),
@@ -131,6 +132,41 @@ describe('ChapterReaderClient image pages', () => {
     expect(screen.getByRole('img', { name: 'Page 1' })).toBeInTheDocument()
     // The page-1 image is the only element with this alt/text — nothing extra got rendered.
     expect(screen.queryByText(/./, { selector: 'p' })).not.toBeInTheDocument()
+  })
+
+  it('shows every bubble a page was published with, not just one', () => {
+    const encoded = encodeCaptionList([
+      { type: 'speech', text: 'Hello there!' },
+      { type: 'thought', text: 'Something feels off...' },
+    ])
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({ pages: ['/a.png'], pageCaptions: [encoded] })}
+        prev={null}
+        next={null}
+      />,
+    )
+    expect(screen.getByText('Hello there!')).toBeInTheDocument()
+    expect(screen.getByText('Something feels off...')).toBeInTheDocument()
+  })
+
+  it('renders a multi-bubble page as stacked bubbles even when one bubble is a caption on a bar format', () => {
+    const encoded = encodeCaptionList([
+      { type: 'caption', text: 'Meanwhile, at the castle...' },
+      { type: 'speech', text: 'Someone is coming!' },
+    ])
+    render(
+      <ChapterReaderClient
+        chapter={makeChapter({ bookType: 'childrens', pages: ['/a.png'], pageCaptions: [encoded] })}
+        prev={null}
+        next={null}
+      />,
+    )
+    // Both bubbles show up, and the page's own picture is still shown at full size
+    // (the single-caption "big format" bottom-bar treatment only applies to one bubble).
+    expect(screen.getByText('Meanwhile, at the castle...')).toBeInTheDocument()
+    expect(screen.getByText('Someone is coming!')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Page 1' })).toHaveClass('object-contain')
   })
 })
 

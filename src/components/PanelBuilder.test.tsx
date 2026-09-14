@@ -82,31 +82,33 @@ describe('PanelBuilder', () => {
     expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument()
   })
 
-  it('tapping a panel reveals the text-type and image tools, and typing a caption keeps it after switching type', async () => {
+  it('tapping a panel reveals the add-bubble and image tools, and adding another bubble keeps the first one', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
 
     const box = screen.getByPlaceholderText('Type here…')
     await user.type(box, 'The vault door creaks open.')
     expect(screen.getByDisplayValue('The vault door creaks open.')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: /📝 Caption/ }))
+    // Adding a caption too adds a second, separate bubble — the speech text stays put.
+    await user.click(screen.getByRole('button', { name: /Add Caption/i }))
     expect(screen.getByDisplayValue('The vault door creaks open.')).toBeInTheDocument()
+    expect(screen.getAllByPlaceholderText('Type here…')).toHaveLength(2)
   })
 
-  it('lets the panel text size be changed anywhere from 13 to 50px, defaulting to 16px', async () => {
+  it('lets a bubble text size be changed anywhere from 13 to 50px, defaulting to 16px', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
 
     const slider = screen.getByLabelText('Text size') as HTMLInputElement
     expect(slider).toHaveAttribute('min', '13')
@@ -136,7 +138,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
 
     const readButton = screen.getByRole('button', { name: /read aloud/i })
     expect(readButton).toBeDisabled()
@@ -156,11 +158,78 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💭 Thought/ }))
+    await user.click(screen.getByRole('button', { name: /Add Thought/i }))
     expect(screen.getByPlaceholderText('Type here…')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /Clear panel/ }))
     expect(screen.queryByPlaceholderText('Type here…')).not.toBeInTheDocument()
+  })
+
+  it('removes one bubble at a time, leaving the others on the same panel untouched', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
+    await user.type(screen.getByPlaceholderText('Type here…'), 'First bubble')
+    await user.click(screen.getByRole('button', { name: /Add Thought/i }))
+    // Adding auto-selects the new one, so it's this second bubble's textarea that's focused/empty.
+    const boxes = screen.getAllByPlaceholderText('Type here…')
+    await user.type(boxes[1], 'Second bubble')
+
+    await user.click(screen.getByRole('button', { name: /Remove bubble/i }))
+
+    expect(screen.queryByDisplayValue('Second bubble')).not.toBeInTheDocument()
+    expect(screen.getByDisplayValue('First bubble')).toBeInTheDocument()
+  })
+
+  it('caps bubbles at 20 per panel', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const addSpeech = screen.getByRole('button', { name: /Add Speech/i })
+    for (let i = 0; i < 20; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await user.click(addSpeech)
+    }
+    expect(screen.getAllByPlaceholderText('Type here…')).toHaveLength(20)
+
+    // All three add-bubble buttons disable together once the panel is full.
+    expect(addSpeech).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Add Caption/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Add Thought/i })).toBeDisabled()
+  })
+
+  it('drags one bubble without moving another bubble on the same panel', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
+    await user.click(screen.getByRole('button', { name: /Add Thought/i }))
+    const [firstBubble, secondBubble] = screen.getAllByPlaceholderText('Type here…').map((box) => box.parentElement!)
+    secondBubble.parentElement!.getBoundingClientRect = () =>
+      ({ width: 200, height: 200, x: 0, y: 0, top: 0, left: 0, right: 200, bottom: 200, toJSON: () => {} }) as DOMRect
+
+    // The second bubble on a panel starts cascaded away from the first, so
+    // two freshly-added bubbles don't land exactly on top of each other
+    // (which would bury one, untappable, under the other).
+    expect(firstBubble.style.transform).toBe('')
+    expect(secondBubble).toHaveStyle({ transform: 'translate(70px, 10px)' })
+
+    fireEvent.pointerDown(secondBubble, { pointerId: 8, clientX: 0, clientY: 0 })
+    fireEvent.pointerMove(secondBubble, { pointerId: 8, clientX: 25, clientY: 15 })
+    fireEvent.pointerUp(secondBubble, { pointerId: 8, clientX: 25, clientY: 15 })
+
+    expect(secondBubble).toHaveStyle({ transform: 'translate(95px, 25px)' })
+    expect(firstBubble.style.transform).toBe('')
   })
 
   it('Next adds fresh pages up to 30 and then disables, with a live page count', async () => {
@@ -184,12 +253,12 @@ describe('PanelBuilder', () => {
 
     // Page 1 gets "First page", then a fresh page 2 gets "Second page".
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     await user.type(screen.getByPlaceholderText('Type here…'), 'First page')
 
     await user.click(screen.getByRole('button', { name: /next page/i }))
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     await user.type(screen.getByPlaceholderText('Type here…'), 'Second page')
     expect(screen.getByText('Page 2 of 30')).toBeInTheDocument()
 
@@ -937,7 +1006,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const box = screen.getByPlaceholderText('Type here…')
     await user.type(box, 'Hello there.')
 
@@ -961,7 +1030,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const bubble = screen.getByPlaceholderText('Type here…').parentElement!
     // A small panel — the drag below wildly overshoots it, so the result
     // should be clamped to this panel's own bounds, not the old fixed cap.
@@ -983,7 +1052,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const box = screen.getByPlaceholderText('Type here…') as HTMLTextAreaElement
     expect(box).toHaveStyle({ height: '66px' })
 
@@ -1003,7 +1072,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const box = screen.getByPlaceholderText('Type here…') as HTMLTextAreaElement
     const grip = box.nextElementSibling as HTMLElement
 
@@ -1025,7 +1094,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const bubble = screen.getByPlaceholderText('Type here…').parentElement!
     bubble.parentElement!.getBoundingClientRect = () =>
       ({ width: 200, height: 200, x: 0, y: 0, top: 0, left: 0, right: 200, bottom: 200, toJSON: () => {} }) as DOMRect
@@ -1041,20 +1110,27 @@ describe('PanelBuilder', () => {
     expect(bubble.style.transform).toBe('')
   })
 
-  it('a plain tap on a text bubble (no movement) neither moves it nor deselects the panel', async () => {
+  it('a plain tap on a text bubble (no movement) does not move it, but toggles its selection', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
     const stage = getStage()
 
     await user.click(within(stage).getByText('Panel 1'))
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     const bubble = screen.getByPlaceholderText('Type here…').parentElement!
+
+    // Freshly added, so it starts out selected — its controls already show.
+    expect(screen.getByLabelText('Text size')).toBeInTheDocument()
 
     fireEvent.pointerDown(bubble, { pointerId: 4, clientX: 20, clientY: 20 })
     fireEvent.pointerUp(bubble, { pointerId: 4, clientX: 20, clientY: 20 })
 
     expect(bubble.style.transform).toBe('')
+    expect(screen.queryByLabelText('Text size')).not.toBeInTheDocument()
+
+    fireEvent.pointerDown(bubble, { pointerId: 5, clientX: 20, clientY: 20 })
+    fireEvent.pointerUp(bubble, { pointerId: 5, clientX: 20, clientY: 20 })
     expect(screen.getByLabelText('Text size')).toBeInTheDocument()
   })
 
@@ -1067,7 +1143,7 @@ describe('PanelBuilder', () => {
 
     async function writeOnCurrentPage(text: string) {
       await user.click(within(stage).getByText('Panel 1'))
-      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.click(screen.getByRole('button', { name: /Add Speech/i }))
       await user.type(screen.getByPlaceholderText('Type here…'), text)
     }
 
@@ -1112,7 +1188,7 @@ describe('PanelBuilder', () => {
     const stage = getStage()
 
     await generateImageOnPanel1(user, stage)
-    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.click(screen.getByRole('button', { name: /Add Speech/i }))
     await user.type(screen.getByPlaceholderText('Type here…'), 'Hello there.')
     await addSticker(user)
 
@@ -1141,7 +1217,7 @@ describe('PanelBuilder', () => {
 
     async function writeOnCurrentPage(text: string) {
       await user.click(within(stage).getByText('Panel 1'))
-      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.click(screen.getByRole('button', { name: /Add Speech/i }))
       await user.type(screen.getByPlaceholderText('Type here…'), text)
     }
 
@@ -1204,7 +1280,7 @@ describe('PanelBuilder', () => {
       const stage = getStage()
 
       await user.click(within(stage).getByText('Panel 1'))
-      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.click(screen.getByRole('button', { name: /Add Speech/i }))
       await user.type(screen.getByPlaceholderText('Type here…'), 'Remember me')
 
       await user.click(screen.getByRole('button', { name: '💾 Save' }))
@@ -1223,7 +1299,7 @@ describe('PanelBuilder', () => {
       const stage = getStage()
 
       await user.click(within(stage).getByText('Panel 1'))
-      await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+      await user.click(screen.getByRole('button', { name: /Add Speech/i }))
       await user.type(screen.getByPlaceholderText('Type here…'), 'Autosaved line')
       expect(screen.getByDisplayValue('Autosaved line')).toBeInTheDocument()
 
@@ -1264,6 +1340,33 @@ describe('PanelBuilder', () => {
       renderWithIntl(<PanelBuilder />)
       const stage = getStage()
       expect(await within(stage).findByText('Panel 1')).toBeInTheDocument()
+    })
+
+    it('migrates a draft saved before a panel could hold more than one bubble, keeping its text', async () => {
+      getUserMock.mockResolvedValue({ data: { user: null } })
+      await new Promise<void>((resolve, reject) => {
+        const req = window.indexedDB.open('storyburst-book-panel', 1)
+        req.onupgradeneeded = () => req.result.createObjectStore('drafts')
+        req.onsuccess = () => {
+          const db = req.result
+          const tx = db.transaction('drafts', 'readwrite')
+          const oldPanel = { textType: 'thought', text: 'A legacy thought bubble' }
+          const oldPage = { layout: 'oneBig', panels: [oldPanel], stickers: [] }
+          tx.objectStore('drafts').put(
+            { style: 'comic', pagesByStyle: { comic: [oldPage], manga: [oldPage], picturebook: [oldPage] } },
+            'current',
+          )
+          tx.oncomplete = () => {
+            db.close()
+            resolve()
+          }
+          tx.onerror = () => reject(tx.error)
+        }
+        req.onerror = () => reject(req.error)
+      })
+
+      renderWithIntl(<PanelBuilder />)
+      expect(await screen.findByDisplayValue('A legacy thought bubble')).toBeInTheDocument()
     })
   })
 })

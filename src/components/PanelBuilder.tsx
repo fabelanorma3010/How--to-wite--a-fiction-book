@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { getBookFormatTheme, textureOverlayStyle } from '../data/bookFormatThemes'
 import type { BookFormat } from '../lib/books'
 import { createClient } from '../lib/supabase/client'
-import { encodeCaptionType, type CaptionType } from '../lib/captionType'
+import { encodeCaptionList, type CaptionType } from '../lib/captionType'
 import { rasterizePdfFirstPage, rasterizePdfPages } from '../lib/pdfToImage'
 import { downloadBookAsPdf } from '../lib/downloadBookPdf'
 import { isVideoUrl } from '../lib/isVideoUrl'
@@ -323,25 +323,32 @@ function preloadExportAudio(src: string): Promise<HTMLAudioElement | null> {
   })
 }
 
+interface TextBubble {
+  id: string
+  type: CaptionType
+  text: string
+  fontSize?: number
+  // In pixels, not a percentage like the image offsets below — a text
+  // bubble is much smaller than its panel, so a plain CSS translate(%)
+  // on the bubble itself (relative to the bubble's own tiny size) would
+  // barely move it. Pixels track the drag 1:1 regardless of bubble size.
+  offsetX?: number
+  offsetY?: number
+  // Pixels, like the offsets above. Native CSS textarea resize handles
+  // barely work with touch, so the box's height is dragged by hand instead
+  // (see the grip below the text) and stored explicitly.
+  height?: number
+}
+
 interface PanelState {
   image?: string
-  textType?: CaptionType
-  text?: string
-  fontSize?: number
   audio?: string
   imageZoom?: number
   imageOffsetX?: number
   imageOffsetY?: number
-  // In pixels, not a percentage like the image offsets above — a text
-  // bubble is much smaller than its panel, so a plain CSS translate(%)
-  // on the bubble itself (relative to the bubble's own tiny size) would
-  // barely move it. Pixels track the drag 1:1 regardless of bubble size.
-  textOffsetX?: number
-  textOffsetY?: number
-  // Pixels, like the offsets above. Native CSS textarea resize handles
-  // barely work with touch, so the box's height is dragged by hand instead
-  // (see the grip below the text) and stored explicitly.
-  textHeight?: number
+  // A panel can hold any number of bubbles now, each independently placed,
+  // sized, and removable — see addTextBox/updateTextBox/removeTextBox.
+  textBoxes?: TextBubble[]
 }
 interface PageSticker {
   id: string
@@ -357,18 +364,55 @@ interface PageState {
 }
 
 function makePage(layout: LayoutKey): PageState {
-  return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})), stickers: [] }
+  return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({ textBoxes: [] })), stickers: [] }
 }
 
-// A draft saved to IndexedDB before the stickers field existed has no
-// `stickers` array on its pages at all — restoring it as-is crashes every
-// reader of `currentPage.stickers` (they all assume a real array, not
-// undefined) the moment the page tries to render. Backfill it once, right
+// A single legacy bubble, as every panel used to store it before a panel
+// could hold more than one — read only by migratePanelTextBoxes below.
+interface LegacyPanelTextFields {
+  textType?: CaptionType
+  text?: string
+  fontSize?: number
+  textOffsetX?: number
+  textOffsetY?: number
+  textHeight?: number
+}
+
+// A panel saved before textBoxes existed carries its one bubble in those
+// singular fields instead — fold it into a single-item textBoxes array so
+// reopening an old draft doesn't make that text disappear.
+function migratePanelTextBoxes(panel: PanelState & LegacyPanelTextFields): PanelState {
+  if (panel.textBoxes) return panel
+  const { textType, text, fontSize, textOffsetX, textOffsetY, textHeight, ...rest } = panel
+  if (!textType && !text) return { ...rest, textBoxes: [] }
+  return {
+    ...rest,
+    textBoxes: [
+      {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        type: textType ?? 'speech',
+        text: text ?? '',
+        fontSize,
+        offsetX: textOffsetX,
+        offsetY: textOffsetY,
+        height: textHeight,
+      },
+    ],
+  }
+}
+
+// A draft saved to IndexedDB before the stickers field (or the textBoxes
+// array) existed doesn't have them in the new shape — restoring it as-is
+// crashes every reader that assumes them. Backfill/migrate once, right
 // where old data re-enters state, instead of guarding every call site.
-function withStickers(pagesByStyle: Record<BuilderStyle, PageState[]>): Record<BuilderStyle, PageState[]> {
+function normalizeDraftPages(pagesByStyle: Record<BuilderStyle, PageState[]>): Record<BuilderStyle, PageState[]> {
   const result = {} as Record<BuilderStyle, PageState[]>
   for (const key of Object.keys(pagesByStyle) as BuilderStyle[]) {
-    result[key] = pagesByStyle[key].map((page) => ({ ...page, stickers: page.stickers ?? [] }))
+    result[key] = pagesByStyle[key].map((page) => ({
+      ...page,
+      stickers: page.stickers ?? [],
+      panels: page.panels.map(migratePanelTextBoxes),
+    }))
   }
   return result
 }
@@ -385,6 +429,23 @@ function clampStickerSize(value: number): number {
 function clampStickerPos(value: number): number {
   return Math.max(0, Math.min(100, value))
 }
+
+// A generous ceiling, not a real-world target — it exists only to keep a
+// panel from growing unbounded, the same way stickers are capped per page.
+const MAX_TEXT_BOXES_PER_PANEL = 20
+
+// Every bubble type anchors near the same spot by default, so a freshly
+// added bubble would otherwise land exactly on top of the last one — buried,
+// untappable, until someone thought to drag the one on top out of the way.
+// These fan the first few bubbles out into visibly different corners; after
+// that it wraps and some overlap is expected (a panel with that many bubbles
+// already needs manual arranging).
+const TEXT_BOX_CASCADE: Array<{ x: number; y: number }> = [
+  { x: 0, y: 0 },
+  { x: 70, y: 10 },
+  { x: 10, y: 90 },
+  { x: 80, y: 100 },
+]
 
 /**
  * Zoom/position adjust how a panel's picture is framed inside its own small
@@ -514,6 +575,8 @@ export default function PanelBuilder() {
   const draftLoadedRef = useRef(false)
   const [selectedSticker, setSelectedSticker] = useState<string | null>(null)
   const [stickerError, setStickerError] = useState('')
+  const [selectedTextBox, setSelectedTextBox] = useState<string | null>(null)
+  const [textBoxError, setTextBoxError] = useState('')
   const pageStageRef = useRef<HTMLDivElement | null>(null)
 
   // Tracks an in-progress drag-to-reposition on a panel's image, so a plain
@@ -544,10 +607,12 @@ export default function PanelBuilder() {
     moved: boolean
   } | null>(null)
 
-  // Same idea again, for dragging a panel's speech/caption/thought bubble
-  // around inside that one panel.
+  // Same idea again, for dragging one of a panel's bubbles around inside
+  // that panel — a panel can hold several now, so this tracks which one
+  // (by id) alongside which panel it lives on.
   const textDragRef = useRef<{
     panelIndex: number
+    id: string
     pointerId: number
     startX: number
     startY: number
@@ -558,11 +623,12 @@ export default function PanelBuilder() {
     moved: boolean
   } | null>(null)
 
-  // And once more, for dragging the grip below a panel's text box to make it
-  // taller or shorter by hand — a plain CSS resize handle barely works with
-  // touch, so this tracks the gesture itself instead.
+  // And once more, for dragging the grip below a bubble to make it taller
+  // or shorter by hand — a plain CSS resize handle barely works with touch,
+  // so this tracks the gesture itself instead.
   const textHeightDragRef = useRef<{
     panelIndex: number
+    id: string
     pointerId: number
     startY: number
     startHeight: number
@@ -575,8 +641,10 @@ export default function PanelBuilder() {
   const cells = layoutCells(currentPage.layout)
   const currentPanel = selectedPanel !== null ? currentPage.panels[selectedPanel] : undefined
   const currentSticker = selectedSticker ? currentPage.stickers.find((s) => s.id === selectedSticker) : undefined
+  const currentTextBox = selectedTextBox ? currentPanel?.textBoxes?.find((b) => b.id === selectedTextBox) : undefined
   const currentPageIsBlank =
-    currentPage.stickers.length === 0 && currentPage.panels.every((p) => !p.image && !p.text && !p.textType && !p.audio)
+    currentPage.stickers.length === 0 &&
+    currentPage.panels.every((p) => !p.image && !p.audio && (p.textBoxes?.length ?? 0) === 0)
 
   useEffect(() => {
     const supabase = createClient()
@@ -599,7 +667,7 @@ export default function PanelBuilder() {
     loadDraftFromDb()
       .then((draft) => {
         if (draft) {
-          setPagesByStyle(withStickers(draft.pagesByStyle))
+          setPagesByStyle(normalizeDraftPages(draft.pagesByStyle))
           setStyle(draft.style)
           setDraftStatus('restored')
         }
@@ -803,22 +871,77 @@ export default function PanelBuilder() {
     }
   }
 
+  function addTextBox(panelIndex: number, type: CaptionType) {
+    const existing = currentPage.panels[panelIndex].textBoxes ?? []
+    if (existing.length >= MAX_TEXT_BOXES_PER_PANEL) {
+      setTextBoxError(t('tooManyTextBoxes'))
+      return
+    }
+    setTextBoxError('')
+    const cascade = TEXT_BOX_CASCADE[existing.length % TEXT_BOX_CASCADE.length]
+    // A caption bar already spans the panel's full width, anchored to the
+    // bottom edge — shifting it sideways just clips it, and shifting it
+    // *down* pushes it further off-panel instead of into view, so it only
+    // cascades upward, off the bottom, never sideways.
+    const bubble: TextBubble = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      type,
+      text: '',
+      offsetX: type === 'caption' ? 0 : cascade.x,
+      offsetY: type === 'caption' ? -cascade.y : cascade.y,
+    }
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      const panels = [...pageList[pageIndex].panels]
+      panels[panelIndex] = { ...panels[panelIndex], textBoxes: [...(panels[panelIndex].textBoxes ?? []), bubble] }
+      pageList[pageIndex] = { ...pageList[pageIndex], panels }
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedTextBox(bubble.id)
+  }
+
+  function updateTextBox(panelIndex: number, id: string, patch: Partial<TextBubble>) {
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      const panels = [...pageList[pageIndex].panels]
+      const textBoxes = (panels[panelIndex].textBoxes ?? []).map((b) => (b.id === id ? { ...b, ...patch } : b))
+      panels[panelIndex] = { ...panels[panelIndex], textBoxes }
+      pageList[pageIndex] = { ...pageList[pageIndex], panels }
+      return { ...prev, [style]: pageList }
+    })
+  }
+
+  function removeTextBox(panelIndex: number, id: string) {
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      const panels = [...pageList[pageIndex].panels]
+      panels[panelIndex] = { ...panels[panelIndex], textBoxes: (panels[panelIndex].textBoxes ?? []).filter((b) => b.id !== id) }
+      pageList[pageIndex] = { ...pageList[pageIndex], panels }
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedTextBox(null)
+  }
+
   // A text bubble's own padding/background already stops propagation before
   // the panel cell underneath sees the event (see TextBox below), so this
   // never fights the panel's own tap-to-select or image drag — it's a fully
-  // separate gesture, tracked the same tap-vs-drag way as the others.
-  function handleTextPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+  // separate gesture, tracked the same tap-vs-drag way as the others. A tap
+  // (no movement) selects that one bubble, the same way tapping a sticker
+  // does — a panel can hold several now, so which one is "current" has to
+  // be tracked explicitly instead of there only ever being one to mean.
+  function handleTextPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, bubble: TextBubble) {
     // The bubble's own panel cell is its DOM parent (see TextBox below) —
     // measuring that, not the bubble itself, is what lets the drag range
     // scale to however big this particular panel actually is.
     const box = e.currentTarget.parentElement?.getBoundingClientRect()
     textDragRef.current = {
       panelIndex,
+      id: bubble.id,
       pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
-      startOffsetX: panel.textOffsetX ?? 0,
-      startOffsetY: panel.textOffsetY ?? 0,
+      startOffsetX: bubble.offsetX ?? 0,
+      startOffsetY: bubble.offsetY ?? 0,
       boxWidth: box?.width || FALLBACK_TEXT_OFFSET_BASIS,
       boxHeight: box?.height || FALLBACK_TEXT_OFFSET_BASIS,
       moved: false,
@@ -834,9 +957,9 @@ export default function PanelBuilder() {
     const dy = e.clientY - drag.startY
     if (!drag.moved && Math.hypot(dx, dy) < 4) return
     drag.moved = true
-    updatePanel(drag.panelIndex, {
-      textOffsetX: clampTextOffset(drag.startOffsetX + dx, drag.boxWidth),
-      textOffsetY: clampTextOffset(drag.startOffsetY + dy, drag.boxHeight),
+    updateTextBox(drag.panelIndex, drag.id, {
+      offsetX: clampTextOffset(drag.startOffsetX + dx, drag.boxWidth),
+      offsetY: clampTextOffset(drag.startOffsetY + dy, drag.boxHeight),
     })
   }
 
@@ -845,17 +968,22 @@ export default function PanelBuilder() {
     textDragRef.current = null
     if (!drag || drag.pointerId !== e.pointerId) return
     e.stopPropagation()
+    if (!drag.moved) {
+      setSelectedPanel(drag.panelIndex)
+      setSelectedTextBox(selectedTextBox === drag.id ? null : drag.id)
+    }
   }
 
-  // The little grip below a panel's text box — drag it down to make the box
-  // taller, up to make it shorter. No tap-vs-drag distinction needed here:
-  // this handle has no other purpose, so any press on it means resize.
-  function handleTextHeightPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+  // The little grip below a bubble — drag it down to make the box taller,
+  // up to make it shorter. No tap-vs-drag distinction needed here: this
+  // handle has no other purpose, so any press on it means resize.
+  function handleTextHeightPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, bubble: TextBubble) {
     textHeightDragRef.current = {
       panelIndex,
+      id: bubble.id,
       pointerId: e.pointerId,
       startY: e.clientY,
-      startHeight: panel.textHeight ?? DEFAULT_TEXT_HEIGHT,
+      startHeight: bubble.height ?? DEFAULT_TEXT_HEIGHT,
     }
     e.currentTarget.setPointerCapture?.(e.pointerId)
     e.stopPropagation()
@@ -864,7 +992,7 @@ export default function PanelBuilder() {
   function handleTextHeightPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     const drag = textHeightDragRef.current
     if (!drag || drag.pointerId !== e.pointerId) return
-    updatePanel(drag.panelIndex, { textHeight: clampTextHeight(drag.startHeight + (e.clientY - drag.startY)) })
+    updateTextBox(drag.panelIndex, drag.id, { height: clampTextHeight(drag.startHeight + (e.clientY - drag.startY)) })
   }
 
   function handleTextHeightPointerUp(e: React.PointerEvent<HTMLDivElement>) {
@@ -1120,7 +1248,7 @@ export default function PanelBuilder() {
         ...prev,
         [style]: urls.map((url) => {
           const page = makePage('oneBig')
-          page.panels[0] = { image: url }
+          page.panels[0] = { image: url, textBoxes: [] }
           return page
         }),
       }))
@@ -1143,7 +1271,7 @@ export default function PanelBuilder() {
       return ordered.map((c) => page.panels[c.n - 1]).filter((p) => p.image)
     })
     const pagesOut = orderedPanels.map((p) => p.image!)
-    const pageCaptions = orderedPanels.map((p) => (p.text ? encodeCaptionType(p.textType ?? 'speech', p.text) : ''))
+    const pageCaptions = orderedPanels.map((p) => encodeCaptionList((p.textBoxes ?? []).map((b) => ({ type: b.type, text: b.text }))))
     const pageAudio = orderedPanels.map((p) => p.audio ?? '')
     const pageFraming: PageFraming[] = orderedPanels.map((p) => ({
       zoom: p.imageZoom ?? DEFAULT_IMAGE_ZOOM,
@@ -1459,7 +1587,6 @@ export default function PanelBuilder() {
             {cells.map(({ n, gridColumn, gridRow }) => {
               const panel = currentPage.panels[n - 1]
               const isSelected = selectedPanel === n - 1
-              const decoded = panel.textType ?? 'speech'
               return (
                 <div
                   key={n}
@@ -1527,27 +1654,29 @@ export default function PanelBuilder() {
                     </span>
                   )}
 
-                  {panel.textType && (
+                  {(panel.textBoxes ?? []).map((bubble) => (
                     <TextBox
-                      type={decoded}
-                      value={panel.text ?? ''}
-                      onChange={(text) => updatePanel(n - 1, { text })}
+                      key={bubble.id}
+                      type={bubble.type}
+                      value={bubble.text}
+                      onChange={(text) => updateTextBox(n - 1, bubble.id, { text })}
                       theme={theme}
                       rtl={rtl}
                       manga={style === 'manga'}
                       placeholder={t('textPlaceholder')}
-                      fontSizePx={panel.fontSize ?? DEFAULT_FONT_SIZE}
-                      offsetX={panel.textOffsetX ?? 0}
-                      offsetY={panel.textOffsetY ?? 0}
-                      onDragPointerDown={(e) => handleTextPointerDown(e, n - 1, panel)}
+                      fontSizePx={bubble.fontSize ?? DEFAULT_FONT_SIZE}
+                      offsetX={bubble.offsetX ?? 0}
+                      offsetY={bubble.offsetY ?? 0}
+                      selected={selectedTextBox === bubble.id}
+                      onDragPointerDown={(e) => handleTextPointerDown(e, n - 1, bubble)}
                       onDragPointerMove={handleTextPointerMove}
                       onDragPointerUp={handleTextPointerUp}
-                      height={panel.textHeight ?? DEFAULT_TEXT_HEIGHT}
-                      onHeightDragPointerDown={(e) => handleTextHeightPointerDown(e, n - 1, panel)}
+                      height={bubble.height ?? DEFAULT_TEXT_HEIGHT}
+                      onHeightDragPointerDown={(e) => handleTextHeightPointerDown(e, n - 1, bubble)}
                       onHeightDragPointerMove={handleTextHeightPointerMove}
                       onHeightDragPointerUp={handleTextHeightPointerUp}
                     />
-                  )}
+                  ))}
                 </div>
               )
             })}
@@ -1669,71 +1798,80 @@ export default function PanelBuilder() {
                 <button
                   key={typeKey}
                   type="button"
-                  onClick={() => updatePanel(selectedPanel, { textType: typeKey, text: currentPanel?.text ?? '' })}
-                  className={`rounded-full border-2 px-3 py-1.5 text-xs font-bold ${
-                    currentPanel?.textType === typeKey
-                      ? 'border-primary bg-primary/20 text-ink'
-                      : 'border-ink/15 bg-white text-ink/70'
-                  }`}
+                  onClick={() => addTextBox(selectedPanel, typeKey)}
+                  disabled={(currentPanel?.textBoxes?.length ?? 0) >= MAX_TEXT_BOXES_PER_PANEL}
+                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  {TEXT_TYPE_ICON[typeKey]} {t(`textType.${typeKey}`)}
+                  {TEXT_TYPE_ICON[typeKey]} {t('addBubble')} {t(`textType.${typeKey}`)}
                 </button>
               ))}
-              {(currentPanel?.image || currentPanel?.textType || currentPanel?.audio) && (
+              {(currentPanel?.image || (currentPanel?.textBoxes?.length ?? 0) > 0 || currentPanel?.audio) && (
                 <button
                   type="button"
-                  onClick={() =>
-                    updatePanel(selectedPanel, { image: undefined, text: undefined, textType: undefined, audio: undefined })
-                  }
+                  onClick={() => {
+                    updatePanel(selectedPanel, { image: undefined, textBoxes: [], audio: undefined })
+                    setSelectedTextBox(null)
+                  }}
                   className="rounded-full border-2 border-red-400/50 bg-white px-3 py-1.5 text-xs font-bold text-red-600"
                 >
                   ✕ {t('clearPanel')}
                 </button>
               )}
             </div>
+            {textBoxError && <p className="mt-1.5 text-xs font-semibold text-red-600">{textBoxError}</p>}
 
-            {currentPanel?.textType && (
-              <div className="mt-2 flex items-center gap-2">
-                <label htmlFor="panel-font-size" className="text-xs font-bold text-ink/50">
-                  {t('fontSizeLabel')}
-                </label>
-                <input
-                  id="panel-font-size"
-                  type="range"
-                  min={MIN_FONT_SIZE}
-                  max={MAX_FONT_SIZE}
-                  step={0.5}
-                  value={currentPanel?.fontSize ?? DEFAULT_FONT_SIZE}
-                  onChange={(e) => updatePanel(selectedPanel, { fontSize: Number(e.target.value) })}
-                  className="h-2 flex-1 accent-primary"
-                />
-                <span className="w-12 shrink-0 text-right text-xs font-bold text-ink/60">
-                  {Math.round(currentPanel?.fontSize ?? DEFAULT_FONT_SIZE)}px
-                </span>
-              </div>
+            {(currentPanel?.textBoxes?.length ?? 0) > 0 && (
+              <p className="mt-1.5 text-[10px] font-semibold text-ink/40">{t('dragTextHint')}</p>
             )}
 
-            {currentPanel?.textType && (
-              <div className="mt-1 flex items-center justify-between gap-2">
-                <p className="text-[10px] font-semibold text-ink/40">{t('dragTextHint')}</p>
-                {((currentPanel.textOffsetX ?? 0) !== 0 || (currentPanel.textOffsetY ?? 0) !== 0) && (
+            {currentTextBox && (
+              <div className="mt-2 rounded-lg border-2 border-ink/10 bg-white/70 p-2.5">
+                <div className="flex items-center gap-2">
+                  <label htmlFor="panel-font-size" className="text-xs font-bold text-ink/50">
+                    {t('fontSizeLabel')}
+                  </label>
+                  <input
+                    id="panel-font-size"
+                    type="range"
+                    min={MIN_FONT_SIZE}
+                    max={MAX_FONT_SIZE}
+                    step={0.5}
+                    value={currentTextBox.fontSize ?? DEFAULT_FONT_SIZE}
+                    onChange={(e) => updateTextBox(selectedPanel, currentTextBox.id, { fontSize: Number(e.target.value) })}
+                    className="h-2 flex-1 accent-primary"
+                  />
+                  <span className="w-12 shrink-0 text-right text-xs font-bold text-ink/60">
+                    {Math.round(currentTextBox.fontSize ?? DEFAULT_FONT_SIZE)}px
+                  </span>
+                </div>
+
+                <div className="mt-1.5 flex items-center justify-between gap-2">
+                  {(currentTextBox.offsetX ?? 0) !== 0 || (currentTextBox.offsetY ?? 0) !== 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => updateTextBox(selectedPanel, currentTextBox.id, { offsetX: undefined, offsetY: undefined })}
+                      className="text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+                    >
+                      {t('resetPosition')}
+                    </button>
+                  ) : (
+                    <span />
+                  )}
                   <button
                     type="button"
-                    onClick={() => updatePanel(selectedPanel, { textOffsetX: undefined, textOffsetY: undefined })}
-                    className="shrink-0 text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+                    onClick={() => removeTextBox(selectedPanel, currentTextBox.id)}
+                    className="shrink-0 rounded-full border-2 border-red-400/50 bg-white px-3 py-1 text-xs font-bold text-red-600"
                   >
-                    {t('resetPosition')}
+                    ✕ {t('removeTextBox')}
                   </button>
-                )}
-              </div>
-            )}
+                </div>
 
-            {currentPanel?.textType && (
-              <div className="mt-2">
-                <ReadAloud
-                  text={currentPanel.text ?? ''}
-                  className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
-                />
+                <div className="mt-1.5">
+                  <ReadAloud
+                    text={currentTextBox.text}
+                    className="rounded-full border-2 border-ink/15 bg-white px-3 py-1.5 text-xs font-bold text-ink/70 hover:bg-page"
+                  />
+                </div>
               </div>
             )}
 
@@ -2053,6 +2191,7 @@ function TextBox({
   fontSizePx,
   offsetX,
   offsetY,
+  selected,
   onDragPointerDown,
   onDragPointerMove,
   onDragPointerUp,
@@ -2071,6 +2210,7 @@ function TextBox({
   fontSizePx: number
   offsetX: number
   offsetY: number
+  selected: boolean
   onDragPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
   onDragPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void
   onDragPointerUp: (e: React.PointerEvent<HTMLDivElement>) => void
@@ -2081,8 +2221,10 @@ function TextBox({
 }) {
   const radius = manga ? 3 : 14
   const side: 'left' | 'right' = rtl ? 'right' : 'left'
-  const dragStyle: React.CSSProperties =
-    offsetX === 0 && offsetY === 0 ? {} : { transform: `translate(${offsetX}px, ${offsetY}px)` }
+  const dragStyle: React.CSSProperties = {
+    ...(offsetX === 0 && offsetY === 0 ? {} : { transform: `translate(${offsetX}px, ${offsetY}px)` }),
+    ...(selected ? { outline: `2.5px solid ${theme.accent}`, outlineOffset: 2 } : {}),
+  }
   // A drag starts on the bubble's own padding/background, not the textarea —
   // the textarea already stops its own pointerdown from bubbling here, so
   // typing and text selection inside it are completely unaffected.

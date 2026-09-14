@@ -958,14 +958,17 @@
     "panelWord": "格",
     "textPlaceholder": "在此输入…",
     "tapHint": "点击一个格子选中它，然后添加图片或文字。",
+    "addBubble": "添加",
     "textType": {
       "speech": "对话",
       "caption": "说明文字",
       "thought": "想法"
     },
     "clearPanel": "清空格子",
+    "removeTextBox": "删除气泡",
+    "tooManyTextBoxes": "每个格子最多只能添加20个气泡。",
     "fontSizeLabel": "字号",
-    "dragTextHint": "拖动说明文字或对话气泡的边缘即可移动它。",
+    "dragTextHint": "点击气泡以选中它,然后在下方拖动、调整大小或删除它。",
     "panelImageLabel": "格子画面",
     "unsplashLink": "需要图片？浏览 Unsplash ↗",
     "uploadImage": "上传图片、PDF 或视频",

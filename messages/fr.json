@@ -958,14 +958,17 @@
     "panelWord": "Case",
     "textPlaceholder": "Écrivez ici…",
     "tapHint": "Touchez une case pour la sélectionner, puis ajoutez-y une image ou du texte.",
+    "addBubble": "Ajouter",
     "textType": {
       "speech": "Dialogue",
       "caption": "Légende",
       "thought": "Pensée"
     },
     "clearPanel": "Vider la case",
+    "removeTextBox": "Supprimer la bulle",
+    "tooManyTextBoxes": "Vous pouvez ajouter jusqu'à 20 bulles par case.",
     "fontSizeLabel": "Taille du texte",
-    "dragTextHint": "Faites glisser une bulle ou une légende par son bord pour la déplacer.",
+    "dragTextHint": "Touchez une bulle pour la sélectionner, puis faites-la glisser, redimensionnez-la ou supprimez-la ci-dessous.",
     "panelImageLabel": "Illustration du panel",
     "unsplashLink": "Besoin d'une image ? Parcourez Unsplash ↗",
     "uploadImage": "Importer une image, un PDF ou une vidéo",
