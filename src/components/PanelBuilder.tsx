@@ -311,6 +311,19 @@ function makePage(layout: LayoutKey): PageState {
   return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})), stickers: [] }
 }
 
+// A draft saved to IndexedDB before the stickers field existed has no
+// `stickers` array on its pages at all — restoring it as-is crashes every
+// reader of `currentPage.stickers` (they all assume a real array, not
+// undefined) the moment the page tries to render. Backfill it once, right
+// where old data re-enters state, instead of guarding every call site.
+function withStickers(pagesByStyle: Record<BuilderStyle, PageState[]>): Record<BuilderStyle, PageState[]> {
+  const result = {} as Record<BuilderStyle, PageState[]>
+  for (const key of Object.keys(pagesByStyle) as BuilderStyle[]) {
+    result[key] = pagesByStyle[key].map((page) => ({ ...page, stickers: page.stickers ?? [] }))
+  }
+  return result
+}
+
 const DEFAULT_STICKER_SIZE = 22
 const MIN_STICKER_SIZE = 8
 const MAX_STICKER_SIZE = 55
@@ -523,7 +536,7 @@ export default function PanelBuilder() {
     loadDraftFromDb()
       .then((draft) => {
         if (draft) {
-          setPagesByStyle(draft.pagesByStyle)
+          setPagesByStyle(withStickers(draft.pagesByStyle))
           setStyle(draft.style)
           setDraftStatus('restored')
         }

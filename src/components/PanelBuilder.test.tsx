@@ -1083,5 +1083,32 @@ describe('PanelBuilder', () => {
       renderWithIntl(<PanelBuilder />)
       expect(await screen.findByDisplayValue('Autosaved line')).toBeInTheDocument()
     })
+
+    it('still loads a draft saved before stickers existed, whose pages have no stickers field at all', async () => {
+      getUserMock.mockResolvedValue({ data: { user: null } })
+      await new Promise<void>((resolve, reject) => {
+        const req = window.indexedDB.open('storyburst-book-panel', 1)
+        req.onupgradeneeded = () => req.result.createObjectStore('drafts')
+        req.onsuccess = () => {
+          const db = req.result
+          const tx = db.transaction('drafts', 'readwrite')
+          const oldPage = { layout: 'threeAcross', panels: [{}, {}, {}] }
+          tx.objectStore('drafts').put(
+            { style: 'comic', pagesByStyle: { comic: [oldPage], manga: [oldPage], picturebook: [oldPage] } },
+            'current',
+          )
+          tx.oncomplete = () => {
+            db.close()
+            resolve()
+          }
+          tx.onerror = () => reject(tx.error)
+        }
+        req.onerror = () => reject(req.error)
+      })
+
+      renderWithIntl(<PanelBuilder />)
+      const stage = getStage()
+      expect(await within(stage).findByText('Panel 1')).toBeInTheDocument()
+    })
   })
 })
