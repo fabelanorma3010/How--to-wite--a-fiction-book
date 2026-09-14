@@ -131,6 +131,12 @@ function clampImageOffset(value: number): number {
   return Math.max(-MAX_IMAGE_OFFSET, Math.min(MAX_IMAGE_OFFSET, value))
 }
 
+const MAX_TEXT_OFFSET = 160
+
+function clampTextOffset(value: number): number {
+  return Math.max(-MAX_TEXT_OFFSET, Math.min(MAX_TEXT_OFFSET, value))
+}
+
 const EXPORT_VIDEO_W = 1350
 const EXPORT_VIDEO_H = 1800
 const EXPORT_VIDEO_FPS = 10
@@ -281,6 +287,12 @@ interface PanelState {
   imageZoom?: number
   imageOffsetX?: number
   imageOffsetY?: number
+  // In pixels, not a percentage like the image offsets above — a text
+  // bubble is much smaller than its panel, so a plain CSS translate(%)
+  // on the bubble itself (relative to the bubble's own tiny size) would
+  // barely move it. Pixels track the drag 1:1 regardless of bubble size.
+  textOffsetX?: number
+  textOffsetY?: number
 }
 interface PageSticker {
   id: string
@@ -313,10 +325,10 @@ function clampStickerPos(value: number): number {
 }
 
 /**
- * Zoom/position only ever adjust how a panel's picture is framed inside its
- * own small grid cell here in the editor — every exported/published page
- * (PDF, video, the reader) shows the whole picture uncropped, so there's
- * nothing to carry over there.
+ * Zoom/position adjust how a panel's picture is framed inside its own small
+ * grid cell here in the editor. The video export replicates the same crop
+ * in canvas-drawing terms (see drawContained/PageFraming above); the PDF
+ * download and the published reader still show the whole picture uncropped.
  */
 function panelImageStyle(panel: PanelState): React.CSSProperties {
   const zoom = panel.imageZoom ?? DEFAULT_IMAGE_ZOOM
@@ -467,6 +479,18 @@ export default function PanelBuilder() {
     startPosY: number
     boxWidth: number
     boxHeight: number
+    moved: boolean
+  } | null>(null)
+
+  // Same idea again, for dragging a panel's speech/caption/thought bubble
+  // around inside that one panel.
+  const textDragRef = useRef<{
+    panelIndex: number
+    pointerId: number
+    startX: number
+    startY: number
+    startOffsetX: number
+    startOffsetY: number
     moved: boolean
   } | null>(null)
 
@@ -701,6 +725,44 @@ export default function PanelBuilder() {
     if (!drag.moved) {
       setSelectedSticker(selectedSticker === id ? null : id)
     }
+  }
+
+  // A text bubble's own padding/background already stops propagation before
+  // the panel cell underneath sees the event (see TextBox below), so this
+  // never fights the panel's own tap-to-select or image drag — it's a fully
+  // separate gesture, tracked the same tap-vs-drag way as the others.
+  function handleTextPointerDown(e: React.PointerEvent<HTMLDivElement>, panelIndex: number, panel: PanelState) {
+    textDragRef.current = {
+      panelIndex,
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startOffsetX: panel.textOffsetX ?? 0,
+      startOffsetY: panel.textOffsetY ?? 0,
+      moved: false,
+    }
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    e.stopPropagation()
+  }
+
+  function handleTextPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const drag = textDragRef.current
+    if (!drag || drag.pointerId !== e.pointerId) return
+    const dx = e.clientX - drag.startX
+    const dy = e.clientY - drag.startY
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return
+    drag.moved = true
+    updatePanel(drag.panelIndex, {
+      textOffsetX: clampTextOffset(drag.startOffsetX + dx),
+      textOffsetY: clampTextOffset(drag.startOffsetY + dy),
+    })
+  }
+
+  function handleTextPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    const drag = textDragRef.current
+    textDragRef.current = null
+    if (!drag || drag.pointerId !== e.pointerId) return
+    e.stopPropagation()
   }
 
   function goPrev() {
@@ -1318,6 +1380,11 @@ export default function PanelBuilder() {
                       manga={style === 'manga'}
                       placeholder={t('textPlaceholder')}
                       fontSizePx={panel.fontSize ?? DEFAULT_FONT_SIZE}
+                      offsetX={panel.textOffsetX ?? 0}
+                      offsetY={panel.textOffsetY ?? 0}
+                      onDragPointerDown={(e) => handleTextPointerDown(e, n - 1, panel)}
+                      onDragPointerMove={handleTextPointerMove}
+                      onDragPointerUp={handleTextPointerUp}
                     />
                   )}
                 </div>
@@ -1474,6 +1541,21 @@ export default function PanelBuilder() {
                 <span className="w-12 shrink-0 text-right text-xs font-bold text-ink/60">
                   {Math.round(currentPanel?.fontSize ?? DEFAULT_FONT_SIZE)}px
                 </span>
+              </div>
+            )}
+
+            {currentPanel?.textType && (
+              <div className="mt-1 flex items-center justify-between gap-2">
+                <p className="text-[10px] font-semibold text-ink/40">{t('dragTextHint')}</p>
+                {((currentPanel.textOffsetX ?? 0) !== 0 || (currentPanel.textOffsetY ?? 0) !== 0) && (
+                  <button
+                    type="button"
+                    onClick={() => updatePanel(selectedPanel, { textOffsetX: undefined, textOffsetY: undefined })}
+                    className="shrink-0 text-xs font-semibold text-ink/50 underline underline-offset-2 hover:text-ink"
+                  >
+                    {t('resetPosition')}
+                  </button>
+                )}
               </div>
             )}
 
@@ -1791,6 +1873,11 @@ function TextBox({
   manga,
   placeholder,
   fontSizePx,
+  offsetX,
+  offsetY,
+  onDragPointerDown,
+  onDragPointerMove,
+  onDragPointerUp,
 }: {
   type: CaptionType
   value: string
@@ -1800,9 +1887,24 @@ function TextBox({
   manga: boolean
   placeholder: string
   fontSizePx: number
+  offsetX: number
+  offsetY: number
+  onDragPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
+  onDragPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void
+  onDragPointerUp: (e: React.PointerEvent<HTMLDivElement>) => void
 }) {
   const radius = manga ? 3 : 14
   const side: 'left' | 'right' = rtl ? 'right' : 'left'
+  const dragStyle: React.CSSProperties =
+    offsetX === 0 && offsetY === 0 ? {} : { transform: `translate(${offsetX}px, ${offsetY}px)` }
+  // A drag starts on the bubble's own padding/background, not the textarea —
+  // the textarea already stops its own pointerdown from bubbling here, so
+  // typing and text selection inside it are completely unaffected.
+  const dragHandlers = {
+    onPointerDown: onDragPointerDown,
+    onPointerMove: onDragPointerMove,
+    onPointerUp: onDragPointerUp,
+  }
   const textarea = (
     <textarea
       value={value}
@@ -1819,10 +1921,10 @@ function TextBox({
   if (type === 'caption') {
     return (
       <div
-        className="absolute inset-x-0 bottom-0 z-[2] px-2.5 py-2"
-        style={{ background: 'rgba(255,255,255,.93)', borderTop: `2px solid ${theme.ink}` }}
+        className="absolute inset-x-0 bottom-0 z-[2] cursor-move touch-none px-2.5 py-2"
+        style={{ background: 'rgba(255,255,255,.93)', borderTop: `2px solid ${theme.ink}`, ...dragStyle }}
         onClick={(e) => e.stopPropagation()}
-      onPointerDown={(e) => e.stopPropagation()}
+        {...dragHandlers}
       >
         {textarea}
       </div>
@@ -1832,10 +1934,18 @@ function TextBox({
   if (type === 'thought') {
     return (
       <div
-        className="absolute top-1.5 z-[2] max-w-[80%] px-3 py-2.5"
-        style={{ [side]: 6, background: '#fff', border: `2px solid ${theme.ink}`, borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%' } as React.CSSProperties}
+        className="absolute top-1.5 z-[2] max-w-[80%] cursor-move touch-none px-3 py-2.5"
+        style={
+          {
+            [side]: 6,
+            background: '#fff',
+            border: `2px solid ${theme.ink}`,
+            borderRadius: '46% 54% 58% 42% / 58% 48% 52% 42%',
+            ...dragStyle,
+          } as React.CSSProperties
+        }
         onClick={(e) => e.stopPropagation()}
-      onPointerDown={(e) => e.stopPropagation()}
+        {...dragHandlers}
       >
         {textarea}
         <span
@@ -1857,10 +1967,10 @@ function TextBox({
 
   return (
     <div
-      className="absolute top-1.5 z-[2] max-w-[80%] px-2.5 py-1.5"
-      style={{ [side]: 6, background: '#fff', border: `2px solid ${theme.ink}`, borderRadius: radius } as React.CSSProperties}
+      className="absolute top-1.5 z-[2] max-w-[80%] cursor-move touch-none px-2.5 py-1.5"
+      style={{ [side]: 6, background: '#fff', border: `2px solid ${theme.ink}`, borderRadius: radius, ...dragStyle } as React.CSSProperties}
       onClick={(e) => e.stopPropagation()}
-      onPointerDown={(e) => e.stopPropagation()}
+      {...dragHandlers}
     >
       {textarea}
       <span

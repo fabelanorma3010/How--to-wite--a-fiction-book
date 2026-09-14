@@ -947,6 +947,7 @@
     },
     "clearPanel": "Clear panel",
     "fontSizeLabel": "Text size",
+    "dragTextHint": "Drag a caption or speech bubble by its edge to move it.",
     "panelImageLabel": "Panel art",
     "unsplashLink": "Need a picture? Browse Unsplash ↗",
     "uploadImage": "Upload image, PDF, or video",

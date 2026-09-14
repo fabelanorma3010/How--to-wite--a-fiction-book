@@ -947,6 +947,7 @@
     },
     "clearPanel": "पैनल खाली करें",
     "fontSizeLabel": "टेक्स्ट आकार",
+    "dragTextHint": "किसी कैप्शन या स्पीच बबल को उसके किनारे से खींचकर हिलाएं।",
     "panelImageLabel": "पैनल आर्ट",
     "unsplashLink": "तस्वीर चाहिए? Unsplash देखें ↗",
     "uploadImage": "इमेज, PDF या वीडियो अपलोड करें",

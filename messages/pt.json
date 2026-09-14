@@ -947,6 +947,7 @@
     },
     "clearPanel": "Limpar quadro",
     "fontSizeLabel": "Tamanho do texto",
+    "dragTextHint": "Arraste uma legenda ou balão de fala pela borda para movê-lo.",
     "panelImageLabel": "Arte do quadro",
     "unsplashLink": "Precisa de uma imagem? Explore o Unsplash ↗",
     "uploadImage": "Enviar imagem, PDF ou vídeo",

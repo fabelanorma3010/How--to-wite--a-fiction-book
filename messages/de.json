@@ -947,6 +947,7 @@
     },
     "clearPanel": "Panel leeren",
     "fontSizeLabel": "Textgröße",
+    "dragTextHint": "Zieh eine Sprechblase oder Bildunterschrift am Rand, um sie zu verschieben.",
     "panelImageLabel": "Panel-Kunst",
     "unsplashLink": "Brauchst du ein Bild? Unsplash durchsuchen ↗",
     "uploadImage": "Bild, PDF oder Video hochladen",

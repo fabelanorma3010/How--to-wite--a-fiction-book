@@ -947,6 +947,7 @@
     },
     "clearPanel": "コマを空にする",
     "fontSizeLabel": "文字サイズ",
+    "dragTextHint": "キャプションや吹き出しの端をドラッグすると移動できます。",
     "panelImageLabel": "コマの絵",
     "unsplashLink": "画像が必要？Unsplashを見る ↗",
     "uploadImage": "画像・PDF・動画をアップロード",

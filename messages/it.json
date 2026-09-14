@@ -947,6 +947,7 @@
     },
     "clearPanel": "Svuota vignetta",
     "fontSizeLabel": "Dimensione testo",
+    "dragTextHint": "Trascina un fumetto o una didascalia dal bordo per spostarlo.",
     "panelImageLabel": "Illustrazione del pannello",
     "unsplashLink": "Ti serve un'immagine? Sfoglia Unsplash ↗",
     "uploadImage": "Carica immagine, PDF o video",

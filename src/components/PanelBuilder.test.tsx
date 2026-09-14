@@ -878,6 +878,66 @@ describe('PanelBuilder', () => {
     expect(within(stage).getAllByAltText('')).toHaveLength(12)
   })
 
+  it('drags a speech bubble to reposition it, without affecting its text', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const box = screen.getByPlaceholderText('Type here…')
+    await user.type(box, 'Hello there.')
+
+    const bubble = box.parentElement!
+    expect(bubble.style.transform).toBe('')
+
+    fireEvent.pointerDown(bubble, { pointerId: 11, clientX: 50, clientY: 50 })
+    fireEvent.pointerMove(bubble, { pointerId: 11, clientX: 65, clientY: 70 })
+    fireEvent.pointerUp(bubble, { pointerId: 11, clientX: 65, clientY: 70 })
+
+    expect(bubble).toHaveStyle({ transform: 'translate(15px, 20px)' })
+    expect(screen.getByDisplayValue('Hello there.')).toBeInTheDocument()
+  })
+
+  it('shows a reset-position link after dragging a text box, and it clears the offset', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const bubble = screen.getByPlaceholderText('Type here…').parentElement!
+
+    expect(screen.queryByRole('button', { name: /reset/i })).not.toBeInTheDocument()
+
+    fireEvent.pointerDown(bubble, { pointerId: 3, clientX: 0, clientY: 0 })
+    fireEvent.pointerMove(bubble, { pointerId: 3, clientX: 30, clientY: 10 })
+    fireEvent.pointerUp(bubble, { pointerId: 3, clientX: 30, clientY: 10 })
+    expect(bubble).toHaveStyle({ transform: 'translate(30px, 10px)' })
+
+    await user.click(screen.getByRole('button', { name: /reset/i }))
+    expect(bubble.style.transform).toBe('')
+  })
+
+  it('a plain tap on a text bubble (no movement) neither moves it nor deselects the panel', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const bubble = screen.getByPlaceholderText('Type here…').parentElement!
+
+    fireEvent.pointerDown(bubble, { pointerId: 4, clientX: 20, clientY: 20 })
+    fireEvent.pointerUp(bubble, { pointerId: 4, clientX: 20, clientY: 20 })
+
+    expect(bubble.style.transform).toBe('')
+    expect(screen.getByLabelText('Text size')).toBeInTheDocument()
+  })
+
   it('deletes the current page, shifting later pages up, without touching the others', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     vi.spyOn(window, 'confirm').mockReturnValue(true)

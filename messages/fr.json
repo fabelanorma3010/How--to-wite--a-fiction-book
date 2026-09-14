@@ -947,6 +947,7 @@
     },
     "clearPanel": "Vider la case",
     "fontSizeLabel": "Taille du texte",
+    "dragTextHint": "Faites glisser une bulle ou une légende par son bord pour la déplacer.",
     "panelImageLabel": "Illustration du panel",
     "unsplashLink": "Besoin d'une image ? Parcourez Unsplash ↗",
     "uploadImage": "Importer une image, un PDF ou une vidéo",
