@@ -1997,10 +1997,10 @@ function TextBox({
       onClick={(e) => e.stopPropagation()}
       onPointerDown={(e) => e.stopPropagation()}
       onChange={(e) => onChange(e.target.value)}
-      rows={2}
+      rows={3}
       placeholder={placeholder}
-      className="block w-full resize-none border-0 bg-transparent p-0 font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
-      style={{ fontFamily: theme.bodyFont, fontSize: fontSizePx }}
+      className="block w-full resize-y border-0 bg-transparent p-0 font-bold leading-snug text-ink placeholder:font-semibold placeholder:italic placeholder:text-ink/40 focus:outline-none focus:ring-0"
+      style={{ fontFamily: theme.bodyFont, fontSize: fontSizePx, minHeight: '2.5em' }}
     />
   )
 
