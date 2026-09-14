@@ -282,13 +282,34 @@ interface PanelState {
   imageOffsetX?: number
   imageOffsetY?: number
 }
+interface PageSticker {
+  id: string
+  src: string
+  x: number
+  y: number
+  size: number
+}
 interface PageState {
   layout: LayoutKey
   panels: PanelState[]
+  stickers: PageSticker[]
 }
 
 function makePage(layout: LayoutKey): PageState {
-  return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})) }
+  return { layout, panels: Array.from({ length: LAYOUTS[layout].count }, () => ({})), stickers: [] }
+}
+
+const DEFAULT_STICKER_SIZE = 22
+const MIN_STICKER_SIZE = 8
+const MAX_STICKER_SIZE = 55
+const MAX_STICKERS_PER_PAGE = 12
+
+function clampStickerSize(value: number): number {
+  return Math.max(MIN_STICKER_SIZE, Math.min(MAX_STICKER_SIZE, value))
+}
+
+function clampStickerPos(value: number): number {
+  return Math.max(0, Math.min(100, value))
 }
 
 /**
@@ -417,6 +438,9 @@ export default function PanelBuilder() {
   const [videoError, setVideoError] = useState('')
   const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'restored' | 'error'>('idle')
   const draftLoadedRef = useRef(false)
+  const [selectedSticker, setSelectedSticker] = useState<string | null>(null)
+  const [stickerError, setStickerError] = useState('')
+  const pageStageRef = useRef<HTMLDivElement | null>(null)
 
   // Tracks an in-progress drag-to-reposition on a panel's image, so a plain
   // tap can still select/deselect the panel while a real drag doesn't.
@@ -433,12 +457,26 @@ export default function PanelBuilder() {
     moved: boolean
   } | null>(null)
 
+  // Same idea, for dragging a sticker freely around the whole page.
+  const stickerDragRef = useRef<{
+    stickerId: string
+    pointerId: number
+    startX: number
+    startY: number
+    startPosX: number
+    startPosY: number
+    boxWidth: number
+    boxHeight: number
+    moved: boolean
+  } | null>(null)
+
   const theme = getBookFormatTheme(STYLE_TO_FORMAT[style])
   const rtl = STYLE_RTL[style]
   const pages = pagesByStyle[style]
   const currentPage = pages[pageIndex]
   const cells = layoutCells(currentPage.layout)
   const currentPanel = selectedPanel !== null ? currentPage.panels[selectedPanel] : undefined
+  const currentSticker = selectedSticker ? currentPage.stickers.find((s) => s.id === selectedSticker) : undefined
 
   useEffect(() => {
     const supabase = createClient()
@@ -579,6 +617,89 @@ export default function PanelBuilder() {
     if (!drag || drag.pointerId !== e.pointerId) return
     if (!drag.moved) {
       setSelectedPanel(selectedPanel === panelIndex ? null : panelIndex)
+    }
+  }
+
+  function updateSticker(id: string, patch: Partial<PageSticker>) {
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      const stickers = pageList[pageIndex].stickers.map((s) => (s.id === id ? { ...s, ...patch } : s))
+      pageList[pageIndex] = { ...pageList[pageIndex], stickers }
+      return { ...prev, [style]: pageList }
+    })
+  }
+
+  function removeSticker(id: string) {
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      pageList[pageIndex] = {
+        ...pageList[pageIndex],
+        stickers: pageList[pageIndex].stickers.filter((s) => s.id !== id),
+      }
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedSticker(null)
+  }
+
+  async function handleAddSticker(file: File) {
+    setStickerError('')
+    if (currentPage.stickers.length >= MAX_STICKERS_PER_PAGE) {
+      setStickerError(t('tooManyStickers'))
+      return
+    }
+    if (!ACCEPTED_IMAGE.includes(file.type) || file.size > MAX_IMAGE_BYTES) {
+      setStickerError(t('imageFileError'))
+      return
+    }
+    const src = await readFileAsDataUrl(file)
+    const sticker: PageSticker = { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, src, x: 50, y: 50, size: DEFAULT_STICKER_SIZE }
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      pageList[pageIndex] = { ...pageList[pageIndex], stickers: [...pageList[pageIndex].stickers, sticker] }
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedSticker(sticker.id)
+  }
+
+  // Same tap-vs-drag distinction as panel images, but positioning is relative
+  // to the whole page stage instead of a single panel.
+  function handleStickerPointerDown(e: React.PointerEvent<HTMLImageElement>, sticker: PageSticker) {
+    const box = pageStageRef.current?.getBoundingClientRect()
+    if (!box) return
+    stickerDragRef.current = {
+      stickerId: sticker.id,
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startPosX: sticker.x,
+      startPosY: sticker.y,
+      boxWidth: box.width,
+      boxHeight: box.height,
+      moved: false,
+    }
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    e.stopPropagation()
+  }
+
+  function handleStickerPointerMove(e: React.PointerEvent<HTMLImageElement>) {
+    const drag = stickerDragRef.current
+    if (!drag || drag.pointerId !== e.pointerId) return
+    const dx = e.clientX - drag.startX
+    const dy = e.clientY - drag.startY
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return
+    drag.moved = true
+    updateSticker(drag.stickerId, {
+      x: clampStickerPos(drag.startPosX + (dx / drag.boxWidth) * 100),
+      y: clampStickerPos(drag.startPosY + (dy / drag.boxHeight) * 100),
+    })
+  }
+
+  function handleStickerPointerUp(e: React.PointerEvent<HTMLImageElement>, id: string) {
+    const drag = stickerDragRef.current
+    stickerDragRef.current = null
+    if (!drag || drag.pointerId !== e.pointerId) return
+    if (!drag.moved) {
+      setSelectedSticker(selectedSticker === id ? null : id)
     }
   }
 
@@ -1099,6 +1220,8 @@ export default function PanelBuilder() {
 
           <div
             key={pageIndex}
+            ref={pageStageRef}
+            onPointerDown={() => setSelectedSticker(null)}
             className={`relative aspect-[3/4] flex-1 gap-1.5 overflow-hidden ${
               turnDir === 'prev' ? 'animate-page-turn-prev' : 'animate-page-turn-next'
             }`}
@@ -1211,6 +1334,29 @@ export default function PanelBuilder() {
                   top: `${nub.y}%`,
                   background: theme.pageBg,
                   border: `1.5px solid ${theme.ink}55`,
+                }}
+              />
+            ))}
+
+            {currentPage.stickers.map((sticker) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={sticker.id}
+                src={sticker.src}
+                alt=""
+                draggable={false}
+                onPointerDown={(e) => handleStickerPointerDown(e, sticker)}
+                onPointerMove={handleStickerPointerMove}
+                onPointerUp={(e) => handleStickerPointerUp(e, sticker.id)}
+                className="absolute z-20 touch-none select-none"
+                style={{
+                  left: `${sticker.x}%`,
+                  top: `${sticker.y}%`,
+                  width: `${sticker.size}%`,
+                  transform: 'translate(-50%, -50%)',
+                  cursor: 'move',
+                  outline: selectedSticker === sticker.id ? `2.5px solid ${theme.accent}` : 'none',
+                  outlineOffset: 2,
                 }}
               />
             ))}
@@ -1482,6 +1628,61 @@ export default function PanelBuilder() {
             </div>
           </div>
         )}
+
+        <div className="mx-auto mt-4 max-w-xl rounded-2xl border-2 border-ink/10 bg-white/70 p-4 sm:p-5">
+          <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+            <h3 className="text-sm font-extrabold uppercase tracking-wide text-ink/60">{t('stickersHeading')}</h3>
+            <label
+              className={`rounded-full border-2 border-ink/15 bg-white px-3 py-1 text-xs font-bold text-ink/70 ${
+                currentPage.stickers.length >= MAX_STICKERS_PER_PAGE ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-page'
+              }`}
+            >
+              ✨ {t('addSticker')}
+              <input
+                type="file"
+                accept={ACCEPTED_IMAGE.join(',')}
+                disabled={currentPage.stickers.length >= MAX_STICKERS_PER_PAGE}
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) void handleAddSticker(file)
+                  e.target.value = ''
+                }}
+              />
+            </label>
+          </div>
+          <p className="text-[10px] font-semibold text-ink/40">{t('dragStickerHint')}</p>
+          {stickerError && <p className="mt-1.5 text-xs font-semibold text-red-600">{stickerError}</p>}
+
+          {currentSticker && (
+            <div className="mt-3 flex items-center gap-2 border-t-2 border-ink/10 pt-3">
+              <label htmlFor="sticker-size" className="text-xs">
+                ↔️
+              </label>
+              <input
+                id="sticker-size"
+                type="range"
+                min={MIN_STICKER_SIZE}
+                max={MAX_STICKER_SIZE}
+                step={1}
+                value={currentSticker.size}
+                onChange={(e) => updateSticker(currentSticker.id, { size: clampStickerSize(Number(e.target.value)) })}
+                className="h-2 flex-1 accent-primary"
+                aria-label={t('stickerSizeLabel')}
+              />
+              <span className="w-10 shrink-0 text-right text-xs font-bold text-ink/60">
+                {Math.round(currentSticker.size)}%
+              </span>
+              <button
+                type="button"
+                onClick={() => removeSticker(currentSticker.id)}
+                className="rounded-full border-2 border-red-400/50 bg-white px-3 py-1 text-xs font-bold text-red-600"
+              >
+                ✕ {t('removeSticker')}
+              </button>
+            </div>
+          )}
+        </div>
 
         {filledPanels.length > 0 && (
           <div className="mt-6 flex flex-wrap items-center gap-3">

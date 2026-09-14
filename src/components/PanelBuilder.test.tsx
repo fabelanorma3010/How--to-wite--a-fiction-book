@@ -763,6 +763,121 @@ describe('PanelBuilder', () => {
     expect(screen.queryByLabelText('Zoom')).not.toBeInTheDocument()
   })
 
+  async function addSticker(user: ReturnType<typeof userEvent.setup>, fileName = 'sticker.png') {
+    const input = screen.getByLabelText(/add sticker/i) as HTMLInputElement
+    await user.upload(input, new File([new Uint8Array(64)], fileName, { type: 'image/png' }))
+    await screen.findByLabelText(/sticker size/i)
+  }
+
+  it('adds a sticker to the page, centered and auto-selected', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await addSticker(user)
+
+    const img = within(stage).getByAltText('')
+    expect(img.getAttribute('src')).toMatch(/^data:image\/png/)
+    expect(img).toHaveAttribute('draggable', 'false')
+    expect(img).toHaveStyle({ left: '50%', top: '50%', width: '22%' })
+    expect((screen.getByLabelText(/sticker size/i) as HTMLInputElement).value).toBe('22')
+  })
+
+  it('drags a sticker to reposition it, without deselecting it', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await addSticker(user)
+
+    const img = within(stage).getByAltText('')
+    const pageDiv = img.parentElement!
+    pageDiv.getBoundingClientRect = () =>
+      ({ width: 200, height: 200, x: 0, y: 0, top: 0, left: 0, right: 200, bottom: 200, toJSON: () => {} }) as DOMRect
+
+    fireEvent.pointerDown(img, { pointerId: 5, clientX: 100, clientY: 100 })
+    fireEvent.pointerMove(img, { pointerId: 5, clientX: 120, clientY: 80 })
+    fireEvent.pointerUp(img, { pointerId: 5, clientX: 120, clientY: 80 })
+
+    expect(img).toHaveStyle({ left: '60%', top: '40%' })
+    expect(screen.getByLabelText(/sticker size/i)).toBeInTheDocument()
+  })
+
+  it('a plain tap (no movement) toggles a sticker selected, and tapping the page background deselects it', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await addSticker(user)
+
+    const img = within(stage).getByAltText('')
+    fireEvent.pointerDown(img, { pointerId: 3, clientX: 50, clientY: 50 })
+    fireEvent.pointerUp(img, { pointerId: 3, clientX: 50, clientY: 50 })
+    expect(screen.queryByLabelText(/sticker size/i)).not.toBeInTheDocument()
+
+    fireEvent.pointerDown(img, { pointerId: 4, clientX: 50, clientY: 50 })
+    fireEvent.pointerUp(img, { pointerId: 4, clientX: 50, clientY: 50 })
+    expect(screen.getByLabelText(/sticker size/i)).toBeInTheDocument()
+
+    fireEvent.pointerDown(img.parentElement!)
+    expect(screen.queryByLabelText(/sticker size/i)).not.toBeInTheDocument()
+  })
+
+  it('resizes a sticker with the size slider', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await addSticker(user)
+
+    const sizeSlider = screen.getByLabelText(/sticker size/i) as HTMLInputElement
+    fireEvent.change(sizeSlider, { target: { value: '40' } })
+
+    expect(screen.getByText('40%')).toBeInTheDocument()
+    expect(within(stage).getByAltText('')).toHaveStyle({ width: '40%' })
+  })
+
+  it('removes a sticker', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+    await addSticker(user)
+
+    await user.click(screen.getByRole('button', { name: /remove sticker/i }))
+
+    expect(within(stage).queryByAltText('')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText(/sticker size/i)).not.toBeInTheDocument()
+  })
+
+  it('caps stickers at 12 per page', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    const input = screen.getByLabelText(/add sticker/i) as HTMLInputElement
+    for (let i = 0; i < 12; i++) {
+      Object.defineProperty(input, 'files', {
+        value: [new File([new Uint8Array(8)], `s${i}.png`, { type: 'image/png' })],
+        configurable: true,
+      })
+      fireEvent.change(input)
+      // eslint-disable-next-line no-await-in-loop
+      await waitFor(() => expect(within(stage).getAllByAltText('')).toHaveLength(i + 1))
+    }
+    expect(input).toBeDisabled()
+
+    Object.defineProperty(input, 'files', {
+      value: [new File([new Uint8Array(8)], 'extra.png', { type: 'image/png' })],
+      configurable: true,
+    })
+    fireEvent.change(input)
+
+    expect(await screen.findByText(/up to 12 stickers/i)).toBeInTheDocument()
+    expect(within(stage).getAllByAltText('')).toHaveLength(12)
+  })
+
   it('deletes the current page, shifting later pages up, without touching the others', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     vi.spyOn(window, 'confirm').mockReturnValue(true)
