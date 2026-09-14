@@ -998,6 +998,14 @@
     "panelHasAudio": "Esta viñeta tiene voz en off",
     "stickersHeading": "Pegatinas",
     "addSticker": "Añadir pegatina",
+    "stickerPresetsLabel": "O toca una para añadirla:",
+    "stickerPreset": {
+      "whistle": "Pegatina de silbato",
+      "musicNotes": "Pegatina de notas musicales",
+      "heart": "Pegatina de corazón",
+      "crown": "Pegatina de corona",
+      "flower": "Pegatina de flor"
+    },
     "dragStickerHint": "Toca una pegatina para seleccionarla, luego arrástrala a cualquier parte de la página o cambia su tamaño abajo.",
     "stickerSizeLabel": "Tamaño de la pegatina",
     "removeSticker": "Quitar pegatina",

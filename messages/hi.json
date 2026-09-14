@@ -998,6 +998,14 @@
     "panelHasAudio": "इस पैनल में वॉइसओवर है",
     "stickersHeading": "स्टिकर",
     "addSticker": "स्टिकर जोड़ें",
+    "stickerPresetsLabel": "या किसी एक पर टैप करके जोड़ें:",
+    "stickerPreset": {
+      "whistle": "सीटी स्टिकर",
+      "musicNotes": "संगीत नोट स्टिकर",
+      "heart": "दिल स्टिकर",
+      "crown": "मुकुट स्टिकर",
+      "flower": "फूल स्टिकर"
+    },
     "dragStickerHint": "किसी स्टिकर को चुनने के लिए उस पर टैप करें, फिर उसे पेज पर कहीं भी खींचें या नीचे उसका आकार बदलें।",
     "stickerSizeLabel": "स्टिकर का आकार",
     "removeSticker": "स्टिकर हटाएं",

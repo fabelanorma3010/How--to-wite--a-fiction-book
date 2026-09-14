@@ -998,6 +998,14 @@
     "panelHasAudio": "Questa vignetta ha una voce fuori campo",
     "stickersHeading": "Adesivi",
     "addSticker": "Aggiungi adesivo",
+    "stickerPresetsLabel": "Oppure toccane uno per aggiungerlo:",
+    "stickerPreset": {
+      "whistle": "Adesivo fischietto",
+      "musicNotes": "Adesivo note musicali",
+      "heart": "Adesivo cuore",
+      "crown": "Adesivo corona",
+      "flower": "Adesivo fiore"
+    },
     "dragStickerHint": "Tocca un adesivo per selezionarlo, poi trascinalo ovunque sulla pagina o ridimensionalo qui sotto.",
     "stickerSizeLabel": "Dimensione adesivo",
     "removeSticker": "Rimuovi adesivo",

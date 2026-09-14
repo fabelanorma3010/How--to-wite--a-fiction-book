@@ -923,7 +923,7 @@ describe('PanelBuilder', () => {
     expect(screen.queryByLabelText(/sticker size/i)).not.toBeInTheDocument()
   })
 
-  it('resizes a sticker with the size slider', async () => {
+  it('resizes a sticker with the size slider, up to the full page', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
     renderWithIntl(<PanelBuilder />)
@@ -931,10 +931,44 @@ describe('PanelBuilder', () => {
     await addSticker(user)
 
     const sizeSlider = screen.getByLabelText(/sticker size/i) as HTMLInputElement
-    fireEvent.change(sizeSlider, { target: { value: '40' } })
+    expect(sizeSlider).toHaveAttribute('min', '8')
+    expect(sizeSlider).toHaveAttribute('max', '100')
 
+    fireEvent.change(sizeSlider, { target: { value: '40' } })
     expect(screen.getByText('40%')).toBeInTheDocument()
     expect(within(stage).getByAltText('')).toHaveStyle({ width: '40%' })
+
+    fireEvent.change(sizeSlider, { target: { value: '100' } })
+    expect(screen.getByText('100%')).toBeInTheDocument()
+    expect(within(stage).getByAltText('')).toHaveStyle({ width: '100%' })
+  })
+
+  it('adds a ready-made sticker from the preset gallery with one tap', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(screen.getByRole('button', { name: /heart sticker/i }))
+
+    const img = within(stage).getByAltText('')
+    expect(img).toHaveAttribute('src', '/stickers/heart.png')
+    expect(img).toHaveStyle({ left: '50%', top: '50%', width: '22%' })
+    // Auto-selected, same as an uploaded sticker.
+    expect(screen.getByLabelText(/sticker size/i)).toBeInTheDocument()
+  })
+
+  it('counts preset stickers toward the same 12-per-page cap as uploaded ones', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+
+    for (let i = 0; i < 12; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await user.click(screen.getByRole('button', { name: /heart sticker/i }))
+    }
+    expect(screen.getByRole('button', { name: /heart sticker/i })).toBeDisabled()
+    expect(screen.getByLabelText(/add sticker/i)).toBeDisabled()
   })
 
   it('removes a sticker', async () => {

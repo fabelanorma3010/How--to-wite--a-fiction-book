@@ -998,6 +998,14 @@
     "panelHasAudio": "Dieses Panel hat eine Vertonung",
     "stickersHeading": "Sticker",
     "addSticker": "Sticker hinzufügen",
+    "stickerPresetsLabel": "Oder tippe auf eins, um es hinzuzufügen:",
+    "stickerPreset": {
+      "whistle": "Pfeifen-Sticker",
+      "musicNotes": "Notensticker",
+      "heart": "Herz-Sticker",
+      "crown": "Kronen-Sticker",
+      "flower": "Blumen-Sticker"
+    },
     "dragStickerHint": "Tippe auf einen Sticker, um ihn auszuwählen, dann zieh ihn an eine beliebige Stelle der Seite oder ändere unten seine Größe.",
     "stickerSizeLabel": "Stickergröße",
     "removeSticker": "Sticker entfernen",

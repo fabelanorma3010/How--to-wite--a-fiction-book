@@ -998,6 +998,14 @@
     "panelHasAudio": "Cette case a une voix off",
     "stickersHeading": "Autocollants",
     "addSticker": "Ajouter un autocollant",
+    "stickerPresetsLabel": "Ou touchez-en un pour l'ajouter :",
+    "stickerPreset": {
+      "whistle": "Autocollant sifflet",
+      "musicNotes": "Autocollant notes de musique",
+      "heart": "Autocollant cœur",
+      "crown": "Autocollant couronne",
+      "flower": "Autocollant fleur"
+    },
     "dragStickerHint": "Touchez un autocollant pour le sélectionner, puis faites-le glisser n'importe où sur la page ou redimensionnez-le ci-dessous.",
     "stickerSizeLabel": "Taille de l'autocollant",
     "removeSticker": "Supprimer l'autocollant",

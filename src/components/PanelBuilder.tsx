@@ -419,8 +419,20 @@ function normalizeDraftPages(pagesByStyle: Record<BuilderStyle, PageState[]>): R
 
 const DEFAULT_STICKER_SIZE = 22
 const MIN_STICKER_SIZE = 8
-const MAX_STICKER_SIZE = 55
+const MAX_STICKER_SIZE = 100
 const MAX_STICKERS_PER_PAGE = 12
+
+// A small ready-made gallery so adding a sticker doesn't always mean saving
+// a picture somewhere first and then hunting for it in a file picker — tap
+// one of these and it's on the page immediately. "Upload a picture" (below)
+// still covers anything of your own.
+const PRESET_STICKERS: { id: string; src: string; labelKey: string }[] = [
+  { id: 'whistle', src: '/stickers/whistle.png', labelKey: 'stickerPreset.whistle' },
+  { id: 'music-notes', src: '/stickers/music-notes.png', labelKey: 'stickerPreset.musicNotes' },
+  { id: 'heart', src: '/stickers/heart.png', labelKey: 'stickerPreset.heart' },
+  { id: 'crown', src: '/stickers/crown.png', labelKey: 'stickerPreset.crown' },
+  { id: 'flower', src: '/stickers/flower.png', labelKey: 'stickerPreset.flower' },
+]
 
 function clampStickerSize(value: number): number {
   return Math.max(MIN_STICKER_SIZE, Math.min(MAX_STICKER_SIZE, value))
@@ -820,6 +832,21 @@ export default function PanelBuilder() {
       return
     }
     const src = await readFileAsDataUrl(file)
+    const sticker: PageSticker = { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, src, x: 50, y: 50, size: DEFAULT_STICKER_SIZE }
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      pageList[pageIndex] = { ...pageList[pageIndex], stickers: [...pageList[pageIndex].stickers, sticker] }
+      return { ...prev, [style]: pageList }
+    })
+    setSelectedSticker(sticker.id)
+  }
+
+  function addPresetSticker(src: string) {
+    setStickerError('')
+    if (currentPage.stickers.length >= MAX_STICKERS_PER_PAGE) {
+      setStickerError(t('tooManyStickers'))
+      return
+    }
     const sticker: PageSticker = { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, src, x: 50, y: 50, size: DEFAULT_STICKER_SIZE }
     setPagesByStyle((prev) => {
       const pageList = [...prev[style]]
@@ -2049,7 +2076,26 @@ export default function PanelBuilder() {
               />
             </label>
           </div>
-          <p className="text-[10px] font-semibold text-ink/40">{t('dragStickerHint')}</p>
+
+          <p className="text-[10px] font-semibold text-ink/40">{t('stickerPresetsLabel')}</p>
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
+            {PRESET_STICKERS.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => addPresetSticker(preset.src)}
+                disabled={currentPage.stickers.length >= MAX_STICKERS_PER_PAGE}
+                aria-label={t(preset.labelKey)}
+                title={t(preset.labelKey)}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-ink/15 bg-white p-1.5 hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={preset.src} alt="" className="h-full w-full object-contain" draggable={false} />
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-2 text-[10px] font-semibold text-ink/40">{t('dragStickerHint')}</p>
           {stickerError && <p className="mt-1.5 text-xs font-semibold text-red-600">{stickerError}</p>}
 
           {currentSticker && (

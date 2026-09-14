@@ -998,6 +998,14 @@
     "panelHasAudio": "このコマにはボイスオーバーがあります",
     "stickersHeading": "ステッカー",
     "addSticker": "ステッカーを追加",
+    "stickerPresetsLabel": "またはタップして追加:",
+    "stickerPreset": {
+      "whistle": "ホイッスルのステッカー",
+      "musicNotes": "音符のステッカー",
+      "heart": "ハートのステッカー",
+      "crown": "王冠のステッカー",
+      "flower": "花のステッカー"
+    },
     "dragStickerHint": "ステッカーをタップして選択し、ページ上の好きな場所にドラッグするか、下でサイズを変更できます。",
     "stickerSizeLabel": "ステッカーのサイズ",
     "removeSticker": "ステッカーを削除",
