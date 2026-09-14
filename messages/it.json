@@ -941,6 +941,8 @@
     "draftError": "Salvataggio non riuscito",
     "deletePage": "Elimina pagina",
     "deletePageConfirm": "Eliminare questa pagina? Non si può annullare.",
+    "clearPage": "Svuota pagina",
+    "clearPageConfirm": "Cancellare tutto in questa pagina e ricominciare? Non si può annullare.",
     "movePageEarlier": "Sposta prima",
     "movePageLater": "Sposta dopo",
     "layout": {

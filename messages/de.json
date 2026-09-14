@@ -941,6 +941,8 @@
     "draftError": "Konnte nicht gespeichert werden",
     "deletePage": "Seite löschen",
     "deletePageConfirm": "Diese Seite löschen? Das kann nicht rückgängig gemacht werden.",
+    "clearPage": "Seite leeren",
+    "clearPageConfirm": "Alles auf dieser Seite löschen und neu beginnen? Das kann nicht rückgängig gemacht werden.",
     "movePageEarlier": "Nach vorne",
     "movePageLater": "Nach hinten",
     "layout": {

@@ -941,6 +941,8 @@
     "draftError": "सेव नहीं हो सका",
     "deletePage": "पेज हटाएं",
     "deletePageConfirm": "इस पेज को हटाएं? यह पूर्ववत नहीं किया जा सकता।",
+    "clearPage": "पेज साफ़ करें",
+    "clearPageConfirm": "इस पेज पर सब कुछ मिटाकर फिर से शुरू करें? यह पूर्ववत नहीं किया जा सकता।",
     "movePageEarlier": "पहले ले जाएं",
     "movePageLater": "बाद में ले जाएं",
     "layout": {

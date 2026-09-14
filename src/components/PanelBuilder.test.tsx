@@ -881,6 +881,28 @@ describe('PanelBuilder', () => {
     expect(screen.queryByLabelText(/sticker size/i)).not.toBeInTheDocument()
   })
 
+  it('removes one sticker at a time, leaving the other one in place', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await addSticker(user, 'first.png')
+    // Give the first sticker a distinct size so it can be told apart from the second.
+    fireEvent.change(screen.getByLabelText(/sticker size/i), { target: { value: '40' } })
+
+    await addSticker(user, 'second.png')
+    // Adding a sticker auto-selects the new one, so its (default 22%) controls show.
+    expect((screen.getByLabelText(/sticker size/i) as HTMLInputElement).value).toBe('22')
+
+    await user.click(screen.getByRole('button', { name: /remove sticker/i }))
+
+    // Only the second sticker is gone — the first, untouched, is still there.
+    const remaining = within(stage).getAllByAltText('')
+    expect(remaining).toHaveLength(1)
+    expect(remaining[0]).toHaveStyle({ width: '40%' })
+  })
+
   it('caps stickers at 12 per page', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     renderWithIntl(<PanelBuilder />)
@@ -920,6 +942,8 @@ describe('PanelBuilder', () => {
     await user.type(box, 'Hello there.')
 
     const bubble = box.parentElement!
+    bubble.parentElement!.getBoundingClientRect = () =>
+      ({ width: 200, height: 200, x: 0, y: 0, top: 0, left: 0, right: 200, bottom: 200, toJSON: () => {} }) as DOMRect
     expect(bubble.style.transform).toBe('')
 
     fireEvent.pointerDown(bubble, { pointerId: 11, clientX: 50, clientY: 50 })
@@ -928,6 +952,28 @@ describe('PanelBuilder', () => {
 
     expect(bubble).toHaveStyle({ transform: 'translate(15px, 20px)' })
     expect(screen.getByDisplayValue('Hello there.')).toBeInTheDocument()
+  })
+
+  it('lets a text bubble be dragged all the way across its panel, scaling with that panel\'s own size', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    const bubble = screen.getByPlaceholderText('Type here…').parentElement!
+    // A small panel — the drag below wildly overshoots it, so the result
+    // should be clamped to this panel's own bounds, not the old fixed cap.
+    bubble.parentElement!.getBoundingClientRect = () =>
+      ({ width: 100, height: 80, x: 0, y: 0, top: 0, left: 0, right: 100, bottom: 80, toJSON: () => {} }) as DOMRect
+
+    fireEvent.pointerDown(bubble, { pointerId: 12, clientX: 0, clientY: 0 })
+    fireEvent.pointerMove(bubble, { pointerId: 12, clientX: 1000, clientY: 1000 })
+    fireEvent.pointerUp(bubble, { pointerId: 12, clientX: 1000, clientY: 1000 })
+
+    // 90% of the panel's own 100x80 box: 90px across, 72px down.
+    expect(bubble).toHaveStyle({ transform: 'translate(90px, 72px)' })
   })
 
   it('drags the grip below a speech bubble to change its height, without moving the bubble', async () => {
@@ -981,6 +1027,8 @@ describe('PanelBuilder', () => {
     await user.click(within(stage).getByText('Panel 1'))
     await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
     const bubble = screen.getByPlaceholderText('Type here…').parentElement!
+    bubble.parentElement!.getBoundingClientRect = () =>
+      ({ width: 200, height: 200, x: 0, y: 0, top: 0, left: 0, right: 200, bottom: 200, toJSON: () => {} }) as DOMRect
 
     expect(screen.queryByRole('button', { name: /reset/i })).not.toBeInTheDocument()
 
@@ -1048,6 +1096,41 @@ describe('PanelBuilder', () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     renderWithIntl(<PanelBuilder />)
     expect(screen.getByRole('button', { name: /delete page/i })).toBeDisabled()
+  })
+
+  it('disables Clear Page when the page has nothing on it yet', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    renderWithIntl(<PanelBuilder />)
+    expect(screen.getByRole('button', { name: /clear page/i })).toBeDisabled()
+  })
+
+  it('clears every panel and sticker on the page, but keeps the page itself in place', async () => {
+    getUserMock.mockResolvedValue({ data: { user: null } })
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await generateImageOnPanel1(user, stage)
+    await user.click(screen.getByRole('button', { name: /💬 Speech/ }))
+    await user.type(screen.getByPlaceholderText('Type here…'), 'Hello there.')
+    await addSticker(user)
+
+    // A picture on the panel, plus a sticker — two images on the stage.
+    expect(within(stage).getAllByAltText('')).toHaveLength(2)
+    expect(screen.getByDisplayValue('Hello there.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /clear page/i })).not.toBeDisabled()
+
+    await user.click(screen.getByRole('button', { name: /clear page/i }))
+    expect(window.confirm).toHaveBeenCalled()
+
+    expect(within(stage).queryAllByAltText('')).toHaveLength(0)
+    expect(screen.queryByDisplayValue('Hello there.')).not.toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Type here…')).not.toBeInTheDocument()
+    // The page itself — same layout, same spot in the book — is untouched.
+    expect(within(stage).getByText('Panel 1')).toBeInTheDocument()
+    expect(screen.getByText('Page 1 of 30')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /clear page/i })).toBeDisabled()
   })
 
   it('shifts a page earlier or later, moving its content along with it', async () => {

@@ -941,6 +941,8 @@
     "draftError": "保存できませんでした",
     "deletePage": "ページを削除",
     "deletePageConfirm": "このページを削除しますか?元に戻せません。",
+    "clearPage": "ページをクリア",
+    "clearPageConfirm": "このページのすべてを消してやり直しますか?元に戻せません。",
     "movePageEarlier": "前に移動",
     "movePageLater": "後ろに移動",
     "layout": {

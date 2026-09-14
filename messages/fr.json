@@ -941,6 +941,8 @@
     "draftError": "Échec de l'enregistrement",
     "deletePage": "Supprimer la page",
     "deletePageConfirm": "Supprimer cette page ? Cette action est irréversible.",
+    "clearPage": "Vider la page",
+    "clearPageConfirm": "Effacer tout sur cette page et recommencer ? Cette action est irréversible.",
     "movePageEarlier": "Déplacer avant",
     "movePageLater": "Déplacer après",
     "layout": {

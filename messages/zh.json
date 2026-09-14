@@ -941,6 +941,8 @@
     "draftError": "保存失败",
     "deletePage": "删除页面",
     "deletePageConfirm": "删除此页面?此操作无法撤销。",
+    "clearPage": "清空页面",
+    "clearPageConfirm": "清除此页面上的所有内容并重新开始?此操作无法撤销。",
     "movePageEarlier": "前移",
     "movePageLater": "后移",
     "layout": {
