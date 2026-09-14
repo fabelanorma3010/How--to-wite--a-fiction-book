@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
-export const alt = 'Storyburst — How to Write & Publish a Fiction Book'
+export const alt = 'Storyburst — How to Create a Book and Dive Into Your Imagination'
 
 // Same 4 book types + emoji as src/data/bookTypes.ts, scattered like a hand of
 // comic panels for the site-wide default social-share card. Next.js wires this
@@ -140,7 +140,7 @@ export default function OpengraphImage() {
               color: '#1e1b4b',
             }}
           >
-            How to Write &amp; Publish
+            How to Create a Book and
           </div>
           <div
             style={{
@@ -152,7 +152,19 @@ export default function OpengraphImage() {
               color: '#c026d3',
             }}
           >
-            a Fiction Book
+            Dive Into Your
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: 2,
+              fontSize: 44,
+              fontWeight: 900,
+              lineHeight: 1.15,
+              color: '#c026d3',
+            }}
+          >
+            Imagination
           </div>
 
           <div
