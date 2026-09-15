@@ -12,7 +12,10 @@ export type AiFeature = 'chat' | 'image' | 'tools' | 'contact'
 // especially images, which are the expensive call.
 const LIMITS: Record<AiFeature, { anon: number; user: number }> = {
   chat: { anon: 20, user: 60 },
-  image: { anon: 3, user: 12 },
+  // Raised well past what illustrating a real book in one sitting needs —
+  // signed-in especially is high enough to feel unlimited day to day, while
+  // still bounding what a bot hammering the anonymous endpoint could cost.
+  image: { anon: 20, user: 200 },
   tools: { anon: 8, user: 30 },
   contact: { anon: 5, user: 15 },
 }
