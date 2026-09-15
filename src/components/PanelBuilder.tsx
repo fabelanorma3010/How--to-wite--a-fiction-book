@@ -763,6 +763,29 @@ export default function PanelBuilder() {
     })
   }
 
+  // Same update, but for a change expensive enough to be worth never losing
+  // (a finished image/video/audio upload) — the regular autosave effect below
+  // waits for 1200ms of quiet before writing to IndexedDB, so a refresh or
+  // closed tab in that window right after an upload finishes would silently
+  // lose it, making a just-added file look like it never stuck. This writes
+  // the very next state immediately instead of waiting on that debounce.
+  function updatePanelAndSaveNow(panelIndex: number, patch: Partial<PanelState>) {
+    setPagesByStyle((prev) => {
+      const pageList = [...prev[style]]
+      const panels = [...pageList[pageIndex].panels]
+      panels[panelIndex] = { ...panels[panelIndex], ...patch }
+      pageList[pageIndex] = { ...pageList[pageIndex], panels }
+      const next = { ...prev, [style]: pageList }
+      if (draftLoadedRef.current && draftPersistenceSupported()) {
+        setDraftStatus('saving')
+        saveDraftToDb({ style, pagesByStyle: next })
+          .then(() => setDraftStatus('saved'))
+          .catch(() => setDraftStatus('error'))
+      }
+      return next
+    })
+  }
+
   // A tap still selects/deselects a panel, but a real drag on an already
   // selected panel's picture repositions it instead — distinguished by
   // whether the pointer moved past a small threshold before release.
@@ -1181,7 +1204,7 @@ export default function PanelBuilder() {
       return
     }
     const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
-    updatePanel(selectedPanel, { image: url })
+    updatePanelAndSaveNow(selectedPanel, { image: url })
   }
 
   async function uploadAudioFile(file: File) {
@@ -1200,7 +1223,7 @@ export default function PanelBuilder() {
         return
       }
       const url = supabase.storage.from('books').getPublicUrl(path).data.publicUrl
-      updatePanel(selectedPanel, { audio: url })
+      updatePanelAndSaveNow(selectedPanel, { audio: url })
     } finally {
       setAudioBusy(false)
     }
