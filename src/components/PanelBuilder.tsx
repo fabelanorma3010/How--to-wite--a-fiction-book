@@ -747,7 +747,13 @@ export default function PanelBuilder() {
   function setLayout(key: LayoutKey) {
     setPagesByStyle((prev) => {
       const next = [...prev[style]]
-      next[pageIndex] = makePage(key)
+      const page = next[pageIndex]
+      // Keep each panel's art/audio/text by slot index across the layout
+      // change instead of discarding the whole page — switching from a
+      // 3-panel layout to a 2-panel one, say, used to wipe every panel on
+      // the page back to blank, even ones the new layout still has room for.
+      const panels = Array.from({ length: LAYOUTS[key].count }, (_, i) => page.panels[i] ?? { textBoxes: [] })
+      next[pageIndex] = { ...page, layout: key, panels }
       return { ...prev, [style]: next }
     })
     setSelectedPanel(null)
@@ -1276,9 +1282,12 @@ export default function PanelBuilder() {
     if (!userId || importingPdf) return
     setImportError('')
 
+    const room = MAX_PAGES - pages.length
+    if (room <= 0) return
+
     let rasterized: File[]
     try {
-      rasterized = await rasterizePdfPages(file, MAX_PAGES)
+      rasterized = await rasterizePdfPages(file, room)
       if (rasterized.length === 0) throw new Error('empty')
     } catch {
       setImportError(t('pdfConvertError'))
@@ -1299,15 +1308,24 @@ export default function PanelBuilder() {
         urls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
       }
 
-      setPagesByStyle((prev) => ({
-        ...prev,
-        [style]: urls.map((url) => {
-          const page = makePage('oneBig')
-          page.panels[0] = { image: url, textBoxes: [] }
-          return page
-        }),
-      }))
-      setPageIndex(0)
+      // Add the imported pages after whatever's already there — this used to
+      // replace the entire book with just the newly imported pages, silently
+      // destroying every other page in it.
+      const importedPages = urls.map((url) => {
+        const page = makePage('oneBig')
+        page.panels[0] = { image: url, textBoxes: [] }
+        return page
+      })
+      const insertAt = pages.length
+      setPagesByStyle((prev) => {
+        const next = { ...prev, [style]: [...prev[style], ...importedPages] }
+        if (draftLoadedRef.current && draftPersistenceSupported()) {
+          setDraftStatus('saving')
+          saveDraftToDb({ style, pagesByStyle: next }).then(() => setDraftStatus('saved')).catch(() => setDraftStatus('error'))
+        }
+        return next
+      })
+      setPageIndex(insertAt)
       setSelectedPanel(null)
       setPublishedBookId(null)
     } catch {

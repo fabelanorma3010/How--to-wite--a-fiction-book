@@ -313,6 +313,27 @@ describe('PanelBuilder', () => {
     expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument() // Comic's 1-big-panel choice was preserved
   })
 
+  it("keeps a page's existing panel art when switching that page to a different layout", async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/panel-1.png' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    await user.upload(input, new File([new Uint8Array(10)], 'sun.png', { type: 'image/png' }))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/panel-1.png')
+
+    // Starts on Comic's default 3-across layout — dropping to 2-stacked used
+    // to wipe every panel on the page back to blank, even panel 1, which the
+    // new layout still has room for.
+    await user.click(screen.getByRole('button', { name: '2 stacked' }))
+
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/panel-1.png')
+  })
+
   it('lets a signed-out visitor generate images and upload their own picture, but prompts them to log in for PDFs/video', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
@@ -557,10 +578,39 @@ describe('PanelBuilder', () => {
     const pdfFile = new File(['%PDF-1.4'], 'my-book.pdf', { type: 'application/pdf' })
     await user.upload(input, pdfFile)
 
-    await waitFor(() => expect(rasterizePagesMock).toHaveBeenCalledWith(pdfFile, 30))
+    // Room for 29, not the full 30: the book already starts with 1 page.
+    await waitFor(() => expect(rasterizePagesMock).toHaveBeenCalledWith(pdfFile, 29))
     await waitFor(() => expect(uploadMock).toHaveBeenCalledTimes(3))
     expect(await within(stage).findByAltText('')).toHaveAttribute('src', 'https://example.com/rasterized.png')
     expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument()
+  })
+
+  it("adds imported pages after the book's existing pages instead of replacing them", async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/original.png' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    // Give the book's one existing page some art first.
+    await user.click(within(stage).getByText('Panel 1'))
+    const imageInput = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    await user.upload(imageInput, new File([new Uint8Array(10)], 'original.png', { type: 'image/png' }))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalledTimes(1))
+
+    rasterizePagesMock.mockResolvedValue([new File(['p1'], 'book-1.png', { type: 'image/png' })])
+    const pdfInput = (await screen.findByLabelText(/upload a pdf/i)) as HTMLInputElement
+    await user.upload(pdfInput, new File(['%PDF-1.4'], 'my-book.pdf', { type: 'application/pdf' }))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalledTimes(2))
+
+    // The import landed on its own new page…
+    expect(screen.getByText(/page 2 of/i)).toBeInTheDocument()
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/rasterized.png')
+
+    // …and the original first page, with its own art, is still there.
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(screen.getByText(/page 1 of/i)).toBeInTheDocument()
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/original.png')
   })
 
   it('shows a translated error and imports nothing when the whole-PDF import cannot be read', async () => {
