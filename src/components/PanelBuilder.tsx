@@ -123,7 +123,12 @@ const MIN_FONT_SIZE = 13
 const MAX_FONT_SIZE = 50
 const DEFAULT_FONT_SIZE = 16
 
-const MIN_IMAGE_ZOOM = 1
+// Panel art (picture or video) fills its cell via object-cover, cropping
+// whichever dimension overflows — a panel-shaped picture doesn't notice, but
+// a mismatched video (a phone's landscape clip in a portrait panel, say)
+// otherwise has no way to be seen in full: 1 was already "filling the cell,"
+// so the slider could only crop tighter, never back out to reveal the rest.
+const MIN_IMAGE_ZOOM = 0.4
 const MAX_IMAGE_ZOOM = 3
 const DEFAULT_IMAGE_ZOOM = 1
 const MAX_IMAGE_OFFSET = 45
