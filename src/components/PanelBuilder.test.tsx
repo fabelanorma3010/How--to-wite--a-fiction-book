@@ -808,6 +808,10 @@ describe('PanelBuilder', () => {
 
     const zoomSlider = screen.getByLabelText('Zoom') as HTMLInputElement
     expect(zoomSlider.value).toBe('1')
+    // Panel art is cropped to fill the cell — 0.4 lets a mismatched aspect
+    // ratio (e.g. a landscape video in a portrait panel) shrink back down
+    // until the whole thing is visible, instead of only ever cropping tighter.
+    expect(zoomSlider).toHaveAttribute('min', '0.4')
 
     fireEvent.change(zoomSlider, { target: { value: '2' } })
     expect(screen.getByText('200%')).toBeInTheDocument()
