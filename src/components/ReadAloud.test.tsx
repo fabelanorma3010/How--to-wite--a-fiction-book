@@ -4,37 +4,36 @@ import userEvent from '@testing-library/user-event'
 import { NextIntlClientProvider } from 'next-intl'
 import ReadAloud from './ReadAloud'
 
+const messages = {
+  ReadAloud: {
+    readAloud: 'Read Aloud',
+    stop: 'Stop',
+    voiceLabel: 'Choose a voice',
+    defaultVoice: 'System default',
+    characterLabel: 'Voice character',
+    preset: { normal: 'Normal', oldMan: 'Silly old man', youngWoman: 'Young woman', clown: 'Clown' },
+    translateLabel: 'Translate to',
+    originalLanguage: 'Original',
+    translating: 'Translating…',
+    translateError: "Couldn't translate that. Try again in a moment.",
+    translatedLabel: 'Translation',
+    language: {
+      en: 'English',
+      de: 'German',
+      es: 'Spanish',
+      fr: 'French',
+      hi: 'Hindi',
+      it: 'Italian',
+      ja: 'Japanese',
+      pt: 'Portuguese',
+      zh: 'Chinese',
+    },
+  },
+}
+
 function renderReadAloud(props: Partial<React.ComponentProps<typeof ReadAloud>> = {}) {
   return render(
-    <NextIntlClientProvider
-      locale="en"
-      messages={{
-        ReadAloud: {
-          readAloud: 'Read Aloud',
-          stop: 'Stop',
-          voiceLabel: 'Choose a voice',
-          defaultVoice: 'System default',
-          characterLabel: 'Voice character',
-          preset: { normal: 'Normal', oldMan: 'Silly old man', youngWoman: 'Young woman', clown: 'Clown' },
-          translateLabel: 'Translate to',
-          originalLanguage: 'Original',
-          translating: 'Translating…',
-          translateError: "Couldn't translate that. Try again in a moment.",
-          translatedLabel: 'Translation',
-          language: {
-            en: 'English',
-            de: 'German',
-            es: 'Spanish',
-            fr: 'French',
-            hi: 'Hindi',
-            it: 'Italian',
-            ja: 'Japanese',
-            pt: 'Portuguese',
-            zh: 'Chinese',
-          },
-        },
-      }}
-    >
+    <NextIntlClientProvider locale="en" messages={messages}>
       <ReadAloud text="Once upon a time" {...props} />
     </NextIntlClientProvider>,
   )
@@ -226,6 +225,38 @@ describe('ReadAloud', () => {
     await screen.findByText('Es war einmal')
     await user.selectOptions(screen.getByLabelText('Translate to'), 'Original')
     await user.selectOptions(screen.getByLabelText('Translate to'), 'de')
+
+    expect(screen.getByText('Es war einmal')).toBeInTheDocument()
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps a cached translation when the text prop switches away and back (e.g. changing panels)', async () => {
+    // @ts-expect-error minimal stub of the browser API this component checks for
+    window.speechSynthesis = { cancel: vi.fn(), speak: vi.fn(), getVoices: () => [] }
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ result: 'Es war einmal' }),
+    }) as unknown as typeof fetch
+    const user = userEvent.setup()
+
+    const { rerender } = renderReadAloud()
+    await user.selectOptions(screen.getByLabelText('Translate to'), 'de')
+    await screen.findByText('Es war einmal')
+
+    // Simulate PanelBuilder swapping in another panel's text box, then back
+    // to this one — the same ReadAloud instance is reused across panels.
+    rerender(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <ReadAloud text="A different panel's caption" />
+      </NextIntlClientProvider>,
+    )
+    expect(screen.queryByText('Es war einmal')).not.toBeInTheDocument()
+
+    rerender(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <ReadAloud text="Once upon a time" />
+      </NextIntlClientProvider>,
+    )
 
     expect(screen.getByText('Es war einmal')).toBeInTheDocument()
     expect(global.fetch).toHaveBeenCalledTimes(1)
