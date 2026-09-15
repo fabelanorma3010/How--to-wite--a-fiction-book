@@ -747,7 +747,13 @@ export default function PanelBuilder() {
   function setLayout(key: LayoutKey) {
     setPagesByStyle((prev) => {
       const next = [...prev[style]]
-      next[pageIndex] = makePage(key)
+      const page = next[pageIndex]
+      // Keep each panel's art/audio/text by slot index across the layout
+      // change instead of discarding the whole page — switching from a
+      // 3-panel layout to a 2-panel one, say, used to wipe every panel on
+      // the page back to blank, even ones the new layout still has room for.
+      const panels = Array.from({ length: LAYOUTS[key].count }, (_, i) => page.panels[i] ?? { textBoxes: [] })
+      next[pageIndex] = { ...page, layout: key, panels }
       return { ...prev, [style]: next }
     })
     setSelectedPanel(null)

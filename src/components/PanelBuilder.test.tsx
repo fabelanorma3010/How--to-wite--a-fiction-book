@@ -313,6 +313,27 @@ describe('PanelBuilder', () => {
     expect(within(stage).queryByText('Panel 2')).not.toBeInTheDocument() // Comic's 1-big-panel choice was preserved
   })
 
+  it("keeps a page's existing panel art when switching that page to a different layout", async () => {
+    getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+    getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/panel-1.png' } })
+    const user = userEvent.setup()
+    renderWithIntl(<PanelBuilder />)
+    const stage = getStage()
+
+    await user.click(within(stage).getByText('Panel 1'))
+    const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+    await user.upload(input, new File([new Uint8Array(10)], 'sun.png', { type: 'image/png' }))
+    await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/panel-1.png')
+
+    // Starts on Comic's default 3-across layout — dropping to 2-stacked used
+    // to wipe every panel on the page back to blank, even panel 1, which the
+    // new layout still has room for.
+    await user.click(screen.getByRole('button', { name: '2 stacked' }))
+
+    expect(within(stage).getByAltText('')).toHaveAttribute('src', 'https://example.com/panel-1.png')
+  })
+
   it('lets a signed-out visitor generate images and upload their own picture, but prompts them to log in for PDFs/video', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     const user = userEvent.setup()
