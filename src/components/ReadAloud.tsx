@@ -41,7 +41,11 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
   const [voiceURI, setVoiceURI] = useState('')
   const [preset, setPreset] = useState<FunPreset>('normal')
   const [targetLang, setTargetLang] = useState('')
-  const [translations, setTranslations] = useState<Record<string, string>>({})
+  // Keyed by source text, then by language — so switching to another panel's
+  // text and back doesn't throw away a translation already paid for with an
+  // API call. Never trimmed: a book-length session might revisit a few dozen
+  // captions, which is nothing to keep a handful of short strings for each.
+  const [translations, setTranslations] = useState<Record<string, Record<string, string>>>({})
   const [translateStatus, setTranslateStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [translateError, setTranslateError] = useState('')
 
@@ -70,14 +74,15 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
     }
   }, [])
 
-  // Reset any cached translation when the underlying text changes — a stale
-  // translation of yesterday's draft would otherwise keep playing today.
+  // Clear any stale error/spinner when switching to different text — but
+  // keep the translation cache itself, keyed by text above, so it survives
+  // the switch instead of forcing a re-translate on every panel visit.
   useEffect(() => {
-    setTranslations({})
     setTranslateError('')
+    setTranslateStatus('idle')
   }, [text])
 
-  const activeText = targetLang && translations[targetLang] ? translations[targetLang] : text
+  const activeText = targetLang && translations[text]?.[targetLang] ? translations[text][targetLang] : text
 
   function handleVoiceChange(uri: string) {
     setVoiceURI(uri)
@@ -100,7 +105,7 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
       })
       const data = await res.json()
       if (!res.ok || typeof data?.result !== 'string') throw new Error(data?.error || t('translateError'))
-      setTranslations((prev) => ({ ...prev, [lang]: data.result }))
+      setTranslations((prev) => ({ ...prev, [text]: { ...prev[text], [lang]: data.result } }))
       setTranslateStatus('idle')
     } catch (err) {
       setTranslateError(err instanceof Error ? err.message : t('translateError'))
@@ -122,7 +127,7 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
     }
     const match = voices.find((v) => v.lang.toLowerCase().startsWith(lang))
     if (match) setVoiceURI(match.voiceURI)
-    if (!translations[lang]) void runTranslate(lang)
+    if (!translations[text]?.[lang]) void runTranslate(lang)
   }
 
   function handleToggle() {
@@ -222,13 +227,13 @@ export default function ReadAloud({ text, label, className = '' }: ReadAloudProp
               {translateError}
             </p>
           )}
-          {translations[targetLang] && (
+          {translations[text]?.[targetLang] && (
             <span className="mt-1 block rounded-xl border-2 border-ink/10 bg-white/70 p-3">
               <span className="mb-1 block text-[10px] font-extrabold uppercase tracking-wide text-ink/40">
                 {t('translatedLabel')}
               </span>
               <span className="block whitespace-pre-wrap text-sm leading-relaxed text-ink/90">
-                {translations[targetLang]}
+                {translations[text][targetLang]}
               </span>
             </span>
           )}

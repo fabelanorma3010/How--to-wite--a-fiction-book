@@ -1353,6 +1353,32 @@ describe('PanelBuilder', () => {
       expect(await screen.findByDisplayValue('Autosaved line')).toBeInTheDocument()
     })
 
+    it('saves an uploaded video immediately, without waiting for the autosave debounce', async () => {
+      getUserMock.mockResolvedValue({ data: { user: { id: 'u1' } } })
+      getPublicUrlMock.mockReturnValueOnce({ data: { publicUrl: 'https://example.com/panel-clip.mp4' } })
+      const user = userEvent.setup()
+      const { unmount } = renderWithIntl(<PanelBuilder />)
+      const stage = getStage()
+
+      await user.click(within(stage).getByText('Panel 1'))
+      const input = (await screen.findByLabelText(/upload image/i)) as HTMLInputElement
+      const videoFile = new File([new Uint8Array(1024)], 'clip.mp4', { type: 'video/mp4' })
+      await user.upload(input, videoFile)
+      await waitFor(() => expect(uploadMock).toHaveBeenCalled())
+      expect(stage.querySelector('video')).toBeTruthy()
+
+      // Unmount right away, with none of the debounce's 1200ms quiet period
+      // elapsed — a refresh this fast used to lose the upload entirely, since
+      // only the finished upload had landed in state, not yet in IndexedDB.
+      unmount()
+
+      renderWithIntl(<PanelBuilder />)
+      const restoredStage = getStage()
+      await waitFor(() =>
+        expect(restoredStage.querySelector('video')).toHaveAttribute('src', 'https://example.com/panel-clip.mp4'),
+      )
+    })
+
     it('still loads a draft saved before stickers existed, whose pages have no stickers field at all', async () => {
       getUserMock.mockResolvedValue({ data: { user: null } })
       await new Promise<void>((resolve, reject) => {
