@@ -1282,9 +1282,12 @@ export default function PanelBuilder() {
     if (!userId || importingPdf) return
     setImportError('')
 
+    const room = MAX_PAGES - pages.length
+    if (room <= 0) return
+
     let rasterized: File[]
     try {
-      rasterized = await rasterizePdfPages(file, MAX_PAGES)
+      rasterized = await rasterizePdfPages(file, room)
       if (rasterized.length === 0) throw new Error('empty')
     } catch {
       setImportError(t('pdfConvertError'))
@@ -1305,15 +1308,24 @@ export default function PanelBuilder() {
         urls.push(supabase.storage.from('books').getPublicUrl(path).data.publicUrl)
       }
 
-      setPagesByStyle((prev) => ({
-        ...prev,
-        [style]: urls.map((url) => {
-          const page = makePage('oneBig')
-          page.panels[0] = { image: url, textBoxes: [] }
-          return page
-        }),
-      }))
-      setPageIndex(0)
+      // Add the imported pages after whatever's already there — this used to
+      // replace the entire book with just the newly imported pages, silently
+      // destroying every other page in it.
+      const importedPages = urls.map((url) => {
+        const page = makePage('oneBig')
+        page.panels[0] = { image: url, textBoxes: [] }
+        return page
+      })
+      const insertAt = pages.length
+      setPagesByStyle((prev) => {
+        const next = { ...prev, [style]: [...prev[style], ...importedPages] }
+        if (draftLoadedRef.current && draftPersistenceSupported()) {
+          setDraftStatus('saving')
+          saveDraftToDb({ style, pagesByStyle: next }).then(() => setDraftStatus('saved')).catch(() => setDraftStatus('error'))
+        }
+        return next
+      })
+      setPageIndex(insertAt)
       setSelectedPanel(null)
       setPublishedBookId(null)
     } catch {
