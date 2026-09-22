@@ -158,176 +158,6 @@ function clampTextHeight(value: number): number {
   return Math.max(MIN_TEXT_HEIGHT, Math.min(MAX_TEXT_HEIGHT, value))
 }
 
-const EXPORT_VIDEO_W = 1350
-const EXPORT_VIDEO_H = 1800
-const EXPORT_VIDEO_FPS = 10
-const EXPORT_VIDEO_BITRATE = 8_000_000
-const IMAGE_PAGE_SECONDS = 2.5
-const MAX_VIDEO_PANEL_SECONDS = 8
-
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => window.setTimeout(resolve, ms))
-}
-
-/**
- * Panel art/video lives on Supabase Storage — a different origin from the
- * app — and drawing a cross-origin resource onto a canvas taints it unless
- * the server sends CORS headers permitting it, which Storage doesn't
- * guarantee. Routing it through our own /api/proxy-media route instead makes
- * it same-origin, so the exported video's canvas capture never comes out
- * blank. A data: URL (e.g. an AI-generated image) needs no proxying.
- */
-function exportableSrc(src: string): string {
-  if (src.startsWith('data:')) return src
-  return `/api/proxy-media?url=${encodeURIComponent(src)}`
-}
-
-type PreloadedPage = { kind: 'image'; el: HTMLImageElement } | { kind: 'video'; el: HTMLVideoElement } | { kind: 'failed' }
-
-/**
- * Fully loads one page's media (network-bound — through the proxy, possibly
- * a cold serverless start) before recording ever starts. Doing this loading
- * *during* the recording instead — as an earlier version did — let a slow
- * first fetch eat into that page's on-screen time, so it came out blank in
- * the exported video even though the page itself was fine.
- */
-function preloadExportPage(src: string): Promise<PreloadedPage> {
-  return new Promise((resolve) => {
-    if (isVideoUrl(src)) {
-      const el = document.createElement('video')
-      el.muted = true
-      el.playsInline = true
-      el.preload = 'auto'
-      el.onloadeddata = () => resolve({ kind: 'video', el })
-      el.onerror = () => resolve({ kind: 'failed' })
-      el.src = exportableSrc(src)
-      return
-    }
-    const el = new Image()
-    el.onload = () => resolve({ kind: 'image', el })
-    el.onerror = () => resolve({ kind: 'failed' })
-    el.src = exportableSrc(src)
-  })
-}
-
-interface PageFraming {
-  zoom: number
-  offsetX: number
-  offsetY: number
-}
-
-const DEFAULT_PAGE_FRAMING: PageFraming = { zoom: 1, offsetX: 0, offsetY: 0 }
-
-/**
- * Fills the whole export frame with the media, cropping instead of
- * letterboxing — a plain "contain" fit left large white bars around any
- * picture that didn't already match the export's portrait shape, which is
- * the normal case since AI-generated art comes out square. Zoom/offset
- * mirror the same crop the panel preview shows in the editor (applied via
- * CSS transform there, replicated here in canvas-drawing terms), so the
- * export matches what was framed on screen.
- */
-function drawContained(
-  ctx: CanvasRenderingContext2D,
-  media: HTMLImageElement | HTMLVideoElement,
-  framing: PageFraming = DEFAULT_PAGE_FRAMING,
-) {
-  const mediaW = media instanceof HTMLVideoElement ? media.videoWidth : media.width
-  const mediaH = media instanceof HTMLVideoElement ? media.videoHeight : media.height
-  ctx.fillStyle = '#ffffff'
-  ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-  const scale = Math.max(EXPORT_VIDEO_W / mediaW, EXPORT_VIDEO_H / mediaH) * framing.zoom
-  const w = mediaW * scale
-  const h = mediaH * scale
-  const x = (EXPORT_VIDEO_W - w) / 2 + (framing.offsetX / 100) * EXPORT_VIDEO_W
-  const y = (EXPORT_VIDEO_H - h) / 2 + (framing.offsetY / 100) * EXPORT_VIDEO_H
-  ctx.drawImage(media, x, y, w, h)
-}
-
-/**
- * `canvas.captureStream()` only samples a new frame when the canvas actually
- * repaints — a single draw followed by an idle wait does not reliably
- * produce a full, correctly-ordered `IMAGE_PAGE_SECONDS` of recorded output
- * (verified live: a two-page export came out truncated to one page's worth
- * of duration with the pages' content scrambled). Keep repainting the same
- * frame on an interval for the whole hold, the same way video pages stay
- * correct via their requestAnimationFrame redraw loop.
- */
-function holdStaticFrame(draw: () => void, seconds: number = IMAGE_PAGE_SECONDS): Promise<void> {
-  draw()
-  const interval = window.setInterval(draw, 100)
-  return wait(seconds * 1000).then(() => window.clearInterval(interval))
-}
-
-/**
- * Renders one already-loaded page into the export canvas and resolves once
- * its on-screen time is up. `minSeconds` — a page's own recorded voiceover
- * duration, if any — stretches that time so the narration isn't cut off
- * partway through: an image page normally holds for IMAGE_PAGE_SECONDS, and
- * a video page normally plays for its own length (capped at
- * MAX_VIDEO_PANEL_SECONDS), but either extends to fit a longer voiceover.
- */
-function renderExportPage(
-  ctx: CanvasRenderingContext2D,
-  page: PreloadedPage,
-  framing: PageFraming,
-  minSeconds = 0,
-): Promise<void> {
-  if (page.kind === 'failed') {
-    return holdStaticFrame(() => {
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-    }, Math.max(IMAGE_PAGE_SECONDS, minSeconds))
-  }
-  if (page.kind === 'image') {
-    return holdStaticFrame(() => drawContained(ctx, page.el, framing), Math.max(IMAGE_PAGE_SECONDS, minSeconds))
-  }
-
-  const videoEl = page.el
-  return new Promise((resolve) => {
-    let raf = 0
-    let done = false
-    const finish = () => {
-      if (done) return
-      done = true
-      window.cancelAnimationFrame(raf)
-      videoEl.pause()
-      resolve()
-    }
-    const draw = () => {
-      if (done) return
-      drawContained(ctx, videoEl, framing)
-      raf = window.requestAnimationFrame(draw)
-    }
-    const seconds = Math.max(Math.min(videoEl.duration || MAX_VIDEO_PANEL_SECONDS, MAX_VIDEO_PANEL_SECONDS), minSeconds)
-    videoEl.currentTime = 0
-    videoEl
-      .play()
-      .then(() => {
-        draw()
-        window.setTimeout(finish, seconds * 1000)
-      })
-      .catch(finish)
-  })
-}
-
-/**
- * Preloads one page's voiceover, same rationale as preloadExportPage: fully
- * fetched before recording starts, and proxied same-origin so capturing it
- * into the recorded stream doesn't get silently muted as tainted
- * cross-origin media.
- */
-function preloadExportAudio(src: string): Promise<HTMLAudioElement | null> {
-  if (!src) return Promise.resolve(null)
-  return new Promise((resolve) => {
-    const el = new Audio()
-    el.preload = 'auto'
-    el.onloadedmetadata = () => resolve(el)
-    el.onerror = () => resolve(null)
-    el.src = exportableSrc(src)
-  })
-}
-
 interface TextBubble {
   id: string
   type: CaptionType
@@ -466,9 +296,8 @@ const TEXT_BOX_CASCADE: Array<{ x: number; y: number }> = [
 
 /**
  * Zoom/position adjust how a panel's picture is framed inside its own small
- * grid cell here in the editor. The video export replicates the same crop
- * in canvas-drawing terms (see drawContained/PageFraming above); the PDF
- * download and the published reader still show the whole picture uncropped.
+ * grid cell here in the editor. The PDF download and the published reader
+ * still show the whole picture uncropped.
  */
 function panelImageStyle(panel: PanelState): React.CSSProperties {
   const zoom = panel.imageZoom ?? DEFAULT_IMAGE_ZOOM
@@ -586,8 +415,6 @@ export default function PanelBuilder() {
   const [publishedBookId, setPublishedBookId] = useState<string | null>(null)
   const [downloading, setDownloading] = useState(false)
   const [downloadError, setDownloadError] = useState('')
-  const [videoBusy, setVideoBusy] = useState(false)
-  const [videoError, setVideoError] = useState('')
   const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'restored' | 'error'>('idle')
   const draftLoadedRef = useRef(false)
   const [selectedSticker, setSelectedSticker] = useState<string | null>(null)
@@ -1346,12 +1173,7 @@ export default function PanelBuilder() {
     const pagesOut = orderedPanels.map((p) => p.image!)
     const pageCaptions = orderedPanels.map((p) => encodeCaptionList((p.textBoxes ?? []).map((b) => ({ type: b.type, text: b.text }))))
     const pageAudio = orderedPanels.map((p) => p.audio ?? '')
-    const pageFraming: PageFraming[] = orderedPanels.map((p) => ({
-      zoom: p.imageZoom ?? DEFAULT_IMAGE_ZOOM,
-      offsetX: p.imageOffsetX ?? 0,
-      offsetY: p.imageOffsetY ?? 0,
-    }))
-    return { pagesOut, pageCaptions, pageAudio, pageFraming }
+    return { pagesOut, pageCaptions, pageAudio }
   }
 
   async function handlePublish() {
@@ -1413,105 +1235,6 @@ export default function PanelBuilder() {
       setDownloadError(t('downloadError'))
     } finally {
       setDownloading(false)
-    }
-  }
-
-  async function handleDownloadVideo() {
-    if (filledPanels.length === 0 || videoBusy) return
-    setVideoBusy(true)
-    setVideoError('')
-    let audioCtx: AudioContext | undefined
-    try {
-      const { pagesOut, pageFraming, pageAudio } = flattenPages()
-
-      const canvas = document.createElement('canvas')
-      canvas.width = EXPORT_VIDEO_W
-      canvas.height = EXPORT_VIDEO_H
-      const ctx = canvas.getContext('2d')
-      if (!ctx || typeof canvas.captureStream !== 'function' || typeof MediaRecorder === 'undefined') {
-        setVideoError(t('videoUnsupported'))
-        return
-      }
-
-      const mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find((type) =>
-        MediaRecorder.isTypeSupported(type),
-      )
-      if (!mimeType) {
-        setVideoError(t('videoUnsupported'))
-        return
-      }
-
-      // Load every page's media fully — this is the network-bound step,
-      // slowest on a cold serverless start — before recording starts at all,
-      // so no page's on-screen time gets silently eaten by its own loading.
-      const [pages, audioEls] = await Promise.all([
-        Promise.all(pagesOut.map(preloadExportPage)),
-        Promise.all(pageAudio.map(preloadExportAudio)),
-      ])
-
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, EXPORT_VIDEO_W, EXPORT_VIDEO_H)
-      const videoTracks = canvas.captureStream(EXPORT_VIDEO_FPS).getVideoTracks()
-
-      // Only a page with an actual recorded voiceover needs the Web Audio
-      // graph at all — a book nobody narrated keeps today's silent export
-      // (and a real player hides the volume control entirely for a track
-      // with no audio, which is exactly what a silent book should show).
-      let audioTracks: MediaStreamTrack[] = []
-      const audioSources = new Map<number, MediaElementAudioSourceNode>()
-      if (audioEls.some((el) => el !== null)) {
-        audioCtx = new AudioContext()
-        await audioCtx.resume()
-        const dest = audioCtx.createMediaStreamDestination()
-        audioEls.forEach((el, i) => {
-          if (!el) return
-          const source = audioCtx!.createMediaElementSource(el)
-          source.connect(dest)
-          audioSources.set(i, source)
-        })
-        audioTracks = dest.stream.getAudioTracks()
-      }
-
-      const recorder = new MediaRecorder(new MediaStream([...videoTracks, ...audioTracks]), {
-        mimeType,
-        videoBitsPerSecond: EXPORT_VIDEO_BITRATE,
-      })
-      const chunks: BlobPart[] = []
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) chunks.push(e.data)
-      }
-      const finished = new Promise<void>((resolve) => {
-        recorder.onstop = () => resolve()
-      })
-
-      recorder.start()
-      for (let i = 0; i < pages.length; i++) {
-        const voiceover = audioEls[i]
-        if (voiceover && audioSources.has(i)) {
-          voiceover.currentTime = 0
-          void voiceover.play()
-        }
-        await renderExportPage(ctx, pages[i], pageFraming[i], voiceover?.duration || 0)
-        voiceover?.pause()
-      }
-      recorder.stop()
-      await finished
-
-      const blob = new Blob(chunks, { type: mimeType })
-      const url = URL.createObjectURL(blob)
-      const title = books?.find((b) => b.id === selectedBookId)?.title || t('downloadDefaultTitle')
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `${title}.webm`
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      window.setTimeout(() => URL.revokeObjectURL(url), 2000)
-    } catch {
-      setVideoError(t('videoError'))
-    } finally {
-      await audioCtx?.close()
-      setVideoBusy(false)
     }
   }
 
@@ -2184,16 +1907,7 @@ export default function PanelBuilder() {
             >
               {downloading ? t('downloadingButton') : `⬇️ ${t('downloadButton')}`}
             </button>
-            <button
-              type="button"
-              onClick={() => void handleDownloadVideo()}
-              disabled={videoBusy}
-              className="flex items-center gap-2 rounded-full border-2 border-primary bg-white px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {videoBusy ? t('downloadingVideoButton') : `🎬 ${t('downloadVideoButton')}`}
-            </button>
             {downloadError && <p className="text-xs font-semibold text-red-600">{downloadError}</p>}
-            {videoError && <p className="text-xs font-semibold text-red-600">{videoError}</p>}
           </div>
         )}
 

@@ -1030,10 +1030,6 @@
     "downloadButton": "Descargar PDF",
     "downloadingButton": "Preparando…",
     "downloadError": "No se pudo abrir la vista de impresión. Inténtalo de nuevo en un momento.",
-    "downloadVideoButton": "Descargar como video",
-    "downloadingVideoButton": "Preparando tu video…",
-    "videoUnsupported": "La exportación de video no es compatible con este navegador — prueba con Chrome o Firefox en una computadora.",
-    "videoError": "No se pudo crear el video — inténtalo de nuevo en un momento.",
     "downloadDefaultTitle": "Mis viñetas de libro",
     "publishViewBook": "Ver tu libro →"
   },

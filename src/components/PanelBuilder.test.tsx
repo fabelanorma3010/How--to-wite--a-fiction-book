@@ -436,7 +436,7 @@ describe('PanelBuilder', () => {
     expect(chapters[0].pages).toEqual(['https://example.com/generated.png'])
   })
 
-  it('offers a Download-as-Video button once a panel has art, failing gracefully where the browser has no video-export support', async () => {
+  it('offers only a PDF download once a panel has art — no video export option', async () => {
     getUserMock.mockResolvedValue({ data: { user: null } })
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -446,19 +446,12 @@ describe('PanelBuilder', () => {
     renderWithIntl(<PanelBuilder />)
     const stage = getStage()
 
-    expect(screen.queryByRole('button', { name: /download as video/i })).not.toBeInTheDocument()
-
     await user.click(within(stage).getByText('Panel 1'))
     await user.type(screen.getByPlaceholderText(/describe an image/i), 'a dragon')
     await user.click(screen.getByRole('button', { name: /generate/i }))
 
-    const videoBtn = await screen.findByRole('button', { name: /download as video/i })
-    await user.click(videoBtn)
-
-    // jsdom has neither HTMLCanvasElement.captureStream nor MediaRecorder, so
-    // this exercises the exact same "unsupported" fallback a real Safari
-    // visitor without those APIs would hit — not a mock standing in for them.
-    expect(await screen.findByText(/video export isn't supported/i)).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: /download pdf/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /download as video/i })).not.toBeInTheDocument()
   })
 
   it('shows a link to the book after a successful publish', async () => {
