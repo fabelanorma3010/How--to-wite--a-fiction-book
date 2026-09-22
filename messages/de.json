@@ -1030,10 +1030,6 @@
     "downloadButton": "PDF herunterladen",
     "downloadingButton": "Wird vorbereitet…",
     "downloadError": "Die Druckansicht konnte nicht geöffnet werden. Versuch es gleich noch einmal.",
-    "downloadVideoButton": "Als Video herunterladen",
-    "downloadingVideoButton": "Dein Video wird zusammengestellt…",
-    "videoUnsupported": "Video-Export wird in diesem Browser nicht unterstützt — versuch es mit Chrome oder Firefox am Computer.",
-    "videoError": "Das Video konnte nicht erstellt werden — versuch es gleich noch einmal.",
     "downloadDefaultTitle": "Mein Buch-Panel",
     "publishViewBook": "Buch ansehen →"
   },

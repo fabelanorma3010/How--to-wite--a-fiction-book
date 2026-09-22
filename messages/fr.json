@@ -1030,10 +1030,6 @@
     "downloadButton": "Télécharger le PDF",
     "downloadingButton": "Préparation…",
     "downloadError": "Impossible d'ouvrir l'aperçu d'impression. Réessayez dans un instant.",
-    "downloadVideoButton": "Télécharger en vidéo",
-    "downloadingVideoButton": "Préparation de votre vidéo…",
-    "videoUnsupported": "L'export vidéo n'est pas pris en charge par ce navigateur — essayez Chrome ou Firefox sur un ordinateur.",
-    "videoError": "Impossible de créer la vidéo — réessayez dans un instant.",
     "downloadDefaultTitle": "Mes cases de livre",
     "publishViewBook": "Voir ton livre →"
   },
